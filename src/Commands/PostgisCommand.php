@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Clickbar\Postgis\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class PostgisCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'postgis';
 
     public $description = 'My command';
 
