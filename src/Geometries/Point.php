@@ -12,6 +12,11 @@ class Point implements GeometryInterface
     ) {
     }
 
+    public function is3d(): bool
+    {
+        return $this->altitude !== null;
+    }
+
     /**
      * @return float
      */
