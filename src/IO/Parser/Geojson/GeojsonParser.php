@@ -2,7 +2,7 @@
 
 namespace Clickbar\Postgis\IO\Parser\Geojson;
 
-use Clickbar\Postgis\GeometriesOld\GeometryInterface;
+use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\IO\Coordinate;
 use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Parser\BaseParser;
@@ -11,6 +11,10 @@ class GeojsonParser extends BaseParser
 {
     public function parse($input): GeometryInterface
     {
+        if (is_string($input)) {
+            $input = json_decode($input, true);
+        }
+
         if ($input['type'] === 'FeatureCollection') {
             $geometries = array_map(fn (array $feature) => $this->parse($feature), $input['features']);
 
@@ -53,9 +57,14 @@ class GeojsonParser extends BaseParser
 
     protected function parsePoint(array $coordinates): GeometryInterface
     {
-        $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[1], $coordinates[0]) : null;
+        $dimension = Dimension::DIMENSION_2D;
+        $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[0], $coordinates[1]) : null;
+        if (count($coordinates) === 3) {
+            $coordinate->setZ($coordinates[2]);
+            $dimension = Dimension::DIMENSION_3DZ;
+        }
 
-        return $this->factory->createPoint(Dimension::DIMENSION_2D, null, $coordinate);
+        return $this->factory->createPoint($dimension, null, $coordinate);
     }
 
     protected function parseLineString(array $coordinates): GeometryInterface
