@@ -2,13 +2,13 @@
 
 namespace Clickbar\Postgis\IO;
 
-use Clickbar\Postgis\GeometriesOld\GeometryCollection;
-use Clickbar\Postgis\GeometriesOld\LineString;
-use Clickbar\Postgis\GeometriesOld\MultiLineString;
-use Clickbar\Postgis\GeometriesOld\MultiPoint;
-use Clickbar\Postgis\GeometriesOld\MultiPolygon;
-use Clickbar\Postgis\GeometriesOld\Point;
-use Clickbar\Postgis\GeometriesOld\Polygon;
+use Clickbar\Postgis\Geometries\GeometryCollection;
+use Clickbar\Postgis\Geometries\LineString;
+use Clickbar\Postgis\Geometries\MultiLineString;
+use Clickbar\Postgis\Geometries\MultiPoint;
+use Clickbar\Postgis\Geometries\MultiPolygon;
+use Clickbar\Postgis\Geometries\Point;
+use Clickbar\Postgis\Geometries\Polygon;
 
 interface GeometryModelFactory
 {
@@ -20,7 +20,7 @@ interface GeometryModelFactory
     public function createPoint(
         Dimension $dimension,
         ?int $srid,
-        ?Coordinate $coordinates,
+        ?Coordinate $coordinate,
     ): Point;
 
     /**
@@ -35,7 +35,7 @@ interface GeometryModelFactory
     public function createLineString(
         Dimension $dimension,
         ?int $srid,
-        iterable $points,
+        array $points,
     ): LineString;
 
     /**
@@ -54,7 +54,7 @@ interface GeometryModelFactory
     public function createLinearRing(
         Dimension $dimension,
         ?int $srid,
-        iterable $points,
+        array $points,
     ): LineString;
 
     /**
@@ -70,7 +70,7 @@ interface GeometryModelFactory
     public function createPolygon(
         Dimension $dimension,
         ?int $srid,
-        iterable $linearRings,
+        array $linearRings,
     ): Polygon;
 
     /**
@@ -86,7 +86,7 @@ interface GeometryModelFactory
     public function createMultiPoint(
         Dimension $dimension,
         ?int $srid,
-        iterable $points,
+        array $points,
     ): MultiPoint;
 
     /**
@@ -102,7 +102,7 @@ interface GeometryModelFactory
     public function createMultiLineString(
         Dimension $dimension,
         ?int $srid,
-        iterable $lineStrings,
+        array $lineStrings,
     ): MultiLineString;
 
     /**
@@ -118,7 +118,7 @@ interface GeometryModelFactory
     public function createMultiPolygon(
         Dimension $dimension,
         ?int $srid,
-        iterable $polygons,
+        array $polygons,
     ): MultiPolygon;
 
     /**
@@ -134,6 +134,6 @@ interface GeometryModelFactory
     public function createGeometryCollection(
         Dimension $dimension,
         ?int $srid,
-        iterable $geometries,
+        array $geometries,
     ): GeometryCollection;
 }

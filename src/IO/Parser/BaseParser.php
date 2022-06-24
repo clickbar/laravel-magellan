@@ -2,7 +2,7 @@
 
 namespace Clickbar\Postgis\IO\Parser;
 
-use Clickbar\Postgis\GeometriesOld\GeometryInterface;
+use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\IO\GeometryModelFactory;
 
 abstract class BaseParser

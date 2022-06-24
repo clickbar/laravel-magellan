@@ -2,8 +2,8 @@
 
 namespace Clickbar\Postgis\IO\Parser\WKB;
 
-use Clickbar\Postgis\GeometriesOld\Geometry;
-use Clickbar\Postgis\GeometriesOld\GeometryInterface;
+use Clickbar\Postgis\Geometries\GeometryInterface;
+use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\IO\Coordinate;
 use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Parser\BaseParser;
@@ -17,8 +17,8 @@ class WKBParser extends BaseParser
 
     private Scanner $scanner;
 
-    private Dimension $dimension;
-    private int $srid;
+    private ?Dimension $dimension = null;
+    private ?int $srid = null;
 
     public function parse($input): GeometryInterface
     {
@@ -224,7 +224,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function point(): Geometry
+    protected function point(): Point
     {
         $coordinate = new Coordinate(
             $this->scanner->double(),

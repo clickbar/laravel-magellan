@@ -26,6 +26,14 @@ class Scanner
         $this->byteOrder = $byteOrder;
     }
 
+    /**
+     * @return ByteOrder|null
+     */
+    public function getByteOrder(): ?ByteOrder
+    {
+        return $this->byteOrder;
+    }
+
     public function remaining(): int
     {
         return $this->len - $this->pos;
@@ -71,7 +79,7 @@ class Scanner
 
         $byteOrder = $this->assertByteOrder($byteOrder);
 
-        if (ByteOrder::bigEndian) {
+        if ($byteOrder === ByteOrder::bigEndian) {
             $str = strrev($str);
         }
 
