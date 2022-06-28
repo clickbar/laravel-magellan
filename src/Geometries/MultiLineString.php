@@ -5,7 +5,7 @@ namespace Clickbar\Postgis\Geometries;
 use Clickbar\Postgis\IO\Dimension;
 use Countable;
 
-class MultiLineString implements Countable, GeometryInterface
+class MultiLineString extends Geometry implements Countable
 {
     /**
      * @var LineString[]

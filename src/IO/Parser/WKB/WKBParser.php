@@ -2,7 +2,7 @@
 
 namespace Clickbar\Postgis\IO\Parser\WKB;
 
-use Clickbar\Postgis\Geometries\GeometryInterface;
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\IO\Coordinate;
 use Clickbar\Postgis\IO\Dimension;
@@ -20,14 +20,14 @@ class WKBParser extends BaseParser
     private ?Dimension $dimension = null;
     private ?int $srid = null;
 
-    public function parse($input): GeometryInterface
+    public function parse($input): Geometry
     {
         $this->scanner = new Scanner($input);
 
         return $this->parseWkbSegment();
     }
 
-    protected function parseWkbSegment(?WKBGeometryType $expectedGeometryType = null): GeometryInterface
+    protected function parseWkbSegment(?WKBGeometryType $expectedGeometryType = null): Geometry
     {
         $this->setupByteOrder();
 
@@ -83,7 +83,7 @@ class WKBParser extends BaseParser
         return $this->parseGeometry($geometryType);
     }
 
-    protected function parseGeometry(WKBGeometryType $geometryType): GeometryInterface
+    protected function parseGeometry(WKBGeometryType $geometryType): Geometry
     {
         return match ($geometryType) {
             WKBGeometryType::point => $this->point(),
@@ -125,7 +125,7 @@ class WKBParser extends BaseParser
 
     // ************************************************ Geometry Helper ***************************************************
 
-    protected function geometryCollection(): GeometryInterface
+    protected function geometryCollection(): Geometry
     {
         $num = $this->scanner->integer();
         $geometries = [];
@@ -140,7 +140,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function multiPolygon(): GeometryInterface
+    protected function multiPolygon(): Geometry
     {
         $num = $this->scanner->integer();
         $polygons = [];
@@ -155,7 +155,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function multiLineString(): GeometryInterface
+    protected function multiLineString(): Geometry
     {
         $num = $this->scanner->integer();
         $lineStrings = [];
@@ -170,7 +170,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function multiPoint(): GeometryInterface
+    protected function multiPoint(): Geometry
     {
         $num = $this->scanner->integer();
         $points = [];
@@ -185,7 +185,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function polygon(): GeometryInterface
+    protected function polygon(): Geometry
     {
         $num = $this->scanner->integer();
         $linearRings = [];
@@ -200,7 +200,7 @@ class WKBParser extends BaseParser
         );
     }
 
-    protected function lineString($isLinearRing = false): GeometryInterface
+    protected function lineString($isLinearRing = false): Geometry
     {
         $num = $this->scanner->integer();
 

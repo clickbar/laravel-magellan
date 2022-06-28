@@ -2,8 +2,8 @@
 
 namespace Clickbar\Postgis\IO\Generator;
 
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\GeometryCollection;
-use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\Geometries\LineString;
 use Clickbar\Postgis\Geometries\MultiLineString;
 use Clickbar\Postgis\Geometries\MultiPoint;
@@ -13,7 +13,7 @@ use Clickbar\Postgis\Geometries\Polygon;
 
 abstract class BaseGenerator
 {
-    public function generate(GeometryInterface $geometry)
+    public function generate(Geometry $geometry)
     {
         if ($geometry instanceof Point) {
             return $this->generatePoint($geometry);

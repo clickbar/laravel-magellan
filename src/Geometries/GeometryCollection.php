@@ -5,10 +5,10 @@ namespace Clickbar\Postgis\Geometries;
 use Clickbar\Postgis\IO\Dimension;
 use Countable;
 
-class GeometryCollection implements GeometryInterface, Countable
+class GeometryCollection extends Geometry implements Countable
 {
     /**
-     * @var GeometryInterface[]
+     * @var Geometry[]
      */
     protected array $geometries;
     protected Dimension $dimension;
@@ -21,7 +21,7 @@ class GeometryCollection implements GeometryInterface, Countable
     }
 
     /**
-     * @return GeometryInterface[]
+     * @return Geometry[]
      */
     public function getGeometries(): array
     {

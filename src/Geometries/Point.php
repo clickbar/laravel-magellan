@@ -4,7 +4,7 @@ namespace Clickbar\Postgis\Geometries;
 
 use Clickbar\Postgis\IO\Dimension;
 
-class Point implements GeometryInterface
+class Point extends Geometry
 {
     // TODO: Consider using X, Y and Z instead of the WGS84 wording to be more general
     public function __construct(

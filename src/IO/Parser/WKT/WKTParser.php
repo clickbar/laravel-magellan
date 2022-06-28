@@ -3,8 +3,8 @@
 namespace Clickbar\Postgis\IO\Parser\WKT;
 
 use Clickbar\Postgis\Exception\UnknownWKTTypeException;
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\GeometryCollection;
-use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\Geometries\LineString;
 use Clickbar\Postgis\Geometries\MultiLineString;
 use Clickbar\Postgis\Geometries\MultiPoint;
@@ -20,7 +20,7 @@ class WKTParser extends BaseParser
 {
     protected ?Dimension $dimension = null;
 
-    public function parse($input): GeometryInterface
+    public function parse($input): Geometry
     {
         $method = 'parse' . $this->getParseMethodName($input);
 

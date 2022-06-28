@@ -2,9 +2,9 @@
 
 namespace Clickbar\Postgis\IO\Generator\WKT;
 
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\GeometryCollection;
 use Clickbar\Postgis\Geometries\GeometryHelper;
-use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\Geometries\LineString;
 use Clickbar\Postgis\Geometries\MultiLineString;
 use Clickbar\Postgis\Geometries\MultiPoint;
@@ -46,7 +46,7 @@ class WKTGenerator extends BaseGenerator
         }, $multiLineString->getLineStrings()));
     }
 
-    private function apply3dIfNeeded(string $type, GeometryInterface $geometry): string
+    private function apply3dIfNeeded(string $type, Geometry $geometry): string
     {
         if ($geometry->getDimension()->has3Dimensions()) {
             return "$type Z";
@@ -104,7 +104,7 @@ class WKTGenerator extends BaseGenerator
     public function generateGeometryCollection(GeometryCollection $geometryCollection): mixed
     {
         $geometryWktStrings = implode(',', array_map(
-            function (GeometryInterface $geometry) {
+            function (Geometry $geometry) {
                 return $this->generate($geometry);
             },
             $geometryCollection->getGeometries()

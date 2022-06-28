@@ -2,14 +2,14 @@
 
 namespace Clickbar\Postgis\IO\Parser\Geojson;
 
-use Clickbar\Postgis\Geometries\GeometryInterface;
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\IO\Coordinate;
 use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Parser\BaseParser;
 
 class GeojsonParser extends BaseParser
 {
-    public function parse($input): GeometryInterface
+    public function parse($input): Geometry
     {
         if (is_string($input)) {
             $input = json_decode($input, true);
@@ -31,7 +31,7 @@ class GeojsonParser extends BaseParser
         return $this->parseGeometry($input);
     }
 
-    protected function parseGeometry(array $geometryData): GeometryInterface
+    protected function parseGeometry(array $geometryData): Geometry
     {
         $type = $geometryData['type'];
         if ($type === 'GeometryCollection') {
@@ -43,7 +43,7 @@ class GeojsonParser extends BaseParser
         return $this->$parseMethod($geometryData['coordinates']);
     }
 
-    protected function parseGeomeryCollection(array $geometryCollectionData): GeometryInterface
+    protected function parseGeomeryCollection(array $geometryCollectionData): Geometry
     {
         $geometries = $geometryCollectionData['geometries'];
         if (empty($geometries)) {
@@ -55,7 +55,7 @@ class GeojsonParser extends BaseParser
         return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, null, $geometries);
     }
 
-    protected function parsePoint(array $coordinates): GeometryInterface
+    protected function parsePoint(array $coordinates): Geometry
     {
         $dimension = Dimension::DIMENSION_2D;
         $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[0], $coordinates[1]) : null;
@@ -67,35 +67,35 @@ class GeojsonParser extends BaseParser
         return $this->factory->createPoint($dimension, null, $coordinate);
     }
 
-    protected function parseLineString(array $coordinates): GeometryInterface
+    protected function parseLineString(array $coordinates): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
 
         return $this->factory->createLineString(Dimension::DIMENSION_2D, null, $points);
     }
 
-    public function parseMultiLineString(array $coordinates): GeometryInterface
+    public function parseMultiLineString(array $coordinates): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
 
         return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, null, $lines);
     }
 
-    public function parsePolygon(array $coordinates): GeometryInterface
+    public function parsePolygon(array $coordinates): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
 
         return $this->factory->createPolygon(Dimension::DIMENSION_2D, null, $lines);
     }
 
-    public function parseMultiPoint(array $coordinates): GeometryInterface
+    public function parseMultiPoint(array $coordinates): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
 
         return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, null, $points);
     }
 
-    public function parseMultiPolygon(array $coordinates): GeometryInterface
+    public function parseMultiPolygon(array $coordinates): Geometry
     {
         $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords), $coordinates);
 

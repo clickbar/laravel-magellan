@@ -5,7 +5,7 @@ namespace Clickbar\Postgis\Geometries;
 use Clickbar\Postgis\IO\Dimension;
 use InvalidArgumentException;
 
-abstract class PointCollection
+abstract class PointCollection extends Geometry
 {
     /**
      * @var Point[]

@@ -4,7 +4,7 @@ namespace Clickbar\Postgis\Geometries;
 
 use Clickbar\Postgis\IO\Dimension;
 
-class MultiPolygon implements GeometryInterface, \Countable
+class MultiPolygon extends Geometry implements \Countable
 {
     /**
      * @var Polygon[]

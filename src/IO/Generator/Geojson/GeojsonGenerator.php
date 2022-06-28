@@ -2,8 +2,8 @@
 
 namespace Clickbar\Postgis\IO\Generator\Geojson;
 
+use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\GeometryCollection;
-use Clickbar\Postgis\Geometries\GeometryInterface;
 use Clickbar\Postgis\Geometries\LineString;
 use Clickbar\Postgis\Geometries\MultiLineString;
 use Clickbar\Postgis\Geometries\MultiPoint;
@@ -96,7 +96,7 @@ class GeojsonGenerator extends BaseGenerator
     {
         return [
             'type' => 'GeometryCollection',
-            'geometries' => array_map(fn (GeometryInterface $geometry) => $this->generate($geometry), $geometryCollection->getGeometries()),
+            'geometries' => array_map(fn (Geometry $geometry) => $this->generate($geometry), $geometryCollection->getGeometries()),
         ];
     }
 }
