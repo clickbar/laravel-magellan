@@ -97,8 +97,6 @@ test('can generate 2D WKT Simple Polygon', function () {
 })->group('WKT Polygon');
 
 test('can generate 3D WKT Simple Polygon', function () {
-    $polygonWKT = 'POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
-
     $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
     $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
     $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 30);
