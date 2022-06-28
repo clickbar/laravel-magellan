@@ -23,12 +23,12 @@ abstract class BaseGenerator
             return $this->generateLineString($geometry);
         }
 
-        if ($geometry instanceof MultiLineString) {
-            return $this->generateMultiLineString($geometry);
-        }
-
         if ($geometry instanceof Polygon) {
             return $this->generatePolygon($geometry);
+        }
+
+        if ($geometry instanceof MultiLineString) {
+            return $this->generateMultiLineString($geometry);
         }
 
         if ($geometry instanceof MultiPolygon) {

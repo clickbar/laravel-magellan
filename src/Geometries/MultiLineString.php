@@ -2,6 +2,7 @@
 
 namespace Clickbar\Postgis\Geometries;
 
+use Clickbar\Postgis\IO\Dimension;
 use Countable;
 
 class MultiLineString implements Countable, GeometryInterface
@@ -11,13 +12,16 @@ class MultiLineString implements Countable, GeometryInterface
      */
     protected array $lineStrings;
 
+    protected Dimension $dimension;
+
     /**
      * @param LineString[] $lienStrings
      */
-    public function __construct(array $lienStrings)
+    public function __construct(Dimension $dimension, array $lienStrings)
     {
         GeometryHelper::assertValidGeometryInput(1, LineString::class, $lienStrings, 'lineStrings');
         $this->lineStrings = $lienStrings;
+        $this->dimension = $dimension;
     }
 
     /**
@@ -31,5 +35,10 @@ class MultiLineString implements Countable, GeometryInterface
     public function count(): int
     {
         return count($this->lineStrings);
+    }
+
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
     }
 }

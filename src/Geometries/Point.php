@@ -2,13 +2,16 @@
 
 namespace Clickbar\Postgis\Geometries;
 
+use Clickbar\Postgis\IO\Dimension;
+
 class Point implements GeometryInterface
 {
     // TODO: Consider using X, Y and Z instead of the WGS84 wording to be more general
     public function __construct(
+        protected Dimension $dimension,
         protected float  $latitude,
         protected float  $longitude,
-        protected ?float $altitude,
+        protected ?float $altitude = null,
     ) {
     }
 
@@ -63,5 +66,13 @@ class Point implements GeometryInterface
     public function setAltitude(float $altitude): void
     {
         $this->altitude = $altitude;
+    }
+
+    /**
+     * @return Dimension
+     */
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
     }
 }

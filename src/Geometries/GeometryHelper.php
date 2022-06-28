@@ -22,6 +22,6 @@ class GeometryHelper
     public static function stringifyFloat($float): string
     {
         // normalized output among locales
-        return rtrim(rtrim(sprintf('%15F', $float), '0'), '.');
+        return trim(trim(rtrim(sprintf('%15F', $float), '0'), '.'));
     }
 }

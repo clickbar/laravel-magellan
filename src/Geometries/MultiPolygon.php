@@ -2,6 +2,8 @@
 
 namespace Clickbar\Postgis\Geometries;
 
+use Clickbar\Postgis\IO\Dimension;
+
 class MultiPolygon implements GeometryInterface, \Countable
 {
     /**
@@ -9,13 +11,16 @@ class MultiPolygon implements GeometryInterface, \Countable
      */
     protected array $polygons;
 
+    protected Dimension $dimension;
+
     /**
      * @param Polygon[] $polygons
      */
-    public function __construct(array $polygons)
+    public function __construct(Dimension $dimension, array $polygons)
     {
         GeometryHelper::assertValidGeometryInput(1, Polygon::class, $polygons, 'polygons');
         $this->polygons = $polygons;
+        $this->dimension = $dimension;
     }
 
     /**
@@ -29,5 +34,10 @@ class MultiPolygon implements GeometryInterface, \Countable
     public function count(): int
     {
         return count($this->polygons);
+    }
+
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
     }
 }

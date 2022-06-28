@@ -2,6 +2,7 @@
 
 namespace Clickbar\Postgis\Geometries;
 
+use Clickbar\Postgis\IO\Dimension;
 use Countable;
 
 class GeometryCollection implements GeometryInterface, Countable
@@ -10,11 +11,13 @@ class GeometryCollection implements GeometryInterface, Countable
      * @var GeometryInterface[]
      */
     protected array $geometries;
+    protected Dimension $dimension;
 
-    public function __construct(array $geometries)
+    public function __construct(Dimension $dimension, array $geometries)
     {
         GeometryHelper::assertValidGeometryInput(1, GeometryInterface::class, $geometries, 'geometries');
         $this->geometries = $geometries;
+        $this->dimension = $dimension;
     }
 
     /**
@@ -28,5 +31,10 @@ class GeometryCollection implements GeometryInterface, Countable
     public function count(): int
     {
         return count($this->geometries);
+    }
+
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
     }
 }

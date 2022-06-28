@@ -2,6 +2,7 @@
 
 namespace Clickbar\Postgis\Geometries;
 
+use Clickbar\Postgis\IO\Dimension;
 use InvalidArgumentException;
 
 abstract class PointCollection
@@ -11,13 +12,16 @@ abstract class PointCollection
      */
     protected array $points;
 
+    protected Dimension $dimension;
+
     /**
      * @param Point[] $points
      */
-    public function __construct(array $points)
+    public function __construct(Dimension $dimension, array $points)
     {
         GeometryHelper::assertValidGeometryInput(2, Point::class, $points, 'points');
         $this->points = $points;
+        $this->dimension = $dimension;
     }
 
     /**
@@ -50,5 +54,13 @@ abstract class PointCollection
     public function count(): int
     {
         return count($this->points);
+    }
+
+    /**
+     * @return Dimension
+     */
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
     }
 }
