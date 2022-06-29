@@ -32,6 +32,7 @@ test('can parse 2D WKB Point with SRID', function () {
     expect($point)->toBeInstanceOf(Point::class);
     expect($point->getLongitude())->toBe(8.12345);
     expect($point->getLatitude())->toBe(50.12345);
+    expect($point->getSrid())->toBe(4326);
 })->group('WKB Point');
 
 test('can parse 3D WKB Point', function () {
@@ -67,6 +68,7 @@ test('can parse 2D WKB LineString With SRID', function () {
     expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
     expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
     expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($lineString->getSrid())->toBe(4326);
 })->group('WKB LineString');
 
 test('can parse 3D WKB LineString', function () {
@@ -113,6 +115,7 @@ test('can parse 2D WKB MultiLineString With SRID', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(49.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(6.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
+    expect($multiLineString->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');
 
 test('can parse 3D WKB MultiLineString', function () {
@@ -165,6 +168,7 @@ test('can parse 2D WKB Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
 test('can parse 3D WKB Simple Polygon', function () {
@@ -213,7 +217,7 @@ test('can parse 2D WKB Polygon with single hole', function () {
 })->group('WKB Polygon');
 
 test('can parse 2D WKB Polygon with single hole with SRID', function () {
-    $polygonWKB = '01030000800200000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244004000000EDD808C4EB8A204021020EA14A15494000000000000024401570CFF3A765204025B1A4DC7D04494000000000000024404E4354E1CF8820409E9ACB0D860649400000000000002440EDD808C4EB8A204021020EA14A1549400000000000002440'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,10), st_makepoint(7.12345, 48.12345,10), st_makepoint(8.12345, 50.12345,10)]), ARRAY[st_makeline(ARRAY[ st_makepoint(8.27133, 50.16634,10), st_makepoint(8.198547,50.035091,10), st_makepoint(8.267211,50.050966,10), st_makepoint(8.27133,50.16634,10)])])
+    $polygonWKB = '01030000A0E61000000200000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244004000000EDD808C4EB8A204021020EA14A15494000000000000024401570CFF3A765204025B1A4DC7D04494000000000000024404E4354E1CF8820409E9ACB0D860649400000000000002440EDD808C4EB8A204021020EA14A1549400000000000002440'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,10), st_makepoint(7.12345, 48.12345,10), st_makepoint(8.12345, 50.12345,10)]), ARRAY[st_makeline(ARRAY[ st_makepoint(8.27133, 50.16634,10), st_makepoint(8.198547,50.035091,10), st_makepoint(8.267211,50.050966,10), st_makepoint(8.27133,50.16634,10)])]), 4326)
 
     $polygon = $this->parser->parse($polygonWKB);
 
@@ -243,6 +247,8 @@ test('can parse 2D WKB Polygon with single hole with SRID', function () {
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getAltitude())->toBe(10.0);
+
+    expect($polygon->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
 test('can parse 2D WKB Polygon with multi hole', function () {
@@ -311,6 +317,8 @@ test('can parse 2D WKB Polygon with multi hole with SRID', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[2]->getLatitude())->toBe(50.341078);
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getLongitude())->toBe(8.393554);
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getLatitude())->toBe(50.322669);
+
+    expect($polygon->getSRID())->toBe(4326);
 })->group('WKB Polygon');
 
 test('can parse 3D WKB Polygon with multi hole', function () {
@@ -390,6 +398,8 @@ test('can parse 2D WKB MultiPoint wit SRID', function () {
     expect($multiPoint->getPoints()[2]->getLatitude())->toBe(49.12345);
     expect($multiPoint->getPoints()[3]->getLongitude())->toBe(6.12345);
     expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
+
+    expect($multiPoint->getSRID())->toBe(4326);
 })->group('WKB MultiPoint');
 
 test('can parse 3D WKB MultiPoint', function () {
@@ -461,6 +471,8 @@ test('can parse 2D WKB Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+
+    expect($multiPolygon->getSRID())->toBe(4326);
 })->group('WKB MultiPolygon');
 
 test('can parse 3D WKB Simple MultiPolygon', function () {

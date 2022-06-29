@@ -8,11 +8,13 @@ class Point extends Geometry
 {
     // TODO: Consider using X, Y and Z instead of the WGS84 wording to be more general
     public function __construct(
-        protected Dimension $dimension,
+        Dimension        $dimension,
         protected float  $latitude,
         protected float  $longitude,
         protected ?float $altitude = null,
+        ?int             $srid = null
     ) {
+        parent::__construct($dimension, $srid);
     }
 
     public function is3d(): bool
@@ -66,13 +68,5 @@ class Point extends Geometry
     public function setAltitude(float $altitude): void
     {
         $this->altitude = $altitude;
-    }
-
-    /**
-     * @return Dimension
-     */
-    public function getDimension(): Dimension
-    {
-        return $this->dimension;
     }
 }

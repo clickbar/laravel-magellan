@@ -11,11 +11,11 @@ class GeometryCollection extends Geometry implements Countable
      * @var Geometry[]
      */
     protected array $geometries;
-    protected Dimension $dimension;
 
-    public function __construct(Dimension $dimension, array $geometries)
+    public function __construct(Dimension $dimension, array $geometries, ?int $srid = null)
     {
         GeometryHelper::assertValidGeometryInput(1, GeometryInterface::class, $geometries, 'geometries');
+        parent::__construct($dimension, $srid);
         $this->geometries = $geometries;
         $this->dimension = $dimension;
     }
@@ -31,10 +31,5 @@ class GeometryCollection extends Geometry implements Countable
     public function count(): int
     {
         return count($this->geometries);
-    }
-
-    public function getDimension(): Dimension
-    {
-        return $this->dimension;
     }
 }
