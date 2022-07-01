@@ -99,4 +99,14 @@ class GeojsonGenerator extends BaseGenerator
             'geometries' => array_map(fn (Geometry $geometry) => $this->generate($geometry), $geometryCollection->getGeometries()),
         ];
     }
+
+    public function toPostgisGeometrySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("%s.st_geomfromgeojson('%s')", $schema, json_encode($this->generate($geometry)));
+    }
+
+    public function toPostgisGeographySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("%s.st_geomfromgeojson('%s')::geography", $schema, json_encode($this->generate($geometry)));
+    }
 }

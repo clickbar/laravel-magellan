@@ -3,6 +3,7 @@
 namespace Clickbar\Postgis\Schema\Grammars;
 
 use Clickbar\Postgis\Exception\UnsupportedPostgisTypeException;
+use Clickbar\Postgis\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
 use Illuminate\Support\Fluent;
 
@@ -62,17 +63,36 @@ class PostgisGrammar extends PostgresGrammar
 
     public function typeGeography(Fluent $column): string
     {
-        return 'GEOGRAPHY';
+        return $this->createTypeDefinition($column, 'GEOGRAPHY');
     }
 
     public function typeGeometry(Fluent $column): string
     {
-        return 'GEOMETRY';
+        return $this->createTypeDefinition($column, 'GEOMETRY');
+    }
+
+    public function typeGeometryCollection(Fluent $column): string
+    {
+        return $this->createTypeDefinition($column, 'GEOMETRYCOLLECTION');
     }
 
     /*
      *  COMPILE Statements
      */
+
+    /**
+     * Adds a statement to add a geometrycollection geometry column
+     *
+     * @param Blueprint $blueprint
+     * @param Fluent $command
+     * @return string
+     */
+    public function compileGeometrycollection(Blueprint $blueprint, Fluent $command)
+    {
+        $command->type = 'GEOMETRYCOLLECTION';
+
+        return $this->compileGeometry($blueprint, $command);
+    }
 
     /**
      * Adds a statement to create the postgis extension
@@ -131,7 +151,7 @@ class PostgisGrammar extends PostgresGrammar
             throw new UnsupportedPostgisTypeException("Postgis type '$column->postgisType' is not a valid postgis type. Valid types are $implodedValidTypes");
         }
 
-        if (! filter_var($column->srid, FILTER_VALIDATE_INT)) {
+        if (filter_var($column->srid, FILTER_VALIDATE_INT) === false) {
             throw new UnsupportedPostgisTypeException("The given SRID '$column->srid' is not valid. Only integers are allowed");
         }
 
@@ -144,7 +164,7 @@ class PostgisGrammar extends PostgresGrammar
     {
         $this->assertValidPostgisType($column);
 
-        $schema = config('postgis.schema', 'public'); // TODO: Add config
+        $schema = config('postgis.schema', 'public');
         $type = strtoupper($column->postgisType);
 
         return $schema . '.' . $type . '(' . $geometryType . ', ' . $column->srid . ')';

@@ -159,9 +159,11 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param bool $typmod
      * @return Fluent
      */
-    public function geometrycollection($column, $srid = null, $dimensions = 2, $typmod = true)
+    public function geometrycollection($column, $srid = null)
     {
-        return $this->addCommand('geometrycollection', compact('column', 'srid', 'dimensions', 'typmod'));
+        $postgisType = 'GEOMETRY';
+
+        return $this->addColumn('geometrycollection', $column, compact('postgisType', 'srid'));
     }
 
     /**

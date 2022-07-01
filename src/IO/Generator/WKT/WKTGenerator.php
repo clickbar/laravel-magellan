@@ -55,6 +55,17 @@ class WKTGenerator extends BaseGenerator
         return $type;
     }
 
+    public function generate(Geometry $geometry)
+    {
+        $wktWithoutSrid = parent::generate($geometry);
+
+        if (! $geometry->hasSrid()) {
+            return $wktWithoutSrid;
+        }
+
+        return sprintf('SRID=%d;%s', $geometry->getSrid(), $wktWithoutSrid);
+    }
+
     public function generatePoint(Point $point): mixed
     {
         $wktType = $this->apply3dIfNeeded('POINT', $point);
@@ -105,11 +116,21 @@ class WKTGenerator extends BaseGenerator
     {
         $geometryWktStrings = implode(',', array_map(
             function (Geometry $geometry) {
-                return $this->generate($geometry);
+                return parent::generate($geometry);
             },
             $geometryCollection->getGeometries()
         ));
 
         return sprintf('GEOMETRYCOLLECTION(%s)', $geometryWktStrings);
+    }
+
+    public function toPostgisGeometrySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("%s.ST_GeomFromEWKT('%s')", $schema, $this->generate($geometry));
+    }
+
+    public function toPostgisGeographySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("%s.ST_GeogFromText('%s')", $schema, $this->generate($geometry));
     }
 }

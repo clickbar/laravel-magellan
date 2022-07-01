@@ -59,4 +59,8 @@ abstract class BaseGenerator
     abstract public function generateMultiPoint(MultiPoint $multiPoint): mixed;
 
     abstract public function generateGeometryCollection(GeometryCollection $geometryCollection): mixed;
+
+    abstract public function toPostgisGeometrySql(Geometry $geometry, string $schema): mixed;
+
+    abstract public function toPostgisGeographySql(Geometry $geometry, string $schema): mixed;
 }

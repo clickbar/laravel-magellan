@@ -24,6 +24,9 @@ class WKBParser extends BaseParser
     {
         $this->scanner = new Scanner($input);
 
+        $this->dimension = null;
+        $this->srid = null;
+
         return $this->parseWkbSegment();
     }
 

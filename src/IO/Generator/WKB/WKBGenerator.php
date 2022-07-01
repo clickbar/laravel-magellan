@@ -155,4 +155,14 @@ class WKBGenerator extends BaseGenerator
 
         return $this->byteStringBuilder->toByteString(true);
     }
+
+    public function toPostgisGeometrySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("'%s'::geometry", $this->generate($geometry));
+    }
+
+    public function toPostgisGeographySql(Geometry $geometry, string $schema): mixed
+    {
+        return sprintf("'%s'::geography", $this->generate($geometry));
+    }
 }
