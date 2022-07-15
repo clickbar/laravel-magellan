@@ -19,12 +19,24 @@ use Illuminate\Support\Str;
 class WKTParser extends BaseParser
 {
     protected ?Dimension $dimension = null;
+    protected ?int $srid = null;
 
     public function parse($input): Geometry
     {
+        $input = $this->parseAndRemoveSrid($input);
         $method = 'parse' . $this->getParseMethodName($input);
 
         return $this->$method($this->getWKTArgument($input));
+    }
+
+    private function parseAndRemoveSrid(string $input): string
+    {
+        if (Str::startsWith($input, 'SRID')) {
+            $this->srid = (int)Str::after($input, '=');
+            $input = Str::after($input, ';');
+        }
+
+        return $input;
     }
 
     private function parseWKTSegment(string $segment)
@@ -81,7 +93,7 @@ class WKTParser extends BaseParser
         $this->assertSameDimension($this->dimension, $dimension);
         $this->dimension = $dimension;
 
-        return $this->factory->createPoint($dimension, null, $coordinate);
+        return $this->factory->createPoint($dimension, $this->srid, $coordinate);
     }
 
     public function parseLineString(string $argument): LineString
@@ -89,7 +101,7 @@ class WKTParser extends BaseParser
         $pointArguments = explode(',', trim($argument));
         $points = array_map(fn ($pointArgument) => $this->parsePoint($pointArgument), $pointArguments);
 
-        return $this->factory->createLineString($this->dimension, null, $points);
+        return $this->factory->createLineString($this->dimension, $this->srid, $points);
     }
 
     public function parsePolygon(string $argument): Polygon
@@ -97,7 +109,7 @@ class WKTParser extends BaseParser
         $lineStringArguments = preg_split('/\)\s*,\s*\(/', substr(trim($argument), 1, -1));
         $lineStrings = array_map(fn ($lineStringArgument) => $this->parseLineString($lineStringArgument), $lineStringArguments);
 
-        return $this->factory->createPolygon($this->dimension, null, $lineStrings);
+        return $this->factory->createPolygon($this->dimension, $this->srid, $lineStrings);
     }
 
     public function parseMultiPoint(string $argument): MultiPoint
@@ -113,12 +125,12 @@ class WKTParser extends BaseParser
         preg_match_all('/\(\s*([+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+\s+[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(\s+[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+)?)\s*\)/', trim($argument), $matches);
 
         if (count($matches) < 2) {
-            return $this->factory->createMultiPoint($this->dimension, null, []);
+            return $this->factory->createMultiPoint($this->dimension, $this->srid, []);
         }
 
         $points = array_map(fn ($pointArgument) => $this->parsePoint($pointArgument), $matches[1]);
 
-        return $this->factory->createMultiPoint($this->dimension, null, $points);
+        return $this->factory->createMultiPoint($this->dimension, $this->srid, $points);
     }
 
     private function parseMultiLineString(string $argument): MultiLineString
@@ -126,7 +138,7 @@ class WKTParser extends BaseParser
         $lineStringArguments = preg_split('/\)\s*,\s*\(/', substr(trim($argument), 1, -1));
         $lineStrings = array_map(fn ($lineStringArgument) => $this->parseLineString($lineStringArgument), $lineStringArguments);
 
-        return $this->factory->createMultiLineString($this->dimension, null, $lineStrings);
+        return $this->factory->createMultiLineString($this->dimension, $this->srid, $lineStrings);
     }
 
     private function parseMultiPolygon(string $argument): MultiPolygon
@@ -136,7 +148,7 @@ class WKTParser extends BaseParser
 
         $polygons = (array_map(fn ($polygonArgument) => $this->parsePolygon($polygonArgument), $polygonArguments));
 
-        return $this->factory->createMultiPolygon($this->dimension, null, $polygons);
+        return $this->factory->createMultiPolygon($this->dimension, $this->srid, $polygons);
     }
 
     private function parseGeometryCollection(string $argument): GeometryCollection
@@ -151,7 +163,7 @@ class WKTParser extends BaseParser
             $geometryWktSegments
         );
 
-        return $this->factory->createGeometryCollection($this->dimension, null, $geometries);
+        return $this->factory->createGeometryCollection($this->dimension, $this->srid, $geometries);
     }
 
     /**

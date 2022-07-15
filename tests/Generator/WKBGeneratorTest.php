@@ -36,6 +36,14 @@ test('can generate 3D WKB Point', function () {
     expect($pointWKB)->toBe('0101000080E561A1D6343F20407958A835CD0F49400000000000002440');
 })->group('WKB Point');
 
+test('can generate 3D WKB Point with SRID', function () {
+    $point = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+
+    $pointWKB = $this->generator->generate($point);
+
+    expect($pointWKB)->toBe('01010000A0E6100000E561A1D6343F20407958A835CD0F49400000000000002440');
+})->group('WKB Point');
+
 test('can generate 2D WKB LineString', function () {
     $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
     $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
@@ -64,6 +72,16 @@ test('can generate 3D WKB LineString', function () {
     $lineStringWKB = $this->generator->generate($lineString);
 
     expect($lineStringWKB)->toBe('010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440');
+})->group('WKB LineString');
+
+test('can generate 3D WKB LineString with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
+    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
+
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('01020000A0E610000002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440');
 })->group('WKB LineString');
 
 test('can generate 2D WKB MultiLineString', function () {
@@ -114,6 +132,22 @@ test('can generate 3D WKB MultiLineString', function () {
     expect($multiLineStringWKB)->toBe('010500008002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiLineString');
 
+test('can generate 3D WKB MultiLineString with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
+    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30, 4326);
+    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40, 4326);
+
+    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
+    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4], 4326);
+
+    $multiLineString = new MultiLineString(Dimension::DIMENSION_3DZ, [$lineString1, $lineString2], 4326);
+
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('01050000A0E610000002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440');
+})->group('WKB MultiLineString');
+
 test('can generate 2D WKB Simple Polygon', function () {
     $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
     $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
@@ -154,6 +188,20 @@ test('can generate 3D WKB Simple Polygon', function () {
     $polygonWKB = $this->generator->generate($polygon);
 
     expect($polygonWKB)->toBe('01030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440');
+})->group('WKB Polygon');
+
+test('can generate 3D WKB Simple Polygon with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
+    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 30, 4326);
+
+    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
+
+    $polygon = new Polygon(Dimension::DIMENSION_3DZ, [$lineString], 4326);
+
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('01030000A0E61000000100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440');
 })->group('WKB Polygon');
 
 test('can generate 2D WKB Polygon with single hole', function () {
@@ -293,6 +341,19 @@ test('can generate 2D WKB MultiPoint', function () {
     expect($multiPointWKB)->toBe('0104000000040000000101000000E561A1D6343F20407958A835CD0F49400101000000E561A1D6343F22407958A835CD8F49400101000000CAC342AD697E1C407958A835CD8F48400101000000CAC342AD697E18407958A835CD0F4840');
 })->group('WKB MultiPoint');
 
+test('can generate 2D WKB MultiPoint with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
+    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
+    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345, null, 4326);
+    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345, null, 4326);
+
+    $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4], 4326);
+
+    $multiPointWKB = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKB)->toBe('0104000020E6100000040000000101000000E561A1D6343F20407958A835CD0F49400101000000E561A1D6343F22407958A835CD8F49400101000000CAC342AD697E1C407958A835CD8F48400101000000CAC342AD697E18407958A835CD0F4840');
+})->group('WKB MultiPoint');
+
 test('can generate 3D WKB MultiPoint', function () {
     $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
     $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
@@ -304,6 +365,19 @@ test('can generate 3D WKB MultiPoint', function () {
     $multiPointWKB = $this->generator->generate($multiPoint);
 
     expect($multiPointWKB)->toBe('0104000080040000000101000080E561A1D6343F20407958A835CD0F494000000000000024400101000080E561A1D6343F22407958A835CD8F494000000000000034400101000080CAC342AD697E1C407958A835CD8F48400000000000003E400101000080CAC342AD697E18407958A835CD0F48400000000000004440');
+})->group('WKB MultiPoint');
+
+test('can generate 3D WKB MultiPoint with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
+    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30, 4326);
+    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40, 4326);
+
+    $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4], 4326);
+
+    $multiPointWKB = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKB)->toBe('01040000A0E6100000040000000101000080E561A1D6343F20407958A835CD0F494000000000000024400101000080E561A1D6343F22407958A835CD8F494000000000000034400101000080CAC342AD697E1C407958A835CD8F48400000000000003E400101000080CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiPoint');
 
 test('can generate 2D WKB Simple MultiPolygon', function () {
@@ -327,6 +401,27 @@ test('can generate 2D WKB Simple MultiPolygon', function () {
     expect($multiPolygonWKB)->toBe('01060000000200000001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494001030000000100000004000000E561A1D6343F24407958A835CD0F4940E561A1D6343F26407958A835CD8F4940E561A1D6343F22407958A835CD0F4840E561A1D6343F24407958A835CD0F4940');
 })->group('WKB MultiPolygon');
 
+test('can generate 2D WKB Simple MultiPolygon with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
+    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
+    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
+    $point4 = new Point(Dimension::DIMENSION_2D, 50.12345, 10.12345, null, 4326);
+    $point5 = new Point(Dimension::DIMENSION_2D, 51.12345, 11.12345, null, 4326);
+    $point6 = new Point(Dimension::DIMENSION_2D, 48.12345, 9.12345, null, 4326);
+
+    $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
+    $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4], 4326);
+
+    $polygon1 = new Polygon(Dimension::DIMENSION_2D, [$lineString1], 4326);
+    $polygon2 = new Polygon(Dimension::DIMENSION_2D, [$lineString2], 4326);
+
+    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_2D, [$polygon1, $polygon2], 4326);
+
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('0106000020E61000000200000001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494001030000000100000004000000E561A1D6343F24407958A835CD0F4940E561A1D6343F26407958A835CD8F4940E561A1D6343F22407958A835CD0F4840E561A1D6343F24407958A835CD0F4940');
+})->group('WKB MultiPolygon');
+
 test('can generate 3D WKB Simple MultiPolygon', function () {
     $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
     $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10);
@@ -348,6 +443,26 @@ test('can generate 3D WKB Simple MultiPolygon', function () {
     expect($multiPolygonWKB)->toBe('01060000800200000001030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244001030000800100000004000000E561A1D6343F24407958A835CD0F49400000000000002440E561A1D6343F26407958A835CD8F49400000000000002440E561A1D6343F22407958A835CD0F48400000000000002440E561A1D6343F24407958A835CD0F49400000000000002440');
 })->group('WKB MultiPolygon');
 
+test('can generate 3D WKB Simple MultiPolygon with SRID', function () {
+    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10, 4326);
+    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10, 4326);
+    $point4 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 10.12345, 10, 4326);
+    $point5 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 11.12345, 10, 4326);
+    $point6 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 9.12345, 10, 4326);
+
+    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
+    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4], 4326);
+
+    $polygon1 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString1], 4326);
+    $polygon2 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString2], 4326);
+
+    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_3DZ, [$polygon1, $polygon2], 4326);
+
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('01060000A0E61000000200000001030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244001030000800100000004000000E561A1D6343F24407958A835CD0F49400000000000002440E561A1D6343F26407958A835CD8F49400000000000002440E561A1D6343F22407958A835CD0F48400000000000002440E561A1D6343F24407958A835CD0F49400000000000002440');
+})->group('WKB MultiPolygon');
 
 test('can generate 2D WKB GeometryCollection', function () {
     $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
@@ -363,4 +478,21 @@ test('can generate 2D WKB GeometryCollection', function () {
     $geometryCollectionWKB = $this->generator->generate($geometryCollection);
 
     expect($geometryCollectionWKB)->toBe('0107000000030000000101000000E561A1D6343F20407958A835CD0F4940010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F494001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940');
+})->group('WKB GeometryCollection');
+
+
+test('can generate 2D WKB GeometryCollection with SRID', function () {
+    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
+    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
+    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
+
+    $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2], 4326);
+    $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point], 4326);
+    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineStringForPolygon], 4326);
+
+    $geometryCollection = new GeometryCollection(Dimension::DIMENSION_2D, [$point, $lineString, $polygon], 4326);
+
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('0107000020E6100000030000000101000000E561A1D6343F20407958A835CD0F4940010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F494001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940');
 })->group('WKB GeometryCollection');
