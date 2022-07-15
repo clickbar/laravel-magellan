@@ -17,9 +17,9 @@ class WKTGenerator extends BaseGenerator
 {
     private function generatePointCoordinateString(Point $point): string
     {
-        $string = GeometryHelper::stringifyFloat($point->getLongitude()) . ' ' . GeometryHelper::stringifyFloat($point->getLatitude());
+        $string = GeometryHelper::stringifyFloat($point->getX()) . ' ' . GeometryHelper::stringifyFloat($point->getY());
         if ($point->getDimension()->has3Dimensions()) {
-            $string .= ' ' . GeometryHelper::stringifyFloat($point->getAltitude());
+            $string .= ' ' . GeometryHelper::stringifyFloat($point->getZ());
         }
 
         return $string;

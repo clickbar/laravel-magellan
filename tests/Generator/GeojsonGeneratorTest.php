@@ -15,7 +15,7 @@ beforeEach(function () {
 });
 
 test('can generate 2D Geojson Point', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
+    $point = Point::makeGeodetic(50.12345, 8.12345);
 
     $pointGeojson = $this->generator->generate($point);
 
@@ -26,7 +26,7 @@ test('can generate 2D Geojson Point', function () {
 })->group('Geojson Point');
 
 test('can generate 3D Geojson Point', function () {
-    $point = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
+    $point = Point::makeGeodetic(50.12345, 8.12345, 10);
 
     $pointGeojson = $this->generator->generate($point);
 
@@ -37,8 +37,8 @@ test('can generate 3D Geojson Point', function () {
 })->group('Geojson Point');
 
 test('can generate 2D Geojson LineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
 
     $lineStringGeojson = $this->generator->generate($lineString);
@@ -50,8 +50,8 @@ test('can generate 2D Geojson LineString', function () {
 })->group('Geojson LineString');
 
 test('can generate 3D Geojson LineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
 
     $lineStringGeojson = $this->generator->generate($lineString);
@@ -63,10 +63,10 @@ test('can generate 3D Geojson LineString', function () {
 })->group('Geojson LineString');
 
 test('can generate 2D Geojson MultiLineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point3, $point4]);
@@ -82,10 +82,10 @@ test('can generate 2D Geojson MultiLineString', function () {
 })->group('Geojson MultiLineString');
 
 test('can generate 3D Geojson MultiLineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4]);
@@ -101,9 +101,9 @@ test('can generate 3D Geojson MultiLineString', function () {
 })->group('Geojson MultiLineString');
 
 test('can generate 2D Geojson Simple Polygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
 
@@ -118,9 +118,9 @@ test('can generate 2D Geojson Simple Polygon', function () {
 })->group('Geojson Polygon');
 
 test('can generate 3D Geojson Simple Polygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 30);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 30);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
 
@@ -135,12 +135,12 @@ test('can generate 3D Geojson Simple Polygon', function () {
 })->group('Geojson Polygon');
 
 test('can generate 2D Geojson Polygon with single hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -156,15 +156,15 @@ test('can generate 2D Geojson Polygon with single hole', function () {
 })->group('Geojson Polygon');
 
 test('can generate 2D Geojson Polygon with multi hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211);
-    $hole2Point1 = new Point(Dimension::DIMENSION_2D, 50.322669, 8.393554);
-    $hole2Point2 = new Point(Dimension::DIMENSION_2D, 50.229637, 8.367462);
-    $hole2Point3 = new Point(Dimension::DIMENSION_2D, 50.341078, 8.491058);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211);
+    $hole2Point1 = Point::makeGeodetic(50.322669, 8.393554);
+    $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462);
+    $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -185,15 +185,15 @@ test('can generate 2D Geojson Polygon with multi hole', function () {
 })->group('Geojson Polygon');
 
 test('can generate 3D Geojson Polygon with multi hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10);
-    $holePoint1 = new Point(Dimension::DIMENSION_3DZ, 50.16634, 8.27133, 10);
-    $holePoint2 = new Point(Dimension::DIMENSION_3DZ, 50.035091, 8.198547, 10);
-    $holePoint3 = new Point(Dimension::DIMENSION_3DZ, 50.050966, 8.267211, 10);
-    $hole2Point1 = new Point(Dimension::DIMENSION_3DZ, 50.322669, 8.393554, 10);
-    $hole2Point2 = new Point(Dimension::DIMENSION_3DZ, 50.229637, 8.367462, 10);
-    $hole2Point3 = new Point(Dimension::DIMENSION_3DZ, 50.341078, 8.491058, 10);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133, 10);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547, 10);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211, 10);
+    $hole2Point1 = Point::makeGeodetic(50.322669, 8.393554, 10);
+    $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462, 10);
+    $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058, 10);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_3DZ, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -214,10 +214,10 @@ test('can generate 3D Geojson Polygon with multi hole', function () {
 })->group('Geojson Polygon');
 
 test('can generate 2D Geojson MultiPoint', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4]);
 
@@ -232,10 +232,10 @@ test('can generate 2D Geojson MultiPoint', function () {
 })->group('Geojson MultiPoint');
 
 test('can generate 3D Geojson MultiPoint', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4]);
 
@@ -250,12 +250,12 @@ test('can generate 3D Geojson MultiPoint', function () {
 })->group('Geojson MultiPoint');
 
 test('can generate 2D Geojson Simple MultiPolygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 50.12345, 10.12345);
-    $point5 = new Point(Dimension::DIMENSION_2D, 51.12345, 11.12345);
-    $point6 = new Point(Dimension::DIMENSION_2D, 48.12345, 9.12345);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $point4 = Point::makeGeodetic(50.12345, 10.12345);
+    $point5 = Point::makeGeodetic(51.12345, 11.12345);
+    $point6 = Point::makeGeodetic(48.12345, 9.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4]);
@@ -277,12 +277,12 @@ test('can generate 2D Geojson Simple MultiPolygon', function () {
 })->group('Geojson MultiPolygon');
 
 test('can generate 3D Geojson Simple MultiPolygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 10.12345, 10);
-    $point5 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 11.12345, 10);
-    $point6 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 9.12345, 10);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
+    $point4 = Point::makeGeodetic(50.12345, 10.12345, 10);
+    $point5 = Point::makeGeodetic(51.12345, 11.12345, 10);
+    $point6 = Point::makeGeodetic(48.12345, 9.12345, 10);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4]);
@@ -305,9 +305,9 @@ test('can generate 3D Geojson Simple MultiPolygon', function () {
 
 
 test('can generate 2D Geojson GeometryCollection', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
+    $point = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2]);
     $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point]);

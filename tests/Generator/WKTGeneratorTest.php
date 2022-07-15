@@ -15,7 +15,7 @@ beforeEach(function () {
 });
 
 test('can generate 2D WKT Point', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
+    $point = Point::make(8.12345, 50.12345);
 
     $pointWKT = $this->generator->generate($point);
 
@@ -24,7 +24,7 @@ test('can generate 2D WKT Point', function () {
 
 
 test('can generate 2D WKT Point with SRID', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
+    $point = Point::makeGeodetic(50.12345, 8.12345);
 
     $pointWKT = $this->generator->generate($point);
 
@@ -32,7 +32,7 @@ test('can generate 2D WKT Point with SRID', function () {
 })->group('WKT Point');
 
 test('can generate 3D WKT Point', function () {
-    $point = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
+    $point = Point::make(8.12345, 50.12345, 10);
 
     $pointWKT = $this->generator->generate($point);
 
@@ -40,7 +40,7 @@ test('can generate 3D WKT Point', function () {
 })->group('WKT Point');
 
 test('can generate 3D WKT Point with SRID', function () {
-    $point = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
+    $point = Point::makeGeodetic(50.12345, 8.12345, 10);
 
     $pointWKT = $this->generator->generate($point);
 
@@ -49,8 +49,8 @@ test('can generate 3D WKT Point with SRID', function () {
 
 
 test('can generate 2D WKT LineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
 
     $lineStringWKT = $this->generator->generate($lineString);
@@ -59,8 +59,8 @@ test('can generate 2D WKT LineString', function () {
 })->group('WKT LineString');
 
 test('can generate 2D WKT LineString with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2], 4326);
 
     $lineStringWKT = $this->generator->generate($lineString);
@@ -69,8 +69,8 @@ test('can generate 2D WKT LineString with SRID', function () {
 })->group('WKT LineString');
 
 test('can generate 3D WKT LineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 20);
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
 
     $lineStringWKT = $this->generator->generate($lineString);
@@ -79,8 +79,8 @@ test('can generate 3D WKT LineString', function () {
 })->group('WKT LineString');
 
 test('can generate 3D WKT LineString with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
 
     $lineStringWKT = $this->generator->generate($lineString);
@@ -89,10 +89,10 @@ test('can generate 3D WKT LineString with SRID', function () {
 })->group('WKT LineString');
 
 test('can generate 2D WKT MultiLineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 49.12345);
+    $point4 = Point::make(6.12345, 48.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point3, $point4]);
@@ -106,10 +106,10 @@ test('can generate 2D WKT MultiLineString', function () {
 
 
 test('can generate 2D WKT MultiLineString with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345, null, 4326);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2], 4326);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point3, $point4], 4326);
@@ -123,10 +123,10 @@ test('can generate 2D WKT MultiLineString with SRID', function () {
 
 
 test('can generate 3D WKT MultiLineString', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 20);
+    $point3 = Point::make(7.12345, 49.12345, 30);
+    $point4 = Point::make(6.12345, 48.12345, 40);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4]);
@@ -139,10 +139,10 @@ test('can generate 3D WKT MultiLineString', function () {
 })->group('WKT MultiLineString');
 
 test('can generate 3D WKT MultiLineString with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30, 4326);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4], 4326);
@@ -155,9 +155,9 @@ test('can generate 3D WKT MultiLineString with SRID', function () {
 })->group('WKT MultiLineString');
 
 test('can generate 2D WKT Simple Polygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 48.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
 
@@ -169,9 +169,9 @@ test('can generate 2D WKT Simple Polygon', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT Simple Polygon with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
 
@@ -183,9 +183,9 @@ test('can generate 2D WKT Simple Polygon with SRID', function () {
 })->group('WKT Polygon');
 
 test('can generate 3D WKT Simple Polygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 30);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 20);
+    $point3 = Point::make(7.12345, 48.12345, 30);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
 
@@ -197,9 +197,9 @@ test('can generate 3D WKT Simple Polygon', function () {
 })->group('WKT Polygon');
 
 test('can generate 3D WKT Simple Polygon with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 30, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 30);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
 
@@ -211,12 +211,12 @@ test('can generate 3D WKT Simple Polygon with SRID', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT Polygon with single hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 48.12345);
+    $holePoint1 = Point::make(8.27133, 50.16634);
+    $holePoint2 = Point::make(8.198547, 50.035091);
+    $holePoint3 = Point::make(8.267211, 50.050966);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -229,12 +229,12 @@ test('can generate 2D WKT Polygon with single hole', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT Polygon with single hole with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133, null, 4326);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547, null, 4326);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
@@ -247,15 +247,15 @@ test('can generate 2D WKT Polygon with single hole with SRID', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT Polygon with multi hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211);
-    $hole2Point1 = new Point(Dimension::DIMENSION_2D, 50.322669, 8.393554);
-    $hole2Point2 = new Point(Dimension::DIMENSION_2D, 50.229637, 8.367462);
-    $hole2Point3 = new Point(Dimension::DIMENSION_2D, 50.341078, 8.491058);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 48.12345);
+    $holePoint1 = Point::make(8.27133, 50.16634);
+    $holePoint2 = Point::make(8.198547, 50.035091);
+    $holePoint3 = Point::make(8.267211, 50.050966);
+    $hole2Point1 = Point::make(8.393554, 50.322669);
+    $hole2Point2 = Point::make(8.367462, 50.229637);
+    $hole2Point3 = Point::make(8.491058, 50.341078);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -269,15 +269,15 @@ test('can generate 2D WKT Polygon with multi hole', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT Polygon with multi hole with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
-    $holePoint1 = new Point(Dimension::DIMENSION_2D, 50.16634, 8.27133, null, 4326);
-    $holePoint2 = new Point(Dimension::DIMENSION_2D, 50.035091, 8.198547, null, 4326);
-    $holePoint3 = new Point(Dimension::DIMENSION_2D, 50.050966, 8.267211, null, 4326);
-    $hole2Point1 = new Point(Dimension::DIMENSION_2D, 50.322669, 8.393554, null, 4326);
-    $hole2Point2 = new Point(Dimension::DIMENSION_2D, 50.229637, 8.367462, null, 4326);
-    $hole2Point3 = new Point(Dimension::DIMENSION_2D, 50.341078, 8.491058, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211);
+    $hole2Point1 = Point::makeGeodetic(50.322669, 8.393554);
+    $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462);
+    $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
     $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
@@ -291,15 +291,15 @@ test('can generate 2D WKT Polygon with multi hole with SRID', function () {
 })->group('WKT Polygon');
 
 test('can generate 3D WKT Polygon with multi hole', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10);
-    $holePoint1 = new Point(Dimension::DIMENSION_3DZ, 50.16634, 8.27133, 10);
-    $holePoint2 = new Point(Dimension::DIMENSION_3DZ, 50.035091, 8.198547, 10);
-    $holePoint3 = new Point(Dimension::DIMENSION_3DZ, 50.050966, 8.267211, 10);
-    $hole2Point1 = new Point(Dimension::DIMENSION_3DZ, 50.322669, 8.393554, 10);
-    $hole2Point2 = new Point(Dimension::DIMENSION_3DZ, 50.229637, 8.367462, 10);
-    $hole2Point3 = new Point(Dimension::DIMENSION_3DZ, 50.341078, 8.491058, 10);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 10);
+    $point3 = Point::make(7.12345, 48.12345, 10);
+    $holePoint1 = Point::make(8.27133, 50.16634, 10);
+    $holePoint2 = Point::make(8.198547, 50.035091, 10);
+    $holePoint3 = Point::make(8.267211, 50.050966, 10);
+    $hole2Point1 = Point::make(8.393554, 50.322669, 10);
+    $hole2Point2 = Point::make(8.367462, 50.229637, 10);
+    $hole2Point3 = Point::make(8.491058, 50.341078, 10);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
     $holeLineString = new LineString(Dimension::DIMENSION_3DZ, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
@@ -313,15 +313,15 @@ test('can generate 3D WKT Polygon with multi hole', function () {
 })->group('WKT Polygon');
 
 test('can generate 3D WKT Polygon with multi hole with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10, 4326);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10, 4326);
-    $holePoint1 = new Point(Dimension::DIMENSION_3DZ, 50.16634, 8.27133, 10, 4326);
-    $holePoint2 = new Point(Dimension::DIMENSION_3DZ, 50.035091, 8.198547, 10, 4326);
-    $holePoint3 = new Point(Dimension::DIMENSION_3DZ, 50.050966, 8.267211, 10, 4326);
-    $hole2Point1 = new Point(Dimension::DIMENSION_3DZ, 50.322669, 8.393554, 10, 4326);
-    $hole2Point2 = new Point(Dimension::DIMENSION_3DZ, 50.229637, 8.367462, 10, 4326);
-    $hole2Point3 = new Point(Dimension::DIMENSION_3DZ, 50.341078, 8.491058, 10, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
+    $holePoint1 = Point::makeGeodetic(50.16634, 8.27133, 10);
+    $holePoint2 = Point::makeGeodetic(50.035091, 8.198547, 10);
+    $holePoint3 = Point::makeGeodetic(50.050966, 8.267211, 10);
+    $hole2Point1 = Point::makeGeodetic(50.322669, 8.393554, 10);
+    $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462, 10);
+    $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058, 10);
 
     $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
     $holeLineString = new LineString(Dimension::DIMENSION_3DZ, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
@@ -335,10 +335,10 @@ test('can generate 3D WKT Polygon with multi hole with SRID', function () {
 })->group('WKT Polygon');
 
 test('can generate 2D WKT MultiPoint', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 49.12345);
+    $point4 = Point::make(6.12345, 48.12345);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4]);
 
@@ -348,10 +348,10 @@ test('can generate 2D WKT MultiPoint', function () {
 })->group('WKT MultiPoint');
 
 test('can generate 2D WKT MultiPoint with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 49.12345, 7.12345, null, 4326);
-    $point4 = new Point(Dimension::DIMENSION_2D, 48.12345, 6.12345, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4], 4326);
 
@@ -361,10 +361,10 @@ test('can generate 2D WKT MultiPoint with SRID', function () {
 })->group('WKT MultiPoint');
 
 test('can generate 3D WKT MultiPoint', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 20);
+    $point3 = Point::make(7.12345, 49.12345, 30);
+    $point4 = Point::make(6.12345, 48.12345, 40);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4]);
 
@@ -374,10 +374,10 @@ test('can generate 3D WKT MultiPoint', function () {
 })->group('WKT MultiPoint');
 
 test('can generate 3D WKT MultiPoint with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 20, 4326);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 49.12345, 7.12345, 30, 4326);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 6.12345, 40, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
+    $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
+    $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
     $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4], 4326);
 
@@ -387,12 +387,12 @@ test('can generate 3D WKT MultiPoint with SRID', function () {
 })->group('WKT MultiPoint');
 
 test('can generate 2D WKT Simple MultiPolygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
-    $point4 = new Point(Dimension::DIMENSION_2D, 50.12345, 10.12345);
-    $point5 = new Point(Dimension::DIMENSION_2D, 51.12345, 11.12345);
-    $point6 = new Point(Dimension::DIMENSION_2D, 48.12345, 9.12345);
+    $point1 = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 48.12345);
+    $point4 = Point::make(10.12345, 50.12345);
+    $point5 = Point::make(11.12345, 51.12345);
+    $point6 = Point::make(9.12345, 48.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4]);
@@ -408,12 +408,12 @@ test('can generate 2D WKT Simple MultiPolygon', function () {
 })->group('WKT MultiPolygon');
 
 test('can generate 2D WKT Simple MultiPolygon with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
-    $point4 = new Point(Dimension::DIMENSION_2D, 50.12345, 10.12345, null, 4326);
-    $point5 = new Point(Dimension::DIMENSION_2D, 51.12345, 11.12345, null, 4326);
-    $point6 = new Point(Dimension::DIMENSION_2D, 48.12345, 9.12345, null, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
+    $point4 = Point::makeGeodetic(50.12345, 10.12345);
+    $point5 = Point::makeGeodetic(51.12345, 11.12345);
+    $point6 = Point::makeGeodetic(48.12345, 9.12345);
 
     $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
     $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4], 4326);
@@ -429,12 +429,12 @@ test('can generate 2D WKT Simple MultiPolygon with SRID', function () {
 })->group('WKT MultiPolygon');
 
 test('can generate 3D WKT Simple MultiPolygon', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 10.12345, 10);
-    $point5 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 11.12345, 10);
-    $point6 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 9.12345, 10);
+    $point1 = Point::make(8.12345, 50.12345, 10);
+    $point2 = Point::make(9.12345, 51.12345, 10);
+    $point3 = Point::make(7.12345, 48.12345, 10);
+    $point4 = Point::make(10.12345, 50.12345, 10);
+    $point5 = Point::make(11.12345, 51.12345, 10);
+    $point6 = Point::make(9.12345, 48.12345, 10);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4]);
@@ -450,12 +450,12 @@ test('can generate 3D WKT Simple MultiPolygon', function () {
 })->group('WKT MultiPolygon');
 
 test('can generate 3D WKT Simple MultiPolygon with SRID', function () {
-    $point1 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 8.12345, 10, 4326);
-    $point2 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 9.12345, 10, 4326);
-    $point3 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 7.12345, 10, 4326);
-    $point4 = new Point(Dimension::DIMENSION_3DZ, 50.12345, 10.12345, 10, 4326);
-    $point5 = new Point(Dimension::DIMENSION_3DZ, 51.12345, 11.12345, 10, 4326);
-    $point6 = new Point(Dimension::DIMENSION_3DZ, 48.12345, 9.12345, 10, 4326);
+    $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
+    $point4 = Point::makeGeodetic(50.12345, 10.12345, 10);
+    $point5 = Point::makeGeodetic(51.12345, 11.12345, 10);
+    $point6 = Point::makeGeodetic(48.12345, 9.12345, 10);
 
     $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
     $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4], 4326);
@@ -472,9 +472,9 @@ test('can generate 3D WKT Simple MultiPolygon with SRID', function () {
 
 
 test('can generate 2D WKT GeometryCollection', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345);
+    $point = Point::make(8.12345, 50.12345);
+    $point2 = Point::make(9.12345, 51.12345);
+    $point3 = Point::make(7.12345, 48.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2]);
     $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point]);
@@ -488,9 +488,9 @@ test('can generate 2D WKT GeometryCollection', function () {
 })->group('WKT GeometryCollection');
 
 test('can generate 2D WKT GeometryCollection with SRID', function () {
-    $point = new Point(Dimension::DIMENSION_2D, 50.12345, 8.12345, null, 4326);
-    $point2 = new Point(Dimension::DIMENSION_2D, 51.12345, 9.12345, null, 4326);
-    $point3 = new Point(Dimension::DIMENSION_2D, 48.12345, 7.12345, null, 4326);
+    $point = Point::makeGeodetic(50.12345, 8.12345);
+    $point2 = Point::makeGeodetic(51.12345, 9.12345);
+    $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
     $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2], 4326);
     $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point], 4326);

@@ -36,10 +36,10 @@ class WKBGenerator extends BaseGenerator
      */
     private function writePointCoordinates(Point $point)
     {
-        $this->byteStringBuilder->addDouble($point->getLongitude());
-        $this->byteStringBuilder->addDouble($point->getLatitude());
+        $this->byteStringBuilder->addDouble($point->getX());
+        $this->byteStringBuilder->addDouble($point->getY());
         if ($point->getDimension()->has3Dimensions()) {
-            $this->byteStringBuilder->addDouble($point->getAltitude());
+            $this->byteStringBuilder->addDouble($point->getZ());
         }
     }
 

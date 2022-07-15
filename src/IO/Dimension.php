@@ -30,4 +30,24 @@ enum Dimension: string
     {
         return $this === self::DIMENSION_3DM || $this === self::DIMENSION_4D;
     }
+
+    /**
+     * @param float $x
+     * @param float $y
+     * @param float|null $z
+     * @param float|null $m
+     * @return Dimension
+     */
+    public static function fromCoordinates(float $x, float $y, ?float $z, ?float $m): self
+    {
+        if ($z === null && $m === null) {
+            return Dimension::DIMENSION_2D;
+        } elseif ($z !== null && $m === null) {
+            return Dimension::DIMENSION_3DZ;
+        } elseif ($z === null && $m !== null) {
+            return Dimension::DIMENSION_3DM;
+        } else {
+            return Dimension::DIMENSION_4D;
+        }
+    }
 }

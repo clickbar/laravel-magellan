@@ -64,7 +64,7 @@ class GeojsonParser extends BaseParser
             $dimension = Dimension::DIMENSION_3DZ;
         }
 
-        return $this->factory->createPoint($dimension, null, $coordinate);
+        return $this->factory->createPoint($dimension, 4326, $coordinate);
     }
 
     protected function parseLineString(array $coordinates): Geometry

@@ -20,8 +20,8 @@ test('can parse 2D WKB Point', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
 })->group('WKB Point');
 
 test('can parse 2D WKB Point with SRID', function () {
@@ -30,8 +30,8 @@ test('can parse 2D WKB Point with SRID', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
     expect($point->getSrid())->toBe(4326);
 })->group('WKB Point');
 
@@ -41,9 +41,9 @@ test('can parse 3D WKB Point', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
-    expect($point->getAltitude())->toBe(10.0);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
 })->group('WKB Point');
 
 test('can parse 3D WKB Point with SRID', function () {
@@ -52,9 +52,9 @@ test('can parse 3D WKB Point with SRID', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
-    expect($point->getAltitude())->toBe(10.0);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
     expect($point->getSrid())->toBe(4326);
 })->group('WKB Point');
 
@@ -64,10 +64,10 @@ test('can parse 2D WKB LineString', function () {
     $lineString = $this->parser->parse($lineStringWKB);
 
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
 })->group('WKB LineString');
 
 test('can parse 2D WKB LineString With SRID', function () {
@@ -76,11 +76,11 @@ test('can parse 2D WKB LineString With SRID', function () {
     $lineString = $this->parser->parse($lineStringWKB);
 
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
     expect($lineString->getPoints()[0]->getSrid())->toBe(4326);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
     expect($lineString->getSrid())->toBe(4326);
 })->group('WKB LineString');
@@ -91,12 +91,12 @@ test('can parse 3D WKB LineString', function () {
     $lineString = $this->parser->parse($lineStringWKB);
 
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($lineString->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($lineString->getPoints()[1]->getAltitude())->toBe(20.0);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
+    expect($lineString->getPoints()[0]->getZ())->toBe(10.0);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
+    expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
 })->group('WKB LineString');
 
 test('can parse 3D WKB LineString with SRID', function () {
@@ -105,13 +105,13 @@ test('can parse 3D WKB LineString with SRID', function () {
     $lineString = $this->parser->parse($lineStringWKB);
 
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($lineString->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
+    expect($lineString->getPoints()[0]->getZ())->toBe(10.0);
     expect($lineString->getPoints()[0]->getSrid())->toBe(4326);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($lineString->getPoints()[1]->getAltitude())->toBe(20.0);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
+    expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
     expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
     expect($lineString->getSrid())->toBe(4326);
 })->group('WKB LineString');
@@ -122,14 +122,14 @@ test('can parse 2D WKB MultiLineString', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(7.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(49.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(6.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
 })->group('WKB MultiLineString');
 
 test('can parse 2D WKB MultiLineString With SRID', function () {
@@ -138,14 +138,14 @@ test('can parse 2D WKB MultiLineString With SRID', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(7.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(49.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(6.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
     expect($multiLineString->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');
 
@@ -155,18 +155,18 @@ test('can parse 3D WKB MultiLineString', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(20.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(7.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(49.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getAltitude())->toBe(30.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(6.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(40.0);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(30.0);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
 })->group('WKB MultiLineString');
 
 test('can parse 3D WKB MultiLineString with SRID', function () {
@@ -176,21 +176,21 @@ test('can parse 3D WKB MultiLineString with SRID', function () {
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
     expect($multiLineString)->getSrid()->toBe(4326);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(20.0);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(7.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(49.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getAltitude())->toBe(30.0);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(30.0);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(6.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(40.0);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
+    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');
 
@@ -200,14 +200,14 @@ test('can parse 2D WKB Simple Polygon', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKB Polygon');
 
 test('can parse 2D WKB Simple Polygon with SRID', function () {
@@ -216,14 +216,14 @@ test('can parse 2D WKB Simple Polygon with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
@@ -233,18 +233,18 @@ test('can parse 3D WKB Simple Polygon', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(20.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(30.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(30.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB Polygon');
 
 test('can parse 3D WKB Simple Polygon with SRID', function () {
@@ -254,21 +254,21 @@ test('can parse 3D WKB Simple Polygon with SRID', function () {
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon)->getSrid()->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(20.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(30.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(30.0);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
@@ -278,23 +278,23 @@ test('can parse 2D WKB Polygon with single hole', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
 })->group('WKB Polygon');
 
 test('can parse 2D WKB Polygon with single hole with SRID', function () {
@@ -303,38 +303,38 @@ test('can parse 2D WKB Polygon with single hole with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getSrid())->toBe(4326);
 
     expect($polygon->getSrid())->toBe(4326);
@@ -346,32 +346,32 @@ test('can parse 2D WKB Polygon with multi hole', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
 
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLongitude())->toBe(8.367462);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLatitude())->toBe(50.229637);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLongitude())->toBe(8.491058);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLatitude())->toBe(50.341078);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLatitude())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getX())->toBe(8.367462);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getY())->toBe(50.229637);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getX())->toBe(8.491058);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getY())->toBe(50.341078);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getY())->toBe(50.322669);
 })->group('WKB Polygon');
 
 test('can parse 2D WKB Polygon with multi hole with SRID', function () {
@@ -380,32 +380,32 @@ test('can parse 2D WKB Polygon with multi hole with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
 
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLongitude())->toBe(8.367462);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLatitude())->toBe(50.229637);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLongitude())->toBe(8.491058);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLatitude())->toBe(50.341078);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLatitude())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getX())->toBe(8.367462);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getY())->toBe(50.229637);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getX())->toBe(8.491058);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getY())->toBe(50.341078);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getY())->toBe(50.322669);
 
     expect($polygon->getSRID())->toBe(4326);
 })->group('WKB Polygon');
@@ -416,44 +416,44 @@ test('can parse 3D WKB Polygon with multi hole', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getZ())->toBe(10.0);
 
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLongitude())->toBe(8.367462);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLatitude())->toBe(50.229637);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLongitude())->toBe(8.491058);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLatitude())->toBe(50.341078);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getAltitude())->toBe(10.0);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getX())->toBe(8.367462);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getY())->toBe(50.229637);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getX())->toBe(8.491058);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getY())->toBe(50.341078);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getZ())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB Polygon');
 
 test('can parse 3D WKB Polygon with multi hole with SRID', function () {
@@ -462,55 +462,55 @@ test('can parse 3D WKB Polygon with multi hole with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLongitude())->toBe(8.198547);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(50.035091);
-    expect($polygon->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getX())->toBe(8.198547);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getY())->toBe(50.035091);
+    expect($polygon->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLongitude())->toBe(8.267211);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getLatitude())->toBe(50.050966);
-    expect($polygon->getLineStrings()[1]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getX())->toBe(8.267211);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getY())->toBe(50.050966);
+    expect($polygon->getLineStrings()[1]->getPoints()[2]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLongitude())->toBe(8.27133);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getLatitude())->toBe(50.16634);
-    expect($polygon->getLineStrings()[1]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
+    expect($polygon->getLineStrings()[1]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[2]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLongitude())->toBe(8.367462);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getLatitude())->toBe(50.229637);
-    expect($polygon->getLineStrings()[2]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getX())->toBe(8.367462);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getY())->toBe(50.229637);
+    expect($polygon->getLineStrings()[2]->getPoints()[1]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[2]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLongitude())->toBe(8.491058);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getLatitude())->toBe(50.341078);
-    expect($polygon->getLineStrings()[2]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getX())->toBe(8.491058);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getY())->toBe(50.341078);
+    expect($polygon->getLineStrings()[2]->getPoints()[2]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[2]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLongitude())->toBe(8.393554);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getLatitude())->toBe(50.322669);
-    expect($polygon->getLineStrings()[2]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getX())->toBe(8.393554);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getY())->toBe(50.322669);
+    expect($polygon->getLineStrings()[2]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getSrid())->toBe(4326);
 
     expect($polygon->getSrid())->toBe(4326);
@@ -525,14 +525,14 @@ test('can parse 2D WKB MultiPoint', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPoint->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPoint->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPoint->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPoint->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPoint->getPoints()[2]->getLatitude())->toBe(49.12345);
-    expect($multiPoint->getPoints()[3]->getLongitude())->toBe(6.12345);
-    expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
+    expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
+    expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
+    expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
 })->group('WKB MultiPoint');
 
 test('can parse 2D WKB MultiPoint wit SRID', function () {
@@ -541,14 +541,14 @@ test('can parse 2D WKB MultiPoint wit SRID', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPoint->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPoint->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPoint->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPoint->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPoint->getPoints()[2]->getLatitude())->toBe(49.12345);
-    expect($multiPoint->getPoints()[3]->getLongitude())->toBe(6.12345);
-    expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
+    expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
+    expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
+    expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
 
     expect($multiPoint->getSRID())->toBe(4326);
 })->group('WKB MultiPoint');
@@ -559,18 +559,18 @@ test('can parse 3D WKB MultiPoint', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPoint->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPoint->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($multiPoint->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPoint->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPoint->getPoints()[1]->getAltitude())->toBe(20.0);
-    expect($multiPoint->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPoint->getPoints()[2]->getLatitude())->toBe(49.12345);
-    expect($multiPoint->getPoints()[2]->getAltitude())->toBe(30.0);
-    expect($multiPoint->getPoints()[3]->getLongitude())->toBe(6.12345);
-    expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
-    expect($multiPoint->getPoints()[3]->getAltitude())->toBe(40.0);
+    expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPoint->getPoints()[0]->getZ())->toBe(10.0);
+    expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPoint->getPoints()[1]->getZ())->toBe(20.0);
+    expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
+    expect($multiPoint->getPoints()[2]->getZ())->toBe(30.0);
+    expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
+    expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
+    expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
 })->group('WKB MultiPoint');
 
 test('can parse 3D WKB MultiPoint with SRID', function () {
@@ -580,21 +580,21 @@ test('can parse 3D WKB MultiPoint with SRID', function () {
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
     expect($multiPoint->getSrid())->toBe(4326);
-    expect($multiPoint->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPoint->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPoint->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPoint->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPoint->getPoints()[0]->getSrid())->toBe(4326);
-    expect($multiPoint->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPoint->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPoint->getPoints()[1]->getAltitude())->toBe(20.0);
+    expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPoint->getPoints()[1]->getZ())->toBe(20.0);
     expect($multiPoint->getPoints()[1]->getSrid())->toBe(4326);
-    expect($multiPoint->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPoint->getPoints()[2]->getLatitude())->toBe(49.12345);
-    expect($multiPoint->getPoints()[2]->getAltitude())->toBe(30.0);
+    expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
+    expect($multiPoint->getPoints()[2]->getZ())->toBe(30.0);
     expect($multiPoint->getPoints()[2]->getSrid())->toBe(4326);
-    expect($multiPoint->getPoints()[3]->getLongitude())->toBe(6.12345);
-    expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
-    expect($multiPoint->getPoints()[3]->getAltitude())->toBe(40.0);
+    expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
+    expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
+    expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
     expect($multiPoint->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPoint');
 
@@ -604,23 +604,23 @@ test('can parse 2D WKB Simple MultiPolygon', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(11.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKB MultiPolygon');
 
 
@@ -630,23 +630,23 @@ test('can parse 2D WKB Simple MultiPolygon with SRID', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(11.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
     expect($multiPolygon->getSRID())->toBe(4326);
 })->group('WKB MultiPolygon');
@@ -657,31 +657,31 @@ test('can parse 3D WKB Simple MultiPolygon', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(11.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB MultiPolygon');
 
 test('can parse 3D WKB Simple MultiPolygon with SRID', function () {
@@ -693,40 +693,40 @@ test('can parse 3D WKB Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
     expect($multiPolygon->getPolygons()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(11.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(9.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(10.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPolygon');
 
@@ -740,26 +740,26 @@ test('can parse 2D WKB GeometryCollection', function () {
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKB GeometryCollection');
 
 test('can parse 2D WKB GeometryCollection with SRID', function () {
@@ -772,34 +772,34 @@ test('can parse 2D WKB GeometryCollection with SRID', function () {
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
     expect($point->getSrid())->toBe(4326);
-    expect($point->getLongitude())->toBe(8.12345);
-    expect($point->getLatitude())->toBe(50.12345);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
     expect($point->getSrid())->toBe(4326);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
     expect($lineString->getSrid())->toBe(4326);
-    expect($lineString->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($lineString->getPoints()[0]->getLatitude())->toBe(50.12345);
+    expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
+    expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
     expect($lineString->getPoints()[0]->getSrid())->toBe(4326);
-    expect($lineString->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
+    expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLongitude())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getLatitude())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLongitude())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getLatitude())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB GeometryCollection');

@@ -10,7 +10,7 @@ class GeometryFactory implements GeometryModelFactory
 {
     public function createPoint(Dimension $dimension, ?int $srid, ?Coordinate $coordinate): Point
     {
-        return new Point($dimension, $coordinate->y, $coordinate->x, $coordinate->z, $srid);
+        return Point::make($coordinate->x, $coordinate->y, $coordinate->z, $coordinate->m, $srid);
     }
 
     public function createLineString(Dimension $dimension, ?int $srid, array $points): LineString
