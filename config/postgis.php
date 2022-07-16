@@ -18,6 +18,6 @@ return [
 
     'string_generator' => \Clickbar\Postgis\IO\Generator\Geojson\GeojsonGenerator::class,
 
-    'transform_on_insert' => true,
+    'transform_on_insert' => false,
 
 ];
