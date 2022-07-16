@@ -128,7 +128,9 @@ class WKTGenerator extends BaseGenerator
             $geometryCollection->getGeometries()
         ));
 
-        return sprintf('GEOMETRYCOLLECTION(%s)', $geometryWktStrings);
+        $wktType = $this->apply3dIfNeeded('GEOMETRYCOLLECTION', $geometryCollection);
+
+        return sprintf('%s(%s)', $wktType, $geometryWktStrings);
     }
 
     public function toPostgisGeometrySql(Geometry $geometry, string $schema): mixed
