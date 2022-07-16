@@ -50,7 +50,7 @@ trait HasPostgisColumns
     {
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeometrySql($geometry, config('postgis.schema', 'public'));
-        if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
+        if (config('postgis.transform_on_insert') && $geometry->hasSrid() && $geometry->getSrid() != $srid) {
             $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
         }
 
@@ -62,7 +62,7 @@ trait HasPostgisColumns
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeographySql($geometry, config('postgis.schema', 'public'));
 
-        if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
+        if (config('postgis.transform_on_insert') && $geometry->hasSrid() && $geometry->getSrid() != $srid) {
             $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
         }
 

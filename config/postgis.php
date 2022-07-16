@@ -2,7 +2,6 @@
 
 // config for Clickbar/Postgis
 use Clickbar\Postgis\IO\Generator\Geojson\GeojsonGenerator;
-use Clickbar\Postgis\IO\Generator\WKT\WKTGenerator;
 
 return [
 
@@ -18,5 +17,7 @@ return [
     'insert_generator' => \Clickbar\Postgis\IO\Generator\WKB\WKBGenerator::class,
 
     'string_generator' => \Clickbar\Postgis\IO\Generator\Geojson\GeojsonGenerator::class,
+
+    'transform_on_insert' => true,
 
 ];
