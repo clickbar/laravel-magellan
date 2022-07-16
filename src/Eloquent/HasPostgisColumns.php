@@ -3,6 +3,7 @@
 namespace Clickbar\Postgis\Eloquent;
 
 use Clickbar\Postgis\Exception\PostgisColumnsNotDefinedException;
+use Clickbar\Postgis\Exception\SridMissmatchException;
 use Clickbar\Postgis\Geometries\Geometry;
 use Clickbar\Postgis\Geometries\GeometryCollection;
 use Clickbar\Postgis\Geometries\GeometryFactory;
@@ -50,8 +51,12 @@ trait HasPostgisColumns
     {
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeometrySql($geometry, config('postgis.schema', 'public'));
-        if (config('postgis.transform_on_insert') && $geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+        if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
+            if (config('postgis.transform_on_insert')) {
+                $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+            } else {
+                throw new SridMissmatchException($srid, $geometry->getSrid());
+            }
         }
 
         return $this->getConnection()->raw($geometrySql);
@@ -62,8 +67,12 @@ trait HasPostgisColumns
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeographySql($geometry, config('postgis.schema', 'public'));
 
-        if (config('postgis.transform_on_insert') && $geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+        if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
+            if (config('postgis.transform_on_insert')) {
+                $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+            } else {
+                throw new SridMissmatchException($srid, $geometry->getSrid());
+            }
         }
 
         return $this->getConnection()->raw($geometrySql);
