@@ -13,14 +13,31 @@ class MultiLineString extends Geometry implements Countable
     protected array $lineStrings;
 
     /**
+     * @param LineString[] $lineStrings
+     * @return static
+     */
+    public static function make(array $lineStrings): self
+    {
+        return new self($lineStrings);
+    }
+
+    /**
      * @param LineString[] $lienStrings
      */
-    public function __construct(Dimension $dimension, array $lienStrings, ?int $srid = null)
+    protected function __construct(array $lienStrings)
     {
         GeometryHelper::assertValidGeometryInput(1, LineString::class, $lienStrings, 'lineStrings');
-        parent::__construct($dimension, $srid);
         $this->lineStrings = $lienStrings;
-        $this->dimension = $dimension;
+    }
+
+    public function getDimension(): Dimension
+    {
+        return $this->lineStrings[0]->getDimension();
+    }
+
+    public function getSrid(): ?int
+    {
+        return $this->lineStrings[0]->getSrid();
     }
 
     /**

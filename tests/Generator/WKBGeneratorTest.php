@@ -7,7 +7,6 @@ use Clickbar\Postgis\Geometries\MultiPoint;
 use Clickbar\Postgis\Geometries\MultiPolygon;
 use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\Geometries\Polygon;
-use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Generator\WKB\WKBGenerator;
 
 beforeEach(function () {
@@ -47,7 +46,7 @@ test('can generate 3D WKB Point with SRID', function () {
 test('can generate 2D WKB LineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
+    $lineString = LineString::make([$point1, $point2]);
 
     $lineStringWKB = $this->generator->generate($lineString);
 
@@ -57,7 +56,7 @@ test('can generate 2D WKB LineString', function () {
 test('can generate 2D WKB LineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2], 4326);
+    $lineString = LineString::make([$point1, $point2]);
 
     $lineStringWKB = $this->generator->generate($lineString);
 
@@ -67,7 +66,7 @@ test('can generate 2D WKB LineString with SRID', function () {
 test('can generate 3D WKB LineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
+    $lineString = LineString::make([$point1, $point2]);
 
     $lineStringWKB = $this->generator->generate($lineString);
 
@@ -77,7 +76,7 @@ test('can generate 3D WKB LineString', function () {
 test('can generate 3D WKB LineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
+    $lineString = LineString::make([$point1, $point2]);
 
     $lineStringWKB = $this->generator->generate($lineString);
 
@@ -90,10 +89,10 @@ test('can generate 2D WKB MultiLineString', function () {
     $point3 = Point::make(7.12345, 49.12345);
     $point4 = Point::make(6.12345, 48.12345);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2]);
-    $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point3, $point4]);
+    $lineString1 = LineString::make([$point1, $point2]);
+    $lineString2 = LineString::make([$point3, $point4]);
 
-    $multiLineString = new MultiLineString(Dimension::DIMENSION_2D, [$lineString1, $lineString2]);
+    $multiLineString = MultiLineString::make([$lineString1, $lineString2]);
 
     $multiLineStringWKB = $this->generator->generate($multiLineString);
 
@@ -106,10 +105,10 @@ test('can generate 2D WKB MultiLineString with SRID', function () {
     $point3 = Point::makeGeodetic(49.12345, 7.12345);
     $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2], 4326);
-    $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point3, $point4], 4326);
+    $lineString1 = LineString::make([$point1, $point2]);
+    $lineString2 = LineString::make([$point3, $point4]);
 
-    $multiLineString = new MultiLineString(Dimension::DIMENSION_2D, [$lineString1, $lineString2], 4326);
+    $multiLineString = MultiLineString::make([$lineString1, $lineString2]);
 
     $multiLineStringWKB = $this->generator->generate($multiLineString);
 
@@ -122,10 +121,10 @@ test('can generate 3D WKB MultiLineString', function () {
     $point3 = Point::make(7.12345, 49.12345, 30);
     $point4 = Point::make(6.12345, 48.12345, 40);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2]);
-    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4]);
+    $lineString1 = LineString::make([$point1, $point2]);
+    $lineString2 = LineString::make([$point3, $point4]);
 
-    $multiLineString = new MultiLineString(Dimension::DIMENSION_3DZ, [$lineString1, $lineString2]);
+    $multiLineString = MultiLineString::make([$lineString1, $lineString2]);
 
     $multiLineStringWKB = $this->generator->generate($multiLineString);
 
@@ -138,10 +137,10 @@ test('can generate 3D WKB MultiLineString with SRID', function () {
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
     $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2], 4326);
-    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point3, $point4], 4326);
+    $lineString1 = LineString::make([$point1, $point2]);
+    $lineString2 = LineString::make([$point3, $point4]);
 
-    $multiLineString = new MultiLineString(Dimension::DIMENSION_3DZ, [$lineString1, $lineString2], 4326);
+    $multiLineString = MultiLineString::make([$lineString1, $lineString2]);
 
     $multiLineStringWKB = $this->generator->generate($multiLineString);
 
@@ -153,9 +152,9 @@ test('can generate 2D WKB Simple Polygon', function () {
     $point2 = Point::make(9.12345, 51.12345);
     $point3 = Point::make(7.12345, 48.12345);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString]);
+    $polygon = Polygon::make([$lineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -167,9 +166,9 @@ test('can generate 2D WKB Simple Polygon with SRID', function () {
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
     $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString], 4326);
+    $polygon = Polygon::make([$lineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -181,9 +180,9 @@ test('can generate 3D WKB Simple Polygon', function () {
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 48.12345, 30);
 
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_3DZ, [$lineString]);
+    $polygon = Polygon::make([$lineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -195,9 +194,9 @@ test('can generate 3D WKB Simple Polygon with SRID', function () {
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 30);
 
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_3DZ, [$lineString], 4326);
+    $polygon = Polygon::make([$lineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -212,10 +211,10 @@ test('can generate 2D WKB Polygon with single hole', function () {
     $holePoint2 = Point::make(8.198547, 50.035091);
     $holePoint3 = Point::make(8.267211, 50.050966);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
-    $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString, $holeLineString]);
+    $polygon = Polygon::make([$lineString, $holeLineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -230,10 +229,10 @@ test('can generate 2D WKB Polygon with single hole with SRID', function () {
     $holePoint2 = Point::makeGeodetic(50.035091, 8.198547);
     $holePoint3 = Point::makeGeodetic(50.050966, 8.267211);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
-    $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString, $holeLineString], 4326);
+    $polygon = Polygon::make([$lineString, $holeLineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -251,11 +250,11 @@ test('can generate 2D WKB Polygon with multi hole', function () {
     $hole2Point2 = Point::make(8.367462, 50.229637);
     $hole2Point3 = Point::make(8.491058, 50.341078);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
-    $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
-    $hole2LineString = new LineString(Dimension::DIMENSION_2D, [$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
+    $hole2LineString = LineString::make([$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString, $holeLineString, $hole2LineString]);
+    $polygon = Polygon::make([$lineString, $holeLineString, $hole2LineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -273,11 +272,11 @@ test('can generate 2D WKB Polygon with multi hole with SRID', function () {
     $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462);
     $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
-    $holeLineString = new LineString(Dimension::DIMENSION_2D, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
-    $hole2LineString = new LineString(Dimension::DIMENSION_2D, [$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1], 4326);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
+    $hole2LineString = LineString::make([$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineString, $holeLineString, $hole2LineString], 4326);
+    $polygon = Polygon::make([$lineString, $holeLineString, $hole2LineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -295,11 +294,11 @@ test('can generate 3D WKB Polygon with multi hole', function () {
     $hole2Point2 = Point::make(8.367462, 50.229637, 10);
     $hole2Point3 = Point::make(8.491058, 50.341078, 10);
 
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
-    $holeLineString = new LineString(Dimension::DIMENSION_3DZ, [$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
-    $hole2LineString = new LineString(Dimension::DIMENSION_3DZ, [$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
+    $hole2LineString = LineString::make([$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_3DZ, [$lineString, $holeLineString, $hole2LineString]);
+    $polygon = Polygon::make([$lineString, $holeLineString, $hole2LineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -317,11 +316,11 @@ test('can generate 3D WKB Polygon with multi hole with SRID', function () {
     $hole2Point2 = Point::makeGeodetic(50.229637, 8.367462, 10);
     $hole2Point3 = Point::makeGeodetic(50.341078, 8.491058, 10);
 
-    $lineString = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
-    $holeLineString = new LineString(Dimension::DIMENSION_3DZ, [$holePoint1, $holePoint2, $holePoint3, $holePoint1], 4326);
-    $hole2LineString = new LineString(Dimension::DIMENSION_3DZ, [$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1], 4326);
+    $lineString = LineString::make([$point1, $point2, $point3, $point1]);
+    $holeLineString = LineString::make([$holePoint1, $holePoint2, $holePoint3, $holePoint1]);
+    $hole2LineString = LineString::make([$hole2Point1, $hole2Point2, $hole2Point3, $hole2Point1]);
 
-    $polygon = new Polygon(Dimension::DIMENSION_3DZ, [$lineString, $holeLineString, $hole2LineString], 4326);
+    $polygon = Polygon::make([$lineString, $holeLineString, $hole2LineString]);
 
     $polygonWKB = $this->generator->generate($polygon);
 
@@ -334,7 +333,7 @@ test('can generate 2D WKB MultiPoint', function () {
     $point3 = Point::make(7.12345, 49.12345);
     $point4 = Point::make(6.12345, 48.12345);
 
-    $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4]);
+    $multiPoint = MultiPoint::make([$point1, $point2, $point3, $point4]);
 
     $multiPointWKB = $this->generator->generate($multiPoint);
 
@@ -347,7 +346,7 @@ test('can generate 2D WKB MultiPoint with SRID', function () {
     $point3 = Point::makeGeodetic(49.12345, 7.12345);
     $point4 = Point::makeGeodetic(48.12345, 6.12345);
 
-    $multiPoint = new MultiPoint(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point4], 4326);
+    $multiPoint = MultiPoint::make([$point1, $point2, $point3, $point4]);
 
     $multiPointWKB = $this->generator->generate($multiPoint);
 
@@ -360,7 +359,7 @@ test('can generate 3D WKB MultiPoint', function () {
     $point3 = Point::make(7.12345, 49.12345, 30);
     $point4 = Point::make(6.12345, 48.12345, 40);
 
-    $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4]);
+    $multiPoint = MultiPoint::make([$point1, $point2, $point3, $point4]);
 
     $multiPointWKB = $this->generator->generate($multiPoint);
 
@@ -373,7 +372,7 @@ test('can generate 3D WKB MultiPoint with SRID', function () {
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
     $point4 = Point::makeGeodetic(48.12345, 6.12345, 40);
 
-    $multiPoint = new MultiPoint(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point4], 4326);
+    $multiPoint = MultiPoint::make([$point1, $point2, $point3, $point4]);
 
     $multiPointWKB = $this->generator->generate($multiPoint);
 
@@ -388,13 +387,13 @@ test('can generate 2D WKB Simple MultiPolygon', function () {
     $point5 = Point::make(11.12345, 51.12345);
     $point6 = Point::make(9.12345, 48.12345);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1]);
-    $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4]);
+    $lineString1 = LineString::make([$point1, $point2, $point3, $point1]);
+    $lineString2 = LineString::make([$point4, $point5, $point6, $point4]);
 
-    $polygon1 = new Polygon(Dimension::DIMENSION_2D, [$lineString1]);
-    $polygon2 = new Polygon(Dimension::DIMENSION_2D, [$lineString2]);
+    $polygon1 = Polygon::make([$lineString1]);
+    $polygon2 = Polygon::make([$lineString2]);
 
-    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_2D, [$polygon1, $polygon2]);
+    $multiPolygon = MultiPolygon::make([$polygon1, $polygon2]);
 
     $multiPolygonWKB = $this->generator->generate($multiPolygon);
 
@@ -409,13 +408,13 @@ test('can generate 2D WKB Simple MultiPolygon with SRID', function () {
     $point5 = Point::makeGeodetic(51.12345, 11.12345);
     $point6 = Point::makeGeodetic(48.12345, 9.12345);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_2D, [$point1, $point2, $point3, $point1], 4326);
-    $lineString2 = new LineString(Dimension::DIMENSION_2D, [$point4, $point5, $point6, $point4], 4326);
+    $lineString1 = LineString::make([$point1, $point2, $point3, $point1]);
+    $lineString2 = LineString::make([$point4, $point5, $point6, $point4]);
 
-    $polygon1 = new Polygon(Dimension::DIMENSION_2D, [$lineString1], 4326);
-    $polygon2 = new Polygon(Dimension::DIMENSION_2D, [$lineString2], 4326);
+    $polygon1 = Polygon::make([$lineString1]);
+    $polygon2 = Polygon::make([$lineString2]);
 
-    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_2D, [$polygon1, $polygon2], 4326);
+    $multiPolygon = MultiPolygon::make([$polygon1, $polygon2]);
 
     $multiPolygonWKB = $this->generator->generate($multiPolygon);
 
@@ -430,13 +429,13 @@ test('can generate 3D WKB Simple MultiPolygon', function () {
     $point5 = Point::make(11.12345, 51.12345, 10);
     $point6 = Point::make(9.12345, 48.12345, 10);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1]);
-    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4]);
+    $lineString1 = LineString::make([$point1, $point2, $point3, $point1]);
+    $lineString2 = LineString::make([$point4, $point5, $point6, $point4]);
 
-    $polygon1 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString1]);
-    $polygon2 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString2]);
+    $polygon1 = Polygon::make([$lineString1]);
+    $polygon2 = Polygon::make([$lineString2]);
 
-    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_3DZ, [$polygon1, $polygon2]);
+    $multiPolygon = MultiPolygon::make([$polygon1, $polygon2]);
 
     $multiPolygonWKB = $this->generator->generate($multiPolygon);
 
@@ -451,13 +450,13 @@ test('can generate 3D WKB Simple MultiPolygon with SRID', function () {
     $point5 = Point::makeGeodetic(51.12345, 11.12345, 10);
     $point6 = Point::makeGeodetic(48.12345, 9.12345, 10);
 
-    $lineString1 = new LineString(Dimension::DIMENSION_3DZ, [$point1, $point2, $point3, $point1], 4326);
-    $lineString2 = new LineString(Dimension::DIMENSION_3DZ, [$point4, $point5, $point6, $point4], 4326);
+    $lineString1 = LineString::make([$point1, $point2, $point3, $point1]);
+    $lineString2 = LineString::make([$point4, $point5, $point6, $point4]);
 
-    $polygon1 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString1], 4326);
-    $polygon2 = new Polygon(Dimension::DIMENSION_3DZ, [$lineString2], 4326);
+    $polygon1 = Polygon::make([$lineString1]);
+    $polygon2 = Polygon::make([$lineString2]);
 
-    $multiPolygon = new MultiPolygon(Dimension::DIMENSION_3DZ, [$polygon1, $polygon2], 4326);
+    $multiPolygon = MultiPolygon::make([$polygon1, $polygon2]);
 
     $multiPolygonWKB = $this->generator->generate($multiPolygon);
 
@@ -469,11 +468,11 @@ test('can generate 2D WKB GeometryCollection', function () {
     $point2 = Point::make(9.12345, 51.12345);
     $point3 = Point::make(7.12345, 48.12345);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2]);
-    $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point]);
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineStringForPolygon]);
+    $lineString = LineString::make([$point, $point2]);
+    $lineStringForPolygon = LineString::make([$point, $point2, $point3, $point]);
+    $polygon = Polygon::make([$lineStringForPolygon]);
 
-    $geometryCollection = new GeometryCollection(Dimension::DIMENSION_2D, [$point, $lineString, $polygon]);
+    $geometryCollection = GeometryCollection::make([$point, $lineString, $polygon]);
 
     $geometryCollectionWKB = $this->generator->generate($geometryCollection);
 
@@ -486,11 +485,11 @@ test('can generate 2D WKB GeometryCollection with SRID', function () {
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
     $point3 = Point::makeGeodetic(48.12345, 7.12345);
 
-    $lineString = new LineString(Dimension::DIMENSION_2D, [$point, $point2], 4326);
-    $lineStringForPolygon = new LineString(Dimension::DIMENSION_2D, [$point, $point2, $point3, $point], 4326);
-    $polygon = new Polygon(Dimension::DIMENSION_2D, [$lineStringForPolygon], 4326);
+    $lineString = LineString::make([$point, $point2]);
+    $lineStringForPolygon = LineString::make([$point, $point2, $point3, $point]);
+    $polygon = Polygon::make([$lineStringForPolygon]);
 
-    $geometryCollection = new GeometryCollection(Dimension::DIMENSION_2D, [$point, $lineString, $polygon], 4326);
+    $geometryCollection = GeometryCollection::make([$point, $lineString, $polygon]);
 
     $geometryCollectionWKB = $this->generator->generate($geometryCollection);
 

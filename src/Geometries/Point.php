@@ -19,14 +19,29 @@ class Point extends Geometry
     }
 
     protected function __construct(
-        Dimension        $dimension,
-        protected float  $x,
-        protected float  $y,
-        protected ?float $z = null,
-        protected ?float $m = null,
-        ?int             $srid = null
+        protected Dimension $dimension,
+        protected float     $x,
+        protected float     $y,
+        protected ?float    $z = null,
+        protected ?float    $m = null,
+        protected ?int      $srid = null
     ) {
-        parent::__construct($dimension, $srid);
+    }
+
+    /**
+     * @return Dimension
+     */
+    public function getDimension(): Dimension
+    {
+        return $this->dimension;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getSrid(): ?int
+    {
+        return $this->srid;
     }
 
     public function is3d(): bool

@@ -13,13 +13,30 @@ class MultiPolygon extends Geometry implements \Countable
 
     /**
      * @param Polygon[] $polygons
+     * @return static
      */
-    public function __construct(Dimension $dimension, array $polygons, ?int $srid = null)
+    public static function make(array $polygons): self
+    {
+        return new self($polygons);
+    }
+
+    /**
+     * @param Polygon[] $polygons
+     */
+    protected function __construct(array $polygons)
     {
         GeometryHelper::assertValidGeometryInput(1, Polygon::class, $polygons, 'polygons');
-        parent::__construct($dimension, $srid);
         $this->polygons = $polygons;
-        $this->dimension = $dimension;
+    }
+
+    public function getDimension(): Dimension
+    {
+        return $this->polygons[0]->getDimension();
+    }
+
+    public function getSrid(): ?int
+    {
+        return $this->polygons[0]->getSrid();
     }
 
     /**

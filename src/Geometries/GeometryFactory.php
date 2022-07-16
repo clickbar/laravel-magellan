@@ -15,36 +15,36 @@ class GeometryFactory implements GeometryModelFactory
 
     public function createLineString(Dimension $dimension, ?int $srid, array $points): LineString
     {
-        return new LineString($dimension, $points, $srid);
+        return LineString::make($points);
     }
 
     public function createLinearRing(Dimension $dimension, ?int $srid, array $points): LineString
     {
-        return new LineString($dimension, $points, $srid);
+        return LineString::make($points);
     }
 
     public function createPolygon(Dimension $dimension, ?int $srid, array $linearRings): Polygon
     {
-        return new Polygon($dimension, $linearRings, $srid);
+        return Polygon::make($linearRings);
     }
 
     public function createMultiPoint(Dimension $dimension, ?int $srid, array $points): MultiPoint
     {
-        return new MultiPoint($dimension, $points, $srid);
+        return MultiPoint::make($points);
     }
 
     public function createMultiLineString(Dimension $dimension, ?int $srid, array $lineStrings): MultiLineString
     {
-        return new MultiLineString($dimension, $lineStrings, $srid);
+        return MultiLineString::make($lineStrings);
     }
 
     public function createMultiPolygon(Dimension $dimension, ?int $srid, array $polygons): MultiPolygon
     {
-        return new MultiPolygon($dimension, $polygons, $srid);
+        return MultiPolygon::make($polygons);
     }
 
     public function createGeometryCollection(Dimension $dimension, ?int $srid, array $geometries): GeometryCollection
     {
-        return new GeometryCollection($dimension, $geometries, $srid);
+        return GeometryCollection::make($geometries);
     }
 }
