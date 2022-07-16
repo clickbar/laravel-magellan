@@ -8,6 +8,7 @@ use Clickbar\Postgis\Geometries\MultiPoint;
 use Clickbar\Postgis\Geometries\MultiPolygon;
 use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\Geometries\Polygon;
+use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Parser\WKT\WKTParser;
 
 beforeEach(function () {
@@ -35,7 +36,7 @@ test('can parse 2D WKT Point with SRID', function () {
     expect($point->getSrid())->toBe(4326);
 })->group('WKT Point');
 
-test('can parse 3D WKT Point', function () {
+test('can parse 3DZ WKT Point', function () {
     $pointWKT = 'POINT Z (8.12345 50.12345 10)';
 
     $point = $this->parser->parse($pointWKT);
@@ -46,7 +47,7 @@ test('can parse 3D WKT Point', function () {
     expect($point->getZ())->toBe(10.0);
 })->group('WKT Point');
 
-test('can parse 3D WKT Point with SRID', function () {
+test('can parse 3DZ WKT Point with SRID', function () {
     $pointWKT = 'SRID=4326;POINT Z (8.12345 50.12345 10)';
 
     $point = $this->parser->parse($pointWKT);
@@ -55,6 +56,58 @@ test('can parse 3D WKT Point with SRID', function () {
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
+    expect($point->getSrid())->toBe(4326);
+})->group('WKT Point');
+
+test('can parse 3DM WKT Point', function () {
+    $pointWKT = 'POINT M (8.12345 50.12345 10)';
+
+    $point = $this->parser->parse($pointWKT);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getM())->toBe(10.0);
+})->group('WKT Point');
+
+test('can parse 3DM WKT Point with SRID', function () {
+    $pointWKT = 'SRID=4326;POINT M (8.12345 50.12345 10)';
+
+    $point = $this->parser->parse($pointWKT);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getM())->toBe(10.0);
+    expect($point->getSrid())->toBe(4326);
+})->group('WKT Point');
+
+test('can parse 4D WKT Point', function () {
+    $pointWKT = 'POINT ZM (8.12345 50.12345 10 20)';
+
+    $point = $this->parser->parse($pointWKT);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
+    expect($point->getM())->toBe(20.0);
+})->group('WKT Point');
+
+test('can parse 4D WKT Point with SRID', function () {
+    $pointWKT = 'SRID=4326;POINT ZM (8.12345 50.12345 10 20)';
+
+    $point = $this->parser->parse($pointWKT);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
+    expect($point->getM())->toBe(20.0);
     expect($point->getSrid())->toBe(4326);
 })->group('WKT Point');
 
@@ -84,7 +137,7 @@ test('can parse 2D WKT LineString with SRID', function () {
     expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
 })->group('WKT LineString');
 
-test('can parse 3D WKT LineString', function () {
+test('can parse 3DZ WKT LineString', function () {
     $lineStringWKT = 'LINESTRING Z (8.12345 50.12345 10,9.12345 51.12345 20)';
 
     $lineString = $this->parser->parse($lineStringWKT);
@@ -98,7 +151,7 @@ test('can parse 3D WKT LineString', function () {
     expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
 })->group('WKT LineString');
 
-test('can parse 3D WKT LineString with SRID', function () {
+test('can parse 3DZ WKT LineString with SRID', function () {
     $lineStringWKT = 'SRID=4326;LINESTRING Z (8.12345 50.12345 10,9.12345 51.12345 20)';
 
     $lineString = $this->parser->parse($lineStringWKT);
@@ -152,7 +205,7 @@ test('can parse 2D WKT MultiLineString with SRID', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
 })->group('WKT MultiLineString');
 
-test('can parse 3D WKT MultiLineString', function () {
+test('can parse 3DZ WKT MultiLineString', function () {
     $multiLineStringWKT = 'MULTILINESTRING Z ((8.12345 50.12345 10,9.12345 51.12345 20),(7.12345 49.12345 30,6.12345 48.12345 40))';
 
     $multiLineString = $this->parser->parse($multiLineStringWKT);
@@ -172,7 +225,7 @@ test('can parse 3D WKT MultiLineString', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
 })->group('WKT MultiLineString');
 
-test('can parse 3D WKT MultiLineString with SRID', function () {
+test('can parse 3DZ WKT MultiLineString with SRID', function () {
     $multiLineStringWKT = 'SRID=4326;MULTILINESTRING Z ((8.12345 50.12345 10,9.12345 51.12345 20),(7.12345 49.12345 30,6.12345 48.12345 40))';
 
     $multiLineString = $this->parser->parse($multiLineStringWKT);
@@ -237,7 +290,7 @@ test('can parse 2D WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKT Polygon');
 
-test('can parse 3D WKT Simple Polygon', function () {
+test('can parse 3DZ WKT Simple Polygon', function () {
     $polygonWKT = 'POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
     $polygon = $this->parser->parse($polygonWKT);
@@ -257,7 +310,7 @@ test('can parse 3D WKT Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT Polygon');
 
-test('can parse 3D WKT Simple Polygon with SRID', function () {
+test('can parse 3DZ WKT Simple Polygon with SRID', function () {
     $polygonWKT = 'SRID=4326;POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
     $polygon = $this->parser->parse($polygonWKT);
@@ -430,7 +483,7 @@ test('can parse 2D WKT Polygon with multi hole with SRID', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKT Polygon');
 
-test('can parse 3D WKT Polygon with multi hole', function () {
+test('can parse 3DZ WKT Polygon with multi hole', function () {
     $polygonWKT = 'POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))';
 
     $polygon = $this->parser->parse($polygonWKT);
@@ -476,7 +529,7 @@ test('can parse 3D WKT Polygon with multi hole', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT Polygon');
 
-test('can parse 3D WKT Polygon with multi hole with SRID', function () {
+test('can parse 3DZ WKT Polygon with multi hole with SRID', function () {
     $polygonWKT = 'SRID=4326;POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))';
 
     $polygon = $this->parser->parse($polygonWKT);
@@ -578,7 +631,7 @@ test('can parse 2D WKT MultiPoint with SRID', function () {
     expect($multiPoint->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKT MultiPoint');
 
-test('can parse 3D WKT MultiPoint', function () {
+test('can parse 3DZ WKT MultiPoint', function () {
     $multiPointWKT = 'MULTIPOINT Z (8.12345 50.12345 10,9.12345 51.12345 20,7.12345 49.12345 30,6.12345 48.12345 40)';
 
     $multiPoint = $this->parser->parse($multiPointWKT);
@@ -598,7 +651,7 @@ test('can parse 3D WKT MultiPoint', function () {
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
 })->group('WKT MultiPoint');
 
-test('can parse 3D WKT MultiPoint with SRID', function () {
+test('can parse 3DZ WKT MultiPoint with SRID', function () {
     $multiPointWKT = 'SRID=4326;MULTIPOINT Z (8.12345 50.12345 10,9.12345 51.12345 20,7.12345 49.12345 30,6.12345 48.12345 40)';
 
     $multiPoint = $this->parser->parse($multiPointWKT);
@@ -688,7 +741,7 @@ test('can parse 2D WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKT MultiPolygon');
 
-test('can parse 3D WKT Simple MultiPolygon', function () {
+test('can parse 3DZ WKT Simple MultiPolygon', function () {
     $multiPolygonWKT = 'MULTIPOLYGON Z (((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))';
 
     $multiPolygon = $this->parser->parse($multiPolygonWKT);
@@ -722,7 +775,7 @@ test('can parse 3D WKT Simple MultiPolygon', function () {
 })->group('WKT MultiPolygon');
 
 
-test('can parse 3D WKT Simple MultiPolygon with SRID', function () {
+test('can parse 3DZ WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON Z (((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))';
 
     $multiPolygon = $this->parser->parse($multiPolygonWKT);

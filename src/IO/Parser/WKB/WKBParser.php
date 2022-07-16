@@ -234,7 +234,7 @@ class WKBParser extends BaseParser
             $this->scanner->double(),
         );
 
-        if ($this->dimension->has3Dimensions()) {
+        if ($this->dimension->hasZDimension()) {
             $coordinate->setZ($this->scanner->double());
         }
 

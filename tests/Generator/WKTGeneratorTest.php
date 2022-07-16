@@ -30,7 +30,7 @@ test('can generate 2D WKT Point with SRID', function () {
     expect($pointWKT)->toBe('SRID=4326;POINT(8.12345 50.12345)');
 })->group('WKT Point');
 
-test('can generate 3D WKT Point', function () {
+test('can generate 3DZ WKT Point', function () {
     $point = Point::make(8.12345, 50.12345, 10);
 
     $pointWKT = $this->generator->generate($point);
@@ -38,7 +38,7 @@ test('can generate 3D WKT Point', function () {
     expect($pointWKT)->toBe('POINT Z(8.12345 50.12345 10)');
 })->group('WKT Point');
 
-test('can generate 3D WKT Point with SRID', function () {
+test('can generate 3DZ WKT Point with SRID', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345, 10);
 
     $pointWKT = $this->generator->generate($point);
@@ -46,6 +46,37 @@ test('can generate 3D WKT Point with SRID', function () {
     expect($pointWKT)->toBe('SRID=4326;POINT Z(8.12345 50.12345 10)');
 })->group('WKT Point');
 
+test('can generate 3DM WKT Point', function () {
+    $point = Point::make(8.12345, 50.12345, null, 10);
+
+    $pointWKT = $this->generator->generate($point);
+
+    expect($pointWKT)->toBe('POINT M(8.12345 50.12345 10)');
+})->group('WKT Point');
+
+test('can generate 3DM WKT Point with SRID', function () {
+    $point = Point::makeGeodetic(50.12345, 8.12345, null, 10);
+
+    $pointWKT = $this->generator->generate($point);
+
+    expect($pointWKT)->toBe('SRID=4326;POINT M(8.12345 50.12345 10)');
+})->group('WKT Point');
+
+test('can generate 4D WKT Point', function () {
+    $point = Point::make(8.12345, 50.12345, 10, 20);
+
+    $pointWKT = $this->generator->generate($point);
+
+    expect($pointWKT)->toBe('POINT ZM(8.12345 50.12345 10 20)');
+})->group('WKT Point');
+
+test('can generate 4D WKT Point with SRID', function () {
+    $point = Point::makeGeodetic(50.12345, 8.12345, 10, 20);
+
+    $pointWKT = $this->generator->generate($point);
+
+    expect($pointWKT)->toBe('SRID=4326;POINT ZM(8.12345 50.12345 10 20)');
+})->group('WKT Point');
 
 test('can generate 2D WKT LineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
@@ -67,7 +98,7 @@ test('can generate 2D WKT LineString with SRID', function () {
     expect($lineStringWKT)->toBe('SRID=4326;LINESTRING(8.12345 50.12345,9.12345 51.12345)');
 })->group('WKT LineString');
 
-test('can generate 3D WKT LineString', function () {
+test('can generate 3DZ WKT LineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $lineString = LineString::make([$point1, $point2]);
@@ -77,7 +108,7 @@ test('can generate 3D WKT LineString', function () {
     expect($lineStringWKT)->toBe('LINESTRING Z(8.12345 50.12345 10,9.12345 51.12345 20)');
 })->group('WKT LineString');
 
-test('can generate 3D WKT LineString with SRID', function () {
+test('can generate 3DZ WKT LineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $lineString = LineString::make([$point1, $point2]);
@@ -121,7 +152,7 @@ test('can generate 2D WKT MultiLineString with SRID', function () {
 })->group('WKT MultiLineString');
 
 
-test('can generate 3D WKT MultiLineString', function () {
+test('can generate 3DZ WKT MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 49.12345, 30);
@@ -137,7 +168,7 @@ test('can generate 3D WKT MultiLineString', function () {
     expect($multiLineStringWKT)->toBe('MULTILINESTRING Z((8.12345 50.12345 10,9.12345 51.12345 20),(7.12345 49.12345 30,6.12345 48.12345 40))');
 })->group('WKT MultiLineString');
 
-test('can generate 3D WKT MultiLineString with SRID', function () {
+test('can generate 3DZ WKT MultiLineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
@@ -181,7 +212,7 @@ test('can generate 2D WKT Simple Polygon with SRID', function () {
     expect($polygonWKT)->toBe('SRID=4326;POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345))');
 })->group('WKT Polygon');
 
-test('can generate 3D WKT Simple Polygon', function () {
+test('can generate 3DZ WKT Simple Polygon', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 48.12345, 30);
@@ -195,7 +226,7 @@ test('can generate 3D WKT Simple Polygon', function () {
     expect($polygonWKT)->toBe('POLYGON Z((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))');
 })->group('WKT Polygon');
 
-test('can generate 3D WKT Simple Polygon with SRID', function () {
+test('can generate 3DZ WKT Simple Polygon with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 30);
@@ -289,7 +320,7 @@ test('can generate 2D WKT Polygon with multi hole with SRID', function () {
     expect($polygonWKT)->toBe('SRID=4326;POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345),(8.27133 50.16634,8.198547 50.035091,8.267211 50.050966,8.27133 50.16634),(8.393554 50.322669,8.367462 50.229637,8.491058 50.341078,8.393554 50.322669))');
 })->group('WKT Polygon');
 
-test('can generate 3D WKT Polygon with multi hole', function () {
+test('can generate 3DZ WKT Polygon with multi hole', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 10);
     $point3 = Point::make(7.12345, 48.12345, 10);
@@ -311,7 +342,7 @@ test('can generate 3D WKT Polygon with multi hole', function () {
     expect($polygonWKT)->toBe('POLYGON Z((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))');
 })->group('WKT Polygon');
 
-test('can generate 3D WKT Polygon with multi hole with SRID', function () {
+test('can generate 3DZ WKT Polygon with multi hole with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
@@ -359,7 +390,7 @@ test('can generate 2D WKT MultiPoint with SRID', function () {
     expect($multiPointWKT)->toBe('SRID=4326;MULTIPOINT(8.12345 50.12345,9.12345 51.12345,7.12345 49.12345,6.12345 48.12345)');
 })->group('WKT MultiPoint');
 
-test('can generate 3D WKT MultiPoint', function () {
+test('can generate 3DZ WKT MultiPoint', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 49.12345, 30);
@@ -372,7 +403,7 @@ test('can generate 3D WKT MultiPoint', function () {
     expect($multiPointWKT)->toBe('MULTIPOINT Z(8.12345 50.12345 10,9.12345 51.12345 20,7.12345 49.12345 30,6.12345 48.12345 40)');
 })->group('WKT MultiPoint');
 
-test('can generate 3D WKT MultiPoint with SRID', function () {
+test('can generate 3DZ WKT MultiPoint with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
@@ -427,7 +458,7 @@ test('can generate 2D WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygonWKT)->toBe('SRID=4326;MULTIPOLYGON(((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345)),((10.12345 50.12345,11.12345 51.12345,9.12345 48.12345,10.12345 50.12345)))');
 })->group('WKT MultiPolygon');
 
-test('can generate 3D WKT Simple MultiPolygon', function () {
+test('can generate 3DZ WKT Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 10);
     $point3 = Point::make(7.12345, 48.12345, 10);
@@ -448,7 +479,7 @@ test('can generate 3D WKT Simple MultiPolygon', function () {
     expect($multiPolygonWKT)->toBe('MULTIPOLYGON Z(((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))');
 })->group('WKT MultiPolygon');
 
-test('can generate 3D WKT Simple MultiPolygon with SRID', function () {
+test('can generate 3DZ WKT Simple MultiPolygon with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);

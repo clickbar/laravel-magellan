@@ -21,7 +21,7 @@ enum Dimension: string
      */
     case DIMENSION_4D = '4D';
 
-    public function has3Dimensions(): bool
+    public function hasZDimension(): bool
     {
         return $this === self::DIMENSION_3DZ || $this === self::DIMENSION_4D;
     }

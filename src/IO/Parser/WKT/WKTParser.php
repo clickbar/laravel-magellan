@@ -59,13 +59,28 @@ class WKTParser extends BaseParser
             ->before('(')
             ->trim();
 
-        return match (strtoupper($type)) {
-            'POINT', 'POINTZ', 'POINT Z' => 'Point',
-            'LINESTRING', 'LINESTRINGZ', 'LINESTRING Z' => 'LineString',
-            'POLYGON', 'POLYGONZ', 'POLYGON Z' => 'Polygon',
-            'MULTIPOINT', 'MULTIPOINTZ', 'MULTIPOINT Z' => 'MultiPoint',
-            'MULTILINESTRING', 'MULTILINESTRINGZ', 'MULTILINESTRING Z' => 'MultiLineString',
-            'MULTIPOLYGON', 'MULTIPOLYGONZ', 'MULTIPOLYGON Z' => 'MultiPolygon',
+        $upperType = strtoupper($type);
+
+        if (Str::endsWith($upperType, 'ZM')) {
+            $dimension = Dimension::DIMENSION_4D;
+        } elseif (Str::endsWith($upperType, 'Z')) {
+            $dimension = Dimension::DIMENSION_3DZ;
+        } elseif (Str::endsWith($upperType, 'M')) {
+            $dimension = Dimension::DIMENSION_3DM;
+        } else {
+            $dimension = Dimension::DIMENSION_2D;
+        }
+
+        $this->assertSameDimension($this->dimension, $dimension);
+        $this->dimension = $dimension;
+
+        return match ($upperType) {
+            'POINT', 'POINTZ', 'POINT Z', 'POINTM', 'POINT M', 'POINTZM', 'POINT ZM' => 'Point',
+            'LINESTRING', 'LINESTRINGZ', 'LINESTRING Z', 'LINESTRINGM', 'LINESTRING M', 'LINESTRINGZM', 'LINESTRING ZM' => 'LineString',
+            'POLYGON', 'POLYGONZ', 'POLYGON Z', 'POLYGONM', 'POLYGON M', 'POLYGONZM', 'POLYGON ZM' => 'Polygon',
+            'MULTIPOINT', 'MULTIPOINTZ', 'MULTIPOINT Z', 'MULTIPOINTM', 'MULTIPOINT M', 'MULTIPOINTZM', 'MULTIPOINT ZM' => 'MultiPoint',
+            'MULTILINESTRING', 'MULTILINESTRINGZ', 'MULTILINESTRING Z', 'MULTILINESTRINGM', 'MULTILINESTRING M', 'MULTILINESTRINGZM', 'MULTILINESTRING ZM' => 'MultiLineString',
+            'MULTIPOLYGON', 'MULTIPOLYGONZ', 'MULTIPOLYGON Z', 'MULTIPOLYGONM', 'MULTIPOLYGON M', 'MULTIPOLYGONZM', 'MULTIPOLYGON ZM' => 'MultiPolygon',
             'GEOMETRYCOLLECTION' => 'GeometryCollection',
             default => throw new UnknownWKTTypeException('Type was ' . $type),
         };
@@ -82,18 +97,18 @@ class WKTParser extends BaseParser
     {
         $pair = $this->removeCharsAndBrackets($argument);
         $splits = explode(' ', trim($pair));
-        $dimension = Dimension::DIMENSION_2D;
         $coordinate = new Coordinate($splits[0], $splits[1]);
 
-        if (count($splits) > 2) {
+        if ($this->dimension === Dimension::DIMENSION_3DZ) {
             $coordinate->setZ($splits[2]);
-            $dimension = Dimension::DIMENSION_3DZ;
+        } elseif ($this->dimension === Dimension::DIMENSION_3DM) {
+            $coordinate->setM($splits[2]);
+        } elseif ($this->dimension === Dimension::DIMENSION_4D) {
+            $coordinate->setZ($splits[2]);
+            $coordinate->setM($splits[3]);
         }
 
-        $this->assertSameDimension($this->dimension, $dimension);
-        $this->dimension = $dimension;
-
-        return $this->factory->createPoint($dimension, $this->srid, $coordinate);
+        return $this->factory->createPoint($this->dimension, $this->srid, $coordinate);
     }
 
     public function parseLineString(string $argument): LineString

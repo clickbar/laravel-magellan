@@ -11,11 +11,11 @@ class Point extends Geometry
         return new self(Dimension::fromCoordinates($x, $y, $z, $m), $x, $y, $z, $m, $srid);
     }
 
-    public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null): self
+    public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
-        $dimension = $altitude ? Dimension::DIMENSION_3DZ : Dimension::DIMENSION_2D;
+        $dimension = Dimension::fromCoordinates($longitude, $latitude, $altitude, $m);
 
-        return new self($dimension, $longitude, $latitude, $altitude, null, 4326);
+        return new self($dimension, $longitude, $latitude, $altitude, $m, 4326);
     }
 
     protected function __construct(
@@ -46,7 +46,7 @@ class Point extends Geometry
 
     public function is3d(): bool
     {
-        return $this->dimension->has3Dimensions();
+        return $this->dimension->hasZDimension();
     }
 
     /**

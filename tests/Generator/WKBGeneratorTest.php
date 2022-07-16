@@ -27,7 +27,7 @@ test('can generate 2D WKB Point with SRID', function () {
     expect($pointWKB)->toBe('0101000020E6100000E561A1D6343F20407958A835CD0F4940');
 })->group('WKB Point');
 
-test('can generate 3D WKB Point', function () {
+test('can generate 3DZ WKB Point', function () {
     $point = Point::make(8.12345, 50.12345, 10);
 
     $pointWKB = $this->generator->generate($point);
@@ -35,12 +35,44 @@ test('can generate 3D WKB Point', function () {
     expect($pointWKB)->toBe('0101000080E561A1D6343F20407958A835CD0F49400000000000002440');
 })->group('WKB Point');
 
-test('can generate 3D WKB Point with SRID', function () {
+test('can generate 3DZ WKB Point with SRID', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345, 10);
 
     $pointWKB = $this->generator->generate($point);
 
     expect($pointWKB)->toBe('01010000A0E6100000E561A1D6343F20407958A835CD0F49400000000000002440');
+})->group('WKB Point');
+
+test('can generate 3DM WKB Point', function () {
+    $point = Point::make(8.12345, 50.12345, null, 10);
+
+    $pointWKB = $this->generator->generate($point);
+
+    expect($pointWKB)->toBe('0101000040E561A1D6343F20407958A835CD0F49400000000000002440');
+})->group('WKB Point');
+
+test('can generate 3DM WKB Point with SRID', function () {
+    $point = Point::makeGeodetic(50.12345, 8.12345, null, 10);
+
+    $pointWKB = $this->generator->generate($point);
+
+    expect($pointWKB)->toBe('0101000060E6100000E561A1D6343F20407958A835CD0F49400000000000002440');
+})->group('WKB Point');
+
+test('can generate 4D WKB Point', function () {
+    $point = Point::make(8.12345, 50.12345, 10, 20);
+
+    $pointWKB = $this->generator->generate($point);
+
+    expect($pointWKB)->toBe('01010000C0E561A1D6343F20407958A835CD0F494000000000000024400000000000003440');
+})->group('WKB Point');
+
+test('can generate 4D WKB Point with SRID', function () {
+    $point = Point::makeGeodetic(50.12345, 8.12345, 10, 20);
+
+    $pointWKB = $this->generator->generate($point);
+
+    expect($pointWKB)->toBe('01010000E0E6100000E561A1D6343F20407958A835CD0F494000000000000024400000000000003440');
 })->group('WKB Point');
 
 test('can generate 2D WKB LineString', function () {
@@ -63,7 +95,7 @@ test('can generate 2D WKB LineString with SRID', function () {
     expect($lineStringWKB)->toBe('0102000020E610000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940');
 })->group('WKB LineString');
 
-test('can generate 3D WKB LineString', function () {
+test('can generate 3DZ WKB LineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $lineString = LineString::make([$point1, $point2]);
@@ -73,7 +105,7 @@ test('can generate 3D WKB LineString', function () {
     expect($lineStringWKB)->toBe('010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440');
 })->group('WKB LineString');
 
-test('can generate 3D WKB LineString with SRID', function () {
+test('can generate 3DZ WKB LineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $lineString = LineString::make([$point1, $point2]);
@@ -115,7 +147,7 @@ test('can generate 2D WKB MultiLineString with SRID', function () {
     expect($multiLineStringWKB)->toBe('0105000020E610000002000000010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940010200000002000000CAC342AD697E1C407958A835CD8F4840CAC342AD697E18407958A835CD0F4840');
 })->group('WKB MultiLineString');
 
-test('can generate 3D WKB MultiLineString', function () {
+test('can generate 3DZ WKB MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 49.12345, 30);
@@ -131,7 +163,7 @@ test('can generate 3D WKB MultiLineString', function () {
     expect($multiLineStringWKB)->toBe('010500008002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiLineString');
 
-test('can generate 3D WKB MultiLineString with SRID', function () {
+test('can generate 3DZ WKB MultiLineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
@@ -175,7 +207,7 @@ test('can generate 2D WKB Simple Polygon with SRID', function () {
     expect($polygonWKB)->toBe('0103000020E61000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940');
 })->group('WKB Polygon');
 
-test('can generate 3D WKB Simple Polygon', function () {
+test('can generate 3DZ WKB Simple Polygon', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 48.12345, 30);
@@ -189,7 +221,7 @@ test('can generate 3D WKB Simple Polygon', function () {
     expect($polygonWKB)->toBe('01030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440');
 })->group('WKB Polygon');
 
-test('can generate 3D WKB Simple Polygon with SRID', function () {
+test('can generate 3DZ WKB Simple Polygon with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 30);
@@ -283,7 +315,7 @@ test('can generate 2D WKB Polygon with multi hole with SRID', function () {
     expect($polygonWKB)->toBe('0103000020E61000000300000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494004000000EDD808C4EB8A204021020EA14A1549401570CFF3A765204025B1A4DC7D0449404E4354E1CF8820409E9ACB0D86064940EDD808C4EB8A204021020EA14A15494004000000836BEEE87FC920406D37C1374D294940A60BB1FA23BC2040CC79C6BE641D4940DBE044F46BFB20404BB1A371A82B4940836BEEE87FC920406D37C1374D294940');
 })->group('WKB Polygon');
 
-test('can generate 3D WKB Polygon with multi hole', function () {
+test('can generate 3DZ WKB Polygon with multi hole', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 10);
     $point3 = Point::make(7.12345, 48.12345, 10);
@@ -305,7 +337,7 @@ test('can generate 3D WKB Polygon with multi hole', function () {
     expect($polygonWKB)->toBe('01030000800300000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244004000000EDD808C4EB8A204021020EA14A15494000000000000024401570CFF3A765204025B1A4DC7D04494000000000000024404E4354E1CF8820409E9ACB0D860649400000000000002440EDD808C4EB8A204021020EA14A154940000000000000244004000000836BEEE87FC920406D37C1374D2949400000000000002440A60BB1FA23BC2040CC79C6BE641D49400000000000002440DBE044F46BFB20404BB1A371A82B49400000000000002440836BEEE87FC920406D37C1374D2949400000000000002440');
 })->group('WKB Polygon');
 
-test('can generate 3D WKB Polygon with multi hole with SRID', function () {
+test('can generate 3DZ WKB Polygon with multi hole with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);
@@ -353,7 +385,7 @@ test('can generate 2D WKB MultiPoint with SRID', function () {
     expect($multiPointWKB)->toBe('0104000020E6100000040000000101000000E561A1D6343F20407958A835CD0F49400101000000E561A1D6343F22407958A835CD8F49400101000000CAC342AD697E1C407958A835CD8F48400101000000CAC342AD697E18407958A835CD0F4840');
 })->group('WKB MultiPoint');
 
-test('can generate 3D WKB MultiPoint', function () {
+test('can generate 3DZ WKB MultiPoint', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
     $point3 = Point::make(7.12345, 49.12345, 30);
@@ -366,7 +398,7 @@ test('can generate 3D WKB MultiPoint', function () {
     expect($multiPointWKB)->toBe('0104000080040000000101000080E561A1D6343F20407958A835CD0F494000000000000024400101000080E561A1D6343F22407958A835CD8F494000000000000034400101000080CAC342AD697E1C407958A835CD8F48400000000000003E400101000080CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiPoint');
 
-test('can generate 3D WKB MultiPoint with SRID', function () {
+test('can generate 3DZ WKB MultiPoint with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 20);
     $point3 = Point::makeGeodetic(49.12345, 7.12345, 30);
@@ -421,7 +453,7 @@ test('can generate 2D WKB Simple MultiPolygon with SRID', function () {
     expect($multiPolygonWKB)->toBe('0106000020E61000000200000001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494001030000000100000004000000E561A1D6343F24407958A835CD0F4940E561A1D6343F26407958A835CD8F4940E561A1D6343F22407958A835CD0F4840E561A1D6343F24407958A835CD0F4940');
 })->group('WKB MultiPolygon');
 
-test('can generate 3D WKB Simple MultiPolygon', function () {
+test('can generate 3DZ WKB Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 10);
     $point3 = Point::make(7.12345, 48.12345, 10);
@@ -442,7 +474,7 @@ test('can generate 3D WKB Simple MultiPolygon', function () {
     expect($multiPolygonWKB)->toBe('01060000800200000001030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244001030000800100000004000000E561A1D6343F24407958A835CD0F49400000000000002440E561A1D6343F26407958A835CD8F49400000000000002440E561A1D6343F22407958A835CD0F48400000000000002440E561A1D6343F24407958A835CD0F49400000000000002440');
 })->group('WKB MultiPolygon');
 
-test('can generate 3D WKB Simple MultiPolygon with SRID', function () {
+test('can generate 3DZ WKB Simple MultiPolygon with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345, 10);
     $point2 = Point::makeGeodetic(51.12345, 9.12345, 10);
     $point3 = Point::makeGeodetic(48.12345, 7.12345, 10);

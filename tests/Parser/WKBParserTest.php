@@ -8,6 +8,7 @@ use Clickbar\Postgis\Geometries\MultiPoint;
 use Clickbar\Postgis\Geometries\MultiPolygon;
 use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\Geometries\Polygon;
+use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Parser\WKB\WKBParser;
 
 beforeEach(function () {
@@ -35,7 +36,7 @@ test('can parse 2D WKB Point with SRID', function () {
     expect($point->getSrid())->toBe(4326);
 })->group('WKB Point');
 
-test('can parse 3D WKB Point', function () {
+test('can parse 3DZ WKB Point', function () {
     $pointWKB = '0101000080E561A1D6343F20407958A835CD0F49400000000000002440'; // st_makepoint(8.12345, 50.12345, 10)
 
     $point = $this->parser->parse($pointWKB);
@@ -46,7 +47,7 @@ test('can parse 3D WKB Point', function () {
     expect($point->getZ())->toBe(10.0);
 })->group('WKB Point');
 
-test('can parse 3D WKB Point with SRID', function () {
+test('can parse 3DZ WKB Point with SRID', function () {
     $pointWKB = '01010000A0E6100000E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(st_makepoint(8.12345, 50.12345, 10), 4326)
 
     $point = $this->parser->parse($pointWKB);
@@ -55,6 +56,58 @@ test('can parse 3D WKB Point with SRID', function () {
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
+    expect($point->getSrid())->toBe(4326);
+})->group('WKB Point');
+
+test('can parse 3DM WKB Point', function () {
+    $pointWKB = '0101000040E561A1D6343F20407958A835CD0F49400000000000002440'; // ST_MakePointM(8.12345, 50.12345,10)
+
+    $point = $this->parser->parse($pointWKB);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getM())->toBe(10.0);
+})->group('WKB Point');
+
+test('can parse 3DM WKB Point with SRID', function () {
+    $pointWKB = '0101000060E6100000E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(ST_MakePointM(8.12345, 50.12345,10), 4326)
+
+    $point = $this->parser->parse($pointWKB);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($point->getSrid())->toBe(4326);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getM())->toBe(10.0);
+})->group('WKB Point');
+
+test('can parse 4D WKB Point', function () {
+    $pointWKB = '01010000C0E561A1D6343F20407958A835CD0F494000000000000024400000000000003440'; // st_makepoint(8.12345, 50.12345, 10, 20)
+
+    $point = $this->parser->parse($pointWKB);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
+    expect($point->getM())->toBe(20.0);
+})->group('WKB Point');
+
+test('can parse 4D WKB Point with SRID', function () {
+    $pointWKB = '01010000E0E6100000E561A1D6343F20407958A835CD0F494000000000000024400000000000003440'; // st_setsrid(st_makepoint(8.12345, 50.12345, 10, 20), 4326)
+
+    $point = $this->parser->parse($pointWKB);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point->getX())->toBe(8.12345);
+    expect($point->getY())->toBe(50.12345);
+    expect($point->getZ())->toBe(10.0);
+    expect($point->getM())->toBe(20.0);
     expect($point->getSrid())->toBe(4326);
 })->group('WKB Point');
 
@@ -85,7 +138,7 @@ test('can parse 2D WKB LineString With SRID', function () {
     expect($lineString->getSrid())->toBe(4326);
 })->group('WKB LineString');
 
-test('can parse 3D WKB LineString', function () {
+test('can parse 3DZ WKB LineString', function () {
     $lineStringWKB = '010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440'; // st_makeline(st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20))
 
     $lineString = $this->parser->parse($lineStringWKB);
@@ -99,7 +152,7 @@ test('can parse 3D WKB LineString', function () {
     expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
 })->group('WKB LineString');
 
-test('can parse 3D WKB LineString with SRID', function () {
+test('can parse 3DZ WKB LineString with SRID', function () {
     $lineStringWKB = '01020000A0E610000002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440'; // st_makeline(st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20))
 
     $lineString = $this->parser->parse($lineStringWKB);
@@ -149,7 +202,7 @@ test('can parse 2D WKB MultiLineString With SRID', function () {
     expect($multiLineString->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');
 
-test('can parse 3D WKB MultiLineString', function () {
+test('can parse 3DZ WKB MultiLineString', function () {
     $multiLineStringWKB = '010500008002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_collect(st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345)), st_makeline(st_makepoint(7.12345, 49.12345), st_makepoint(6.12345, 48.12345)))
 
     $multiLineString = $this->parser->parse($multiLineStringWKB);
@@ -169,7 +222,7 @@ test('can parse 3D WKB MultiLineString', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
 })->group('WKB MultiLineString');
 
-test('can parse 3D WKB MultiLineString with SRID', function () {
+test('can parse 3DZ WKB MultiLineString with SRID', function () {
     $multiLineStringWKB = '01050000A0E610000002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_setsrid(st_collect(st_makeline(st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20)), st_makeline(st_makepoint(7.12345, 49.12345, 30), st_makepoint(6.12345, 48.12345, 40))), 4326)
 
     $multiLineString = $this->parser->parse($multiLineStringWKB);
@@ -227,7 +280,7 @@ test('can parse 2D WKB Simple Polygon with SRID', function () {
     expect($polygon->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
-test('can parse 3D WKB Simple Polygon', function () {
+test('can parse 3DZ WKB Simple Polygon', function () {
     $polygonWKB = '01030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,20), st_makepoint(7.12345, 48.12345,30), st_makepoint(8.12345, 50.12345,10)]))
 
     $polygon = $this->parser->parse($polygonWKB);
@@ -247,7 +300,7 @@ test('can parse 3D WKB Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB Polygon');
 
-test('can parse 3D WKB Simple Polygon with SRID', function () {
+test('can parse 3DZ WKB Simple Polygon with SRID', function () {
     $polygonWKB = '01030000A0E61000000100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,20), st_makepoint(7.12345, 48.12345,30), st_makepoint(8.12345, 50.12345,10)])), 4326)
 
     $polygon = $this->parser->parse($polygonWKB);
@@ -410,7 +463,7 @@ test('can parse 2D WKB Polygon with multi hole with SRID', function () {
     expect($polygon->getSRID())->toBe(4326);
 })->group('WKB Polygon');
 
-test('can parse 3D WKB Polygon with multi hole', function () {
+test('can parse 3DZ WKB Polygon with multi hole', function () {
     $polygonWKB = '01030000800300000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244004000000EDD808C4EB8A204021020EA14A15494000000000000024401570CFF3A765204025B1A4DC7D04494000000000000024404E4354E1CF8820409E9ACB0D860649400000000000002440EDD808C4EB8A204021020EA14A154940000000000000244004000000836BEEE87FC920406D37C1374D2949400000000000002440A60BB1FA23BC2040CC79C6BE641D49400000000000002440DBE044F46BFB20404BB1A371A82B49400000000000002440836BEEE87FC920406D37C1374D2949400000000000002440'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345,50.12345,10), st_makepoint(9.12345,51.12345,10), st_makepoint(7.12345,48.12345,10), st_makepoint(8.12345,50.12345,10)]), ARRAY[st_makeline(ARRAY[ st_makepoint(8.27133,50.16634,10), st_makepoint(8.198547,50.035091,10), st_makepoint(8.267211,50.050966,10), st_makepoint(8.27133,50.16634,10)]), st_makeline(ARRAY[st_makepoint(8.393554,50.322669,10),st_makepoint(8.367462,50.229637,10),st_makepoint(8.491058,50.341078,10),st_makepoint(8.393554,50.322669,10)])])
 
     $polygon = $this->parser->parse($polygonWKB);
@@ -456,7 +509,7 @@ test('can parse 3D WKB Polygon with multi hole', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB Polygon');
 
-test('can parse 3D WKB Polygon with multi hole with SRID', function () {
+test('can parse 3DZ WKB Polygon with multi hole with SRID', function () {
     $polygonWKB = '01030000A0E61000000300000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244004000000EDD808C4EB8A204021020EA14A15494000000000000024401570CFF3A765204025B1A4DC7D04494000000000000024404E4354E1CF8820409E9ACB0D860649400000000000002440EDD808C4EB8A204021020EA14A154940000000000000244004000000836BEEE87FC920406D37C1374D2949400000000000002440A60BB1FA23BC2040CC79C6BE641D49400000000000002440DBE044F46BFB20404BB1A371A82B49400000000000002440836BEEE87FC920406D37C1374D2949400000000000002440'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345,50.12345,10), st_makepoint(9.12345,51.12345,10), st_makepoint(7.12345,48.12345,10), st_makepoint(8.12345,50.12345,10)]), ARRAY[st_makeline(ARRAY[ st_makepoint(8.27133,50.16634,10), st_makepoint(8.198547,50.035091,10), st_makepoint(8.267211,50.050966,10), st_makepoint(8.27133,50.16634,10)]), st_makeline(ARRAY[st_makepoint(8.393554,50.322669,10),st_makepoint(8.367462,50.229637,10),st_makepoint(8.491058,50.341078,10),st_makepoint(8.393554,50.322669,10)])]), 4326)
 
     $polygon = $this->parser->parse($polygonWKB);
@@ -553,7 +606,7 @@ test('can parse 2D WKB MultiPoint wit SRID', function () {
     expect($multiPoint->getSRID())->toBe(4326);
 })->group('WKB MultiPoint');
 
-test('can parse 3D WKB MultiPoint', function () {
+test('can parse 3DZ WKB MultiPoint', function () {
     $multiPointWKB = '0104000080040000000101000080E561A1D6343F20407958A835CD0F494000000000000024400101000080E561A1D6343F22407958A835CD8F494000000000000034400101000080CAC342AD697E1C407958A835CD8F48400000000000003E400101000080CAC342AD697E18407958A835CD0F48400000000000004440'; // st_collect(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20), st_makepoint(7.12345, 49.12345, 30), st_makepoint(6.12345, 48.12345, 40)])
 
     $multiPoint = $this->parser->parse($multiPointWKB);
@@ -573,7 +626,7 @@ test('can parse 3D WKB MultiPoint', function () {
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
 })->group('WKB MultiPoint');
 
-test('can parse 3D WKB MultiPoint with SRID', function () {
+test('can parse 3DZ WKB MultiPoint with SRID', function () {
     $multiPointWKB = '01040000A0E6100000040000000101000080E561A1D6343F20407958A835CD0F494000000000000024400101000080E561A1D6343F22407958A835CD8F494000000000000034400101000080CAC342AD697E1C407958A835CD8F48400000000000003E400101000080CAC342AD697E18407958A835CD0F48400000000000004440'; // st_setsrid(st_collect(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20), st_makepoint(7.12345, 49.12345, 30), st_makepoint(6.12345, 48.12345, 40)]), 4326)
 
     $multiPoint = $this->parser->parse($multiPointWKB);
@@ -651,7 +704,7 @@ test('can parse 2D WKB Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getSRID())->toBe(4326);
 })->group('WKB MultiPolygon');
 
-test('can parse 3D WKB Simple MultiPolygon', function () {
+test('can parse 3DZ WKB Simple MultiPolygon', function () {
     $multiPolygonWKB = '01060000800200000001030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244001030000800100000004000000E561A1D6343F24407958A835CD0F49400000000000002440E561A1D6343F26407958A835CD8F49400000000000002440E561A1D6343F22407958A835CD0F48400000000000002440E561A1D6343F24407958A835CD0F49400000000000002440'; // st_collect (ARRAY [st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345,50.12345,10), st_makepoint(9.12345,51.12345,10), st_makepoint(7.12345,48.12345,10), st_makepoint(8.12345,50.12345,10)])), st_makepolygon(st_makeline(ARRAY[st_makepoint(10.12345,50.12345,10), st_makepoint(11.12345,51.12345,10), st_makepoint(9.12345,48.12345,10), st_makepoint(10.12345,50.12345,10)]))])
 
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
@@ -684,7 +737,7 @@ test('can parse 3D WKB Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKB MultiPolygon');
 
-test('can parse 3D WKB Simple MultiPolygon with SRID', function () {
+test('can parse 3DZ WKB Simple MultiPolygon with SRID', function () {
     $multiPolygonWKB = '01060000A0E61000000200000001030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000002440CAC342AD697E1C407958A835CD0F48400000000000002440E561A1D6343F20407958A835CD0F4940000000000000244001030000800100000004000000E561A1D6343F24407958A835CD0F49400000000000002440E561A1D6343F26407958A835CD8F49400000000000002440E561A1D6343F22407958A835CD0F48400000000000002440E561A1D6343F24407958A835CD0F49400000000000002440'; // st_setsrid(st_collect (ARRAY [st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345,50.12345,10), st_makepoint(9.12345,51.12345,10), st_makepoint(7.12345,48.12345,10), st_makepoint(8.12345,50.12345,10)])), st_makepolygon(st_makeline(ARRAY[st_makepoint(10.12345,50.12345,10), st_makepoint(11.12345,51.12345,10), st_makepoint(9.12345,48.12345,10), st_makepoint(10.12345,50.12345,10)]))]), 4326)
 
     $multiPolygon = $this->parser->parse($multiPolygonWKB);

@@ -18,8 +18,11 @@ class WKTGenerator extends BaseGenerator
     private function generatePointCoordinateString(Point $point): string
     {
         $string = GeometryHelper::stringifyFloat($point->getX()) . ' ' . GeometryHelper::stringifyFloat($point->getY());
-        if ($point->getDimension()->has3Dimensions()) {
+        if ($point->getDimension()->hasZDimension()) {
             $string .= ' ' . GeometryHelper::stringifyFloat($point->getZ());
+        }
+        if ($point->getDimension()->isMeasured()) {
+            $string .= ' ' . GeometryHelper::stringifyFloat($point->getM());
         }
 
         return $string;
@@ -48,11 +51,15 @@ class WKTGenerator extends BaseGenerator
 
     private function apply3dIfNeeded(string $type, Geometry $geometry): string
     {
-        if ($geometry->getDimension()->has3Dimensions()) {
-            return "$type Z";
+        $dimensionLetters = '';
+        if ($geometry->getDimension()->hasZDimension()) {
+            $dimensionLetters .= 'Z';
+        }
+        if ($geometry->getDimension()->isMeasured()) {
+            $dimensionLetters .= 'M';
         }
 
-        return $type;
+        return $type . (! empty($dimensionLetters) ? ' ' . $dimensionLetters : '');
     }
 
     public function generate(Geometry $geometry)

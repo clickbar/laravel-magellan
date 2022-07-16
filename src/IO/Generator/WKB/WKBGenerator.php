@@ -10,7 +10,6 @@ use Clickbar\Postgis\Geometries\MultiPoint;
 use Clickbar\Postgis\Geometries\MultiPolygon;
 use Clickbar\Postgis\Geometries\Point;
 use Clickbar\Postgis\Geometries\Polygon;
-use Clickbar\Postgis\IO\Dimension;
 use Clickbar\Postgis\IO\Generator\BaseGenerator;
 use Clickbar\Postgis\IO\Parser\WKB\ByteOrder;
 use Clickbar\Postgis\IO\Parser\WKB\WKBGeometryType;
@@ -38,8 +37,13 @@ class WKBGenerator extends BaseGenerator
     {
         $this->byteStringBuilder->addDouble($point->getX());
         $this->byteStringBuilder->addDouble($point->getY());
-        if ($point->getDimension()->has3Dimensions()) {
+
+        if ($point->getDimension()->hasZDimension()) {
             $this->byteStringBuilder->addDouble($point->getZ());
+        }
+
+        if ($point->getDimension()->isMeasured()) {
+            $this->byteStringBuilder->addDouble($point->getM());
         }
     }
 
@@ -61,13 +65,11 @@ class WKBGenerator extends BaseGenerator
         $dimension = $geometry->getDimension();
 
         $typeCode = $type->value;
-        if (Dimension::DIMENSION_4D === $dimension ||
-            Dimension::DIMENSION_3DZ === $dimension) {
+        if ($dimension->hasZDimension()) {
             $typeCode |= 0x80000000;
         }
 
-        if (Dimension::DIMENSION_4D === $dimension ||
-            Dimension::DIMENSION_3DM === $dimension) {
+        if ($dimension->isMeasured()) {
             $typeCode |= 0x40000000;
         }
 
