@@ -149,22 +149,27 @@ class AddPostgisColumns extends Command
         $geometryColumns = DB::table('geometry_columns')->where('f_table_name', $table)->get();
 
         $postgisColumnLines = [];
-        $postgisColumnLines[] = 'protected array $postgisColumns = [';
+        $postgisColumnLines[] = $this->addInset(1, 'protected array $postgisColumns = [');
         foreach ($geographyColumns as $geographyColumn) {
-            $postgisColumnLines[] = "'{$geographyColumn->f_geography_column}' => [";
-            $postgisColumnLines[] = "'type' => 'geography',";
-            $postgisColumnLines[] = "'srid' => {$geographyColumn->srid},";
-            $postgisColumnLines[] = "],";
+            $postgisColumnLines[] = $this->addInset(2, "'{$geographyColumn->f_geography_column}' => [");
+            $postgisColumnLines[] = $this->addInset(3, "'type' => 'geography',");
+            $postgisColumnLines[] = $this->addInset(3, "'srid' => {$geographyColumn->srid},");
+            $postgisColumnLines[] = $this->addInset(2, "],");
         }
         foreach ($geometryColumns as $geometryColumn) {
-            $postgisColumnLines[] = "'{$geometryColumn->f_geometry_column}' => [";
-            $postgisColumnLines[] = "'type' => 'geometry',";
-            $postgisColumnLines[] = "'srid' => {$geometryColumn->srid},";
-            $postgisColumnLines[] = "],";
+            $postgisColumnLines[] = $this->addInset(2, "'{$geometryColumn->f_geometry_column}' => [");
+            $postgisColumnLines[] = $this->addInset(3, "'type' => 'geometry',");
+            $postgisColumnLines[] = $this->addInset(3, "'srid' => {$geometryColumn->srid},");
+            $postgisColumnLines[] = $this->addInset(2, "],");
         }
-        $postgisColumnLines[] = '];';
+        $postgisColumnLines[] = $this->addInset(1, '];');
 
         return $postgisColumnLines;
+    }
+
+    private function addInset(int $level, string $line): string
+    {
+        return Str::repeat(' ', $level * 4) . $line;
     }
 
     /**
