@@ -2,6 +2,7 @@
 
 namespace Clickbar\Postgis;
 
+use Clickbar\Postgis\Commands\AddPostgisColumns;
 use Clickbar\Postgis\Commands\PostgisCommand;
 use Closure;
 use Illuminate\Database\Connection;
@@ -23,7 +24,8 @@ class PostgisServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_postgis_table')
-            ->hasCommand(PostgisCommand::class);
+            ->hasCommand(PostgisCommand::class)
+            ->hasCommand(AddPostgisColumns::class);
     }
 
     public function registeringPackage()
