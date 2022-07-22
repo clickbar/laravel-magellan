@@ -1,8 +1,8 @@
 <?php
 
-namespace Clickbar\Postgis\IO\Generator\WKB;
+namespace Clickbar\Magellan\IO\Generator\WKB;
 
-use Clickbar\Postgis\IO\Parser\WKB\ByteOrder;
+use Clickbar\Magellan\IO\Parser\WKB\ByteOrder;
 
 class ByteStringBuilder
 {

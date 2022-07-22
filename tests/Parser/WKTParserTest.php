@@ -1,15 +1,15 @@
 <?php
 
-use Clickbar\Postgis\Geometries\GeometryCollection;
-use Clickbar\Postgis\Geometries\GeometryFactory;
-use Clickbar\Postgis\Geometries\LineString;
-use Clickbar\Postgis\Geometries\MultiLineString;
-use Clickbar\Postgis\Geometries\MultiPoint;
-use Clickbar\Postgis\Geometries\MultiPolygon;
-use Clickbar\Postgis\Geometries\Point;
-use Clickbar\Postgis\Geometries\Polygon;
-use Clickbar\Postgis\IO\Dimension;
-use Clickbar\Postgis\IO\Parser\WKT\WKTParser;
+use Clickbar\Magellan\Geometries\GeometryCollection;
+use Clickbar\Magellan\Geometries\GeometryFactory;
+use Clickbar\Magellan\Geometries\LineString;
+use Clickbar\Magellan\Geometries\MultiLineString;
+use Clickbar\Magellan\Geometries\MultiPoint;
+use Clickbar\Magellan\Geometries\MultiPolygon;
+use Clickbar\Magellan\Geometries\Point;
+use Clickbar\Magellan\Geometries\Polygon;
+use Clickbar\Magellan\IO\Dimension;
+use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 
 beforeEach(function () {
     $this->parser = new WKTParser(new GeometryFactory());

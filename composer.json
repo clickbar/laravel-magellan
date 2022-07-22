@@ -1,12 +1,12 @@
 {
-    "name": "clickbar/postgis",
+    "name": "clickbar/laravel-magellan",
     "description": "This is my package postgis",
     "keywords": [
         "clickbar",
         "laravel",
         "postgis"
     ],
-    "homepage": "https://github.com/clickbar/postgis",
+    "homepage": "https://github.com/clickbar/laravel-magellan",
     "license": "MIT",
     "authors": [
         {
@@ -37,13 +37,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Clickbar\\Postgis\\": "src",
-            "Clickbar\\Postgis\\Database\\Factories\\": "database/factories"
+            "Clickbar\\Magellan\\": "src",
+            "Clickbar\\Magellan\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Clickbar\\Postgis\\Tests\\": "tests"
+            "Clickbar\\Magellan\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -62,10 +62,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Clickbar\\Postgis\\PostgisServiceProvider"
+                "Clickbar\\Magellan\\MagellanServiceProvider"
             ],
             "aliases": {
-                "Postgis": "Clickbar\\Postgis\\Facades\\Postgis"
+                "Magellan": "Clickbar\\Magellan\\Facades\\Magellan"
             }
         }
     },

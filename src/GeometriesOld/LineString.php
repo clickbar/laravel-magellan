@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\GeometriesOld;
+namespace Clickbar\Magellan\GeometriesOld;
 
 class LineString extends PointCollection implements GeometryInterface
 {

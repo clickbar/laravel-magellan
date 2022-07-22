@@ -1,9 +1,9 @@
 <?php
 
-namespace Clickbar\Postgis\IO\Parser;
+namespace Clickbar\Magellan\IO\Parser;
 
-use Clickbar\Postgis\Geometries\Geometry;
-use Clickbar\Postgis\IO\GeometryModelFactory;
+use Clickbar\Magellan\Geometries\Geometry;
+use Clickbar\Magellan\IO\GeometryModelFactory;
 
 abstract class BaseParser
 {

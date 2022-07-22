@@ -1,8 +1,8 @@
 <?php
 
-namespace Clickbar\Postgis\Tests;
+namespace Clickbar\Magellan\Tests;
 
-use Clickbar\Postgis\PostgisServiceProvider;
+use Clickbar\Magellan\MagellanServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -20,7 +20,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            PostgisServiceProvider::class,
+            MagellanServiceProvider::class,
         ];
     }
 

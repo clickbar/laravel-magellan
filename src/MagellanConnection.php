@@ -1,12 +1,12 @@
 <?php
 
-namespace Clickbar\Postgis;
+namespace Clickbar\Magellan;
 
-use Clickbar\Postgis\Schema\Builder;
-use Clickbar\Postgis\Schema\Grammars\PostgisGrammar;
+use Clickbar\Magellan\Schema\Builder;
+use Clickbar\Magellan\Schema\Grammars\PostgisGrammar;
 use Illuminate\Database\PostgresConnection;
 
-class PostgisConnection extends PostgresConnection
+class MagellanConnection extends PostgresConnection
 {
     protected function getDefaultSchemaGrammar(): PostgisGrammar
     {

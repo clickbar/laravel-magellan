@@ -1,10 +1,10 @@
 <?php
 
-namespace Clickbar\Postgis\Geometries;
+namespace Clickbar\Magellan\Geometries;
 
-use Clickbar\Postgis\IO\Coordinate;
-use Clickbar\Postgis\IO\Dimension;
-use Clickbar\Postgis\IO\GeometryModelFactory;
+use Clickbar\Magellan\IO\Coordinate;
+use Clickbar\Magellan\IO\Dimension;
+use Clickbar\Magellan\IO\GeometryModelFactory;
 
 class GeometryFactory implements GeometryModelFactory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\Commands;
+namespace Clickbar\Magellan\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;

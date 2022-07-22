@@ -1,7 +1,7 @@
 <?php
 
 // config for Clickbar/Postgis
-use Clickbar\Postgis\IO\Generator\Geojson\GeojsonGenerator;
+use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
 
 return [
 
@@ -14,9 +14,9 @@ return [
 
     'json_generator' => GeojsonGenerator::class,
 
-    'insert_generator' => \Clickbar\Postgis\IO\Generator\WKB\WKBGenerator::class,
+    'insert_generator' => \Clickbar\Magellan\IO\Generator\WKB\WKBGenerator::class,
 
-    'string_generator' => \Clickbar\Postgis\IO\Generator\Geojson\GeojsonGenerator::class,
+    'string_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
 
     'transform_on_insert' => false,
 

@@ -1,5 +1,5 @@
 <?php
 
-use Clickbar\Postgis\Tests\TestCase;
+use Clickbar\Magellan\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

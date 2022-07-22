@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\IO\Parser\WKB;
+namespace Clickbar\Magellan\IO\Parser\WKB;
 
 class Scanner
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Clickbar\Postgis\IO\Parser\WKB;
+namespace Clickbar\Magellan\IO\Parser\WKB;
 
-use Clickbar\Postgis\Geometries\Geometry;
-use Clickbar\Postgis\Geometries\Point;
-use Clickbar\Postgis\IO\Coordinate;
-use Clickbar\Postgis\IO\Dimension;
-use Clickbar\Postgis\IO\Parser\BaseParser;
+use Clickbar\Magellan\Geometries\Geometry;
+use Clickbar\Magellan\Geometries\Point;
+use Clickbar\Magellan\IO\Coordinate;
+use Clickbar\Magellan\IO\Dimension;
+use Clickbar\Magellan\IO\Parser\BaseParser;
 use RuntimeException;
 
 class WKBParser extends BaseParser

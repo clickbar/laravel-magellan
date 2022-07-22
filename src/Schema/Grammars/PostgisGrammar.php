@@ -1,9 +1,9 @@
 <?php
 
-namespace Clickbar\Postgis\Schema\Grammars;
+namespace Clickbar\Magellan\Schema\Grammars;
 
-use Clickbar\Postgis\Exception\UnsupportedPostgisTypeException;
-use Clickbar\Postgis\Schema\Blueprint;
+use Clickbar\Magellan\Exception\UnsupportedPostgisTypeException;
+use Clickbar\Magellan\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
 use Illuminate\Support\Fluent;
 

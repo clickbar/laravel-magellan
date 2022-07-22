@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\Schema;
+namespace Clickbar\Magellan\Schema;
 
 use Illuminate\Database\Schema\ColumnDefinition;
 use Illuminate\Support\Fluent;

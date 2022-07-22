@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\Exception;
+namespace Clickbar\Magellan\Exception;
 
 use RuntimeException;
 

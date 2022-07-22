@@ -1,11 +1,11 @@
 <?php
 
-namespace Clickbar\Postgis\IO\Parser\Geojson;
+namespace Clickbar\Magellan\IO\Parser\Geojson;
 
-use Clickbar\Postgis\Geometries\Geometry;
-use Clickbar\Postgis\IO\Coordinate;
-use Clickbar\Postgis\IO\Dimension;
-use Clickbar\Postgis\IO\Parser\BaseParser;
+use Clickbar\Magellan\Geometries\Geometry;
+use Clickbar\Magellan\IO\Coordinate;
+use Clickbar\Magellan\IO\Dimension;
+use Clickbar\Magellan\IO\Parser\BaseParser;
 
 class GeojsonParser extends BaseParser
 {

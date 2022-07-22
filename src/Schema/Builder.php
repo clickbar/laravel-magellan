@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\Schema;
+namespace Clickbar\Magellan\Schema;
 
 use Closure;
 use Illuminate\Database\Schema\PostgresBuilder;

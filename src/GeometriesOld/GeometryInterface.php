@@ -1,8 +1,8 @@
 <?php
 
-namespace Clickbar\Postgis\GeometriesOld;
+namespace Clickbar\Magellan\GeometriesOld;
 
-use Clickbar\Postgis\IO\Dimension;
+use Clickbar\Magellan\IO\Dimension;
 
 interface GeometryInterface
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Clickbar\Postgis;
+namespace Clickbar\Magellan;
 
-use Clickbar\Postgis\Commands\AddPostgisColumns;
-use Clickbar\Postgis\Commands\PostgisCommand;
+use Clickbar\Magellan\Commands\AddPostgisColumns;
+use Clickbar\Magellan\Commands\PostgisCommand;
 use Closure;
 use Illuminate\Database\Connection;
 use PDO;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class PostgisServiceProvider extends PackageServiceProvider
+class MagellanServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -31,7 +31,7 @@ class PostgisServiceProvider extends PackageServiceProvider
     public function registeringPackage()
     {
         Connection::resolverFor('pgsql', function (PDO|Closure $pdo, string $database = '', string $tablePrefix = '', array $config = []) {
-            return new PostgisConnection($pdo, $database, $tablePrefix, $config);
+            return new MagellanConnection($pdo, $database, $tablePrefix, $config);
         });
     }
 }

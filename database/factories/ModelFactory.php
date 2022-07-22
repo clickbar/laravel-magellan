@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\Database\Factories;
+namespace Clickbar\Magellan\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

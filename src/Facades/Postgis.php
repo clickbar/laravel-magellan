@@ -1,11 +1,11 @@
 <?php
 
-namespace Clickbar\Postgis\Facades;
+namespace Clickbar\Magellan\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Clickbar\Postgis\Postgis
+ * @see \Clickbar\Magellan\Magellan
  */
 class Postgis extends Facade
 {

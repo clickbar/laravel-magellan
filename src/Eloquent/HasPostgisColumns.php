@@ -1,15 +1,15 @@
 <?php
 
-namespace Clickbar\Postgis\Eloquent;
+namespace Clickbar\Magellan\Eloquent;
 
-use Clickbar\Postgis\Exception\PostgisColumnsNotDefinedException;
-use Clickbar\Postgis\Exception\SridMissmatchException;
-use Clickbar\Postgis\Geometries\Geometry;
-use Clickbar\Postgis\Geometries\GeometryCollection;
-use Clickbar\Postgis\Geometries\GeometryFactory;
-use Clickbar\Postgis\IO\Generator\BaseGenerator;
+use Clickbar\Magellan\Exception\PostgisColumnsNotDefinedException;
+use Clickbar\Magellan\Exception\SridMissmatchException;
+use Clickbar\Magellan\Geometries\Geometry;
+use Clickbar\Magellan\Geometries\GeometryCollection;
+use Clickbar\Magellan\Geometries\GeometryFactory;
+use Clickbar\Magellan\IO\Generator\BaseGenerator;
 
-use Clickbar\Postgis\IO\Parser\WKB\WKBParser;
+use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Arr;
 

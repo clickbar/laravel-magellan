@@ -1,8 +1,8 @@
 <?php
 
-namespace Clickbar\Postgis\Geometries;
+namespace Clickbar\Magellan\Geometries;
 
-use Clickbar\Postgis\IO\Dimension;
+use Clickbar\Magellan\IO\Dimension;
 
 class MultiPolygon extends Geometry implements \Countable
 {

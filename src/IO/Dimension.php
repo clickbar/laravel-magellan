@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\IO;
+namespace Clickbar\Magellan\IO;
 
 enum Dimension: string
 {

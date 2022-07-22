@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Postgis\GeometriesOld;
+namespace Clickbar\Magellan\GeometriesOld;
 
 use ArrayAccess;
 use ArrayIterator;
