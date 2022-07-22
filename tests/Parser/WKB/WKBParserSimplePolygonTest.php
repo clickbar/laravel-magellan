@@ -40,7 +40,7 @@ test('can parse 2D WKB Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
-    expect($polygon->getSrid())->toBe(4326);
+    expect($polygon)->geometryHasSrid(4326);
 })->group('WKB Polygon');
 
 test('can parse 3DZ WKB Simple Polygon', function () {
@@ -69,23 +69,19 @@ test('can parse 3DZ WKB Simple Polygon with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon)->getSrid()->toBe(4326);
+    expect($polygon)->geometryHasSrid(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(30.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
 test('can parse 3DM WKB Simple Polygon', function () {
@@ -94,7 +90,7 @@ test('can parse 3DM WKB Simple Polygon', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
@@ -115,24 +111,20 @@ test('can parse 3DM WKB Simple Polygon with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getDimension())->toBe(Dimension::DIMENSION_3DM);
-    expect($polygon)->getSrid()->toBe(4326);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($polygon)->geometryHasSrid(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getM())->toBe(20.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getM())->toBe(30.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB Polygon');
 
 test('can parse 4D WKB Simple Polygon', function () {
@@ -141,7 +133,7 @@ test('can parse 4D WKB Simple Polygon', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
@@ -166,26 +158,22 @@ test('can parse 4D WKB Simple Polygon with SRID', function () {
     $polygon = $this->parser->parse($polygonWKB);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getDimension())->toBe(Dimension::DIMENSION_4D);
-    expect($polygon)->getSrid()->toBe(4326);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($polygon)->geometryHasSrid(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getM())->toBe(12.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getM())->toBe(22.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(30.0);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getM())->toBe(32.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB Polygon');

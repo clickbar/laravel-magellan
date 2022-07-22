@@ -70,23 +70,19 @@ test('can parse 3DZ WKB MultiPoint with SRID', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getSrid())->toBe(4326);
+    expect($multiPoint)->geometryHasSrid(4326);
     expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPoint->getPoints()[0]->getZ())->toBe(10.0);
-    expect($multiPoint->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPoint->getPoints()[1]->getZ())->toBe(20.0);
-    expect($multiPoint->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
     expect($multiPoint->getPoints()[2]->getZ())->toBe(30.0);
-    expect($multiPoint->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
     expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
-    expect($multiPoint->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPoint');
 
 
@@ -96,7 +92,7 @@ test('can parse 3DM WKB MultiPoint', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPoint->getPoints()[0]->getM())->toBe(10.0);
@@ -117,24 +113,20 @@ test('can parse 3DM WKB MultiPoint with SRID', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getDimension())->toBe(Dimension::DIMENSION_3DM);
-    expect($multiPoint->getSrid())->toBe(4326);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPoint)->geometryHasSrid(4326);
     expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPoint->getPoints()[0]->getM())->toBe(10.0);
-    expect($multiPoint->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPoint->getPoints()[1]->getM())->toBe(20.0);
-    expect($multiPoint->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
     expect($multiPoint->getPoints()[2]->getM())->toBe(30.0);
-    expect($multiPoint->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
     expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getM())->toBe(40.0);
-    expect($multiPoint->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPoint');
 
 
@@ -144,7 +136,7 @@ test('can parse 4D WKB MultiPoint', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPoint->getPoints()[0]->getZ())->toBe(10.0);
@@ -169,26 +161,22 @@ test('can parse 4D WKB MultiPoint with SRID', function () {
     $multiPoint = $this->parser->parse($multiPointWKB);
 
     expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
-    expect($multiPoint->getDimension())->toBe(Dimension::DIMENSION_4D);
-    expect($multiPoint->getSrid())->toBe(4326);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPoint)->geometryHasSrid(4326);
     expect($multiPoint->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPoint->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPoint->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPoint->getPoints()[0]->getM())->toBe(12.0);
-    expect($multiPoint->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPoint->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPoint->getPoints()[1]->getZ())->toBe(20.0);
     expect($multiPoint->getPoints()[1]->getM())->toBe(22.0);
-    expect($multiPoint->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPoint->getPoints()[2]->getY())->toBe(49.12345);
     expect($multiPoint->getPoints()[2]->getZ())->toBe(30.0);
     expect($multiPoint->getPoints()[2]->getM())->toBe(32.0);
-    expect($multiPoint->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPoint->getPoints()[3]->getX())->toBe(6.12345);
     expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
     expect($multiPoint->getPoints()[3]->getM())->toBe(42.0);
-    expect($multiPoint->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPoint');

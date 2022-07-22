@@ -40,7 +40,7 @@ test('can parse 2D WKB MultiLineString With SRID', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
-    expect($multiLineString->getSrid())->toBe(4326);
+    expect($multiLineString)->geometryHasSrid(4326);
 })->group('WKB MultiLineString');
 
 test('can parse 3DZ WKB MultiLineString', function () {
@@ -69,23 +69,19 @@ test('can parse 3DZ WKB MultiLineString with SRID', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString)->getSrid()->toBe(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(30.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
+    expect($multiLineString)->geometryHasSrid(4326);
 })->group('WKB MultiLineString');
 
 
@@ -95,7 +91,7 @@ test('can parse 3DM WKB MultiLineString', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
@@ -116,24 +112,20 @@ test('can parse 3DM WKB MultiLineString with SRID', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getDimension())->toBe(Dimension::DIMENSION_3DM);
-    expect($multiLineString)->getSrid()->toBe(4326);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiLineString)->geometryHasSrid(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getM())->toBe(20.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getM())->toBe(30.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getM())->toBe(40.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');
 
 test('can parse 4D WKB MultiLineString', function () {
@@ -142,7 +134,7 @@ test('can parse 4D WKB MultiLineString', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
@@ -167,26 +159,22 @@ test('can parse 4D WKB MultiLineString with SRID', function () {
     $multiLineString = $this->parser->parse($multiLineStringWKB);
 
     expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
-    expect($multiLineString->getDimension())->toBe(Dimension::DIMENSION_4D);
-    expect($multiLineString)->getSrid()->toBe(4326);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiLineString)->geometryHasSrid(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getM())->toBe(12.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(20.0);
     expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getM())->toBe(22.0);
-    expect($multiLineString->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getX())->toBe(7.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getY())->toBe(49.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getZ())->toBe(30.0);
     expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getM())->toBe(32.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getX())->toBe(6.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getM())->toBe(42.0);
-    expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getSrid())->toBe(4326);
 })->group('WKB MultiLineString');

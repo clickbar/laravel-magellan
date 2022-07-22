@@ -49,40 +49,30 @@ test('can parse 2D WKB GeometryCollection with SRID', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection)->geometryHasSrid(4326);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getSrid())->toBe(4326);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
-    expect($point->getSrid())->toBe(4326);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getSrid())->toBe(4326);
     expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
     expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
-    expect($lineString->getPoints()[0]->getSrid())->toBe(4326);
     expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
-    expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getSrid())->toBe(4326);
-    expect($polygon->getLineStrings()[0]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB GeometryCollection');
 
 
@@ -130,17 +120,16 @@ test('can parse 3DZ WKB GeometryCollection with SRID', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection)->geometryHasSrid(4326);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
-    expect($point->getSrid())->toBe(4326);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getSrid())->toBe(4326);
     expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
     expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
     expect($lineString->getPoints()[0]->getZ())->toBe(10.0);
@@ -150,7 +139,6 @@ test('can parse 3DZ WKB GeometryCollection with SRID', function () {
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
@@ -172,7 +160,7 @@ test('can parse 3DM WKB GeometryCollection', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
-    expect($geometryCollection->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DM);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
@@ -211,18 +199,17 @@ test('can parse 3DM WKB GeometryCollection with SRID', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
-    expect($geometryCollection->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($geometryCollection)->geometryHasSrid(4326);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getM())->toBe(10.0);
-    expect($point->getSrid())->toBe(4326);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getSrid())->toBe(4326);
     expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
     expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
     expect($lineString->getPoints()[0]->getM())->toBe(10.0);
@@ -232,7 +219,6 @@ test('can parse 3DM WKB GeometryCollection with SRID', function () {
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
@@ -254,7 +240,7 @@ test('can parse 4D WKB GeometryCollection', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
-    expect($geometryCollection->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_4D);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
@@ -300,7 +286,8 @@ test('can parse 4D WKB GeometryCollection with SRID', function () {
     $geometryCollection = $this->parser->parse($geometryCollectionWKB);
 
     expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
-    expect($geometryCollection->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($geometryCollection)->geometryHasSrid(4326);
 
     $point = $geometryCollection->getGeometries()[0];
     expect($point)->toBeInstanceOf(Point::class);
@@ -308,11 +295,9 @@ test('can parse 4D WKB GeometryCollection with SRID', function () {
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
     expect($point->getM())->toBe(12.0);
-    expect($point->getSrid())->toBe(4326);
 
     $lineString = $geometryCollection->getGeometries()[1];
     expect($lineString)->toBeInstanceOf(LineString::class);
-    expect($lineString->getSrid())->toBe(4326);
     expect($lineString->getPoints()[0]->getX())->toBe(8.12345);
     expect($lineString->getPoints()[0]->getY())->toBe(50.12345);
     expect($lineString->getPoints()[0]->getZ())->toBe(10.0);
@@ -324,7 +309,6 @@ test('can parse 4D WKB GeometryCollection with SRID', function () {
 
     $polygon = $geometryCollection->getGeometries()[2];
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getSrid())->toBe(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);

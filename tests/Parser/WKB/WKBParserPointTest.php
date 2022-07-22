@@ -27,7 +27,7 @@ test('can parse 2D WKB Point with SRID', function () {
     expect($point)->toBeInstanceOf(Point::class);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
-    expect($point->getSrid())->toBe(4326);
+    expect($point)->geometryHasSrid(4326);
 })->group('WKB Point');
 
 test('can parse 3DZ WKB Point', function () {
@@ -50,7 +50,7 @@ test('can parse 3DZ WKB Point with SRID', function () {
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
-    expect($point->getSrid())->toBe(4326);
+    expect($point)->geometryHasSrid(4326);
 })->group('WKB Point');
 
 test('can parse 3DM WKB Point', function () {
@@ -59,7 +59,7 @@ test('can parse 3DM WKB Point', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($point)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getM())->toBe(10.0);
@@ -71,8 +71,8 @@ test('can parse 3DM WKB Point with SRID', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getDimension())->toBe(Dimension::DIMENSION_3DM);
-    expect($point->getSrid())->toBe(4326);
+    expect($point)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($point)->geometryHasSrid(4326);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getM())->toBe(10.0);
@@ -84,7 +84,7 @@ test('can parse 4D WKB Point', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
@@ -97,10 +97,10 @@ test('can parse 4D WKB Point with SRID', function () {
     $point = $this->parser->parse($pointWKB);
 
     expect($point)->toBeInstanceOf(Point::class);
-    expect($point->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($point)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($point->getX())->toBe(8.12345);
     expect($point->getY())->toBe(50.12345);
     expect($point->getZ())->toBe(10.0);
     expect($point->getM())->toBe(20.0);
-    expect($point->getSrid())->toBe(4326);
+    expect($point)->geometryHasSrid(4326);
 })->group('WKB Point');
