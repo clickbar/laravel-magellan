@@ -15,7 +15,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function point($column, $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanPoint($column, $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('point', $column, compact('postgisType', 'srid'));
     }
@@ -28,7 +28,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function pointz($column,  int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanPointz($column,  int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('pointz', $column, compact('postgisType', 'srid'));
     }
@@ -41,7 +41,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function multipoint($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanMultipoint($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('multipoint', $column, compact('postgisType', 'srid'));
     }
@@ -54,7 +54,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function polygon($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanPolygon($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('polygon', $column, compact('postgisType', 'srid'));
     }
@@ -67,7 +67,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function multipolygon($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanMultipolygon($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('multipolygon', $column, compact('postgisType', 'srid'));
     }
@@ -80,7 +80,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function multipolygonz($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanMultipolygonz($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('multipolygonz', $column, compact('postgisType', 'srid'));
     }
@@ -93,7 +93,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function linestring($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanLinestring($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('linestring', $column, compact('postgisType', 'srid'));
     }
@@ -106,7 +106,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function linestringz($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanLinestringz($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('linestringz', $column, compact('postgisType', 'srid'));
     }
@@ -119,7 +119,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function multilinestring($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanMultilinestring($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('multilinestring', $column, compact('postgisType', 'srid'));
     }
@@ -132,7 +132,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function geography($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanGeography($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('geography', $column, compact('postgisType', 'srid'));
     }
@@ -145,7 +145,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param string $postgisType
      * @return ColumnDefinition
      */
-    public function geometry($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
+    public function magellanGeometry($column, int|null $srid = 4326, string $postgisType = 'GEOGRAPHY'): ColumnDefinition
     {
         return $this->addColumn('geometry', $column, compact('postgisType', 'srid'));
     }
@@ -159,7 +159,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * @param bool $typmod
      * @return Fluent
      */
-    public function geometrycollection($column, $srid = null)
+    public function magellanGeometrycollection($column, $srid = null)
     {
         $postgisType = 'GEOMETRY';
 
@@ -172,7 +172,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      *
      * @return Fluent
      */
-    public function enablePostgis()
+    public function magellanEnablePostgis()
     {
         return $this->addCommand('enablePostgis');
     }
@@ -183,7 +183,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      *
      * @return Fluent
      */
-    public function enablePostgisIfNotExists()
+    public function magellanEnablePostgisIfNotExists()
     {
         return $this->addCommand('enablePostgisIfNotExists');
     }
@@ -194,7 +194,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      *
      * @return Fluent
      */
-    public function disablePostgis()
+    public function magellanDisablePostgis()
     {
         return $this->addCommand('disablePostgis');
     }
@@ -205,7 +205,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      *
      * @return Fluent
      */
-    public function disablePostgisIfExists()
+    public function magellanDisablePostgisIfExists()
     {
         return $this->addCommand('disablePostgisIfExists');
     }
