@@ -216,7 +216,7 @@ class MagellanBlueprint
     public function magellanEnablePostgisIfNotExists(): \Closure
     {
         return function () {
-        return $this->addCommand('enablePostgisIfNotExists');
+            return $this->addCommand('enablePostgisIfNotExists');
         };
     }
 

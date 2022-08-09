@@ -11,7 +11,6 @@ use Illuminate\Support\Fluent;
  */
 class MagellanGrammar
 {
-
     /*
      *  Types
      */
@@ -19,7 +18,6 @@ class MagellanGrammar
     public function typePoint(): \Closure
     {
         return function (Fluent $column) {
-
             return MagellanGrammarHelper::createTypeDefinition($column, 'POINT');
         };
     }
@@ -29,7 +27,6 @@ class MagellanGrammar
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'POINTZ');
         };
-
     }
 
     public function typeMultiPoint(): \Closure
