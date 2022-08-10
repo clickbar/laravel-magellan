@@ -5,8 +5,8 @@ namespace Clickbar\Magellan\Schema\Grammars;
 use Clickbar\Magellan\Exception\UnsupportedPostgisTypeException;
 use Illuminate\Support\Fluent;
 
-class MagellanGrammarHelper {
-
+class MagellanGrammarHelper
+{
     // TODO: Consider using enum
     public static $allowed_geom_types = ['GEOGRAPHY', 'GEOMETRY'];
 
@@ -45,5 +45,4 @@ class MagellanGrammarHelper {
 
         return $schema . '.' . $type . '(' . $geometryType . ', ' . $column->srid . ')';
     }
-
 }
