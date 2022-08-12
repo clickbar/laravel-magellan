@@ -3,8 +3,6 @@
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\LineString;
-use Clickbar\Magellan\Geometries\MultiLineString;
-use Clickbar\Magellan\Geometries\MultiPoint;
 use Clickbar\Magellan\Geometries\MultiPolygon;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\Geometries\Polygon;
