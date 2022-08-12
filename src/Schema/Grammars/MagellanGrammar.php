@@ -17,97 +17,95 @@ class MagellanGrammar
     public function typeMagellanPoint(): \Closure
     {
         return function (Fluent $column) {
-            dd('reached');
-
             return MagellanGrammarHelper::createTypeDefinition($column, 'POINT');
         };
     }
 
-    public function typePointZ(): \Closure
+    public function typeMagellanPointZ(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'POINTZ');
         };
     }
 
-    public function typeMultiPoint(): \Closure
+    public function typeMagellanMultiPoint(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOINT');
         };
     }
 
-    public function typePolygon(): \Closure
+    public function typeMagellanPolygon(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'POLYGON');
         };
     }
 
-    public function typePolygonZ(): \Closure
+    public function typeMagellanPolygonZ(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'POLYGONZ');
         };
     }
 
-    public function typeMultiPolygon(): \Closure
+    public function typeMagellanMultiPolygon(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOLYGON');
         };
     }
 
-    public function typeMultiPolygonZ(): \Closure
+    public function typeMagellanMultiPolygonZ(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOLYGONZ');
         };
     }
 
-    public function typeLinestring(): \Closure
+    public function typeMagellanLinestring(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'LINESTRING');
         };
     }
 
-    public function typeLinestringZ(): \Closure
+    public function typeMagellanLinestringZ(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'LINESTRINGZ');
         };
     }
 
-    public function typeMultiLinestring(): \Closure
+    public function typeMagellanMultiLinestring(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'MULTILINESTRING');
         };
     }
 
-    public function typeMultiLinestringZ(): \Closure
+    public function typeMagellanMultiLinestringZ(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'MULTILINESTRINGZ');
         };
     }
 
-    public function typeGeography(): \Closure
+    public function typeMagellanGeography(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'GEOGRAPHY');
         };
     }
 
-    public function typeGeometry(): \Closure
+    public function typeMagellanGeometry(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'GEOMETRY');
         };
     }
 
-    public function typeGeometrycollection(): \Closure
+    public function typeMagellanGeometrycollection(): \Closure
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'GEOMETRYCOLLECTION');

@@ -21,7 +21,7 @@ class MagellanBlueprint
     public function magellanPoint(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('point', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanPoint', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -36,7 +36,7 @@ class MagellanBlueprint
     public function magellanPointz(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('pointz', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanPointz', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -51,7 +51,7 @@ class MagellanBlueprint
     public function magellanMultipoint(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('multipoint', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanMultipoint', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -66,7 +66,7 @@ class MagellanBlueprint
     public function magellanPolygon(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('polygon', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanPolygon', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -81,7 +81,7 @@ class MagellanBlueprint
     public function magellanMultipolygon(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('multipolygon', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanMultipolygon', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -96,7 +96,7 @@ class MagellanBlueprint
     public function magellanMultipolygonz(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('multipolygonz', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanMultipolygonz', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -111,7 +111,7 @@ class MagellanBlueprint
     public function magellanLinestring(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('linestring', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanLinestring', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -126,7 +126,7 @@ class MagellanBlueprint
     public function magellanLinestringz(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('linestringz', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanLinestringz', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -141,7 +141,7 @@ class MagellanBlueprint
     public function magellanMultilinestring(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('multilinestring', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanMultilinestring', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -156,7 +156,7 @@ class MagellanBlueprint
     public function magellanGeography(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('geography', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanGeography', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -171,7 +171,7 @@ class MagellanBlueprint
     public function magellanGeometry(): \Closure
     {
         return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
-            return $this->addColumn('geometry', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanGeometry', $column, compact('postgisType', 'srid'));
         };
     }
 
@@ -189,7 +189,7 @@ class MagellanBlueprint
         return function ($column, $srid = 4326) {
             $postgisType = 'GEOMETRY';
 
-            return $this->addColumn('geometrycollection', $column, compact('postgisType', 'srid'));
+            return $this->addColumn('magellanGeometrycollection', $column, compact('postgisType', 'srid'));
         };
     }
 
