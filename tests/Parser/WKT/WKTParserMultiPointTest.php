@@ -3,7 +3,6 @@
 
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\MultiPoint;
-use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 
