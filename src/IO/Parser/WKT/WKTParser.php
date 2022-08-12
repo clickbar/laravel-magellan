@@ -136,14 +136,11 @@ class WKTParser extends BaseParser
             }, $points));
         };
 
-        $matches = [];
-        preg_match_all('/\(\s*([+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+\s+[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+(\s+[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)+)?)\s*\)/', trim($argument), $matches);
-
-        if (count($matches) < 2) {
+        $pointArguments = explode(',', trim($argument));
+        if (count($pointArguments) < 2) {
             return $this->factory->createMultiPoint($this->dimension, $this->srid, []);
         }
-
-        $points = array_map(fn ($pointArgument) => $this->parsePoint($pointArgument), $matches[1]);
+        $points = array_map(fn ($pointArgument) => $this->parsePoint($pointArgument), $pointArguments);
 
         return $this->factory->createMultiPoint($this->dimension, $this->srid, $points);
     }

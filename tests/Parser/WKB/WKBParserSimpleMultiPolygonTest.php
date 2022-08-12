@@ -61,7 +61,7 @@ test('can parse 2D WKB Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 
-    expect($multiPolygon->getSRID())->toBe(4326);
+    expect($multiPolygon)->geometryHasSrid(4326);
 })->group('WKB MultiPolygon');
 
 test('can parse 3DZ WKB Simple MultiPolygon', function () {
@@ -103,44 +103,32 @@ test('can parse 3DZ WKB Simple MultiPolygon with SRID', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getSrid())->toBe(4326);
+    expect($multiPolygon)->geometryHasSrid(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($multiPolygon->getPolygons()[1]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPolygon');
 
 test('can parse 3DM WKB Simple MultiPolygon', function () {
@@ -149,7 +137,7 @@ test('can parse 3DM WKB Simple MultiPolygon', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getDimension())->toBe(Dimension::DIMENSION_3DM);
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
@@ -183,45 +171,33 @@ test('can parse 3DM WKB Simple MultiPolygon with SRID', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getDimension())->toBe(Dimension::DIMENSION_3DM);
-    expect($multiPolygon->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getSrid())->toBe(4326);
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPolygon)->geometryHasSrid(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($multiPolygon->getPolygons()[1]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPolygon');
 
 test('can parse 4D WKB Simple MultiPolygon', function () {
@@ -230,7 +206,7 @@ test('can parse 4D WKB Simple MultiPolygon', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getDimension())->toBe(Dimension::DIMENSION_4D);
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
@@ -272,51 +248,39 @@ test('can parse 4D WKB Simple MultiPolygon with SRID', function () {
     $multiPolygon = $this->parser->parse($multiPolygonWKB);
 
     expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
-    expect($multiPolygon->getDimension())->toBe(Dimension::DIMENSION_4D);
-    expect($multiPolygon->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getSrid())->toBe(4326);
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPolygon)->geometryHasSrid(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[0]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 
-    expect($multiPolygon->getPolygons()[1]->getSrid())->toBe(4326);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[0]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getX())->toBe(11.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[1]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getX())->toBe(9.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getSrid())->toBe(4326);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
-    expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getSrid())->toBe(4326);
 })->group('WKB MultiPolygon');

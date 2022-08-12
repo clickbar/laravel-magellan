@@ -1,21 +1,23 @@
 <?php
 
+
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Dimension;
-use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
+use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 
 beforeEach(function () {
-    $this->parser = new WKBParser(new GeometryFactory());
+    $this->parser = new WKTParser(new GeometryFactory());
 });
 
 
-test('can parse 2D WKB Simple Polygon', function () {
-    $polygonWKB = '01030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345), st_makepoint(7.12345, 48.12345), st_makepoint(8.12345, 50.12345)]));
+test('can parse 2D WKT Simple Polygon', function () {
+    $polygonWKT = 'POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_2D);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
@@ -24,31 +26,33 @@ test('can parse 2D WKB Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 2D WKB Simple Polygon with SRID', function () {
-    $polygonWKB = '0103000020E61000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345), st_makepoint(7.12345, 48.12345), st_makepoint(8.12345, 50.12345)])), 4326)
+test('can parse 2D WKT Simple Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
-    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_2D);
     expect($polygon)->geometryHasSrid(4326);
-})->group('WKB Polygon');
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getX())->toBe(9.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[1]->getY())->toBe(51.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getX())->toBe(7.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
+    expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+})->group('WKT Polygon');
 
-test('can parse 3DZ WKB Simple Polygon', function () {
-    $polygonWKB = '01030000800100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,20), st_makepoint(7.12345, 48.12345,30), st_makepoint(8.12345, 50.12345,10)]))
+test('can parse 3DZ WKT Simple Polygon', function () {
+    $polygonWKT = 'POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getZ())->toBe(10.0);
@@ -61,14 +65,15 @@ test('can parse 3DZ WKB Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 3DZ WKB Simple Polygon with SRID', function () {
-    $polygonWKB = '01030000A0E61000000100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345,20), st_makepoint(7.12345, 48.12345,30), st_makepoint(8.12345, 50.12345,10)])), 4326)
+test('can parse 3DZ WKT Simple Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON Z ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
     expect($polygon)->geometryHasSrid(4326);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[0]->getY())->toBe(50.12345);
@@ -82,12 +87,12 @@ test('can parse 3DZ WKB Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 3DM WKB Simple Polygon', function () {
-    $polygonWKB = '01030000400100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_makepolygon(st_makeline(ARRAY[st_makepointM(8.12345, 50.12345, 10), st_makepointM(9.12345, 51.12345,20), st_makepointM(7.12345, 48.12345,30), st_makepointM(8.12345, 50.12345,10)]))
+test('can parse 3DM WKT Simple Polygon', function () {
+    $polygonWKT = 'POLYGON M ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
@@ -103,12 +108,12 @@ test('can parse 3DM WKB Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 3DM WKB Simple Polygon with SRID', function () {
-    $polygonWKB = '0103000060E61000000100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepointM(8.12345, 50.12345, 10), st_makepointM(9.12345, 51.12345,20), st_makepointM(7.12345, 48.12345,30), st_makepointM(8.12345, 50.12345,10)])), 4326)
+test('can parse 3DM WKT Simple Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON M ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
@@ -125,12 +130,13 @@ test('can parse 3DM WKB Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 4D WKB Simple Polygon', function () {
-    $polygonWKB = '01030000C00100000004000000E561A1D6343F20407958A835CD0F494000000000000024400000000000002840E561A1D6343F22407958A835CD8F494000000000000034400000000000003640CAC342AD697E1C407958A835CD0F48400000000000003E400000000000004040E561A1D6343F20407958A835CD0F494000000000000024400000000000002840'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10, 12), st_makepoint(9.12345, 51.12345,20,22), st_makepoint(7.12345, 48.12345,30,32), st_makepoint(8.12345, 50.12345,10,12)]))
 
-    $polygon = $this->parser->parse($polygonWKB);
+test('can parse 4D WKT Simple Polygon', function () {
+    $polygonWKT = 'POLYGON ZM ((8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 48.12345 30 32,8.12345 50.12345 10 12))';
+
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
@@ -150,12 +156,12 @@ test('can parse 4D WKB Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
 
-test('can parse 4D WKB Simple Polygon with SRID', function () {
-    $polygonWKB = '01030000E0E61000000100000004000000E561A1D6343F20407958A835CD0F494000000000000024400000000000002840E561A1D6343F22407958A835CD8F494000000000000034400000000000003640CAC342AD697E1C407958A835CD0F48400000000000003E400000000000004040E561A1D6343F20407958A835CD0F494000000000000024400000000000002840'; // st_setsrid(st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345, 10, 12), st_makepoint(9.12345, 51.12345,20,22), st_makepoint(7.12345, 48.12345,30,32), st_makepoint(8.12345, 50.12345,10,12)])), 4326)
+test('can parse 4D WKT Simple Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON ZM ((8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 48.12345 30 32,8.12345 50.12345 10 12))';
 
-    $polygon = $this->parser->parse($polygonWKB);
+    $polygon = $this->parser->parse($polygonWKT);
 
     expect($polygon)->toBeInstanceOf(Polygon::class);
     expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
@@ -176,4 +182,4 @@ test('can parse 4D WKB Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
-})->group('WKB Polygon');
+})->group('WKT Polygon');
