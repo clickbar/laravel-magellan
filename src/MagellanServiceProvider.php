@@ -23,9 +23,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-magellan')
             ->hasConfigFile()
-            ->hasViews()
             ->hasMigration('create_postgis_table')
-            ->hasCommand(PostgisCommand::class)
             ->hasCommand(AddPostgisColumns::class);
     }
 
