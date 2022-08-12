@@ -19,7 +19,7 @@ uses(TestCase::class)->in(__DIR__);
  */
 expect()->extend('geometryHasDimension', function (Dimension $dimension) {
     if ($this->value instanceof Point) {
-        assert($this->value->getDimension() === $dimension);
+        expect($this->value->getDimension())->toBe($dimension);
     }
 
     if ($this->value instanceof LineString) {
@@ -55,7 +55,7 @@ expect()->extend('geometryHasDimension', function (Dimension $dimension) {
     }
 
     if ($this->value instanceof GeometryCollection) {
-        assert($this->value->getDimension() === $dimension);
+        expect($this->value->getDimension())->toBe($dimension);
 
         foreach ($this->value->getGeometries() as $geometry) {
             expect($geometry)->geometryHasDimension($dimension);
