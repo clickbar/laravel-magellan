@@ -4,9 +4,10 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\AddPostgisColumns;
 use Clickbar\Magellan\Commands\PostgisCommand;
-use Closure;
-use Illuminate\Database\Connection;
-use PDO;
+use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
+use Clickbar\Magellan\Schema\MagellanBlueprint;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Grammars\PostgresGrammar;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,8 +31,7 @@ class MagellanServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        Connection::resolverFor('pgsql', function (PDO|Closure $pdo, string $database = '', string $tablePrefix = '', array $config = []) {
-            return new MagellanConnection($pdo, $database, $tablePrefix, $config);
-        });
+        PostgresGrammar::mixin(new MagellanGrammar());
+        Blueprint::mixin(new MagellanBlueprint());
     }
 }
