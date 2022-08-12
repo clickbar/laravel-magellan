@@ -3,7 +3,6 @@
 namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\AddPostgisColumns;
-use Clickbar\Magellan\Commands\PostgisCommand;
 use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
 use Clickbar\Magellan\Schema\MagellanBlueprint;
 use Illuminate\Database\Schema\Blueprint;
