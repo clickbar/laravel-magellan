@@ -157,7 +157,7 @@ test('can parse 4D WKT MultiPoint', function () {
     expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
     expect($multiPoint->getPoints()[3]->getM())->toBe(42.0);
-})->group('WKT MultiPoint')->only();
+})->group('WKT MultiPoint');
 
 test('can parse 4D WKT MultiPoint with SRID', function () {
     $multiPointWKT = 'SRID=4326;MULTIPOINT ZM (8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 49.12345 30 32,6.12345 48.12345 40 42)';
