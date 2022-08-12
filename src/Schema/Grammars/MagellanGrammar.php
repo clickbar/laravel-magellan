@@ -2,7 +2,6 @@
 
 namespace Clickbar\Magellan\Schema\Grammars;
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
 
 /**
@@ -115,20 +114,6 @@ class MagellanGrammar
     /*
      *  COMPILE Statements
      */
-
-    /**
-     * Adds a statement to add a geometrycollection geometry column
-     *
-     * @return \Closure
-     */
-    public function compileGeometrycollection(): \Closure
-    {
-        return function (Blueprint $blueprint, Fluent $command) {
-            $command->type = 'GEOMETRYCOLLECTION';
-
-            return $this->compileGeometry($blueprint, $command);
-        };
-    }
 
     /**
      * Adds a statement to create the postgis extension
