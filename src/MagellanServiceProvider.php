@@ -21,7 +21,7 @@ class MagellanServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('postgis')
+            ->name('laravel-magellan')
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_postgis_table')

@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Clickbar\Magellan\Magellan
  */
-class Postgis extends Facade
+class Magellan extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'postgis';
+        return 'magellan';
     }
 }

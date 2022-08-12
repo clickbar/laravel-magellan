@@ -1,8 +1,6 @@
 <?php
 
-// config for Clickbar/Postgis
-use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
-
+// config for clickbar/laravel-magellan
 return [
 
     'schema' => 'public',
@@ -12,7 +10,7 @@ return [
         'default_srid' => 4326,
     ],
 
-    'json_generator' => GeojsonGenerator::class,
+    'json_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
 
     'insert_generator' => \Clickbar\Magellan\IO\Generator\WKB\WKBGenerator::class,
 

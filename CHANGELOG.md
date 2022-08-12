@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `postgis` will be documented in this file.
+All notable changes to `laravel-magellan` will be documented in this file.

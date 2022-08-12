@@ -24,7 +24,7 @@ abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringa
 
     public function jsonSerialize(): mixed
     {
-        $generatorClass = config('postgis.json_generator');
+        $generatorClass = config('magellan.json_generator');
         $generator = new $generatorClass();
 
         return json_encode($generator->generate($this));
@@ -32,7 +32,7 @@ abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringa
 
     public function __toString(): string
     {
-        $generatorClass = config('postgis.string_generator');
+        $generatorClass = config('magellan.string_generator');
         $generator = new $generatorClass();
 
         $generated = $generator->generate($this);

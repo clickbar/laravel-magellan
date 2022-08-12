@@ -1,6 +1,6 @@
 {
     "name": "clickbar/laravel-magellan",
-    "description": "This is my package postgis",
+    "description": "This package provides functionality for working with the postgis extension.",
     "keywords": [
         "clickbar",
         "laravel",

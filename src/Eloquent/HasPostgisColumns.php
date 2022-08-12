@@ -20,8 +20,8 @@ trait HasPostgisColumns
         $this->assertKeyIsInPostgisColumns($key);
 
         $default = [
-            'type' => config('postgis.eloquent.default_postgis_type'),
-            'srid' => config('postgis.eloquent.default_srid'),
+            'type' => config('magellan.eloquent.default_postgis_type'),
+            'srid' => config('magellan.eloquent.default_srid'),
         ];
 
         return Arr::get($this->postgisColumns, $key, $default);
@@ -42,7 +42,7 @@ trait HasPostgisColumns
 
     private function getGenerator(): BaseGenerator
     {
-        $generatorClass = config('postgis.insert_generator');
+        $generatorClass = config('magellan.insert_generator');
 
         return new $generatorClass();
     }
@@ -50,9 +50,9 @@ trait HasPostgisColumns
     protected function geomFromText(Geometry $geometry, $srid = 4326)
     {
         $generator = $this->getGenerator();
-        $geometrySql = $generator->toPostgisGeometrySql($geometry, config('postgis.schema', 'public'));
+        $geometrySql = $generator->toPostgisGeometrySql($geometry, config('magellan.schema', 'public'));
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (config('postgis.transform_on_insert')) {
+            if (config('magellan.transform_on_insert', false)) {
                 $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
@@ -65,10 +65,10 @@ trait HasPostgisColumns
     protected function geogFromText(Geometry $geometry, $srid = 4326)
     {
         $generator = $this->getGenerator();
-        $geometrySql = $generator->toPostgisGeographySql($geometry, config('postgis.schema', 'public'));
+        $geometrySql = $generator->toPostgisGeographySql($geometry, config('magellan.schema', 'public'));
 
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (config('postgis.transform_on_insert')) {
+            if (config('magellan.transform_on_insert', false)) {
                 $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());

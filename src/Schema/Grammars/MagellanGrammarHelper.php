@@ -40,7 +40,7 @@ class MagellanGrammarHelper
     {
         self::assertValidPostgisType($column);
 
-        $schema = config('postgis.schema', 'public');
+        $schema = config('magellan.schema', 'public');
         $type = strtoupper($column->postgisType);
 
         return $schema . '.' . $type . '(' . $geometryType . ', ' . $column->srid . ')';
