@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->parser = new WKBParser(new GeometryFactory());
 });
 
-
 test('can parse 2D WKB Simple Polygon', function () {
     $polygonWKB = '01030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F4940'; // st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345), st_makepoint(7.12345, 48.12345), st_makepoint(8.12345, 50.12345)]));
 

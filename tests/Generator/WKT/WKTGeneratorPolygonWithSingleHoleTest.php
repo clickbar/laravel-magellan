@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT Polygon with single hole', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -117,7 +116,6 @@ test('can generate 3DM WKT Polygon with single hole with SRID', function () {
 
     expect($polygonWKT)->toBe('SRID=4326;POLYGON M((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 20,8.267211 50.050966 30,8.27133 50.16634 10))');
 })->group('WKT Polygon');
-
 
 test('can generate 4D WKT Polygon with single hole', function () {
     $point1 = Point::make(8.12345, 50.12345, 10, 12);

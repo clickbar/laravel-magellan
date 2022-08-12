@@ -19,12 +19,13 @@ use Illuminate\Support\Str;
 class WKTParser extends BaseParser
 {
     protected ?Dimension $dimension = null;
+
     protected ?int $srid = null;
 
     public function parse($input): Geometry
     {
         $input = $this->parseAndRemoveSrid($input);
-        $method = 'parse' . $this->getParseMethodName($input);
+        $method = 'parse'.$this->getParseMethodName($input);
 
         return $this->$method($this->getWKTArgument($input));
     }
@@ -32,7 +33,7 @@ class WKTParser extends BaseParser
     private function parseAndRemoveSrid(string $input): string
     {
         if (Str::startsWith($input, 'SRID')) {
-            $this->srid = (int)Str::after($input, '=');
+            $this->srid = (int) Str::after($input, '=');
             $input = Str::after($input, ';');
         }
 
@@ -50,7 +51,8 @@ class WKTParser extends BaseParser
 
     /**
      * Returns the method name of the method being responsible for parsing the specific type
-     * @param string $value
+     *
+     * @param  string  $value
      * @return string
      */
     private function getParseMethodName(string $value): string
@@ -82,7 +84,7 @@ class WKTParser extends BaseParser
             'MULTILINESTRING', 'MULTILINESTRINGZ', 'MULTILINESTRING Z', 'MULTILINESTRINGM', 'MULTILINESTRING M', 'MULTILINESTRINGZM', 'MULTILINESTRING ZM' => 'MultiLineString',
             'MULTIPOLYGON', 'MULTIPOLYGONZ', 'MULTIPOLYGON Z', 'MULTIPOLYGONM', 'MULTIPOLYGON M', 'MULTIPOLYGONZM', 'MULTIPOLYGON ZM' => 'MultiPolygon',
             'GEOMETRYCOLLECTION', 'GEOMETRYCOLLECTIONZ', 'GEOMETRYCOLLECTION Z', 'GEOMETRYCOLLECTIONM', 'GEOMETRYCOLLECTION M', 'GEOMETRYCOLLECTIONZM', 'GEOMETRYCOLLECTION ZM' => 'GeometryCollection',
-            default => throw new UnknownWKTTypeException('Type was ' . $type),
+            default => throw new UnknownWKTTypeException('Type was '.$type),
         };
     }
 
@@ -132,9 +134,9 @@ class WKTParser extends BaseParser
         if (! strpos(trim($argument), '(')) {
             $points = explode(',', $argument);
             $argument = implode(',', array_map(function ($pair) {
-                return '(' . trim($pair) . ')';
+                return '('.trim($pair).')';
             }, $points));
-        };
+        }
 
         $pointArguments = explode(',', trim($argument));
         if (count($pointArguments) < 2) {
@@ -168,7 +170,7 @@ class WKTParser extends BaseParser
         $geometryWktSegments = preg_split('/,\s*(?=[A-Za-z])/', $argument);
         $geometries = array_map(
             function ($geometryWktSegment) {
-                $method = 'parse' . $this->getParseMethodName($geometryWktSegment);
+                $method = 'parse'.$this->getParseMethodName($geometryWktSegment);
 
                 return $this->$method($this->getWKTArgument($geometryWktSegment));
             },
@@ -191,7 +193,7 @@ class WKTParser extends BaseParser
      * "((-1 -1,-1 -2,-2 -2,-2 -1,-1 -1))",
      * "((-1 -1,-1 -2,-2 -2,-2 -1,-1 -1))"
      *
-     * @param array $parts
+     * @param  array  $parts
      * @return array
      */
     private function assembleParts(array $parts)
@@ -201,9 +203,9 @@ class WKTParser extends BaseParser
 
         for ($i = 0; $i < $count; $i++) {
             if ($i % 2 !== 0) {
-                list($end, $start) = explode(',', $parts[$i]);
+                [$end, $start] = explode(',', $parts[$i]);
                 $polygons[$i - 1] .= $end;
-                $polygons[++$i] = $start . $parts[$i];
+                $polygons[++$i] = $start.$parts[$i];
             } else {
                 $polygons[] = $parts[$i];
             }
@@ -211,7 +213,6 @@ class WKTParser extends BaseParser
 
         return array_values($polygons);
     }
-
 
     // ************************************************ Assertions ***************************************************
 

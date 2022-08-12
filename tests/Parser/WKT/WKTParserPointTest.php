@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\IO\Dimension;

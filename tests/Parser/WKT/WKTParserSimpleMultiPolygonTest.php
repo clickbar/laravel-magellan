@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\MultiPolygon;
 use Clickbar\Magellan\IO\Dimension;
@@ -100,7 +99,6 @@ test('can parse 3DZ WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT MultiPolygon');
 
-
 test('can parse 3DZ WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON Z (((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))';
 
@@ -171,7 +169,6 @@ test('can parse 3DM WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
 })->group('WKT MultiPolygon');
-
 
 test('can parse 3DM WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON M (((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))';
@@ -251,7 +248,6 @@ test('can parse 4D WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
 })->group('WKT MultiPolygon');
-
 
 test('can parse 4D WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON ZM (((8.12345 50.12345 10 12,9.12345 51.12345 10 12,7.12345 48.12345 10 12,8.12345 50.12345 10 12)),((10.12345 50.12345 10 12,11.12345 51.12345 10 12,9.12345 48.12345 10 12,10.12345 50.12345 10 12)))';

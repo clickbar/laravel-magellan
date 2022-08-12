@@ -8,7 +8,6 @@ use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
-
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Arr;
@@ -53,7 +52,7 @@ trait HasPostgisColumns
         $geometrySql = $generator->toPostgisGeometrySql($geometry, config('magellan.schema', 'public'));
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
             if (config('magellan.transform_on_insert', false)) {
-                $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+                $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
             }
@@ -69,7 +68,7 @@ trait HasPostgisColumns
 
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
             if (config('magellan.transform_on_insert', false)) {
-                $geometrySql = 'ST_TRANSFORM(' . $geometrySql . ', ' . $srid . ')';
+                $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
             }
@@ -132,14 +131,14 @@ trait HasPostgisColumns
     protected function assertPostgisColumnsNotEmpty()
     {
         if (! property_exists($this, 'postgisColumns')) {
-            throw new PostgisColumnsNotDefinedException(__CLASS__ . ' has not defined any postgis columns within the $postgisColumns property.');
+            throw new PostgisColumnsNotDefinedException(__CLASS__.' has not defined any postgis columns within the $postgisColumns property.');
         }
     }
 
     protected function assertKeyIsInPostgisColumns(string $key)
     {
         if (! in_array($key, $this->getPostgisColumnNames())) {
-            throw new PostgisColumnsNotDefinedException(__CLASS__ . " has not defined the column '$key' within the \$postgisColumns property.");
+            throw new PostgisColumnsNotDefinedException(__CLASS__." has not defined the column '$key' within the \$postgisColumns property.");
         }
     }
 }

@@ -13,7 +13,7 @@ abstract class PointCollection extends Geometry
     protected array $points;
 
     /**
-     * @param Point[] $points
+     * @param  Point[]  $points
      */
     protected function __construct(array $points)
     {

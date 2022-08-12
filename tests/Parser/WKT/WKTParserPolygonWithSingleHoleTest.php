@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Dimension;
@@ -9,7 +8,6 @@ use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 beforeEach(function () {
     $this->parser = new WKTParser(new GeometryFactory());
 });
-
 
 test('can parse 2D WKT Polygon with single hole', function () {
     $polygonWKT = 'POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345),(8.27133 50.16634,8.198547 50.035091,8.267211 50.050966,8.27133 50.16634))';
@@ -63,7 +61,6 @@ test('can parse 2D WKT Polygon with single hole with SRID', function () {
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getX())->toBe(8.27133);
     expect($polygon->getLineStrings()[1]->getPoints()[3]->getY())->toBe(50.16634);
 })->group('WKT Polygon');
-
 
 test('can parse 3DZ WKT Polygon with single hole', function () {
     $polygonWKT = 'POLYGON Z((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 20,8.267211 50.050966 30,8.27133 50.16634 10))';

@@ -74,7 +74,8 @@ class AddPostgisColumns extends Command
 
     /**
      * Searchs within the model code start and end line of the $postgisColumns property.
-     * @param Collection $modelCodeLines
+     *
+     * @param  Collection  $modelCodeLines
      * @return array|null
      */
     private function getCurrentPostgisColumnsLineInterval(Collection $modelCodeLines): ?array
@@ -107,8 +108,8 @@ class AddPostgisColumns extends Command
      * Discovers the starting line for inserting the $postgisColumns property.
      * Tries to find the line after the last Trait use or as default the first line after the class declaration.
      *
-     * @param Collection $modelCodeLines
-     * @param ReflectionClass $modelReflectionClass
+     * @param  Collection  $modelCodeLines
+     * @param  ReflectionClass  $modelReflectionClass
      * @return int
      */
     private function getStartLine(Collection $modelCodeLines, ReflectionClass $modelReflectionClass): int
@@ -139,7 +140,8 @@ class AddPostgisColumns extends Command
 
     /**
      * Builds the necessary lines for the $postgisColumns property based on the postgis views for geometry and geography.
-     * @param Model $model
+     *
+     * @param  Model  $model
      * @return array
      */
     private function buildPostgisColumnCodeLines(Model $model): array
@@ -154,13 +156,13 @@ class AddPostgisColumns extends Command
             $postgisColumnLines[] = $this->addInset(2, "'{$geographyColumn->f_geography_column}' => [");
             $postgisColumnLines[] = $this->addInset(3, "'type' => 'geography',");
             $postgisColumnLines[] = $this->addInset(3, "'srid' => {$geographyColumn->srid},");
-            $postgisColumnLines[] = $this->addInset(2, "],");
+            $postgisColumnLines[] = $this->addInset(2, '],');
         }
         foreach ($geometryColumns as $geometryColumn) {
             $postgisColumnLines[] = $this->addInset(2, "'{$geometryColumn->f_geometry_column}' => [");
             $postgisColumnLines[] = $this->addInset(3, "'type' => 'geometry',");
             $postgisColumnLines[] = $this->addInset(3, "'srid' => {$geometryColumn->srid},");
-            $postgisColumnLines[] = $this->addInset(2, "],");
+            $postgisColumnLines[] = $this->addInset(2, '],');
         }
         $postgisColumnLines[] = $this->addInset(1, '];');
 
@@ -169,12 +171,13 @@ class AddPostgisColumns extends Command
 
     private function addInset(int $level, string $line): string
     {
-        return Str::repeat(' ', $level * 4) . $line;
+        return Str::repeat(' ', $level * 4).$line;
     }
 
     /**
      * Gets the reflection class for the given model
      * In case of missing namespace appeds the default namespace.
+     *
      * @return ReflectionClass|null
      */
     private function getModelReflectionClass(): ?ReflectionClass
@@ -183,7 +186,7 @@ class AddPostgisColumns extends Command
 
         if (! class_exists($modelClass)) {
             // try to add default model prefix
-            $modelClass = 'App\\Models\\' . $modelClass;
+            $modelClass = 'App\\Models\\'.$modelClass;
             if (! class_exists($modelClass)) {
                 $this->error('Model class not found');
 

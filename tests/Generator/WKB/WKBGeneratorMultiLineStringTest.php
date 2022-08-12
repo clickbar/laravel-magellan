@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
 
-
 test('can generate 2D WKB MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -74,7 +73,6 @@ test('can generate 3DZ WKB MultiLineString with SRID', function () {
     expect($multiLineStringWKB)->toBe('01050000A0E610000002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiLineString');
 
-
 test('can generate 3DM WKB MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345, null, 10);
     $point2 = Point::make(9.12345, 51.12345, null, 20);
@@ -106,7 +104,6 @@ test('can generate 3DM WKB MultiLineString with SRID', function () {
 
     expect($multiLineStringWKB)->toBe('0105000060E610000002000000010200004002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200004002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiLineString');
-
 
 test('can generate 4D WKB MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10, 12);

@@ -10,7 +10,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -95,7 +94,6 @@ test('can generate 3DZ WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygonWKT)->toBe('SRID=4326;MULTIPOLYGON Z(((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))');
 })->group('WKT MultiPolygon');
 
-
 test('can generate 3DM WKT Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345, null, 10);
     $point2 = Point::make(9.12345, 51.12345, null, 10);
@@ -137,7 +135,6 @@ test('can generate 3DM WKT Simple MultiPolygon with SRID', function () {
 
     expect($multiPolygonWKT)->toBe('SRID=4326;MULTIPOLYGON M(((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))');
 })->group('WKT MultiPolygon');
-
 
 test('can generate 4D WKT Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345, 10, 12);

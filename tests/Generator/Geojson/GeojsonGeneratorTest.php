@@ -302,7 +302,6 @@ test('can generate 3D Geojson Simple MultiPolygon', function () {
     ]);
 })->group('Geojson MultiPolygon');
 
-
 test('can generate 2D Geojson GeometryCollection', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345);
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
@@ -321,10 +320,10 @@ test('can generate 2D Geojson GeometryCollection', function () {
         'geometries' => [
             [
                 'type' => 'Point',
-                'coordinates' => [8.12345, 50.12345],],
+                'coordinates' => [8.12345, 50.12345], ],
             [
                 'type' => 'LineString',
-                'coordinates' => [[8.12345, 50.12345], [9.12345, 51.12345]],],
+                'coordinates' => [[8.12345, 50.12345], [9.12345, 51.12345]], ],
             [
                 'type' => 'Polygon',
                 'coordinates' => [[[8.12345, 50.12345], [9.12345, 51.12345], [7.12345, 48.12345], [8.12345, 50.12345]]],

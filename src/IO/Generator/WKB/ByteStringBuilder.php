@@ -7,9 +7,11 @@ use Clickbar\Magellan\IO\Parser\WKB\ByteOrder;
 class ByteStringBuilder
 {
     protected ByteOrder $byteOrder;
+
     protected string $byteString;
 
     protected $unsignedLongType;
+
     protected $doubleType;
 
     public function __construct(ByteOrder $byteOrder)
@@ -69,7 +71,7 @@ class ByteStringBuilder
         if ($hex) {
             $unpacked = unpack('H*', $this->byteString);
 
-            return strtoupper((string)$unpacked[1]);
+            return strtoupper((string) $unpacked[1]);
         }
 
         return $this->byteString;

@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\MultiLineString;
 use Clickbar\Magellan\IO\Dimension;
@@ -87,7 +86,6 @@ test('can parse 3DZ WKT MultiLineString with SRID', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getY())->toBe(48.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
 })->group('WKT MultiLineString');
-
 
 test('can parse 3DM WKT MultiLineString', function () {
     $multiLineStringWKT = 'MULTILINESTRING M ((8.12345 50.12345 10,9.12345 51.12345 20),(7.12345 49.12345 30,6.12345 48.12345 40))';

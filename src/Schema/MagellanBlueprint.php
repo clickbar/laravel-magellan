@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\ColumnDefinition;
 use Illuminate\Support\Fluent;
 
 /**
- * @package Clickbar\Magellan\Schema
  * @mixin \Illuminate\Database\Schema\Blueprint
  */
 class MagellanBlueprint
@@ -14,9 +13,9 @@ class MagellanBlueprint
     /**
      * Add a point column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanPoint(): \Closure
@@ -29,9 +28,9 @@ class MagellanBlueprint
     /**
      * Add a point column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanPointz(): \Closure
@@ -44,9 +43,9 @@ class MagellanBlueprint
     /**
      * Add a multipoint column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanMultipoint(): \Closure
@@ -59,9 +58,9 @@ class MagellanBlueprint
     /**
      * Add a polygon column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanPolygon(): \Closure
@@ -74,9 +73,9 @@ class MagellanBlueprint
     /**
      * Add a multipolygon column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanMultipolygon(): \Closure
@@ -90,8 +89,8 @@ class MagellanBlueprint
      * Add a multipolygonz column on the table
      *
      * @param $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanMultipolygonz(): \Closure
@@ -104,9 +103,9 @@ class MagellanBlueprint
     /**
      * Add a linestring column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanLinestring(): \Closure
@@ -119,9 +118,9 @@ class MagellanBlueprint
     /**
      * Add a linestringz column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanLinestringz(): \Closure
@@ -134,9 +133,9 @@ class MagellanBlueprint
     /**
      * Add a multilinestring column on the table
      *
-     * @param      $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param    $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanMultilinestring(): \Closure
@@ -149,9 +148,9 @@ class MagellanBlueprint
     /**
      * Add a geography column on the table
      *
-     * @param string $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param  string  $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanGeography(): \Closure
@@ -164,9 +163,9 @@ class MagellanBlueprint
     /**
      * Add a geometry column on the table
      *
-     * @param string $column
-     * @param int|null $srid
-     * @param string $postgisType
+     * @param  string  $column
+     * @param  int|null  $srid
+     * @param  string  $postgisType
      * @return ColumnDefinition
      */
     public function magellanGeometry(): \Closure
@@ -179,10 +178,10 @@ class MagellanBlueprint
     /**
      * Add a geometrycollection column on the table
      *
-     * @param      $column
-     * @param null $srid
-     * @param int $dimensions
-     * @param bool $typmod
+     * @param    $column
+     * @param  null  $srid
+     * @param  int  $dimensions
+     * @param  bool  $typmod
      * @return Fluent
      */
     public function magellanGeometrycollection(): \Closure

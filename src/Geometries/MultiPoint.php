@@ -5,7 +5,7 @@ namespace Clickbar\Magellan\Geometries;
 class MultiPoint extends PointCollection
 {
     /**
-     * @param Point[] $points
+     * @param  Point[]  $points
      */
     public static function make(array $points): self
     {

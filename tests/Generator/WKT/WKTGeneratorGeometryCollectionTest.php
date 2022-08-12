@@ -10,7 +10,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT GeometryCollection', function () {
     $point = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -43,7 +42,6 @@ test('can generate 2D WKT GeometryCollection with SRID', function () {
     expect($geometryCollectionWKT)->toBe('SRID=4326;GEOMETRYCOLLECTION(POINT(8.12345 50.12345),LINESTRING(8.12345 50.12345,9.12345 51.12345),POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345)))');
 })->group('WKT GeometryCollection');
 
-
 test('can generate 3DZ WKT GeometryCollection', function () {
     $point = Point::make(8.12345, 50.12345, 10);
     $point2 = Point::make(9.12345, 51.12345, 20);
@@ -75,7 +73,6 @@ test('can generate 3DZ WKT GeometryCollection with SRID', function () {
 
     expect($geometryCollectionWKT)->toBe('SRID=4326;GEOMETRYCOLLECTION Z(POINT Z(8.12345 50.12345 10),LINESTRING Z(8.12345 50.12345 10,9.12345 51.12345 20),POLYGON Z((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10)))');
 })->group('WKT GeometryCollection');
-
 
 test('can generate 3DM WKT GeometryCollection', function () {
     $point = Point::make(8.12345, 50.12345, null, 10);

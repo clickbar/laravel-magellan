@@ -13,7 +13,7 @@ class MultiLineString extends Geometry implements Countable
     protected array $lineStrings;
 
     /**
-     * @param LineString[] $lineStrings
+     * @param  LineString[]  $lineStrings
      * @return static
      */
     public static function make(array $lineStrings): self
@@ -22,7 +22,7 @@ class MultiLineString extends Geometry implements Countable
     }
 
     /**
-     * @param LineString[] $lienStrings
+     * @param  LineString[]  $lienStrings
      */
     protected function __construct(array $lienStrings)
     {

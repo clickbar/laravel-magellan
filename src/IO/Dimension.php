@@ -32,10 +32,10 @@ enum Dimension: string
     }
 
     /**
-     * @param float $x
-     * @param float $y
-     * @param float|null $z
-     * @param float|null $m
+     * @param  float  $x
+     * @param  float  $y
+     * @param  float|null  $z
+     * @param  float|null  $m
      * @return Dimension
      */
     public static function fromCoordinates(float $x, float $y, ?float $z, ?float $m): self

@@ -5,7 +5,9 @@ namespace Clickbar\Magellan\IO\Parser\WKB;
 class Scanner
 {
     private $data;
+
     private $len;
+
     private $pos;
 
     private ?ByteOrder $byteOrder;

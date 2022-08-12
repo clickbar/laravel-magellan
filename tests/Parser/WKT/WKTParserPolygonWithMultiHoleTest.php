@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Dimension;
@@ -176,7 +175,6 @@ test('can parse 3DZ WKT Polygon with multi hole with SRID', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getY())->toBe(50.322669);
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT Polygon');
-
 
 test('can parse 3DM WKT Polygon with multi hole', function () {
     $polygonWKT = 'POLYGON M ((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))';

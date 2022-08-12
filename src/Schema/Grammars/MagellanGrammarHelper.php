@@ -15,7 +15,7 @@ class MagellanGrammarHelper
      */
 
     /**
-     * @param Fluent $column
+     * @param  Fluent  $column
      *
      * @throws UnsupportedPostgisTypeException
      */
@@ -43,6 +43,6 @@ class MagellanGrammarHelper
         $schema = config('magellan.schema', 'public');
         $type = strtoupper($column->postgisType);
 
-        return $schema . '.' . $type . '(' . $geometryType . ', ' . $column->srid . ')';
+        return $schema.'.'.$type.'('.$geometryType.', '.$column->srid.')';
     }
 }

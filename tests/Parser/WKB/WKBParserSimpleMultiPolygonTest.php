@@ -9,8 +9,6 @@ beforeEach(function () {
     $this->parser = new WKBParser(new GeometryFactory());
 });
 
-
-
 test('can parse 2D WKB Simple MultiPolygon', function () {
     $multiPolygonWKB = '01060000000200000001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494001030000000100000004000000E561A1D6343F24407958A835CD0F4940E561A1D6343F26407958A835CD8F4940E561A1D6343F22407958A835CD0F4840E561A1D6343F24407958A835CD0F4940'; // st_collect (ARRAY [st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345), st_makepoint(7.12345, 48.12345), st_makepoint(8.12345, 50.12345)])), st_makepolygon(st_makeline(ARRAY[st_makepoint(10.12345,50.12345), st_makepoint(11.12345,51.12345), st_makepoint(9.12345,48.12345), st_makepoint(10.12345,50.12345)]))])
 
@@ -35,7 +33,6 @@ test('can parse 2D WKB Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKB MultiPolygon');
-
 
 test('can parse 2D WKB Simple MultiPolygon with SRID', function () {
     $multiPolygonWKB = '0106000020E61000000200000001030000000100000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494001030000000100000004000000E561A1D6343F24407958A835CD0F4940E561A1D6343F26407958A835CD8F4940E561A1D6343F22407958A835CD0F4840E561A1D6343F24407958A835CD0F4940'; // st_setsrid(st_collect (ARRAY [st_makepolygon(st_makeline(ARRAY[st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345), st_makepoint(7.12345, 48.12345), st_makepoint(8.12345, 50.12345)])), st_makepolygon(st_makeline(ARRAY[st_makepoint(10.12345,50.12345), st_makepoint(11.12345,51.12345), st_makepoint(9.12345,48.12345), st_makepoint(10.12345,50.12345)]))]),4326)

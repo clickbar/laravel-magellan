@@ -12,7 +12,7 @@ class MultiPolygon extends Geometry implements \Countable
     protected array $polygons;
 
     /**
-     * @param Polygon[] $polygons
+     * @param  Polygon[]  $polygons
      * @return static
      */
     public static function make(array $polygons): self
@@ -21,7 +21,7 @@ class MultiPolygon extends Geometry implements \Countable
     }
 
     /**
-     * @param Polygon[] $polygons
+     * @param  Polygon[]  $polygons
      */
     protected function __construct(array $polygons)
     {

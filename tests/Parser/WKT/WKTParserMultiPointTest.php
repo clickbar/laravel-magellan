@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\MultiPoint;
 use Clickbar\Magellan\IO\Dimension;
@@ -9,7 +8,6 @@ use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 beforeEach(function () {
     $this->parser = new WKTParser(new GeometryFactory());
 });
-
 
 test('can parse 2D WKT MultiPoint', function () {
     $multiPointWKT = 'MULTIPOINT(8.12345 50.12345,9.12345 51.12345,7.12345 49.12345,6.12345 48.12345)';
@@ -88,7 +86,6 @@ test('can parse 3DZ WKT MultiPoint with SRID', function () {
     expect($multiPoint->getPoints()[3]->getY())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getZ())->toBe(40.0);
 })->group('WKT MultiPoint');
-
 
 test('can parse 3DM WKT MultiPoint', function () {
     $multiPointWKT = 'MULTIPOINT M (8.12345 50.12345 10,9.12345 51.12345 20,7.12345 49.12345 30,6.12345 48.12345 40)';

@@ -6,7 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
 
 /**
- * @package Clickbar\Magellan\Schema\Grammars
  * @mixin \Illuminate\Database\Schema\Grammars\PostgresGrammar
  */
 class MagellanGrammar
@@ -15,9 +14,11 @@ class MagellanGrammar
      *  Types
      */
 
-    public function typePoint(): \Closure
+    public function typeMagellanPoint(): \Closure
     {
         return function (Fluent $column) {
+            dd('reached');
+
             return MagellanGrammarHelper::createTypeDefinition($column, 'POINT');
         };
     }

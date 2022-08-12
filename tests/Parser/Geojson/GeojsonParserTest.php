@@ -332,7 +332,6 @@ test('can parse 3D Geojson Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
 })->group('Geojson MultiPolygon');
 
-
 test('can parse 2D Geojson GeometryCollection', function () {
     $geometryCollectionGeojson = '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[8.12345,50.12345]},{"type":"LineString","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]},{"type":"Polygon","coordinates":[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]]}]}';
 

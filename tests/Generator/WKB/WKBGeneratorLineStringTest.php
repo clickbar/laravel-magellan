@@ -8,7 +8,6 @@ beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
 
-
 test('can generate 2D WKB LineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -70,8 +69,8 @@ test('can generate 3DM WKB LineString with SRID', function () {
 })->group('WKB LineString');
 
 test('can generate 4D WKB LineString', function () {
-    $point1 = Point::make(8.12345, 50.12345,  10, 12);
-    $point2 = Point::make(9.12345, 51.12345,  20, 22);
+    $point1 = Point::make(8.12345, 50.12345, 10, 12);
+    $point2 = Point::make(9.12345, 51.12345, 20, 22);
     $lineString = LineString::make([$point1, $point2]);
 
     $lineStringWKB = $this->generator->generate($lineString);

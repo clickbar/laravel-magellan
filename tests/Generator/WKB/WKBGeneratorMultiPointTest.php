@@ -8,7 +8,6 @@ beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
 
-
 test('can generate 2D WKB MultiPoint', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -86,7 +85,6 @@ test('can generate 3DM WKB MultiPoint with SRID', function () {
 
     expect($multiPointWKB)->toBe('0104000060E6100000040000000101000040E561A1D6343F20407958A835CD0F494000000000000024400101000040E561A1D6343F22407958A835CD8F494000000000000034400101000040CAC342AD697E1C407958A835CD8F48400000000000003E400101000040CAC342AD697E18407958A835CD0F48400000000000004440');
 })->group('WKB MultiPoint');
-
 
 test('can generate 4D WKB MultiPoint', function () {
     $point1 = Point::make(8.12345, 50.12345, 10, 12);

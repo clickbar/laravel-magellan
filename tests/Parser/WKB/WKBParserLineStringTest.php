@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->parser = new WKBParser(new GeometryFactory());
 });
 
-
 test('can parse 2D WKB LineString', function () {
     $lineStringWKB = '010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940'; // st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345))
 

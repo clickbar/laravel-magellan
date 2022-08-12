@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->parser = new WKBParser(new GeometryFactory());
 });
 
-
 test('can parse 2D WKB MultiLineString', function () {
     $multiLineStringWKB = '010500000002000000010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940010200000002000000CAC342AD697E1C407958A835CD8F4840CAC342AD697E18407958A835CD0F4840'; // st_collect(st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345)), st_makeline(st_makepoint(7.12345, 49.12345), st_makepoint(6.12345, 48.12345)))
 
@@ -83,7 +82,6 @@ test('can parse 3DZ WKB MultiLineString with SRID', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getZ())->toBe(40.0);
     expect($multiLineString)->geometryHasSrid(4326);
 })->group('WKB MultiLineString');
-
 
 test('can parse 3DM WKB MultiLineString', function () {
     $multiLineStringWKB = '010500004002000000010200004002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200004002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_collect(st_makeline(st_makepointM(8.12345, 50.12345, 10), st_makepointM(9.12345, 51.12345, 20)), st_makeline(st_makepointM(7.12345, 49.12345, 30), st_makepointM(6.12345, 48.12345, 40)))

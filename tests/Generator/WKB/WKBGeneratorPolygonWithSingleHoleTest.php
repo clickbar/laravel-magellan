@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
 
-
 test('can generate 2D WKB Polygon with single hole', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -45,7 +44,6 @@ test('can generate 2D WKB Polygon with single hole with SRID', function () {
 
     expect($polygonWKB)->toBe('0103000020E61000000200000004000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940CAC342AD697E1C407958A835CD0F4840E561A1D6343F20407958A835CD0F494004000000EDD808C4EB8A204021020EA14A1549401570CFF3A765204025B1A4DC7D0449404E4354E1CF8820409E9ACB0D86064940EDD808C4EB8A204021020EA14A154940');
 })->group('WKB Polygon');
-
 
 test('can generate 3DZ WKB Polygon with single hole', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);

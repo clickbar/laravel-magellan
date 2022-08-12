@@ -13,7 +13,7 @@ class GeometryCollection extends Geometry implements Countable
     protected array $geometries;
 
     /**
-     * @param Geometry[] $geometries
+     * @param  Geometry[]  $geometries
      * @return static
      */
     public static function make(array $geometries): self

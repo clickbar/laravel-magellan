@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\LineString;
@@ -157,7 +156,6 @@ test('can parse 3DZ WKT GeometryCollection with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT GeometryCollection');
 
-
 test('can parse 3DM WKT GeometryCollection', function () {
     $geometryCollectionWKT = 'GEOMETRYCOLLECTION M (POINT M (8.12345 50.12345 10),LINESTRING M (8.12345 50.12345 10,9.12345 51.12345 20),POLYGON M((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10)))';
 
@@ -236,7 +234,6 @@ test('can parse 3DM WKT GeometryCollection with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
 })->group('WKT GeometryCollection');
-
 
 test('can parse 4D WKT GeometryCollection', function () {
     $geometryCollectionWKT = 'GEOMETRYCOLLECTION ZM (POINT ZM (8.12345 50.12345 10 12),LINESTRING ZM (8.12345 50.12345 10 12,9.12345 51.12345 20 22),POLYGON ZM((8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 48.12345 30 32,8.12345 50.12345 10 12)))';

@@ -17,7 +17,9 @@ use Clickbar\Magellan\IO\Parser\WKB\WKBGeometryType;
 class WKBGenerator extends BaseGenerator
 {
     protected ByteStringBuilder $byteStringBuilder;
+
     protected ByteOrder $byteOrder;
+
     protected bool $sridAdded = false;
 
     public function generate(Geometry $geometry)
@@ -31,7 +33,8 @@ class WKBGenerator extends BaseGenerator
 
     /**
      * Writes all the coordinates of the given point without the byte order and type code
-     * @param Point $point
+     *
+     * @param  Point  $point
      */
     private function writePointCoordinates(Point $point)
     {
@@ -49,7 +52,8 @@ class WKBGenerator extends BaseGenerator
 
     /**
      * Writes the number of coordinates and all coordinates of the given lineString without the byte order and type code
-     * @param LineString $lineString
+     *
+     * @param  LineString  $lineString
      */
     private function writeLineStringCoordinates(LineString $lineString)
     {

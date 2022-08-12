@@ -7,7 +7,6 @@ beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
 
-
 test('can generate 2D WKB Point', function () {
     $point = Point::make(8.12345, 50.12345);
 

@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT Polygon with multi hole', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -98,7 +97,6 @@ test('can generate 3DZ WKT Polygon with multi hole with SRID', function () {
     expect($polygonWKT)->toBe('SRID=4326;POLYGON Z((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))');
 })->group('WKT Polygon');
 
-
 test('can generate 3DM WKT Polygon with multi hole', function () {
     $point1 = Point::make(8.12345, 50.12345, null, 10);
     $point2 = Point::make(9.12345, 51.12345, null, 10);
@@ -142,8 +140,6 @@ test('can generate 3DM WKT Polygon with multi hole with SRID', function () {
 
     expect($polygonWKT)->toBe('SRID=4326;POLYGON M((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10),(8.27133 50.16634 10,8.198547 50.035091 10,8.267211 50.050966 10,8.27133 50.16634 10),(8.393554 50.322669 10,8.367462 50.229637 10,8.491058 50.341078 10,8.393554 50.322669 10))');
 })->group('WKT Polygon');
-
-
 
 test('can generate 4D WKT Polygon with multi hole', function () {
     $point1 = Point::make(8.12345, 50.12345, 10, 12);

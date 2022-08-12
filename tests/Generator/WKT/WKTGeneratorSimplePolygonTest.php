@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT Simple Polygon', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);

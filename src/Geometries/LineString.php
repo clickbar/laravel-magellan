@@ -5,7 +5,7 @@ namespace Clickbar\Magellan\Geometries;
 class LineString extends PointCollection
 {
     /**
-     * @param Point[] $points
+     * @param  Point[]  $points
      * @return self
      */
     public static function make(array $points): self

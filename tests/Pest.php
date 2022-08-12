@@ -15,6 +15,7 @@ uses(TestCase::class)->in(__DIR__);
 
 /**
  * Checks if a geometry has a dimension and that it's everywhere set correctly.
+ *
  * @param $dimension Dimension
  */
 expect()->extend('geometryHasDimension', function (Dimension $dimension) {
@@ -63,12 +64,11 @@ expect()->extend('geometryHasDimension', function (Dimension $dimension) {
     }
 });
 
-
 /**
  * Checks if a geometry has a Srid and that it's everywhere set correctly.
+ *
  * @param $srid int
  */
-
 expect()->extend('geometryHasSrid', function (int $srid) {
     assert($this->value instanceof Geometry);
 

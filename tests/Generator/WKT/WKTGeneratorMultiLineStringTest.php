@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
     $point2 = Point::make(9.12345, 51.12345);
@@ -26,7 +25,6 @@ test('can generate 2D WKT MultiLineString', function () {
     expect($multiLineStringWKT)->toBe('MULTILINESTRING((8.12345 50.12345,9.12345 51.12345),(7.12345 49.12345,6.12345 48.12345))');
 })->group('WKT MultiLineString');
 
-
 test('can generate 2D WKT MultiLineString with SRID', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
@@ -42,7 +40,6 @@ test('can generate 2D WKT MultiLineString with SRID', function () {
 
     expect($multiLineStringWKT)->toBe('SRID=4326;MULTILINESTRING((8.12345 50.12345,9.12345 51.12345),(7.12345 49.12345,6.12345 48.12345))');
 })->group('WKT MultiLineString');
-
 
 test('can generate 3DZ WKT MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345, 10);

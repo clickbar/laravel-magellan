@@ -1,6 +1,5 @@
 <?php
 
-
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Dimension;
@@ -9,7 +8,6 @@ use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 beforeEach(function () {
     $this->parser = new WKTParser(new GeometryFactory());
 });
-
 
 test('can parse 2D WKT Simple Polygon', function () {
     $polygonWKT = 'POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345))';
@@ -131,7 +129,6 @@ test('can parse 3DM WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
 })->group('WKT Polygon');
-
 
 test('can parse 4D WKT Simple Polygon', function () {
     $polygonWKT = 'POLYGON ZM ((8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 48.12345 30 32,8.12345 50.12345 10 12))';

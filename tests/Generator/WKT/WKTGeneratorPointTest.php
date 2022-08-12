@@ -7,7 +7,6 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
-
 test('can generate 2D WKT Point', function () {
     $point = Point::make(8.12345, 50.12345);
 
@@ -15,7 +14,6 @@ test('can generate 2D WKT Point', function () {
 
     expect($pointWKT)->toBe('POINT(8.12345 50.12345)');
 })->group('WKT Point');
-
 
 test('can generate 2D WKT Point with SRID', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345);

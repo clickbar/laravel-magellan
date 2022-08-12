@@ -20,11 +20,11 @@ class Point extends Geometry
 
     protected function __construct(
         protected Dimension $dimension,
-        protected float     $x,
-        protected float     $y,
-        protected ?float    $z = null,
-        protected ?float    $m = null,
-        protected ?int      $srid = null
+        protected float $x,
+        protected float $y,
+        protected ?float $z = null,
+        protected ?float $m = null,
+        protected ?int $srid = null
     ) {
     }
 
@@ -58,7 +58,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float $x
+     * @param  float  $x
      */
     public function setX(float $x): void
     {
@@ -74,7 +74,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float $y
+     * @param  float  $y
      */
     public function setY(float $y): void
     {
@@ -90,7 +90,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float|null $z
+     * @param  float|null  $z
      */
     public function setZ(?float $z): void
     {
@@ -107,7 +107,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float|null $m
+     * @param  float|null  $m
      */
     public function setM(?float $m): void
     {
@@ -138,7 +138,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float $latitude
+     * @param  float  $latitude
      */
     public function setLatitude(float $latitude): void
     {
@@ -157,7 +157,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float $longitude
+     * @param  float  $longitude
      */
     public function setLongitude(float $longitude): void
     {
@@ -176,7 +176,7 @@ class Point extends Geometry
     }
 
     /**
-     * @param float $altitude
+     * @param  float  $altitude
      */
     public function setAltitude(float $altitude): void
     {

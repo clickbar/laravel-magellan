@@ -12,12 +12,15 @@ use RuntimeException;
 class WKBParser extends BaseParser
 {
     public const MASK_SRID = 0x20000000;
+
     public const MASK_Z = 0x80000000;
+
     public const MASK_M = 0x40000000;
 
     private Scanner $scanner;
 
     private ?Dimension $dimension = null;
+
     private ?int $srid = null;
 
     public function parse($input): Geometry
@@ -56,12 +59,12 @@ class WKBParser extends BaseParser
             $geometryTypeIntegerValue = ($geometryTypeIntegerValue & ~self::MASK_M);
         }
 
-        if (((int)($geometryTypeIntegerValue / 1000)) & 1) {
+        if (((int) ($geometryTypeIntegerValue / 1000)) & 1) {
             $hasZ = true;
             $wkb12 = true;
         }
 
-        if (((int)($geometryTypeIntegerValue / 1000)) & 2) {
+        if (((int) ($geometryTypeIntegerValue / 1000)) & 2) {
             $hasM = true;
             $wkb12 = true;
         }
@@ -124,7 +127,6 @@ class WKBParser extends BaseParser
 
         $this->scanner->setByteOrder($byteOrder);
     }
-
 
     // ************************************************ Geometry Helper ***************************************************
 

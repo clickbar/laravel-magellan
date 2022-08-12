@@ -17,19 +17,19 @@ class WKTGenerator extends BaseGenerator
 {
     private function generatePointCoordinateString(Point $point): string
     {
-        $string = GeometryHelper::stringifyFloat($point->getX()) . ' ' . GeometryHelper::stringifyFloat($point->getY());
+        $string = GeometryHelper::stringifyFloat($point->getX()).' '.GeometryHelper::stringifyFloat($point->getY());
         if ($point->getDimension()->hasZDimension()) {
-            $string .= ' ' . GeometryHelper::stringifyFloat($point->getZ());
+            $string .= ' '.GeometryHelper::stringifyFloat($point->getZ());
         }
         if ($point->getDimension()->isMeasured()) {
-            $string .= ' ' . GeometryHelper::stringifyFloat($point->getM());
+            $string .= ' '.GeometryHelper::stringifyFloat($point->getM());
         }
 
         return $string;
     }
 
     /**
-     * @param Point[] $points
+     * @param  Point[]  $points
      * @return string
      */
     private function generatePointsCoordinateString(array $points): string
@@ -59,7 +59,7 @@ class WKTGenerator extends BaseGenerator
             $dimensionLetters .= 'M';
         }
 
-        return $type . (! empty($dimensionLetters) ? ' ' . $dimensionLetters : '');
+        return $type.(! empty($dimensionLetters) ? ' '.$dimensionLetters : '');
     }
 
     public function generate(Geometry $geometry)
