@@ -27,7 +27,7 @@ abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringa
         $generatorClass = config('magellan.json_generator');
         $generator = new $generatorClass();
 
-        return json_encode($generator->generate($this));
+        return $generator->generate($this);
     }
 
     public function __toString(): string
