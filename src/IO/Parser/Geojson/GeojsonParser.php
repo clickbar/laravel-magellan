@@ -52,7 +52,7 @@ class GeojsonParser extends BaseParser
 
         $geometries = array_map(fn (array $geometry) => $this->parseGeometry($geometry), $geometries);
 
-        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, null, $geometries);
+        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, 4326, $geometries);
     }
 
     protected function parsePoint(array $coordinates): Geometry
@@ -71,34 +71,34 @@ class GeojsonParser extends BaseParser
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
 
-        return $this->factory->createLineString(Dimension::DIMENSION_2D, null, $points);
+        return $this->factory->createLineString(Dimension::DIMENSION_2D, 4326, $points);
     }
 
     public function parseMultiLineString(array $coordinates): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
 
-        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, null, $lines);
+        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, 4326, $lines);
     }
 
     public function parsePolygon(array $coordinates): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
 
-        return $this->factory->createPolygon(Dimension::DIMENSION_2D, null, $lines);
+        return $this->factory->createPolygon(Dimension::DIMENSION_2D, 4326, $lines);
     }
 
     public function parseMultiPoint(array $coordinates): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
 
-        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, null, $points);
+        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, 4326, $points);
     }
 
     public function parseMultiPolygon(array $coordinates): Geometry
     {
         $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords), $coordinates);
 
-        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, null, $polygons);
+        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, 4326, $polygons);
     }
 }
