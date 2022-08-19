@@ -3,6 +3,7 @@
 namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\AddPostgisColumns;
+use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
 use Clickbar\Magellan\Schema\MagellanBlueprint;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,6 +24,7 @@ class MagellanServiceProvider extends PackageServiceProvider
             ->name('laravel-magellan')
             ->hasConfigFile()
             ->hasMigration('create_postgis_table')
+            ->hasCommand(UpdatePostgisColumns::class)
             ->hasCommand(AddPostgisColumns::class);
     }
 
