@@ -6,7 +6,7 @@ use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Support\Facades\App;
 
-class GeometryRule implements InvokableRule
+class GeometryGeojsonRule implements InvokableRule
 {
     private array $allowedGeometries;
 

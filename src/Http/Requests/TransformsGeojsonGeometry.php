@@ -3,9 +3,10 @@
 namespace Clickbar\Magellan\Http\Requests;
 
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 
-trait TransformsGeometry
+trait TransformsGeojsonGeometry
 {
     protected function passedValidation()
     {
@@ -16,17 +17,14 @@ trait TransformsGeometry
     {
         /** @var GeojsonParser $parser */
         $parser = App::make(GeojsonParser::class);
-
+        $input = $this->all();
         foreach ($attributes as $key) {
-            if (! $this->request->has($key)) {
+            if (! isset($this[$key])) {
                 continue;
             }
-
-            $this->request->set(
-                $key,
-                $parser->parse($this->request->get($key))
-            );
+            Arr::set($input, $key, $parser->parse($this[$key]));
         }
+        $this->replace($input);
     }
 
     abstract public function geometries(): array;

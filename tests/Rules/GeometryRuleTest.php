@@ -1,10 +1,10 @@
 <?php
 
 use Clickbar\Magellan\Geometries\Point;
-use Clickbar\Magellan\Rules\GeometryRule;
+use Clickbar\Magellan\Rules\GeometryGeojsonRule;
 
 test('will validate any valid geometry', function () {
-    $rule = new GeometryRule();
+    $rule = new GeometryGeojsonRule();
 
     $ruleMessage = null;
 
@@ -19,7 +19,7 @@ test('will validate any valid geometry', function () {
 });
 
 test('will reject any valid geometry', function () {
-    $rule = new GeometryRule();
+    $rule = new GeometryGeojsonRule();
 
     $ruleMessage = null;
 
@@ -34,7 +34,7 @@ test('will reject any valid geometry', function () {
 });
 
 test('will accept only allowed geometries', function () {
-    $rule = new GeometryRule([Point::class]);
+    $rule = new GeometryGeojsonRule([Point::class]);
 
     $ruleMessage = null;
 
@@ -49,7 +49,7 @@ test('will accept only allowed geometries', function () {
 });
 
 test('will reject disallowed geometries', function () {
-    $rule = new GeometryRule([Point::class]);
+    $rule = new GeometryGeojsonRule([Point::class]);
 
     $ruleMessage = null;
 
