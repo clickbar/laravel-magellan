@@ -7,6 +7,8 @@ use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
+use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
+use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
 use Clickbar\Magellan\Schema\MagellanBlueprint;
 use Illuminate\Database\Schema\Blueprint;
@@ -42,6 +44,14 @@ class MagellanServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(GeojsonParser::class, function ($app) {
             return new GeojsonParser($app->make(GeometryModelFactory::class));
+        });
+
+        $this->app->singleton(WKTParser::class, function ($app) {
+            return new WKTParser($app->make(GeometryModelFactory::class));
+        });
+
+        $this->app->singleton(WKBParser::class, function ($app) {
+            return new WKBParser($app->make(GeometryModelFactory::class));
         });
     }
 }

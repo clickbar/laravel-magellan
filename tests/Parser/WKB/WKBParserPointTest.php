@@ -1,12 +1,12 @@
 <?php
 
-use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
+use Illuminate\Support\Facades\App;
 
 beforeEach(function () {
-    $this->parser = new WKBParser(new GeometryFactory());
+    $this->parser = App::make(WKBParser::class);
 });
 
 test('can parse 2D WKB Point', function () {

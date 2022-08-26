@@ -1,7 +1,6 @@
 <?php
 
 use Clickbar\Magellan\Geometries\GeometryCollection;
-use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\LineString;
 use Clickbar\Magellan\Geometries\MultiLineString;
 use Clickbar\Magellan\Geometries\MultiPoint;
@@ -9,9 +8,10 @@ use Clickbar\Magellan\Geometries\MultiPolygon;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
+use Illuminate\Support\Facades\App;
 
 beforeEach(function () {
-    $this->parser = new GeojsonParser(new GeometryFactory());
+    $this->parser = App::make(GeojsonParser::class);
 });
 
 test('can parse 2D Geojson Point', function () {

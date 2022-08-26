@@ -6,11 +6,11 @@ use Clickbar\Magellan\Exception\PostgisColumnsNotDefinedException;
 use Clickbar\Magellan\Exception\SridMissmatchException;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryCollection;
-use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 
 trait HasPostgisColumns
 {
@@ -117,7 +117,7 @@ trait HasPostgisColumns
         $pgfields = $this->getPostgisColumnNames();
 
         // postgis always returns the geometry as a WKB string, so we need to convert it to a Geometry object
-        $parser = new WKBParser(new GeometryFactory());
+        $parser = App::make(WKBParser::class);
 
         foreach ($attributes as $key => &$value) {
             if (in_array($key, $pgfields) && is_string($value)) {

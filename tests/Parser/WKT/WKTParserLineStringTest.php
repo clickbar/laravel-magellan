@@ -1,12 +1,12 @@
 <?php
 
-use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\Geometries\LineString;
 use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
+use Illuminate\Support\Facades\App;
 
 beforeEach(function () {
-    $this->parser = new WKTParser(new GeometryFactory());
+    $this->parser = App::make(WKTParser::class);
 });
 
 test('can parse 2D WKT LineString', function () {
