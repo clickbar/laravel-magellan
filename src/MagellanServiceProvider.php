@@ -4,6 +4,9 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\AddPostgisColumns;
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
+use Clickbar\Magellan\Geometries\GeometryFactory;
+use Clickbar\Magellan\IO\GeometryModelFactory;
+use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
 use Clickbar\Magellan\Schema\MagellanBlueprint;
 use Illuminate\Database\Schema\Blueprint;
@@ -32,5 +35,13 @@ class MagellanServiceProvider extends PackageServiceProvider
     {
         PostgresGrammar::mixin(new MagellanGrammar());
         Blueprint::mixin(new MagellanBlueprint());
+
+        $this->app->singleton(GeometryModelFactory::class, function ($app) {
+            return new GeometryFactory();
+        });
+
+        $this->app->singleton(GeojsonParser::class, function ($app) {
+            return new GeojsonParser($app->make(GeometryModelFactory::class));
+        });
     }
 }
