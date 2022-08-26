@@ -13,7 +13,7 @@ class MultiPolygon extends Geometry implements \Countable
 
     /**
      * @param  Polygon[]  $polygons
-     * @return static
+     * @return self
      */
     public static function make(array $polygons): self
     {

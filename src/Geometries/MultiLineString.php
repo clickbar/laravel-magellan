@@ -14,7 +14,7 @@ class MultiLineString extends Geometry implements Countable
 
     /**
      * @param  LineString[]  $lineStrings
-     * @return static
+     * @return self
      */
     public static function make(array $lineStrings): self
     {
