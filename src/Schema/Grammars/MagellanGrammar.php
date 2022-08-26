@@ -10,85 +10,176 @@ use Illuminate\Support\Fluent;
 class MagellanGrammar
 {
     /*
-     *  Types
+     * Point
      */
 
     public function typeMagellanPoint(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'POINT');
-        };
+        return $this->createTypeDefinitionClosure('POINT');
     }
 
     public function typeMagellanPointZ(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'POINTZ');
-        };
+        return $this->createTypeDefinitionClosure('POINTZ');
     }
 
-    public function typeMagellanMultiPoint(): \Closure
+    public function typeMagellanPointM(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOINT');
-        };
+        return $this->createTypeDefinitionClosure('POINTM');
     }
+
+    public function typeMagellanPointZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('POINTZM');
+    }
+
+    /*
+     * Line String
+     */
+
+    public function typeMagellanLineString(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('LINESTRING');
+    }
+
+    public function typeMagellanLineStringZ(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('LINESTRINGZ');
+    }
+
+    public function typeMagellanLineStringM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('LINESTRINGM');
+    }
+
+    public function typeMagellanLineStringZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('LINESTRINGZM');
+    }
+
+    /*
+     * Polygon
+     */
 
     public function typeMagellanPolygon(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'POLYGON');
-        };
+        return $this->createTypeDefinitionClosure('POLYGON');
     }
 
     public function typeMagellanPolygonZ(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'POLYGONZ');
-        };
+        return $this->createTypeDefinitionClosure('POLYGONZ');
     }
+
+    public function typeMagellanPolygonM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('POLYGONM');
+    }
+
+    public function typeMagellanPolygonZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('POLYGONZM');
+    }
+
+    /*
+     * Multi Point
+     */
+
+    public function typeMagellanMultiPoint(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTIPOINT');
+    }
+
+    public function typeMagellanMultiPointZ(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTIPOINTZ');
+    }
+
+    public function typeMagellanMultiPointM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTIPOINTM');
+    }
+
+    public function typeMagellanMultiPointZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTIPOINTZM');
+    }
+
+    /*
+     * Multi Line String
+     */
+
+    public function typeMagellanMultiLineString(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTILINESTRING');
+    }
+
+    public function typeMagellanMultiLineStringZ(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTILINESTRINGZ');
+    }
+
+    public function typeMagellanMultiLineStringM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTILINESTRINGM');
+    }
+
+    public function typeMagellanMultiLineStringZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('MULTILINESTRINGZM');
+    }
+
+    /*
+     * Multi Polygon
+     */
 
     public function typeMagellanMultiPolygon(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOLYGON');
-        };
+        return $this->createTypeDefinitionClosure('MULTIPOLYGON');
     }
 
     public function typeMagellanMultiPolygonZ(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'MULTIPOLYGONZ');
-        };
+        return $this->createTypeDefinitionClosure('MULTIPOLYGONZ');
     }
 
-    public function typeMagellanLinestring(): \Closure
+    public function typeMagellanMultiPolygonM(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'LINESTRING');
-        };
+        return $this->createTypeDefinitionClosure('MULTIPOLYGONM');
     }
 
-    public function typeMagellanLinestringZ(): \Closure
+    public function typeMagellanMultiPolygonZM(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'LINESTRINGZ');
-        };
+        return $this->createTypeDefinitionClosure('MULTIPOLYGONZM');
     }
 
-    public function typeMagellanMultiLinestring(): \Closure
+    /*
+     * Geometry Collection
+     */
+
+    public function typeMagellanGeometryCollection(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'MULTILINESTRING');
-        };
+        return $this->createTypeDefinitionClosure('GEOMETRYCOLLECTION');
     }
 
-    public function typeMagellanMultiLinestringZ(): \Closure
+    public function typeMagellanGeometryCollectionZ(): \Closure
     {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'MULTILINESTRINGZ');
-        };
+        return $this->createTypeDefinitionClosure('GEOMETRYCOLLECTIONZ');
     }
+
+    public function typeMagellanGeometryCollectionM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('GEOMETRYCOLLECTIONM');
+    }
+
+    public function typeMagellanGeometryCollectionZM(): \Closure
+    {
+        return $this->createTypeDefinitionClosure('GEOMETRYCOLLECTIONZM');
+    }
+
+    /*
+     * Base Types
+     */
 
     public function typeMagellanGeography(): \Closure
     {
@@ -101,13 +192,6 @@ class MagellanGrammar
     {
         return function (Fluent $column) {
             return MagellanGrammarHelper::createTypeDefinition($column, 'GEOMETRY');
-        };
-    }
-
-    public function typeMagellanGeometrycollection(): \Closure
-    {
-        return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'GEOMETRYCOLLECTION');
         };
     }
 
@@ -160,6 +244,13 @@ class MagellanGrammar
     {
         return function () {
             return 'DROP EXTENSION IF EXISTS postgis;';
+        };
+    }
+
+    private function createTypeDefinitionClosure(string $geometryType): \Closure
+    {
+        return function (Fluent $column) use ($geometryType) {
+            return MagellanGrammarHelper::createTypeDefinition($column, $geometryType);
         };
     }
 }
