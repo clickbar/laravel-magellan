@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionClass;
+use SplFileInfo;
 
 class UpdatePostgisColumns extends Command
 {
@@ -104,11 +105,7 @@ class UpdatePostgisColumns extends Command
         $modelInformation = [];
         $potentialModelClassFiles = $this->files->allFiles(app_path('Models'));
         foreach ($potentialModelClassFiles as $potentialModelClassFile) {
-            $namespace = Str::of($potentialModelClassFile->getRelativePathname())
-                ->remove('.php')
-                ->replace('/', '\\')
-                ->prepend('App\\Models\\')
-                ->toString();
+            $namespace = $this->modelClassFromFile($potentialModelClassFile);
 
             $modelInstance = new $namespace();
 
@@ -306,5 +303,20 @@ class UpdatePostgisColumns extends Command
     private function addInset(int $level, string $line): string
     {
         return Str::repeat(' ', $level * 4).$line;
+    }
+
+    /**
+     * Extract the class name from the given file path.
+     *
+     * @param  SplFileInfo  $file
+     * @return string
+     */
+    protected function modelClassFromFile(SplFileInfo $file)
+    {
+        return Str::of($file->getRelativePathname())
+            ->remove('.php')
+            ->replace(DIRECTORY_SEPARATOR, '\\')
+            ->prepend('App\\Models\\')
+            ->toString();
     }
 }
