@@ -177,6 +177,16 @@ class MagellanGrammar
         return $this->createTypeDefinitionClosure('GEOMETRYCOLLECTIONZM');
     }
 
+    public function typeMagellanBox2D(): \Closure
+    {
+        return $this->createBoxTypeDefinitionClosure('box2d');
+    }
+
+    public function typeMagellanBox3D(): \Closure
+    {
+        return $this->createBoxTypeDefinitionClosure('box3d');
+    }
+
     /*
      * Base Types
      */
@@ -251,6 +261,13 @@ class MagellanGrammar
     {
         return function (Fluent $column) use ($geometryType) {
             return MagellanGrammarHelper::createTypeDefinition($column, $geometryType);
+        };
+    }
+
+    private function createBoxTypeDefinitionClosure(string $boxType): \Closure
+    {
+        return function (Fluent $column) use ($boxType) {
+            return MagellanGrammarHelper::createBoxTypeDefinition($column, $boxType);
         };
     }
 }

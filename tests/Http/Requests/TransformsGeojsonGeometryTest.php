@@ -13,7 +13,7 @@ test('transforms geojson geometry', function () {
     $request->setContainer($this->app)->validateResolved();
 
     expect($request->point)->toBeInstanceOf(Point::class);
-})->only();
+});
 
 function createRequest(
     array $query = [],

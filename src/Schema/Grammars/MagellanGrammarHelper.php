@@ -45,4 +45,14 @@ class MagellanGrammarHelper
 
         return $schema.'.'.$type.'('.$geometryType.', '.$column->srid.')';
     }
+
+    public static function createBoxTypeDefinition(Fluent $column, $boxType): string
+    {
+        // Assert bounding box type
+        //self::assertValidPostgisType($column);
+
+        $schema = config('magellan.schema', 'public');
+
+        return $schema.'.'.$boxType;
+    }
 }

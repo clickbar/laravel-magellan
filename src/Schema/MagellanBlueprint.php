@@ -175,6 +175,20 @@ class MagellanBlueprint
         return $this->createAddColumnGeometryClosure('magellanGeometryCollectionZM');
     }
 
+    public function magellanBox2D(): \Closure
+    {
+        return function ($column) {
+            return $this->addColumn('magellanBox2D', $column);
+        };
+    }
+
+    public function magellanBox3D(): \Closure
+    {
+        return function ($column) {
+            return $this->addColumn('magellanBox3D', $column);
+        };
+    }
+
     /*
      * Base Types
      */
