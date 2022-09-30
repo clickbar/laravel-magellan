@@ -7,7 +7,7 @@ use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Query\Expression;
 
 /**
- * @mixin
+ * @mixin \Illuminate\Database\Query\Builder
  */
 class BuilderUtilsMacro
 {

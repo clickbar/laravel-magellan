@@ -23,7 +23,7 @@ class GeojsonParser extends BaseParser
             throw new \RuntimeException('Invalid GeoJSON: Missing type');
         }
 
-        $type = $input['type'] ?? null;
+        $type = $input['type'];
 
         return match ($type) {
             'Feature' => $this->parse($input['geometry']),

@@ -7,14 +7,14 @@ use Clickbar\Magellan\Commands\Utils\PostgisColumnInformation;
 use Clickbar\Magellan\Commands\Utils\TableColumnsCollection;
 use Clickbar\Magellan\Eloquent\HasPostgisColumns;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionClass;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 class UpdatePostgisColumns extends Command
 {
@@ -280,7 +280,7 @@ class UpdatePostgisColumns extends Command
     /**
      * Builds the necessary lines for the $postgisColumns property based on the postgis views for geometry and geography.
      *
-     * @param PostgisColumnInformation[]
+     * @param  PostgisColumnInformation[]  $columns
      * @return array
      */
     private function buildPostgisColumnCodeLines(array $columns): array
@@ -308,7 +308,7 @@ class UpdatePostgisColumns extends Command
     /**
      * Extract the class name from the given file path.
      *
-     * @param  SplFileInfo  $file
+     * @param  \Symfony\Component\Finder\SplFileInfo  $file
      * @return string
      */
     protected function modelClassFromFile(SplFileInfo $file)
