@@ -18,11 +18,14 @@ class BuilderUtilsMacro
             $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
             foreach ($params as $i => $param) {
+                // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                 if ($this->isQueryable($param)) {
+                    // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                     [$sub, $bindings] = $this->createSub($param);
 
                     array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
 
+                    // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                     return $this->addBinding($bindings, $bindingType)
                         ->buildPostgisFunction($bindingType, $geometryType, $function, $as, ...$params);
                 }
