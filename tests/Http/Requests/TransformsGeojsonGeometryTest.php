@@ -13,6 +13,12 @@ test('transforms geojson geometry', function () {
     $request->setContainer($this->app)->validateResolved();
 
     expect($request->point)->toBeInstanceOf(Point::class);
+
+    $validated = $request->validated();
+    expect($validated['point'])->toBeInstanceOf(Point::class);
+
+    $safe = $request->safe();
+    expect($safe['point'])->toBeInstanceOf(Point::class);
 });
 
 function createRequest(
