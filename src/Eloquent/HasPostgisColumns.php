@@ -11,6 +11,7 @@ use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 trait HasPostgisColumns
 {
@@ -19,8 +20,8 @@ trait HasPostgisColumns
         $this->assertKeyIsInPostgisColumns($key);
 
         $default = [
-            'type' => config('magellan.eloquent.default_postgis_type'),
-            'srid' => config('magellan.eloquent.default_srid'),
+            'type' => Config::get('magellan.eloquent.default_postgis_type'),
+            'srid' => Config::get('magellan.eloquent.default_srid'),
         ];
 
         return Arr::get($this->postgisColumns, $key, $default);
@@ -41,7 +42,7 @@ trait HasPostgisColumns
 
     private function getGenerator(): BaseGenerator
     {
-        $generatorClass = config('magellan.insert_generator');
+        $generatorClass = Config::get('magellan.insert_generator');
 
         return new $generatorClass();
     }
@@ -49,9 +50,9 @@ trait HasPostgisColumns
     protected function geomFromText(Geometry $geometry, $srid = 4326)
     {
         $generator = $this->getGenerator();
-        $geometrySql = $generator->toPostgisGeometrySql($geometry, config('magellan.schema', 'public'));
+        $geometrySql = $generator->toPostgisGeometrySql($geometry, Config::get('magellan.schema', 'public'));
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (config('magellan.transform_on_insert', false)) {
+            if (Config::get('magellan.transform_on_insert', false)) {
                 $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
@@ -64,10 +65,10 @@ trait HasPostgisColumns
     protected function geogFromText(Geometry $geometry, $srid = 4326)
     {
         $generator = $this->getGenerator();
-        $geometrySql = $generator->toPostgisGeographySql($geometry, config('magellan.schema', 'public'));
+        $geometrySql = $generator->toPostgisGeographySql($geometry, Config::get('magellan.schema', 'public'));
 
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (config('magellan.transform_on_insert', false)) {
+            if (Config::get('magellan.transform_on_insert', false)) {
                 $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());

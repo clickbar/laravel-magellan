@@ -3,6 +3,7 @@
 namespace Clickbar\Magellan\Geometries;
 
 use Clickbar\Magellan\IO\Dimension;
+use Illuminate\Support\Facades\Config;
 use JsonSerializable;
 
 abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringable
@@ -24,7 +25,7 @@ abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringa
 
     public function jsonSerialize(): mixed
     {
-        $generatorClass = config('magellan.json_generator');
+        $generatorClass = Config::get('magellan.json_generator');
         $generator = new $generatorClass();
 
         return $generator->generate($this);
@@ -32,7 +33,7 @@ abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringa
 
     public function __toString(): string
     {
-        $generatorClass = config('magellan.string_generator');
+        $generatorClass = Config::get('magellan.string_generator');
         $generator = new $generatorClass();
 
         $generated = $generator->generate($this);

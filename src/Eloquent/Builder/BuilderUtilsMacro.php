@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\Config;
 
 /**
  * @mixin \Illuminate\Database\Query\Builder
@@ -33,7 +34,7 @@ class BuilderUtilsMacro
             $wktGenerator = new WKTGenerator();
             $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
                 if ($param instanceof Geometry) {
-                    return $wktGenerator->toPostgisGeometrySql($param, config('magellan.schema')).$geometryTypeCastAppend;
+                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
                 }
 
                 if ($param instanceof Expression) {

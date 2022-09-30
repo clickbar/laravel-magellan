@@ -3,6 +3,7 @@
 namespace Clickbar\Magellan\Schema\Grammars;
 
 use Clickbar\Magellan\Exception\UnsupportedPostgisTypeException;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Fluent;
 
 class MagellanGrammarHelper
@@ -40,7 +41,7 @@ class MagellanGrammarHelper
     {
         self::assertValidPostgisType($column);
 
-        $schema = config('magellan.schema', 'public');
+        $schema = Config::get('magellan.schema', 'public');
         $type = strtoupper($column->postgisType);
 
         return $schema.'.'.$type.'('.$geometryType.', '.$column->srid.')';
@@ -51,7 +52,7 @@ class MagellanGrammarHelper
         // Assert bounding box type
         //self::assertValidPostgisType($column);
 
-        $schema = config('magellan.schema', 'public');
+        $schema = Config::get('magellan.schema', 'public');
 
         return $schema.'.'.$boxType;
     }
