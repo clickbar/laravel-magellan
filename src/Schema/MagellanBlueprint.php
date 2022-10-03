@@ -214,6 +214,7 @@ class MagellanBlueprint
     public function magellanEnablePostgis(): \Closure
     {
         return function () {
+            // @phpstan-ignore-next-line - `this` is bound to the Blueprint
             return $this->addCommand('enablePostgis');
         };
     }
@@ -221,6 +222,7 @@ class MagellanBlueprint
     public function magellanEnablePostgisIfNotExists(): \Closure
     {
         return function () {
+            // @phpstan-ignore-next-line - `this` is bound to the Blueprint
             return $this->addCommand('enablePostgisIfNotExists');
         };
     }
@@ -228,6 +230,7 @@ class MagellanBlueprint
     public function magellanDisablePostgis(): \Closure
     {
         return function () {
+            // @phpstan-ignore-next-line - `this` is bound to the Blueprint
             return $this->addCommand('disablePostgis');
         };
     }
@@ -235,6 +238,7 @@ class MagellanBlueprint
     public function magellanDisablePostgisIfExists(): \Closure
     {
         return function () {
+            // @phpstan-ignore-next-line - `this` is bound to the Blueprint
             return $this->addCommand('disablePostgisIfExists');
         };
     }

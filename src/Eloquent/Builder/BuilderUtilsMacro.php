@@ -5,9 +5,10 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\Config;
 
 /**
- * @mixin
+ * @mixin \Illuminate\Database\Query\Builder
  */
 class BuilderUtilsMacro
 {
@@ -17,11 +18,14 @@ class BuilderUtilsMacro
             $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
             foreach ($params as $i => $param) {
+                // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                 if ($this->isQueryable($param)) {
+                    // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                     [$sub, $bindings] = $this->createSub($param);
 
                     array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
 
+                    // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                     return $this->addBinding($bindings, $bindingType)
                         ->buildPostgisFunction($bindingType, $geometryType, $function, $as, ...$params);
                 }
@@ -33,7 +37,7 @@ class BuilderUtilsMacro
             $wktGenerator = new WKTGenerator();
             $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
                 if ($param instanceof Geometry) {
-                    return $wktGenerator->toPostgisGeometrySql($param, config('magellan.schema')).$geometryTypeCastAppend;
+                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
                 }
 
                 if ($param instanceof Expression) {

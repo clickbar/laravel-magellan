@@ -12,8 +12,18 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Laravel Pint
-        uses: aglipanci/laravel-pint-action@0.1.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          tools: composer:v2
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install -n --prefer-dist
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4

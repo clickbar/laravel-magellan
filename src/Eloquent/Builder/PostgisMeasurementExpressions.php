@@ -163,7 +163,7 @@ class PostgisMeasurementExpressions
 
     public static function getAngleFromLinesExpression($builder, string $bindingType, $lineString1, $lineString2, ?string $as = 'angle')
     {
-        return $builder->buildPostgisFunction($bindingType, 'geometry', 'ST_Angle', $as, $lineString1, $lineString2, );
+        return $builder->buildPostgisFunction($bindingType, 'geometry', 'ST_Angle', $as, $lineString1, $lineString2);
     }
 
     public static function getProjectExpression($builder, string $bindingType, $geography, float $distance, float|Expression $azimuth, ?string $as = 'project')
