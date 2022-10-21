@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Eloquent\Builder;
 
+use Clickbar\Magellan\Boxes\Box2D;
+use Clickbar\Magellan\Boxes\Box3D;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Query\Expression;
@@ -38,6 +40,14 @@ class BuilderUtilsMacro
             $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
                 if ($param instanceof Geometry) {
                     return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
+                }
+
+                if ($param instanceof Box2D) {
+                    return "'{$param->toString()}'::box2d";
+                }
+
+                if ($param instanceof Box3D) {
+                    return "'{$param->toString()}'::box3d";
                 }
 
                 if ($param instanceof Expression) {
