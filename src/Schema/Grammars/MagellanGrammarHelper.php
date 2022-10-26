@@ -32,7 +32,7 @@ class MagellanGrammarHelper
 
         $srid = $column->get('srid', null);
 
-        if (! filter_var($srid, FILTER_VALIDATE_INT) === false) {
+        if (filter_var($srid, FILTER_VALIDATE_INT) === false) {
             throw new UnsupportedPostgisTypeException("The given SRID '$srid' is not valid. Only integers are allowed");
         }
 
