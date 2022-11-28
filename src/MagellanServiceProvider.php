@@ -7,6 +7,7 @@ use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\BuilderUtilsMacro;
 use Clickbar\Magellan\Eloquent\Builder\PostgisBoundingBoxBuilderMacros;
+use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryProcessingBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisMeasurementBuilderMacros;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\GeometryModelFactory;
@@ -46,6 +47,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         Builder::mixin(new BuilderUtilsMacro());
         Builder::mixin(new PostgisMeasurementBuilderMacros());
         Builder::mixin(new PostgisBoundingBoxBuilderMacros());
+        Builder::mixin(new PostgisGeometryProcessingBuilderMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();
