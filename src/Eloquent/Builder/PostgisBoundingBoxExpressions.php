@@ -16,7 +16,12 @@ class PostgisBoundingBoxExpressions
 
     public static function getExtentExpression($builder, string $bindingType, $a, ?string $as)
     {
-        return $builder->buildPostgisFunction($bindingType, 'geometry', 'st_extent', $as, $a);
+        return $builder->buildPostgisFunction($bindingType, 'geometry', 'ST_Extent', $as, $a);
+    }
+
+    public static function get3DExtentExpression($builder, string $bindingType, $a, ?string $as)
+    {
+        return $builder->buildPostgisFunction($bindingType, 'geometry', 'ST_3DExtent', $as, $a);
     }
 
     public static function getMakeBox2DExpression($builder, string $bindingType, $a, $b, ?string $as)
