@@ -38,7 +38,7 @@ class BuilderUtilsMacro
             $wktGenerator = new WKTGenerator();
             $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
                 if ($param instanceof Geometry) {
-                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')) . $geometryTypeCastAppend;
+                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
                 }
 
                 if ($param instanceof Box2D) {
@@ -61,7 +61,7 @@ class BuilderUtilsMacro
                     return '?';
                 }
 
-                return $param . $geometryTypeCastAppend;
+                return $param.$geometryTypeCastAppend;
             }, $params);
 
             $paramString = implode(', ', array_map(fn ($param) => (string) $param, $params));
