@@ -26,7 +26,6 @@ class BuilderMacros
     {
         return function ($haystack, $needle) {
             // Use whereRaw, because where with only one param results in null check where statenment
-            // @phpstan-ignore-next-line - buildPostgisFunction is available but defined in another mixin
             return $this->whereRaw($this->buildPostgisFunction('where', 'geometry', 'ST_CONTAINS', $haystack, $needle));
         };
     }
@@ -35,11 +34,9 @@ class BuilderMacros
     {
         return function ($geometry, ?bool $useSpheroid = null) {
             if ($useSpheroid !== null) {
-                // @phpstan-ignore-next-line - buildPostgisFunction is available but defined in another mixin
                 return $this->addSelect($this->buildPostgisFunction('select', 'geography', 'ST_Centroid', $geometry, DB::raw($useSpheroid)));
             }
 
-            // @phpstan-ignore-next-line - buildPostgisFunction is available but defined in another mixin
             return $this->addSelect($this->buildPostgisFunction('select', null, 'ST_Centroid', $geometry));
         };
     }
