@@ -1,9 +1,26 @@
-# A modern PostGIS toolbox for Laravel: laravel-magellan
+<div align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="art/logo_dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="art/logo_light.svg">
+        <img
+            width="40%"
+            alt="The logo for laravel-magellan, which shows a small blue paper ship with the package name right beside it." src="art/logo_light.png"
+        >
+    </picture>
+    <br>
+    <br>
+    <h2>A modern PostGIS toolbox for Laravel</h2>
+    <br>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
+[![Total Downloads](https://img.shields.io/packagist/dt/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
 [![GitHub Tests Action Status](https://github.com/clickbar/laravel-magellan/actions/workflows/run-tests.yml/badge.svg)](https://github.com/clickbar/laravel-magellan/actions/workflows/run-tests.yml)
 [![GitHub Code Style Action Status](https://github.com/clickbar/laravel-magellan/actions/workflows/fix-styling.yml/badge.svg)](https://github.com/clickbar/laravel-magellan/actions/workflows/fix-styling.yml)
-[![Total Downloads](https://img.shields.io/packagist/dt/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
+<br>
+<br>
+</div>
+
+## Introduction
 
 Every sailor needs some tools to travel the seven seas.  
 This package will have you prepared for accessing PostGIS related functionality within Laravel.
