@@ -1,15 +1,19 @@
 <div align="center">
+    <br>
+    <br>
+    <br>
+    <br>
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="art/logo_dark.svg">
         <source media="(prefers-color-scheme: light)" srcset="art/logo_light.svg">
         <img
-            width="40%"
+            width="60%"
             alt="The logo for laravel-magellan, which shows a small blue paper ship with the package name right beside it." src="art/logo_light.png"
         >
     </picture>
     <br>
     <br>
-    <h2>A modern PostGIS toolbox for Laravel</h2>
+    <p style="font-size: 1.75rem;">A modern PostGIS toolbox for Laravel</p>
     <br>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
