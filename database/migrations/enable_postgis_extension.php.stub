@@ -1,17 +1,17 @@
 <?php
 
+use Clickbar\Magellan\Schema\MagellanSchema;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration
 {
     public function up(): void
     {
-        Schema::magellanEnablePostgisIfNotExists();
+        MagellanSchema::enablePostgisIfNotExists($this->connection);
     }
 
     public function down(): void
     {
-        Schema::magellanDisablePostgisIfExists();
+        MagellanSchema::disablePostgisIfExists($this->connection);
     }
 };

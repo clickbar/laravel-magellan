@@ -205,58 +205,6 @@ class MagellanGrammar
         };
     }
 
-    /*
-     *  COMPILE Statements
-     */
-
-    /**
-     * Adds a statement to create the postgis extension
-     *
-     * @return \Closure
-     */
-    public function compileEnablePostgis(): \Closure
-    {
-        return function () {
-            return 'CREATE EXTENSION postgis;';
-        };
-    }
-
-    /**
-     * Adds a statement to create the postgis extension, if it doesn't already exist
-     *
-     * @return \Closure
-     */
-    public function compileEnablePostgisIfNotExists(): \Closure
-    {
-        return function () {
-            return 'CREATE EXTENSION IF NOT EXISTS postgis;';
-        };
-    }
-
-    /**
-     * Adds a statement to drop the postgis extension
-     *
-     * @return \Closure
-     */
-    public function compileDisablePostgis(): \Closure
-    {
-        return function () {
-            return 'DROP EXTENSION postgis;';
-        };
-    }
-
-    /**
-     * Adds a statement to drop the postgis extension, if it exists
-     *
-     * @return \Closure
-     */
-    public function compileDisablePostgisIfExists(): \Closure
-    {
-        return function () {
-            return 'DROP EXTENSION IF EXISTS postgis;';
-        };
-    }
-
     private function createTypeDefinitionClosure(string $geometryType): \Closure
     {
         return function (Fluent $column) use ($geometryType) {
