@@ -45,14 +45,14 @@ composer require clickbar/laravel-magellan
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-magellan-migrations"
+php artisan vendor:publish --tag="magellan-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-magellan-config"
+php artisan vendor:publish --tag="magellan-config"
 ```
   
 You may find the contents of the published config file here:
