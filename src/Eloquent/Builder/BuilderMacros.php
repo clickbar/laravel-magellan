@@ -16,6 +16,7 @@ class BuilderMacros
     {
         return function (): string {
             // Create a fresh query, on the same connection, grammar and processor as the original query
+            // @phpstan-ignore-next-line
             $freshQuery = ($this instanceof EloquentBuilder) ? $this->toBase()->newQuery() : $this->newQuery();
 
             return $freshQuery
