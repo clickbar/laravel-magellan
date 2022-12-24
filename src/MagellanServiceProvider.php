@@ -16,6 +16,7 @@ use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Clickbar\Magellan\Schema\Grammars\MagellanGrammar;
 use Clickbar\Magellan\Schema\MagellanBlueprint;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
@@ -43,11 +44,12 @@ class MagellanServiceProvider extends PackageServiceProvider
     {
         PostgresGrammar::mixin(new MagellanGrammar());
         Blueprint::mixin(new MagellanBlueprint());
-        Builder::mixin(new BuilderMacros());
-        Builder::mixin(new BuilderUtilsMacro());
-        Builder::mixin(new PostgisMeasurementBuilderMacros());
-        Builder::mixin(new PostgisBoundingBoxBuilderMacros());
-        Builder::mixin(new PostgisGeometryProcessingBuilderMacros());
+
+        $this->registerBuilderMixin(new BuilderMacros());
+        $this->registerBuilderMixin(new BuilderUtilsMacro());
+        $this->registerBuilderMixin(new PostgisMeasurementBuilderMacros());
+        $this->registerBuilderMixin(new PostgisBoundingBoxBuilderMacros());
+        $this->registerBuilderMixin(new PostgisGeometryProcessingBuilderMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();
@@ -64,5 +66,13 @@ class MagellanServiceProvider extends PackageServiceProvider
         $this->app->singleton(WKBParser::class, function ($app) {
             return new WKBParser($app->make(GeometryModelFactory::class));
         });
+    }
+
+    private function registerBuilderMixin($mixin)
+    {
+        // See https://github.com/laravel/framework/issues/21950#issuecomment-437887175
+
+        Builder::mixin($mixin);
+        EloquentBuilder::mixin($mixin);
     }
 }
