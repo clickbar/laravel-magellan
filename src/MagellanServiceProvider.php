@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
+use Illuminate\Support\Facades\DB;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -66,6 +67,12 @@ class MagellanServiceProvider extends PackageServiceProvider
         $this->app->singleton(WKBParser::class, function ($app) {
             return new WKBParser($app->make(GeometryModelFactory::class));
         });
+
+        // Register custom Doctrine types for PostGIS
+        if (class_exists('Doctrine\DBAL\Connection')) {
+            DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
+            DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
+        }
     }
 
     private function registerBuilderMixin($mixin)
