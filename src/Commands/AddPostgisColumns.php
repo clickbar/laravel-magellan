@@ -41,7 +41,7 @@ class AddPostgisColumns extends Command
 
             $currentPostgisColumnsInterval = $this->getCurrentPostgisColumnsLineInterval($modelCodeLines);
             if ($currentPostgisColumnsInterval === null) {
-                $this->error('Unable to detect current $postgisColumns. Please delete the property and rerrun the command');
+                $this->error('Unable to detect current $postgisColumns. Please delete the property and rerun the command');
 
                 return self::FAILURE;
             }

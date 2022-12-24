@@ -7,8 +7,8 @@ use Clickbar\Magellan\Commands\Utils\PostgisColumnInformation;
 use Clickbar\Magellan\Commands\Utils\TableColumnsCollection;
 use Clickbar\Magellan\Eloquent\HasPostgisColumns;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +44,8 @@ class UpdatePostgisColumns extends Command
             $modelInformation = $this->getModelInformationForTable($tableName);
             if (! $modelInformation) {
                 $this->error('Cannot find model for table '.$tableName);
+
+                continue;
             }
 
             $modelReflectionClass = new ReflectionClass($modelInformation->getNamespace());
@@ -104,6 +106,7 @@ class UpdatePostgisColumns extends Command
     {
         $modelInformation = [];
         $potentialModelClassFiles = $this->files->allFiles(app_path('Models'));
+
         foreach ($potentialModelClassFiles as $potentialModelClassFile) {
             $namespace = $this->modelClassFromFile($potentialModelClassFile);
 
