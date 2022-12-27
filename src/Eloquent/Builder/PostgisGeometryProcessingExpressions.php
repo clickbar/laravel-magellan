@@ -28,15 +28,15 @@ class PostgisGeometryProcessingExpressions
         ];
 
         $styleParameter = collect($styleParts)
-            ->filter(fn($part) => !Str::endsWith($part, 'null'))
+            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
             ->join(',');
 
-        if (!empty($styleParameter) && $numSegQuarterCircle != null) {
+        if (! empty($styleParameter) && $numSegQuarterCircle != null) {
             // TODO: Add propper exception class
             throw new RuntimeException('Cannot use style and numSegQuarterCircle at the same time');
         }
 
-        if (!empty($styleParameter)) {
+        if (! empty($styleParameter)) {
             $arguments[] = new BindingExpression($styleParameter);
         }
 
@@ -100,30 +100,27 @@ class PostgisGeometryProcessingExpressions
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_DelaunayTriangles', $as, ...$params);
     }
 
-
     public static function getFilterByMExpression($builder, string $bindingType, $geo, float $min, ?float $max, ?bool $returnM, ?string $as): Expression
     {
         $params = [
             $geo,
-            new BindingExpression($min)
+            new BindingExpression($min),
         ];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $max, $returnM);
 
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_FilterByM', $as, ...$params);
     }
 
-
     public static function getGeneratePointsExpression($builder, string $bindingType, $geo, int $numberOfPoints, ?int $seed, ?string $as): Expression
     {
         $params = [
             $geo,
-            new BindingExpression($numberOfPoints)
+            new BindingExpression($numberOfPoints),
         ];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $seed);
 
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_GeneratePoints', $as, ...$params);
     }
-
 
     public static function getGeometricMedianExpression($builder, string $bindingType, $geo, ?float $tolerance, ?int $maxIterations, ?bool $failIfNotConverged, ?string $as): Expression
     {
@@ -149,4 +146,114 @@ class PostgisGeometryProcessingExpressions
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_MinimumBoundingCircle', $as, ...$params);
     }
 
+    public static function getOrientedEnvelopeExpression($builder, string $bindingType, $geo, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_OrientedEnvelope', $as, $geo);
+    }
+
+    public static function getOffsetCurveExpression($builder, string $bindingType, $geo, ?string $as, float $signedDistance, ?int $numSegQuarterCircle, ?Join $styleJoin, ?float $styleMitreLevel): Expression
+    {
+        $arguments = [
+            $geo,
+            new BindingExpression($signedDistance),
+        ];
+
+        $styleParts = [
+            "quad_segs=$numSegQuarterCircle",
+            "join=$styleJoin?->value",
+            "mitre_level=$styleMitreLevel",
+        ];
+
+        $styleParameter = collect($styleParts)
+            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
+            ->join(',');
+
+        if (! empty($styleParameter)) {
+            $arguments[] = new BindingExpression($styleParameter);
+        }
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_OffsetCurve', $as, ...$arguments);
+    }
+
+    public static function getPointOnSurfaceExpression($builder, string $bindingType, $geo, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_PointOnSurface', $as, $geo);
+    }
+
+    public static function getReducePrecisionExpression($builder, string $bindingType, $geo, int $gridSize, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_ReducePrecision', $as, $geo, new BindingExpression($gridSize));
+    }
+
+    public static function getSharedPathsExpression($builder, string $bindingType, $geoA, $geoB, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_SharedPaths', $as, $geoA, $geoB);
+    }
+
+    public static function getSimplifyExpression($builder, string $bindingType, $geo, ?float $tolerance, ?bool $preserveCollapsed, ?string $as): Expression
+    {
+        $params = [
+            $geo,
+            new BindingExpression($tolerance),
+        ];
+        BuilderUtils::appendAsBindingExpressionIfNotNull($params, $preserveCollapsed);
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_Simplify', $as, ...$params);
+    }
+
+    public static function getSimplifyPolygonHullExpression($builder, string $bindingType, $geo, ?float $vertexFraction, ?bool $isOuter, ?string $as): Expression
+    {
+        $params = [
+            $geo,
+            new BindingExpression($vertexFraction),
+        ];
+        BuilderUtils::appendAsBindingExpressionIfNotNull($params, $isOuter);
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_SimplifyPolygonHull', $as, ...$params);
+    }
+
+    public static function getSimplifyPreserveTopologyExpression($builder, string $bindingType, $geo, float $tolerance, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_SimplifyPreserveTopology', $as, $geo, new BindingExpression($tolerance));
+    }
+
+    public static function getSimplifyVWExpression($builder, string $bindingType, $geo, float $tolerance, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_SimplifyVW', $as, $geo, new BindingExpression($tolerance));
+    }
+
+    public static function getSetEffecitiveAreaExpression($builder, string $bindingType, $geo, ?float $threshold, ?int $setArea, ?string $as): Expression
+    {
+        $params = [$geo];
+        BuilderUtils::appendAsBindingExpressionIfNotNull($params, $threshold, $setArea);
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_SetEffectiveArea', $as, ...$params);
+    }
+
+    public static function getTriangulatePolygonExpression($builder, string $bindingType, $geo, ?string $as): Expression
+    {
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_TriangulatePolygon', $as, $geo);
+    }
+
+    public static function getVoronoiLinesExpression($builder, string $bindingType, $geo, ?float $tolerance, $extendToGeometry, ?string $as): Expression
+    {
+        $params = [$geo];
+        BuilderUtils::appendAsBindingExpressionIfNotNull($params, $tolerance);
+        if ($extendToGeometry !== null) {
+            $params[] = $extendToGeometry;
+        }
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_VoronoiLines', $as, ...$params);
+    }
+
+    public static function getVoronoiPolygonsExpression($builder, string $bindingType, $geo, ?float $tolerance, $extendToGeometry, ?string $as): Expression
+    {
+        $params = [$geo];
+        BuilderUtils::appendAsBindingExpressionIfNotNull($params, $tolerance);
+        if ($extendToGeometry !== null) {
+            $params[] = $extendToGeometry;
+        }
+
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_VoronoiPolygons', $as, ...$params);
+    }
 }

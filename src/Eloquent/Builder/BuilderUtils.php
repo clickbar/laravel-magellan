@@ -41,7 +41,7 @@ class BuilderUtils
         $wktGenerator = new WKTGenerator();
         $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
             if ($param instanceof Geometry) {
-                return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')) . $geometryTypeCastAppend;
+                return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
             }
 
             if ($param instanceof Box2D) {
@@ -64,10 +64,10 @@ class BuilderUtils
                 return '?';
             }
 
-            return $param . $geometryTypeCastAppend;
+            return $param.$geometryTypeCastAppend;
         }, $params);
 
-        $paramString = implode(', ', array_map(fn($param) => (string)$param, $params));
+        $paramString = implode(', ', array_map(fn ($param) => (string) $param, $params));
         $expressionString = "$function($paramString)";
 
         if ($as) {
@@ -77,9 +77,10 @@ class BuilderUtils
         return new Expression($expressionString);
     }
 
-    public static function appendAsBindingExpressionIfNotNull(array &$array, ...$values){
-        foreach ($values as $value){
-            if ($value != null){
+    public static function appendAsBindingExpressionIfNotNull(array &$array, ...$values)
+    {
+        foreach ($values as $value) {
+            if ($value != null) {
                 $array[] = new BindingExpression($value);
             }
         }
