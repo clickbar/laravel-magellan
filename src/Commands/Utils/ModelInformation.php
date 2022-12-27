@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Commands\Utils;
 
+use Illuminate\Database\Eloquent\Model;
+
 class ModelInformation
 {
     public function __construct(
@@ -33,5 +35,13 @@ class ModelInformation
     public function getTableName(): string
     {
         return $this->tableName;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getInstance(): Model
+    {
+        return new $this->modelClassName();
     }
 }
