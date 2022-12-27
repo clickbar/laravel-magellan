@@ -7,6 +7,7 @@ use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisBoundingBoxBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryProcessingBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisMeasurementBuilderMacros;
+use Clickbar\Magellan\Eloquent\Builder\PostgisOverlayMacros;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
@@ -47,6 +48,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         $this->registerBuilderMixin(new PostgisMeasurementBuilderMacros());
         $this->registerBuilderMixin(new PostgisBoundingBoxBuilderMacros());
         $this->registerBuilderMixin(new PostgisGeometryProcessingBuilderMacros());
+        $this->registerBuilderMixin(new PostgisOverlayMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();
@@ -74,7 +76,6 @@ class MagellanServiceProvider extends PackageServiceProvider
     private function registerBuilderMixin($mixin)
     {
         // See https://github.com/laravel/framework/issues/21950#issuecomment-437887175
-
         Builder::mixin($mixin);
         EloquentBuilder::mixin($mixin);
     }
