@@ -2,7 +2,6 @@
 
 namespace Clickbar\Magellan;
 
-use Clickbar\Magellan\Commands\AddPostgisColumns;
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\BuilderUtilsMacro;
@@ -37,8 +36,7 @@ class MagellanServiceProvider extends PackageServiceProvider
             ->name('laravel-magellan')
             ->hasConfigFile()
             ->hasMigration('enable_postgis_extension')
-            ->hasCommand(UpdatePostgisColumns::class)
-            ->hasCommand(AddPostgisColumns::class);
+            ->hasCommand(UpdatePostgisColumns::class);
     }
 
     public function registeringPackage()
