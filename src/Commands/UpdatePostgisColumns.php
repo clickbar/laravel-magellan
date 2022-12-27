@@ -48,7 +48,7 @@ class UpdatePostgisColumns extends Command
                 continue;
             }
 
-            $modelReflectionClass = new ReflectionClass($modelInformation->getNamespace());
+            $modelReflectionClass = new ReflectionClass($modelInformation->getModelClassName());
 
             // Load the code
             $filePath = $modelReflectionClass->getFileName();
@@ -56,7 +56,7 @@ class UpdatePostgisColumns extends Command
 
             // Check if the model is missing the postgis columns trait
             $postgisScopeAdded = false;
-            if (! $this->modelUsesPostgisTrait($modelInformation->getNamespace())) {
+            if (! $this->modelUsesPostgisTrait($modelInformation->getModelClassName())) {
                 // --> Trait is missing
                 $this->warn($modelReflectionClass->getShortName().' does not use the HasPostgisColumns trait, the trait will be added');
                 $this->addPostgisColumnsTrait($modelCodeLines, $modelReflectionClass);
@@ -108,13 +108,17 @@ class UpdatePostgisColumns extends Command
         $potentialModelClassFiles = $this->files->allFiles(app_path('Models'));
 
         foreach ($potentialModelClassFiles as $potentialModelClassFile) {
-            $namespace = $this->modelClassFromFile($potentialModelClassFile);
+            $modelClassName = $this->getFullyQualifiedClassNameFromFile($potentialModelClassFile);
 
-            $modelInstance = new $namespace();
+            try {
+                $modelInstance = new $modelClassName();
+            } catch (\Throwable $e) {
+                continue;
+            }
 
             if ($modelInstance instanceof Model) {
                 $modelInformation[] = new ModelInformation(
-                    $namespace,
+                    $modelClassName,
                     $potentialModelClassFile->getRelativePath(),
                     $modelInstance->getTable(),
                 );
@@ -309,17 +313,26 @@ class UpdatePostgisColumns extends Command
     }
 
     /**
-     * Extract the class name from the given file path.
+     * Get the fully qualified class name from the given file.
+     *
+     * This is taken from https://github.com/facade/ignition/blob/f47e26a84b6738cd4a24c25af70d7cb32ada1ab6/src/Support/ComposerClassMap.php#L70
+     * Which is licened under MIT.
      *
      * @param  \Symfony\Component\Finder\SplFileInfo  $file
      * @return string
      */
-    protected function modelClassFromFile(SplFileInfo $file)
+    protected function getFullyQualifiedClassNameFromFile(SplFileInfo $file): string
     {
-        return Str::of($file->getRelativePathname())
-            ->remove('.php')
-            ->replace(DIRECTORY_SEPARATOR, '\\')
-            ->prepend('App\\Models\\')
-            ->toString();
+        $class = trim(str_replace(app_path(), '', $file->getRealPath()), DIRECTORY_SEPARATOR);
+
+        $appNamespace = app()->getNamespace();
+
+        $class = str_replace(
+            [DIRECTORY_SEPARATOR, 'App\\'],
+            ['\\', $appNamespace],
+            ucfirst(Str::replaceLast('.php', '', $class))
+        );
+
+        return $appNamespace.$class;
     }
 }

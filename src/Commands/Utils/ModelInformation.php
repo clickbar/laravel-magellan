@@ -5,7 +5,7 @@ namespace Clickbar\Magellan\Commands\Utils;
 class ModelInformation
 {
     public function __construct(
-        protected string $namespace,
+        protected string $modelClassName,
         protected string $relativePath,
         protected string $tableName,
     ) {
@@ -14,9 +14,9 @@ class ModelInformation
     /**
      * @return string
      */
-    public function getNamespace(): string
+    public function getModelClassName(): string
     {
-        return $this->namespace;
+        return $this->modelClassName;
     }
 
     /**
