@@ -531,7 +531,7 @@ class PostgisGeometryProcessingBuilderMacros
          * @param  string  $as
          * @return PostgisGeometryProcessingBuilderMacros
          *
-         * @see https://postgis.net/docs/ST_VoronoiLines.html
+         * @see https://postgis.net/docs/ST_VoronoiPolygons.html
          */
         return function ($geometry, ?float $tolerance = null, $extendToGeometry = null, string $as = 'voronoiPolygons') {
             return $this->addSelect(PostgisGeometryProcessingExpressions::getVoronoiPolygonsExpression($this, 'select', $geometry, $tolerance, $extendToGeometry, $as));
