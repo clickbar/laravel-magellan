@@ -54,7 +54,7 @@ You can publish the config file with:
 ```bash
 php artisan vendor:publish --tag="magellan-config"
 ```
-  
+
 You may find the contents of the published config file here:
 [config/magellan.php](config/magellan.php)
 
@@ -79,6 +79,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Adrian](https://github.com/ahawlitschek)
+- [saibotk](https://github.com/saibotk)
 - [All Contributors](../../contributors)
 
 ## License
