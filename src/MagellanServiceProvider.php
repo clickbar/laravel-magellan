@@ -4,7 +4,6 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
-use Clickbar\Magellan\Eloquent\Builder\BuilderUtils;
 use Clickbar\Magellan\Eloquent\Builder\PostgisBoundingBoxBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryProcessingBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisMeasurementBuilderMacros;

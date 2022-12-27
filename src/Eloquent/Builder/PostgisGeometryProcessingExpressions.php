@@ -28,15 +28,15 @@ class PostgisGeometryProcessingExpressions
         ];
 
         $styleParameter = collect($styleParts)
-            ->filter(fn($part) => !Str::endsWith($part, 'null'))
+            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
             ->join(',');
 
-        if (!empty($styleParameter) && $numSegQuarterCircle != null) {
+        if (! empty($styleParameter) && $numSegQuarterCircle != null) {
             // TODO: Add propper exception class
             throw new RuntimeException('Cannot use style and numSegQuarterCircle at the same time');
         }
 
-        if (!empty($styleParameter)) {
+        if (! empty($styleParameter)) {
             $arguments[] = new BindingExpression($styleParameter);
         }
 
@@ -100,30 +100,27 @@ class PostgisGeometryProcessingExpressions
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_DelaunayTriangles', $as, ...$params);
     }
 
-
     public static function getFilterByMExpression($builder, string $bindingType, $geo, float $min, ?float $max, ?bool $returnM, ?string $as): Expression
     {
         $params = [
             $geo,
-            new BindingExpression($min)
+            new BindingExpression($min),
         ];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $max, $returnM);
 
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_FilterByM', $as, ...$params);
     }
 
-
     public static function getGeneratePointsExpression($builder, string $bindingType, $geo, int $numberOfPoints, ?int $seed, ?string $as): Expression
     {
         $params = [
             $geo,
-            new BindingExpression($numberOfPoints)
+            new BindingExpression($numberOfPoints),
         ];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $seed);
 
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_GeneratePoints', $as, ...$params);
     }
-
 
     public static function getGeometricMedianExpression($builder, string $bindingType, $geo, ?float $tolerance, ?int $maxIterations, ?bool $failIfNotConverged, ?string $as): Expression
     {
@@ -148,5 +145,4 @@ class PostgisGeometryProcessingExpressions
 
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_MinimumBoundingCircle', $as, ...$params);
     }
-
 }
