@@ -26,13 +26,14 @@
 
 ## Introduction
 
-Every sailor needs some tools to travel the seven seas.  
-This package will have you prepared for accessing PostGIS related functionality within Laravel.
-It was heavily inspired by [mstaack/laravel-postgis](https://github.com/mstaack/laravel-postgis), but has evolved into much more since.
+Every sailor needs a nice ship to travel the seven seas ⛵️  
 
-Magellan comes with batteries included and also provides parsers/generators for GeoJSON, WKB & WKT out of the box. Easily use PostGIS datatypes in the database and pass them to the frontend.  
+This package will have you prepared for accessing [PostGIS](https://postgis.net) related functionality within Laravel.
+It was heavily inspired by [mstaack/laravel-postgis](https://github.com/mstaack/laravel-postgis), but has evolved into much more since. Other than some slight changes, you should be familiar with Magellan very quickly.
 
-Additionally `laravel-magellan` provides extensions to the Schema, Query Builder and Postgres Grammar for easy access of PostGIS database functions like `ST_EXTENT`. It does all this without breaking compatibility to other packages, like [tpetry/laravel-postgresql-enhanced](https://github.com/tpetry/laravel-postgresql-enhanced), which extend the Grammar and Connection.
+Magellan comes with batteries included and also provides parsers/generators for GeoJSON, WKB & WKT out of the box. Easily use all PostGIS datatypes in your migrations and avoid raw SQL to access PostGIS functions by using our Builder functions.
+
+Additionally `laravel-magellan` provides extensions to the Schema, Query Builder and Postgres Grammar for easy access of PostGIS database functions like `ST_EXTENT`. It does all this without breaking compatibility to other packages, like [tpetry/laravel-postgresql-enhanced](https://github.com/tpetry/laravel-postgresql-enhanced), which has to extend the Grammar and Connection.
 
 ## Installation
 
@@ -54,7 +55,7 @@ You can publish the config file with:
 ```bash
 php artisan vendor:publish --tag="magellan-config"
 ```
-  
+
 You may find the contents of the published config file here:
 [config/magellan.php](config/magellan.php)
 
@@ -70,15 +71,16 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+If you discover any security related issues, please email [security@clickbar.dev](mailto:security@clickbar.dev) instead of using the issue tracker.
 
 ## Credits
 
 - [Adrian](https://github.com/ahawlitschek)
+- [saibotk](https://github.com/saibotk)
 - [All Contributors](../../contributors)
 
 ## License

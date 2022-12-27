@@ -20,7 +20,7 @@ use function Termwind\renderUsing;
 
 class UpdatePostgisColumns extends Command
 {
-    public $signature = 'magellan:update-postgis-columns';
+    public $signature = 'magellan:update-postgis-columns {--table=*}';
 
     public $description = 'Adds the $$postgisColumns array and trait to all models that have postgis columns in the DB.';
 
@@ -40,7 +40,15 @@ class UpdatePostgisColumns extends Command
         $this->loadModelInformation();
         $postgisTableColumns = $this->getPostgisColumnInformation();
 
-        foreach ($postgisTableColumns->getColumns() as $tableName => $columns) {
+        $postgisTables = $postgisTableColumns->getColumns();
+
+        if (is_string($this->option('table'))) {
+            $postgisTables = collect($postgisTables)
+                ->only($this->option('table'))
+                ->toArray();
+        }
+
+        foreach ($postgisTables as $tableName => $columns) {
             $this->components->info("Updating Model for table $tableName");
 
             $modelInformation = $this->getModelInformationForTable($tableName);
@@ -60,20 +68,33 @@ class UpdatePostgisColumns extends Command
             $postgisScopeAdded = false;
             if (! $this->modelUsesPostgisTrait($modelInformation->getModelClassName())) {
                 // --> Trait is missing
-                $this->components->warn($modelReflectionClass->getShortName().' does not use the HasPostgisColumns trait, the trait will be added');
+                $this->components->warn('> '.$modelReflectionClass->getShortName().' does not use the HasPostgisColumns trait, the trait will be added');
                 $this->addPostgisColumnsTrait($modelCodeLines, $modelReflectionClass);
                 $postgisScopeAdded = true;
+            } else {
+                $this->components->info('> '.$modelReflectionClass->getShortName().' already uses the HasPostgisColumns trait. We will not add it again.');
             }
 
             // Check if the model already has the postgis columns
             $overwrite = false;
             if ($modelReflectionClass->hasProperty('postgisColumns')) {
-                $this->components->info('Model already has the postgis columns');
-
                 $currentPostgisColumnsInterval = $this->getCurrentPostgisColumnsLineInterval($modelCodeLines);
 
                 if ($currentPostgisColumnsInterval === null) {
-                    $this->components->error('Unable to detect current $postgisColumns. Please delete the property and rerrun the command');
+                    $this->components->error('> '.'Unable to detect current $postgisColumns. Please delete the property and rerrun the command');
+
+                    continue;
+                }
+
+                $modelInstance = invade($modelInformation->getInstance());
+
+                // @phpstan-ignore-next-line We know that the property exists because of the if statement above
+                $currentColumnsArray = $modelInstance->postgisColumns;
+
+                if (! collect($columns)->every(fn ($column) => Arr::has($currentColumnsArray, $column->getColumn()))) {
+                    $this->components->warn('> '.'The $postgisColumns array does not contain all the columns from the DB. The columns will be added.');
+                } else {
+                    $this->components->info('> '.'The $postgisColumns array contains all the columns from the DB. No changes needed.');
 
                     continue;
                 }
@@ -105,7 +126,7 @@ class UpdatePostgisColumns extends Command
             $this->insertPostgisColumns($modelCodeLines, $startLine, $columns, $overwrite);
 
             $this->files->put($filePath, $modelCodeLines->join(PHP_EOL));
-            $this->components->info('$postgisColumns added to model');
+            $this->components->info('> '.'$postgisColumns added to model');
         }
 
         return self::SUCCESS;
@@ -121,7 +142,12 @@ class UpdatePostgisColumns extends Command
     private function loadModelInformation()
     {
         $modelInformation = [];
-        $potentialModelClassFiles = $this->files->allFiles(app_path('Models'));
+
+        $potentialModelClassFiles = collect();
+
+        foreach (config('magellan.model_directories', ['Models']) as $directory) {
+            $potentialModelClassFiles->push(...$this->files->allFiles(app_path($directory)));
+        }
 
         foreach ($potentialModelClassFiles as $potentialModelClassFile) {
             $modelClassName = $this->getFullyQualifiedClassNameFromFile($potentialModelClassFile);

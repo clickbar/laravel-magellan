@@ -7,12 +7,13 @@ use Clickbar\Magellan\Boxes\Box3D;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Config;
 
 class BuilderUtils
 {
-    public static function buildPostgisFunction($builder, string $bindingType, ?string $geometryType, string $function, ?string $as = null, ...$params): Expression
+    public static function buildPostgisFunction(Builder|EloquentBuilder $builder, string $bindingType, ?string $geometryType, string $function, ?string $as = null, ...$params): Expression
     {
         if ($builder instanceof EloquentBuilder) {
             $builder = $builder->getQuery();
@@ -22,9 +23,7 @@ class BuilderUtils
         $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
         foreach ($params as $i => $param) {
-            // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
             if ($builder->isQueryable($param)) {
-                // @phpstan-ignore-next-line - `this` is bound to the query builder because of the mixin
                 [$sub, $bindings] = $builder->createSub($param);
 
                 array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
