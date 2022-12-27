@@ -142,7 +142,12 @@ class UpdatePostgisColumns extends Command
     private function loadModelInformation()
     {
         $modelInformation = [];
-        $potentialModelClassFiles = $this->files->allFiles(app_path('Models'));
+
+        $potentialModelClassFiles = collect();
+
+        foreach (config('magellan.model_directories', ['Models']) as $directory) {
+            $potentialModelClassFiles->push(...$this->files->allFiles(app_path($directory)));
+        }
 
         foreach ($potentialModelClassFiles as $potentialModelClassFile) {
             $modelClassName = $this->getFullyQualifiedClassNameFromFile($potentialModelClassFile);

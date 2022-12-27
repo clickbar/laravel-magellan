@@ -18,4 +18,12 @@ return [
 
     'transform_on_insert' => false,
 
+    /**
+     * The directories where the models are located that we should consider for the magellan commands.
+     * E.g. the update-postgis-columns command uses these locations to find the models of tables
+     * that should be updated.
+     */
+    'model_directories' => [
+        'Models',
+    ],
 ];
