@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
+use function Termwind\render;
+use function Termwind\renderUsing;
 
 class UpdatePostgisColumns extends Command
 {
     public $signature = 'magellan:update-postgis-columns';
 
-    public $description = 'Adds the $$postgisColumns array to the given model';
+    public $description = 'Adds the $$postgisColumns array and trait to all models that have postgis columns in the DB.';
 
     protected Filesystem $files;
 
@@ -39,11 +41,11 @@ class UpdatePostgisColumns extends Command
         $postgisTableColumns = $this->getPostgisColumnInformation();
 
         foreach ($postgisTableColumns->getColumns() as $tableName => $columns) {
-            $this->info("Updating Model for table $tableName");
+            $this->components->info("Updating Model for table $tableName");
 
             $modelInformation = $this->getModelInformationForTable($tableName);
             if (! $modelInformation) {
-                $this->error('Cannot find model for table '.$tableName);
+                $this->components->warn('Cannot find model for table '.$tableName);
 
                 continue;
             }
@@ -58,7 +60,7 @@ class UpdatePostgisColumns extends Command
             $postgisScopeAdded = false;
             if (! $this->modelUsesPostgisTrait($modelInformation->getModelClassName())) {
                 // --> Trait is missing
-                $this->warn($modelReflectionClass->getShortName().' does not use the HasPostgisColumns trait, the trait will be added');
+                $this->components->warn($modelReflectionClass->getShortName().' does not use the HasPostgisColumns trait, the trait will be added');
                 $this->addPostgisColumnsTrait($modelCodeLines, $modelReflectionClass);
                 $postgisScopeAdded = true;
             }
@@ -66,11 +68,12 @@ class UpdatePostgisColumns extends Command
             // Check if the model already has the postgis columns
             $overwrite = false;
             if ($modelReflectionClass->hasProperty('postgisColumns')) {
-                $this->warn('Model already has the postgis columns');
+                $this->components->info('Model already has the postgis columns');
 
                 $currentPostgisColumnsInterval = $this->getCurrentPostgisColumnsLineInterval($modelCodeLines);
+
                 if ($currentPostgisColumnsInterval === null) {
-                    $this->error('Unable to detect current $postgisColumns. Please delete the property and rerrun the command');
+                    $this->components->error('Unable to detect current $postgisColumns. Please delete the property and rerrun the command');
 
                     continue;
                 }
@@ -79,9 +82,15 @@ class UpdatePostgisColumns extends Command
                 $end = $currentPostgisColumnsInterval[1];
 
                 $currentCode = $modelCodeLines->slice($start, $end - $start + 1)->join(PHP_EOL);
-                $this->info($currentCode);
 
-                $confirmOverride = $this->confirm('Override the above displayed code?', true);
+                $this->output->writeln('Current code:');
+                $this->printCode($currentCode, $start + 1);
+                $this->output->writeln('');
+
+                $this->output->writeln('New code:');
+                $this->printCode(collect($this->buildPostgisColumnCodeLines($columns))->join(PHP_EOL), $start + 1);
+
+                $confirmOverride = $this->components->confirm('Override the above displayed code?', true);
                 if (! $confirmOverride) {
                     continue;
                 }
@@ -96,10 +105,17 @@ class UpdatePostgisColumns extends Command
             $this->insertPostgisColumns($modelCodeLines, $startLine, $columns, $overwrite);
 
             $this->files->put($filePath, $modelCodeLines->join(PHP_EOL));
-            $this->info('$postgisColumns added to model');
+            $this->components->info('$postgisColumns added to model');
         }
 
         return self::SUCCESS;
+    }
+
+    private function printCode(string $code, int $startLine): void
+    {
+        renderUsing($this->output);
+
+        render('<code start-line="'.($startLine - 2).'">'.htmlentities('<?php'.PHP_EOL.'    // ...'.PHP_EOL.$code).'</code>');
     }
 
     private function loadModelInformation()
@@ -277,10 +293,12 @@ class UpdatePostgisColumns extends Command
     {
         $postgisColumnsCodeLines = $this->buildPostgisColumnCodeLines($columns);
         $linesToWrite = $postgisColumnsCodeLines;
+
         if (! $overwrite) {
             $linesToWrite = Arr::prepend($postgisColumnsCodeLines, '');
             $linesToWrite[] = '';
         }
+
         $lines->splice($startLine, 0, $linesToWrite);
     }
 
@@ -294,6 +312,7 @@ class UpdatePostgisColumns extends Command
     {
         $postgisColumnLines = [];
         $postgisColumnLines[] = $this->addInset(1, 'protected array $postgisColumns = [');
+
         /** @var PostgisColumnInformation $column */
         foreach ($columns as $column) {
             $postgisColumnLines[] = $this->addInset(2, "'{$column->getColumn()}' => [");
