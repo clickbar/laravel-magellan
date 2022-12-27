@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * @mixin \Illuminate\Database\Query\Builder
- * @mixin \Clickbar\Magellan\Eloquent\Builder\BuilderUtilsMacro
+ * @mixin \Clickbar\Magellan\Eloquent\Builder\BuilderUtils
  */
 class BuilderMacros
 {

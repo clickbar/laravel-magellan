@@ -4,7 +4,7 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
-use Clickbar\Magellan\Eloquent\Builder\BuilderUtilsMacro;
+use Clickbar\Magellan\Eloquent\Builder\BuilderUtils;
 use Clickbar\Magellan\Eloquent\Builder\PostgisBoundingBoxBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryProcessingBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisMeasurementBuilderMacros;
@@ -45,7 +45,6 @@ class MagellanServiceProvider extends PackageServiceProvider
         Blueprint::mixin(new MagellanBlueprint());
 
         $this->registerBuilderMixin(new BuilderMacros());
-        $this->registerBuilderMixin(new BuilderUtilsMacro());
         $this->registerBuilderMixin(new PostgisMeasurementBuilderMacros());
         $this->registerBuilderMixin(new PostgisBoundingBoxBuilderMacros());
         $this->registerBuilderMixin(new PostgisGeometryProcessingBuilderMacros());
