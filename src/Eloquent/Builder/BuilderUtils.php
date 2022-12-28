@@ -38,7 +38,7 @@ class BuilderUtils
         }
 
         $wktGenerator = new WKTGenerator();
-        $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator) {
+        $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator, $builder) {
             if ($param instanceof Geometry) {
                 return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
             }
@@ -63,7 +63,7 @@ class BuilderUtils
                 return '?';
             }
 
-            return $param.$geometryTypeCastAppend;
+            return $builder->grammar->wrap($param).$geometryTypeCastAppend;
         }, $params);
 
         $paramString = implode(', ', array_map(fn ($param) => (string) $param, $params));
