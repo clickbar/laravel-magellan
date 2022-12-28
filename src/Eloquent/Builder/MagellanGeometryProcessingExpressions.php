@@ -7,11 +7,14 @@ use Clickbar\Magellan\Enums\EndCap;
 use Clickbar\Magellan\Enums\Join;
 use Clickbar\Magellan\Enums\Side;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 trait MagellanGeometryProcessingExpressions
 {
     /**
-     * Computes a POLYGON or MULTIPOLYGON that represents all points whose distance from a geometry/geography is less than or equal to a given distance. A negative distance shrinks the geometry rather than expanding it. A negative distance may shrink a polygon completely, in which case POLYGON EMPTY is returned. For points and lines negative distances always return empty results.
+     * Computes a POLYGON or MULTIPOLYGON that represents all points whose distance from a geometry/geography is less than or equal to a given distance.
+     * A negative distance shrinks the geometry rather than expanding it. A negative distance may shrink a polygon completely, in which case POLYGON EMPTY is returned.
+     * For points and lines negative distances always return empty results.
      *
      * @param $geometry
      * @param  float  $radius
@@ -43,7 +46,7 @@ trait MagellanGeometryProcessingExpressions
             ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
             ->join(',');
 
-        if (! empty($styleParameter) && $numSegQuarterCircle != null) {
+        if (! empty($styleParameter) && $numSegQuarterCircle !== null) {
             // TODO: Add propper exception class
             throw new RuntimeException('Cannot use style and numSegQuarterCircle at the same time');
         }
@@ -52,7 +55,7 @@ trait MagellanGeometryProcessingExpressions
             $arguments[] = $styleParameter;
         }
 
-        if ($numSegQuarterCircle != null) {
+        if ($numSegQuarterCircle !== null) {
             $arguments[] = $numSegQuarterCircle;
         }
 
@@ -87,6 +90,7 @@ trait MagellanGeometryProcessingExpressions
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
         }
+
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
@@ -218,8 +222,7 @@ trait MagellanGeometryProcessingExpressions
      *
      * @param $geometry
      * @param  int|null  $numberOfSegmentsPerQuarterCircle The bounding circle is approximated by a polygon with a default of 48 segments per quarter circle. Because the polygon is an approximation of the minimum bounding circle, some points in the input geometry may not be contained within the polygon. The approximation can be improved by increasing the number of segments. For applications where an approximation is not suitable ST_MinimumBoundingRadius may be used.
-     * @param  string  $as
-     * @return PostgisGeometryProcessingBuilderMacros
+     * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_MinimumBoundingCircle.html
      */
@@ -229,7 +232,9 @@ trait MagellanGeometryProcessingExpressions
     }
 
     /**
-     * Returns the minimum-area rotated rectangle enclosing a geometry. Note that more than one such rectangle may exist. May return a Point or LineString in the case of degenerate inputs.
+     * Returns the minimum-area rotated rectangle enclosing a geometry.
+     * Note that more than one such rectangle may exist.
+     * May return a Point or LineString in the case of degenerate inputs.
      *
      * @param $geometry
      * @return MagellanExpression
@@ -242,7 +247,9 @@ trait MagellanGeometryProcessingExpressions
     }
 
     /**
-     * Return an offset line at a given distance and side from an input line. All points of the returned geometries are not further than the given distance from the input geometry. Useful for computing parallel lines about a center line.
+     * Return an offset line at a given distance and side from an input line.
+     * All points of the returned geometries are not further than the given distance from the input geometry.
+     * Useful for computing parallel lines about a center line.
      *
      * @param $geometry
      * @param  float  $signedDistance
@@ -362,7 +369,9 @@ trait MagellanGeometryProcessingExpressions
     }
 
     /**
-     * Returns a "simplified" version of the given geometry using the Visvalingam-Whyatt algorithm. Will actually do something only with (multi)lines and (multi)polygons but you can safely call it with any kind of geometry. Since simplification occurs on a object-by-object basis you can also feed a GeometryCollection to this function.
+     * Returns a "simplified" version of the given geometry using the Visvalingam-Whyatt algorithm.
+     * Will actually do something only with (multi)lines and (multi)polygons but you can safely call it with any kind of geometry.
+     * Since simplification occurs on a object-by-object basis you can also feed a GeometryCollection to this function.
      *
      * @param $geometry
      * @param  float  $tolerance
@@ -376,13 +385,15 @@ trait MagellanGeometryProcessingExpressions
     }
 
     /**
-     * Sets the effective area for each vertex, using the Visvalingam-Whyatt algorithm. The effective area is stored as the M-value of the vertex. If the optional "theshold" parameter is used, a simplified geometry will be returned, containing only vertices with an effective area greater than or equal to the threshold value.
+     * Sets the effective area for each vertex, using the Visvalingam-Whyatt algorithm.
+     * The effective area is stored as the M-value of the vertex.
+     * If the optional "theshold" parameter is used, a simplified geometry will be returned,
+     * containing only vertices with an effective area greater than or equal to the threshold value.
      *
      * @param $geometry
      * @param  float|null  $threshold
      * @param  int|null  $setArea
-     * @param  string  $as
-     * @return PostgisGeometryProcessingBuilderMacros
+     * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_SetEffectiveArea.html
      */
@@ -410,7 +421,7 @@ trait MagellanGeometryProcessingExpressions
      *
      * @param $geometry
      * @param  float|null  $tolerance The distance within which vertices will be considered equivalent. Robustness of the algorithm can be improved by supplying a nonzero tolerance distance. (default = 0.0)
-     * @param  null  $extendToGeometry If a geometry is supplied as the "extend_to" parameter, the diagram will be extended to cover the envelope of the "extend_to" geometry, unless that envelope is smaller than the default envelope (default = NULL, default envelope is boundingbox of input geometry extended by about 50% in each direction).
+     * @param  mixed  $extendToGeometry If a geometry is supplied as the "extend_to" parameter, the diagram will be extended to cover the envelope of the "extend_to" geometry, unless that envelope is smaller than the default envelope (default = NULL, default envelope is boundingbox of input geometry extended by about 50% in each direction).
      * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_VoronoiLines.html
@@ -419,6 +430,7 @@ trait MagellanGeometryProcessingExpressions
     {
         $params = [$geometry];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $tolerance);
+
         if ($extendToGeometry !== null) {
             $params[] = $extendToGeometry;
         }
@@ -431,7 +443,7 @@ trait MagellanGeometryProcessingExpressions
      *
      * @param $geometry
      * @param  float|null  $tolerance The distance within which vertices will be considered equivalent. Robustness of the algorithm can be improved by supplying a nonzero tolerance distance. (default = 0.0)
-     * @param  null  $extendToGeometry If a geometry is supplied as the "extend_to" parameter, the diagram will be extended to cover the envelope of the "extend_to" geometry, unless that envelope is smaller than the default envelope (default = NULL, default envelope is boundingbox of input geometry extended by about 50% in each direction).
+     * @param  mixed  $extendToGeometry If a geometry is supplied as the "extend_to" parameter, the diagram will be extended to cover the envelope of the "extend_to" geometry, unless that envelope is smaller than the default envelope (default = NULL, default envelope is boundingbox of input geometry extended by about 50% in each direction).
      * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_VoronoiPolygons.html
@@ -440,6 +452,7 @@ trait MagellanGeometryProcessingExpressions
     {
         $params = [$geometry];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $tolerance);
+
         if ($extendToGeometry !== null) {
             $params[] = $extendToGeometry;
         }

@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Eloquent\Builder;
 
+use RuntimeException;
+
 trait MagellanBoundingBoxExpressions
 {
     /**
@@ -179,20 +181,20 @@ trait MagellanBoundingBoxExpressions
      */
     public static function expand($geometry, ?float $unitsToExpand = null, ?float $dx = null, ?float $dy = null, ?float $dz = null, ?float $dm = null): MagellanExpression
     {
-        if ($unitsToExpand != null) {
+        if ($unitsToExpand !== null) {
             return MagellanExpression::geometryOrBox('ST_Expand', [$geometry], [$unitsToExpand]);
         }
 
-        if ($dy != null) {
+        if ($dy !== null) {
             $dx = $dx ?? 0;
         }
 
-        if ($dz != null) {
+        if ($dz !== null) {
             $dx = $dx ?? 0;
             $dy = $dy ?? 0;
         }
 
-        if ($dm != null) {
+        if ($dm !== null) {
             $dx = $dx ?? 0;
             $dy = $dy ?? 0;
             $dz = $dz ?? 0;
@@ -227,11 +229,11 @@ trait MagellanBoundingBoxExpressions
             $geoColumn,
         ];
 
-        if ($schemaName != null) {
+        if ($schemaName !== null) {
             array_unshift($arguments, $schemaName);
         }
 
-        if ($parentOnly != null) {
+        if ($parentOnly !== null) {
             if (count($arguments) !== 3) {
                 // TODO: Create Custom Exception
                 throw new RuntimeException('Invalid combination of parameters. See documentation for proper use of ST_EstimatedExtent');

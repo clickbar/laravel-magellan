@@ -4,13 +4,16 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder;
 
-/** @mixin Builder */
+/**
+ * @mixin \Illuminate\Database\Query\Builder
+ */
 class TestMixin
 {
     public function mSelect()
     {
+        /** @var EloquentBuilder|\Illuminate\Database\Query\Builder $this */
+
         return function (MagellanExpression $magellanExpression, string $as = null) {
             $asOrDefault = $as ?? $magellanExpression->getDefaultAs();
 

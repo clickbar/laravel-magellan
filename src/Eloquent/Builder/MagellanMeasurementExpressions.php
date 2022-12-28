@@ -347,7 +347,7 @@ trait MagellanMeasurementExpressions
      * @param $point1
      * @param $point2
      * @param $point3
-     * @param  null  $point4
+     * @param  mixed  $point4
      * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_Angle.html

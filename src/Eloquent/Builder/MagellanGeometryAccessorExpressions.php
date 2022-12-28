@@ -128,8 +128,7 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  int  $n
-     * @param  string  $as
-     * @return PostgisOverlayMacros
+     * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_InteriorRingN.html
      */
@@ -142,8 +141,7 @@ trait MagellanGeometryAccessorExpressions
      * Returns TRUE if the LINESTRING's start and end points are coincident. For Polyhedral Surfaces, reports if the surface is areal (open) or volumetric (closed).
      *
      * @param $geometry
-     * @param  string  $as
-     * @return PostgisOverlayMacros
+     * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_IsClosed.html
      */
@@ -159,8 +157,7 @@ trait MagellanGeometryAccessorExpressions
      * - COMPOUNDCURVE
      *
      * @param $geometry
-     * @param  string  $as
-     * @return PostgisOverlayMacros
+     * @return MagellanExpression
      *
      * @see https://postgis.net/docs/ST_IsCollection.html
      */
