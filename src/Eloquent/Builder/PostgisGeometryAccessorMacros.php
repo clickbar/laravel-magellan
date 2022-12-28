@@ -19,7 +19,7 @@ class PostgisGeometryAccessorMacros
          * Returns the closure of the combinatorial boundary of this Geometry. The combinatorial boundary is defined as described in section 3.12.3.2 of the OGC SPEC. Because the result of this function is a closure, and hence topologically closed, the resulting boundary can be represented using representational geometry primitives as discussed in the OGC SPEC, section 3.12.2.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Boundary.html
@@ -41,8 +41,8 @@ class PostgisGeometryAccessorMacros
          * Orders by the diagonal of the supplied geometry's bounding box as a LineString. The diagonal is a 2-point LineString with the minimum values of each dimension in its start point and the maximum values in its end point. If the input geometry is empty, the diagonal line is a LINESTRING EMPTY.
          *
          * @param $geometry
-         * @param bool|null $fits specifies if the best fit is needed. If false, the diagonal of a somewhat larger bounding box can be accepted (which is faster to compute for geometries with many vertices). In either case, the bounding box of the returned diagonal line always covers the input geometry.
-         * @param string $as
+         * @param  bool|null  $fits specifies if the best fit is needed. If false, the diagonal of a somewhat larger bounding box can be accepted (which is faster to compute for geometries with many vertices). In either case, the bounding box of the returned diagonal line always covers the input geometry.
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_BoundingDiagonal.html
@@ -64,7 +64,7 @@ class PostgisGeometryAccessorMacros
          * Return the topological dimension of this Geometry object, which must be less than or equal to the coordinate dimension. OGC SPEC s2.1.1.1 - returns 0 for POINT, 1 for LINESTRING, 2 for POLYGON, and the largest dimension of the components of a GEOMETRYCOLLECTION. If the dimension is unknown (e.g. for an empty GEOMETRYCOLLECTION) 0 is returned.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_CoordDim.html
@@ -79,10 +79,9 @@ class PostgisGeometryAccessorMacros
     public function whereCoordDim(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_CoordDim.html
@@ -102,7 +101,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the topological dimension of this Geometry object, which must be less than or equal to the coordinate dimension. OGC SPEC s2.1.1.1 - returns 0 for POINT, 1 for LINESTRING, 2 for POLYGON, and the largest dimension of the components of a GEOMETRYCOLLECTION. If the dimension is unknown (e.g. for an empty GEOMETRYCOLLECTION) 0 is returned.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_CoordDim.html
@@ -125,7 +124,7 @@ class PostgisGeometryAccessorMacros
          * Return the coordinate dimension of the ST_Geometry value.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Dimension.html
@@ -140,10 +139,9 @@ class PostgisGeometryAccessorMacros
     public function whereDimension(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Dimension.html
@@ -163,7 +161,7 @@ class PostgisGeometryAccessorMacros
          * Return the coordinate dimension of the ST_Geometry value.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Dimension.html
@@ -186,7 +184,7 @@ class PostgisGeometryAccessorMacros
          * Returns the last point of a LINESTRING or CIRCULARLINESTRING geometry as a POINT. Returns NULL if the input is not a LINESTRING or CIRCULARLINESTRING.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_EndPoint.html
@@ -208,7 +206,7 @@ class PostgisGeometryAccessorMacros
          * Returns the double-precision (float8) minimum bounding box for the supplied geometry, as a geometry. The polygon is defined by the corner points of the bounding box ((MINX, MINY), (MINX, MAXY), (MAXX, MAXY), (MAXX, MINY), (MINX, MINY)). (PostGIS will add a ZMIN/ZMAX coordinate as well).
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Envelope.html
@@ -230,7 +228,7 @@ class PostgisGeometryAccessorMacros
          * Returns a LINESTRING representing the exterior ring (shell) of a POLYGON. Returns NULL if the geometry is not a polygon.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_ExteriorRing.html
@@ -252,8 +250,8 @@ class PostgisGeometryAccessorMacros
          * Return the 1-based Nth element geometry of an input geometry which is a GEOMETRYCOLLECTION, MULTIPOINT, MULTILINESTRING, MULTICURVE, MULTI)POLYGON, or POLYHEDRALSURFACE. Otherwise, returns NULL.
          *
          * @param $geometry
-         * @param int $n
-         * @param string $as
+         * @param  int  $n
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_GeometryN.html
@@ -275,7 +273,7 @@ class PostgisGeometryAccessorMacros
          * Returns true if a geometry or geometry collection contains a circular string
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_HasArc.html
@@ -290,10 +288,9 @@ class PostgisGeometryAccessorMacros
     public function whereHasArc(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Dimension.html
@@ -317,8 +314,8 @@ class PostgisGeometryAccessorMacros
          * Returns the Nth interior ring (hole) of a POLYGON geometry as a LINESTRING. The index starts at 1. Returns NULL if the geometry is not a polygon or the index is out of range.
          *
          * @param $geometry
-         * @param int $n
-         * @param string $as
+         * @param  int  $n
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_InteriorRingN.html
@@ -340,7 +337,7 @@ class PostgisGeometryAccessorMacros
          * Returns TRUE if the LINESTRING's start and end points are coincident. For Polyhedral Surfaces, reports if the surface is areal (open) or volumetric (closed).
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsClosed.html
@@ -355,10 +352,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsClosed(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsClosed.html
@@ -385,7 +381,7 @@ class PostgisGeometryAccessorMacros
          * - COMPOUNDCURVE
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsCollection.html
@@ -400,10 +396,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsCollection(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsCollection.html
@@ -427,7 +422,7 @@ class PostgisGeometryAccessorMacros
          * Returns true if this Geometry is an empty geometry. If true, then this Geometry represents an empty geometry collection, polygon, point etc.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsEmpty.html
@@ -442,10 +437,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsEmpty(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsEmpty.html
@@ -470,7 +464,7 @@ class PostgisGeometryAccessorMacros
          * Returns true if the geometry has no polygonal components.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsPolygonCCW.html
@@ -485,10 +479,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsPolygonCCW(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsPolygonCCW.html
@@ -513,7 +506,7 @@ class PostgisGeometryAccessorMacros
          * Returns true if the geometry has no polygonal components.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsPolygonCW.html
@@ -528,10 +521,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsPolygonCW(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsPolygonCW.html
@@ -555,7 +547,7 @@ class PostgisGeometryAccessorMacros
          * Returns TRUE if this LINESTRING is both ST_IsClosed (ST_StartPoint(g) ~= ST_Endpoint(g)) and ST_IsSimple (does not self intersect).
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsRing.html
@@ -570,10 +562,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsRing(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsRing.html
@@ -587,7 +578,6 @@ class PostgisGeometryAccessorMacros
         };
     }
 
-
     /*
      * ST_IsSimple
      */
@@ -598,7 +588,7 @@ class PostgisGeometryAccessorMacros
          * Returns true if this Geometry has no anomalous geometric points, such as self-intersection or self-tangency. For more information on the OGC's definition of geometry simplicity and validity, refer to "Ensuring OpenGIS compliancy of geometries"
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsSimple.html
@@ -613,10 +603,9 @@ class PostgisGeometryAccessorMacros
     public function whereIsSimple(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_IsSimple.html
@@ -630,7 +619,6 @@ class PostgisGeometryAccessorMacros
         };
     }
 
-
     /*
      * ST_M
      */
@@ -641,7 +629,7 @@ class PostgisGeometryAccessorMacros
          * Return the M coordinate of a Point, or NULL if not available. Input must be a Point.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_M.html
@@ -656,10 +644,9 @@ class PostgisGeometryAccessorMacros
     public function whereM(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_M.html
@@ -679,7 +666,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the M coordinate of a Point, or NULL if not available. Input must be a Point.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_M.html
@@ -692,7 +679,6 @@ class PostgisGeometryAccessorMacros
         };
     }
 
-
     /*
      * ST_MemSize
      */
@@ -703,7 +689,7 @@ class PostgisGeometryAccessorMacros
          * Returns the amount of memory space (in bytes) the geometry takes.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_MemSize.html
@@ -718,10 +704,9 @@ class PostgisGeometryAccessorMacros
     public function whereMemSize(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_MemSize.html
@@ -741,7 +726,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the amount of memory space (in bytes) the geometry takes.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_MemSize.html
@@ -764,7 +749,7 @@ class PostgisGeometryAccessorMacros
          * Returns the coordinate dimension of the geometry. PostGIS supports 2 - (x,y) , 3 - (x,y,z) or 2D with measure - x,y,m, and 4 - 3D with measure space x,y,z,m
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NDims.html
@@ -779,10 +764,9 @@ class PostgisGeometryAccessorMacros
     public function whereNDims(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NDims.html
@@ -802,7 +786,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the coordinate dimension of the geometry. PostGIS supports 2 - (x,y) , 3 - (x,y,z) or 2D with measure - x,y,m, and 4 - 3D with measure space x,y,z,m
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NDims.html
@@ -825,7 +809,7 @@ class PostgisGeometryAccessorMacros
          * Return the number of points in a geometry. Works for all geometries.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NPoints.html
@@ -840,10 +824,9 @@ class PostgisGeometryAccessorMacros
     public function whereNPoints(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NPoints.html
@@ -863,7 +846,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the number of points in a geometry. Works for all geometries.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NPoints.html
@@ -885,7 +868,7 @@ class PostgisGeometryAccessorMacros
          * If the geometry is a polygon or multi-polygon returns the number of rings. Unlike NumInteriorRings, it counts the outer rings as well.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NRings.html
@@ -900,10 +883,9 @@ class PostgisGeometryAccessorMacros
     public function whereNRings(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NRings.html
@@ -923,7 +905,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the number of rings. Unlike NumInteriorRings, it counts the outer rings as well.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NRings.html
@@ -946,7 +928,7 @@ class PostgisGeometryAccessorMacros
          * Returns the number of Geometries. If geometry is a GEOMETRYCOLLECTION (or MULTI*) return the number of geometries, for single geometries will return 1, otherwise return NULL.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumGeometries.html
@@ -961,10 +943,9 @@ class PostgisGeometryAccessorMacros
     public function whereNumGeometries(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumGeometries.html
@@ -984,7 +965,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the number of Geometries. If geometry is a GEOMETRYCOLLECTION (or MULTI*) return the number of geometries, for single geometries will return 1, otherwise return NULL.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumGeometries.html
@@ -1007,7 +988,7 @@ class PostgisGeometryAccessorMacros
          * Return the number of interior rings of a polygon geometry. Return NULL if the geometry is not a polygon.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumInteriorRings.html
@@ -1022,10 +1003,9 @@ class PostgisGeometryAccessorMacros
     public function whereNumInteriorRings(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumInteriorRings.html
@@ -1045,7 +1025,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the number of interior rings of a polygon geometry. Return NULL if the geometry is not a polygon.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumInteriorRings.html
@@ -1068,7 +1048,7 @@ class PostgisGeometryAccessorMacros
          * Return the number of faces on a Polyhedral Surface. Will return null for non-polyhedral geometries. This is an alias for ST_NumGeometries to support MM naming. Faster to use ST_NumGeometries if you don't care about MM convention.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumPatches.html
@@ -1083,10 +1063,9 @@ class PostgisGeometryAccessorMacros
     public function whereNumPatches(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumPatches.html
@@ -1106,7 +1085,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the number of faces on a Polyhedral Surface. Will return null for non-polyhedral geometries. This is an alias for ST_NumGeometries to support MM naming. Faster to use ST_NumGeometries if you don't care about MM convention.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_NumPatches.html
@@ -1129,8 +1108,8 @@ class PostgisGeometryAccessorMacros
          * Returns the 1-based Nth geometry (face) if the geometry is a POLYHEDRALSURFACE or POLYHEDRALSURFACEM. Otherwise, returns NULL. This returns the same answer as ST_GeometryN for PolyhedralSurfaces. Using ST_GeometryN is faster.
          *
          * @param $geometry
-         * @param int $n
-         * @param string $as
+         * @param  int  $n
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_PatchN.html
@@ -1152,8 +1131,8 @@ class PostgisGeometryAccessorMacros
          * Return the Nth point in a single linestring or circular linestring in the geometry. Negative values are counted backwards from the end of the LineString, so that -1 is the last point. Returns NULL if there is no linestring in the geometry.
          *
          * @param $geometry
-         * @param int $n
-         * @param string $as
+         * @param  int  $n
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_PointN.html
@@ -1175,7 +1154,7 @@ class PostgisGeometryAccessorMacros
          * Returns a MultiPoint containing all the coordinates of a geometry. Duplicate points are preserved, including the start and end points of ring geometries. (If desired, duplicate points can be removed by calling ST_RemoveRepeatedPoints on the result).
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Points.html
@@ -1197,7 +1176,7 @@ class PostgisGeometryAccessorMacros
          * Returns the first point of a LINESTRING or CIRCULARLINESTRING geometry as a POINT. Returns NULL if the input is not a LINESTRING or CIRCULARLINESTRING.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_StartPoint.html
@@ -1219,7 +1198,7 @@ class PostgisGeometryAccessorMacros
          * Returns a text summary of the contents of the geometry.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Summary.html
@@ -1231,7 +1210,6 @@ class PostgisGeometryAccessorMacros
         };
     }
 
-
     /*
      * ST_X
      */
@@ -1242,7 +1220,7 @@ class PostgisGeometryAccessorMacros
          * Return the X coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_X.html
@@ -1257,10 +1235,9 @@ class PostgisGeometryAccessorMacros
     public function whereX(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_X.html
@@ -1280,7 +1257,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the X coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_X.html
@@ -1303,7 +1280,7 @@ class PostgisGeometryAccessorMacros
          * Return the Y coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Y.html
@@ -1318,10 +1295,9 @@ class PostgisGeometryAccessorMacros
     public function whereY(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Y.html
@@ -1341,7 +1317,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the Y coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Y.html
@@ -1364,7 +1340,7 @@ class PostgisGeometryAccessorMacros
          * Return the Z coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Z.html
@@ -1379,10 +1355,9 @@ class PostgisGeometryAccessorMacros
     public function whereZ(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Z.html
@@ -1402,7 +1377,7 @@ class PostgisGeometryAccessorMacros
          * Orders by the Z coordinate of the point, or NULL if not available. Input must be a point.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Z.html
@@ -1426,7 +1401,7 @@ class PostgisGeometryAccessorMacros
          * Values are: 0 = 2D, 1 = 3D-M, 2 = 3D-Z, 3 = 4D.
          *
          * @param $geometry
-         * @param string $as
+         * @param  string  $as
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Zmflag.html
@@ -1441,10 +1416,9 @@ class PostgisGeometryAccessorMacros
     public function whereZmflag(): \Closure
     {
         /**
-         *
          * @param $geometry
-         * @param null $operator
-         * @param null $value
+         * @param  null  $operator
+         * @param  null  $value
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Zmflag.html
@@ -1465,7 +1439,7 @@ class PostgisGeometryAccessorMacros
          * Values are: 0 = 2D, 1 = 3D-M, 2 = 3D-Z, 3 = 4D.
          *
          * @param $geometry
-         * @param string $direction
+         * @param  string  $direction
          * @return PostgisOverlayMacros
          *
          * @see https://postgis.net/docs/ST_Zmflag.html
@@ -1477,5 +1451,4 @@ class PostgisGeometryAccessorMacros
             );
         };
     }
-
 }

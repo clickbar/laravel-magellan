@@ -15,6 +15,7 @@ class PostgisGeometryAccessorExpressions
     {
         $params = [$geometry];
         BuilderUtils::appendAsBindingExpressionIfNotNull($params, $fits);
+
         return BuilderUtils::buildPostgisFunction($builder, $bindingType, 'geometry', 'ST_BoundingDiagonal', $as, ...$params);
     }
 
