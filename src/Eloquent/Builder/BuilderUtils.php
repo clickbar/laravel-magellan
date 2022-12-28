@@ -19,21 +19,25 @@ class BuilderUtils
             $builder = $builder->getQuery();
         }
 
-        $builder = invade($builder);
+        $invadedBuilder = invade($builder);
         $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
         foreach ($params as $i => $param) {
-            if ($builder->isQueryable($param)) {
-                [$sub, $bindings] = $builder->createSub($param);
+            if ($invadedBuilder->isQueryable($param)) {
+                [$sub, $bindings] = $invadedBuilder->createSub($param);
 
                 array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
 
                 return BuilderUtils::buildPostgisFunction(
-                    $builder->addBinding($bindings, $bindingType), $bindingType, $geometryType, $function, $as, ...$params
+                    $invadedBuilder->addBinding($bindings, $bindingType), $bindingType, $geometryType, $function, $as, ...$params
                 );
             }
             if ($param instanceof BindingExpression) {
-                $builder->addBinding([$param->getValue()], $bindingType);
+                $invadedBuilder->addBinding([$param->getValue()], $bindingType);
+            }
+            if ($param instanceof MagellanExpression) {
+                $invoked = $param->invoke($builder, $bindingType, null);
+                array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
             }
         }
 
