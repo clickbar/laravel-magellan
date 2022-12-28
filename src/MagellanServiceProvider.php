@@ -6,7 +6,9 @@ use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisOverlayMacros;
 use Clickbar\Magellan\Eloquent\Builder\TestMixin;
+use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryFactory;
+use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -67,6 +69,17 @@ class MagellanServiceProvider extends PackageServiceProvider
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
         }
+
+        // TODO: Move to Facade and export for users to use this on any DB connection
+        DB::beforeExecuting(function ($query, &$bindings, $connection) {
+            $generator = new WKBGenerator();
+
+            foreach ($bindings as $key => $value) {
+                if ($value instanceof Geometry) {
+                    $bindings[$key] = $generator->generate($value);
+                }
+            }
+        });
     }
 
     private function registerBuilderMixin($mixin)
