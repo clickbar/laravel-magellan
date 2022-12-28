@@ -4,8 +4,6 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
-use Clickbar\Magellan\Eloquent\Builder\PostgisOverlayMacros;
-use Clickbar\Magellan\Eloquent\Builder\TestMixin;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
@@ -45,8 +43,6 @@ class MagellanServiceProvider extends PackageServiceProvider
         Blueprint::mixin(new MagellanBlueprint());
 
         $this->registerBuilderMixin(new BuilderMacros());
-        $this->registerBuilderMixin(new PostgisOverlayMacros());
-        $this->registerBuilderMixin(new TestMixin());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();

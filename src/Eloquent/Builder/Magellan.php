@@ -8,4 +8,5 @@ class Magellan
     use MagellanBoundingBoxExpressions;
     use MagellanGeometryProcessingExpressions;
     use MagellanMeasurementExpressions;
+    use MagellanOverlayExpressions;
 }
