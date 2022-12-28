@@ -5,6 +5,7 @@ namespace Clickbar\Magellan;
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisBoundingBoxBuilderMacros;
+use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryAccessorMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisGeometryProcessingBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisMeasurementBuilderMacros;
 use Clickbar\Magellan\Eloquent\Builder\PostgisOverlayMacros;
@@ -49,6 +50,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         $this->registerBuilderMixin(new PostgisBoundingBoxBuilderMacros());
         $this->registerBuilderMixin(new PostgisGeometryProcessingBuilderMacros());
         $this->registerBuilderMixin(new PostgisOverlayMacros());
+        $this->registerBuilderMixin(new PostgisGeometryAccessorMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();
