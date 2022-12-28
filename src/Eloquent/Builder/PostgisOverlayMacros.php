@@ -9,6 +9,30 @@ use Illuminate\Database\Query\Builder;
  */
 class PostgisOverlayMacros
 {
+    /**
+     * ST_ClipByBox2D
+     */
+    public function selectClipByBox2D(): \Closure
+    {
+        /**
+         * Clips a geometry by a 2D box in a fast and tolerant but possibly invalid way.
+         * Topologically invalid input geometries do not result in exceptions being thrown.
+         * The output geometry is not guaranteed to be valid (in particular, self-intersections for a polygon may be introduced).
+         *
+         * @param $geometry
+         * @param $box2D
+         * @param  string  $as
+         * @return PostgisOverlayMacros
+         *
+         * @see https://postgis.net/docs/ST_ClipByBox2D.html
+         */
+        return function ($geometry, $box2D, ?string $as = 'clip_by_box_2d') {
+            return $this->addSelect(
+                PostgisOverlayExpressions::getClipByBox2DExpression($this, 'select', $geometry, $box2D, $as)
+            );
+        };
+    }
+
     /*
      * ST_Difference
      */
