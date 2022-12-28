@@ -4,7 +4,6 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Support\Facades\DB;
 
 /**
  * @mixin \Illuminate\Database\Query\Builder
@@ -24,25 +23,6 @@ class BuilderMacros
               ->fromSub($this, 'f')
               ->first()
               ->geojson;
-        };
-    }
-
-    public function whereContainsGeometry(): Closure
-    {
-        return function ($haystack, $needle) {
-            // Use whereRaw, because where with only one param results in null check where statenment
-            return $this->whereRaw($this->buildPostgisFunction('where', 'geometry', 'ST_CONTAINS', $haystack, $needle));
-        };
-    }
-
-    public function selectCentroid(): Closure
-    {
-        return function ($geometry, ?bool $useSpheroid = null) {
-            if ($useSpheroid !== null) {
-                return $this->addSelect($this->buildPostgisFunction('select', 'geography', 'ST_Centroid', $geometry, DB::raw($useSpheroid)));
-            }
-
-            return $this->addSelect($this->buildPostgisFunction('select', null, 'ST_Centroid', $geometry));
         };
     }
 }
