@@ -4,6 +4,10 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
 use Clickbar\Magellan\Cast\GeometryWKBCast;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanSetExpression;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
@@ -16,8 +20,8 @@ class BuilderMacros
     {
         /** @var EloquentBuilder|\Illuminate\Database\Query\Builder $this */
 
-        return function (MagellanExpression $magellanExpression, string $as = null) {
-            $asOrDefault = $as ?? $magellanExpression->getDefaultAs();
+        return function (MagellanBaseExpression $magellanExpression, string $as = null) {
+            $asOrDefault = mb_strtolower($as ?? $magellanExpression->getDefaultAs());
 
             if ($this instanceof EloquentBuilder) {
                 if ($magellanExpression->returnsBbox()) {
@@ -35,21 +39,21 @@ class BuilderMacros
 
     public function mOrderBy()
     {
-        return function (MagellanExpression $magellanExpression, string $direction = 'ASC') {
+        return function (MagellanNumericExpression|MagellanBooleanExpression $magellanExpression, string $direction = 'ASC') {
             return $this->orderBy($magellanExpression->invoke($this, 'order'), $direction);
         };
     }
 
     public function mWhere()
     {
-        return function (MagellanExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
+        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
             return $this->where($magellanExpression->invoke($this, 'order'), $operator, $value, $boolean);
         };
     }
 
     public function mOrWhere()
     {
-        return function (MagellanExpression $magellanExpression, $operator = null, $value = null) {
+        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null) {
             return $this->orWhere($magellanExpression->invoke($this, 'order'), $operator, $value);
         };
     }
@@ -58,7 +62,7 @@ class BuilderMacros
     {
         return function (...$groups) {
             $invokedGroups = array_map(function ($group) {
-                if ($group instanceof MagellanExpression) {
+                if ($group instanceof MagellanBaseExpression) {
                     return $group->invoke($this, 'groupBy');
                 }
 
@@ -71,8 +75,19 @@ class BuilderMacros
 
     public function mHaving()
     {
-        return function (MagellanExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
+        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
             return $this->having($magellanExpression->invoke($this, 'having'), $operator, $value, $boolean);
+        };
+    }
+
+    public function mFrom()
+    {
+        return function (MagellanSetExpression $magellanExpression) {
+            if (! $magellanExpression->returnsSet()) {
+                throw new \Exception("Cannot use {$magellanExpression->getPostgisFunction()} as from since it does not return a set");
+            }
+
+            return $this->from($magellanExpression->invoke($this, 'having'));
         };
     }
 

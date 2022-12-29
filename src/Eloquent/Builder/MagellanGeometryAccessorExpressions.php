@@ -2,19 +2,25 @@
 
 namespace Clickbar\Magellan\Eloquent\Builder;
 
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
+
 trait MagellanGeometryAccessorExpressions
 {
     /**
      * Returns the closure of the combinatorial boundary of this Geometry. The combinatorial boundary is defined as described in section 3.12.3.2 of the OGC SPEC. Because the result of this function is a closure, and hence topologically closed, the resulting boundary can be represented using representational geometry primitives as discussed in the OGC SPEC, section 3.12.2.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Boundary.html
      */
-    public static function boundary($geometry): MagellanExpression
+    public static function boundary($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_Boundary', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_Boundary', [$geometry]);
     }
 
     /**
@@ -22,78 +28,78 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  bool|null  $fits
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_BoundingDiagonal.html
      */
-    public static function boundingDiagonal($geometry, ?bool $fits = null): MagellanExpression
+    public static function boundingDiagonal($geometry, ?bool $fits = null): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_BoundingDiagonal', [$geometry], [$fits]);
+        return MagellanBaseExpression::geometry('ST_BoundingDiagonal', [$geometry], [$fits]);
     }
 
     /**
      * Return the topological dimension of this Geometry object, which must be less than or equal to the coordinate dimension. OGC SPEC s2.1.1.1 - returns 0 for POINT, 1 for LINESTRING, 2 for POLYGON, and the largest dimension of the components of a GEOMETRYCOLLECTION. If the dimension is unknown (e.g. for an empty GEOMETRYCOLLECTION) 0 is returned.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_CoordDim.html
      */
-    public static function coordDim($geometry): MagellanExpression
+    public static function coordDim($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_CoordDim', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_CoordDim', [$geometry]);
     }
 
     /**
      * Return the coordinate dimension of the ST_Geometry value.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Dimension.html
      */
-    public static function dimension($geometry): MagellanExpression
+    public static function dimension($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Dimension', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_Dimension', [$geometry]);
     }
 
     /**
      * Returns the last point of a LINESTRING or CIRCULARLINESTRING geometry as a POINT. Returns NULL if the input is not a LINESTRING or CIRCULARLINESTRING.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_EndPoint.html
      */
-    public static function endPoint($geometry): MagellanExpression
+    public static function endPoint($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_EndPoint', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_EndPoint', [$geometry]);
     }
 
     /**
      * Returns the double-precision (float8) minimum bounding box for the supplied geometry, as a geometry. The polygon is defined by the corner points of the bounding box ((MINX, MINY), (MINX, MAXY), (MAXX, MAXY), (MAXX, MINY), (MINX, MINY)). (PostGIS will add a ZMIN/ZMAX coordinate as well).
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Envelope.html
      */
-    public static function envelope($geometry): MagellanExpression
+    public static function envelope($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_Envelope', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_Envelope', [$geometry]);
     }
 
     /**
      * Returns a LINESTRING representing the exterior ring (shell) of a POLYGON. Returns NULL if the geometry is not a polygon.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_ExteriorRing.html
      */
-    public static function exteriorRing($geometry): MagellanExpression
+    public static function exteriorRing($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_ExteriorRing', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_ExteriorRing', [$geometry]);
     }
 
     /**
@@ -101,26 +107,26 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  int  $n
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_GeometryN.html
      */
-    public static function geometryN($geometry, int $n): MagellanExpression
+    public static function geometryN($geometry, int $n): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_GeometryN', [$geometry], [$n]);
+        return MagellanBaseExpression::geometry('ST_GeometryN', [$geometry], [$n]);
     }
 
     /**
      * Returns true if a geometry or geometry collection contains a circular string
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_HasArc.html
      */
-    public static function hasArc($geometry): MagellanExpression
+    public static function hasArc($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_HasArc', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_HasArc', [$geometry]);
     }
 
     /**
@@ -128,26 +134,26 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  int  $n
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_InteriorRingN.html
      */
-    public static function interiorRingN($geometry, int $n): MagellanExpression
+    public static function interiorRingN($geometry, int $n): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_InteriorRingN', [$geometry], [$n]);
+        return MagellanBaseExpression::geometry('ST_InteriorRingN', [$geometry], [$n]);
     }
 
     /**
      * Returns TRUE if the LINESTRING's start and end points are coincident. For Polyhedral Surfaces, reports if the surface is areal (open) or volumetric (closed).
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsClosed.html
      */
-    public static function isClosed($geometry): MagellanExpression
+    public static function isClosed($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsClosed', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsClosed', [$geometry]);
     }
 
     /**
@@ -157,26 +163,26 @@ trait MagellanGeometryAccessorExpressions
      * - COMPOUNDCURVE
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsCollection.html
      */
-    public static function isCollection($geometry): MagellanExpression
+    public static function isCollection($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsCollection', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsCollection', [$geometry]);
     }
 
     /**
      * Returns true if this Geometry is an empty geometry. If true, then this Geometry represents an empty geometry collection, polygon, point etc.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsEmpty.html
      */
-    public static function isEmpty($geometry): MagellanExpression
+    public static function isEmpty($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsEmpty', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsEmpty', [$geometry]);
     }
 
     /**
@@ -184,13 +190,13 @@ trait MagellanGeometryAccessorExpressions
      * Returns true if the geometry has no polygonal components.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsPolygonCCW.html
      */
-    public static function isPolygonCCW($geometry): MagellanExpression
+    public static function isPolygonCCW($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsPolygonCCW', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsPolygonCCW', [$geometry]);
     }
 
     /**
@@ -198,143 +204,143 @@ trait MagellanGeometryAccessorExpressions
      * Returns true if the geometry has no polygonal components.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsPolygonCW.html
      */
-    public static function isPolygonCW($geometry): MagellanExpression
+    public static function isPolygonCW($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsPolygonCW', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsPolygonCW', [$geometry]);
     }
 
     /**
      * Returns TRUE if this LINESTRING is both ST_IsClosed (ST_StartPoint(g) ~= ST_Endpoint(g)) and ST_IsSimple (does not self intersect).
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsRing.html
      */
-    public static function isRing($geometry): MagellanExpression
+    public static function isRing($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsRing', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsRing', [$geometry]);
     }
 
     /**
      * Returns true if this Geometry has no anomalous geometric points, such as self-intersection or self-tangency. For more information on the OGC's definition of geometry simplicity and validity, refer to "Ensuring OpenGIS compliancy of geometries"
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_IsSimple.html
      */
-    public static function isSimple($geometry): MagellanExpression
+    public static function isSimple($geometry): MagellanBooleanExpression
     {
-        return MagellanExpression::boolean('ST_IsSimple', [$geometry]);
+        return MagellanBaseExpression::boolean('ST_IsSimple', [$geometry]);
     }
 
     /**
      * Return the M coordinate of a Point, or NULL if not available. Input must be a Point.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_M.html
      */
-    public static function m($geometry): MagellanExpression
+    public static function m($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_M', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_M', [$geometry]);
     }
 
     /**
      * Returns the amount of memory space (in bytes) the geometry takes.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_MemSize.html
      */
-    public static function memSize($geometry): MagellanExpression
+    public static function memSize($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_MemSize', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_MemSize', [$geometry]);
     }
 
     /**
      * Returns the coordinate dimension of the geometry. PostGIS supports 2 - (x,y) , 3 - (x,y,z) or 2D with measure - x,y,m, and 4 - 3D with measure space x,y,z,m
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NDims.html
      */
-    public static function nDims($geometry): MagellanExpression
+    public static function nDims($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NDims', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NDims', [$geometry]);
     }
 
     /**
      * Return the number of points in a geometry. Works for all geometries.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NPoints.html
      */
-    public static function nPoints($geometry): MagellanExpression
+    public static function nPoints($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NPoints', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NPoints', [$geometry]);
     }
 
     /**
      * If the geometry is a polygon or multi-polygon returns the number of rings. Unlike NumInteriorRings, it counts the outer rings as well.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NRings.html
      */
-    public static function nRings($geometry): MagellanExpression
+    public static function nRings($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NRings', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NRings', [$geometry]);
     }
 
     /**
      * Returns the number of Geometries. If geometry is a GEOMETRYCOLLECTION (or MULTI*) return the number of geometries, for single geometries will return 1, otherwise return NULL.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NumGeometries.html
      */
-    public static function numGeometries($geometry): MagellanExpression
+    public static function numGeometries($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NumGeometries', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NumGeometries', [$geometry]);
     }
 
     /**
      * Return the number of interior rings of a polygon geometry. Return NULL if the geometry is not a polygon.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NumInteriorRings.html
      */
-    public static function numInteriorRings($geometry): MagellanExpression
+    public static function numInteriorRings($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NumInteriorRings', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NumInteriorRings', [$geometry]);
     }
 
     /**
      * Return the number of faces on a Polyhedral Surface. Will return null for non-polyhedral geometries. This is an alias for ST_NumGeometries to support MM naming. Faster to use ST_NumGeometries if you don't care about MM convention.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_NumPatches.html
      */
-    public static function numPatches($geometry): MagellanExpression
+    public static function numPatches($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_NumPatches', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_NumPatches', [$geometry]);
     }
 
     /**
@@ -342,13 +348,13 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  int  $n
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_PatchN.html
      */
-    public static function patchN($geometry, int $n): MagellanExpression
+    public static function patchN($geometry, int $n): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_PatchN', [$geometry], [$n]);
+        return MagellanBaseExpression::geometry('ST_PatchN', [$geometry], [$n]);
     }
 
     /**
@@ -356,91 +362,91 @@ trait MagellanGeometryAccessorExpressions
      *
      * @param $geometry
      * @param  int  $n
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_PointN.html
      */
-    public static function pointN($geometry, int $n): MagellanExpression
+    public static function pointN($geometry, int $n): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_PointN', [$geometry], [$n]);
+        return MagellanBaseExpression::geometry('ST_PointN', [$geometry], [$n]);
     }
 
     /**
      * Returns a MultiPoint containing all the coordinates of a geometry. Duplicate points are preserved, including the start and end points of ring geometries. (If desired, duplicate points can be removed by calling ST_RemoveRepeatedPoints on the result).
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Points.html
      */
-    public static function points($geometry): MagellanExpression
+    public static function points($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_Points', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_Points', [$geometry]);
     }
 
     /**
      * Returns the first point of a LINESTRING or CIRCULARLINESTRING geometry as a POINT. Returns NULL if the input is not a LINESTRING or CIRCULARLINESTRING.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_StartPoint.html
      */
-    public static function startPoint($geometry): MagellanExpression
+    public static function startPoint($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_StartPoint', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_StartPoint', [$geometry]);
     }
 
     /**
      * Returns a text summary of the contents of the geometry.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanStringExpression
      *
      * @see https://postgis.net/docs/ST_Summary.html
      */
-    public static function summary($geometry): MagellanExpression
+    public static function summary($geometry): MagellanStringExpression
     {
-        return MagellanExpression::string('ST_Summary', [$geometry]);
+        return MagellanBaseExpression::string('ST_Summary', [$geometry]);
     }
 
     /**
      * Return the X coordinate of the point, or NULL if not available. Input must be a point.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_X.html
      */
-    public static function x($geometry): MagellanExpression
+    public static function x($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_X', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_X', [$geometry]);
     }
 
     /**
      * Return the Y coordinate of the point, or NULL if not available. Input must be a point.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Y.html
      */
-    public static function y($geometry): MagellanExpression
+    public static function y($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Y', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_Y', [$geometry]);
     }
 
     /**
      * Return the Z coordinate of the point, or NULL if not available. Input must be a point.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Z.html
      */
-    public static function z($geometry): MagellanExpression
+    public static function z($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Z', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_Z', [$geometry]);
     }
 
     /**
@@ -448,12 +454,12 @@ trait MagellanGeometryAccessorExpressions
      * Values are: 0 = 2D, 1 = 3D-M, 2 = 3D-Z, 3 = 4D.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Zmflag.html
      */
-    public static function zmflag($geometry): MagellanExpression
+    public static function zmflag($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Zmflag', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_Zmflag', [$geometry]);
     }
 }

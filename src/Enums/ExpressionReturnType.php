@@ -10,4 +10,5 @@ enum ExpressionReturnType: string
     case String = 'string';
     case BBox = 'bbox';
     case GeometryOrBBox = 'geometryOrBbox';
+    case Set = 'set';
 }

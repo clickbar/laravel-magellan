@@ -2,6 +2,10 @@
 
 namespace Clickbar\Magellan\Eloquent\Builder;
 
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+
 trait MagellanMeasurementExpressions
 {
     /**
@@ -9,13 +13,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_DistanceSphere.html
      */
-    public static function distanceSphere($geometryA, $geometryB): MagellanExpression
+    public static function distanceSphere($geometryA, $geometryB): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_DistanceSphere', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::numeric('ST_DistanceSphere', [$geometryA, $geometryB]);
     }
 
     /**
@@ -26,11 +30,11 @@ trait MagellanMeasurementExpressions
      * @param $geometryB
      * @param  bool|null  $useSpheroid
      * @param  string|null  $geometryType
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Distance.html
      */
-    public static function distance($geometryA, $geometryB, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanExpression
+    public static function distance($geometryA, $geometryB, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -38,7 +42,7 @@ trait MagellanMeasurementExpressions
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
-        return MagellanExpression::numeric('ST_Distance', [$geometryA, $geometryB], $optionalParamters, $geometryType);
+        return MagellanBaseExpression::numeric('ST_Distance', [$geometryA, $geometryB], $optionalParamters, $geometryType);
     }
 
     /**
@@ -47,13 +51,13 @@ trait MagellanMeasurementExpressions
      * @param $geometryA
      * @param $geometryB
      * @param  string|null  $measurementSpheroid
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Distance_Spheroid.html
      */
-    public static function distanceSpheroid($geometryA, $geometryB, ?string $measurementSpheroid = 'SPHEROID["WGS 84",6378137,298.257223563]'): MagellanExpression
+    public static function distanceSpheroid($geometryA, $geometryB, ?string $measurementSpheroid = 'SPHEROID["WGS 84",6378137,298.257223563]'): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_DistanceSpheroid', [$geometryA, $geometryB], [$measurementSpheroid]);
+        return MagellanBaseExpression::numeric('ST_DistanceSpheroid', [$geometryA, $geometryB], [$measurementSpheroid]);
     }
 
     /**
@@ -61,13 +65,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_3DDistance.html
      */
-    public static function distance3D($geometryA, $geometryB): MagellanExpression
+    public static function distance3D($geometryA, $geometryB): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_3DDistance', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::numeric('ST_3DDistance', [$geometryA, $geometryB]);
     }
 
     /**
@@ -76,13 +80,13 @@ trait MagellanMeasurementExpressions
      * @param $geometryA
      * @param $geometryB
      * @param  float|null  $densityFrac When the optional densifyFrac is specified, this function performs a segment densification before computing the discrete Fréchet distance. The densifyFrac parameter sets the fraction by which to densify each segment. Each segment will be split into a number of equal-length subsegments, whose fraction of the total length is closest to the given fraction.
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_FrechetDistance.html
      */
-    public static function distanceFrechet($geometryA, $geometryB, ?float $densityFrac = null): MagellanExpression
+    public static function distanceFrechet($geometryA, $geometryB, ?float $densityFrac = null): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_FrechetDistance', [$geometryA, $geometryB], [$densityFrac]);
+        return MagellanBaseExpression::numeric('ST_FrechetDistance', [$geometryA, $geometryB], [$densityFrac]);
     }
 
     /**
@@ -91,13 +95,13 @@ trait MagellanMeasurementExpressions
      * @param $geometryA
      * @param $geometryB
      * @param  float|null  $densityFrac The densifyFrac parameter can be specified, to provide a more accurate answer by densifying segments before computing the discrete Hausdorff distance. Each segment is split into a number of equal-length subsegments whose fraction of the segment length is closest to the given fraction.
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_HausdorffDistance.html
      */
-    public static function distanceHausdorff($geometryA, $geometryB, ?float $densityFrac = null): MagellanExpression
+    public static function distanceHausdorff($geometryA, $geometryB, ?float $densityFrac = null): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_HausdorffDistance', [$geometryA, $geometryB], [$densityFrac]);
+        return MagellanBaseExpression::numeric('ST_HausdorffDistance', [$geometryA, $geometryB], [$densityFrac]);
     }
 
     /**
@@ -105,13 +109,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_MaxDistance.html
      */
-    public static function maxDistance($geometryA, $geometryB): MagellanExpression
+    public static function maxDistance($geometryA, $geometryB): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_MaxDistance', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::numeric('ST_MaxDistance', [$geometryA, $geometryB]);
     }
 
     /**
@@ -119,13 +123,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_3DMaxDistance.html
      */
-    public static function maxDistance3D($geometryA, $geometryB): MagellanExpression
+    public static function maxDistance3D($geometryA, $geometryB): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_3DMaxDistance', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::numeric('ST_3DMaxDistance', [$geometryA, $geometryB]);
     }
 
     /**
@@ -134,11 +138,11 @@ trait MagellanMeasurementExpressions
      * @param $geometry
      * @param  bool|null  $useSpheroid
      * @param  string|null  $geometryType
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Area.html
      */
-    public static function area($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanExpression
+    public static function area($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -146,7 +150,7 @@ trait MagellanMeasurementExpressions
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
-        return MagellanExpression::numeric('ST_Area', [$geometry], $optionalParamters, $geometryType);
+        return MagellanBaseExpression::numeric('ST_Area', [$geometry], $optionalParamters, $geometryType);
     }
 
     /**
@@ -156,11 +160,11 @@ trait MagellanMeasurementExpressions
      * @param $geometry
      * @param  bool|null  $useSpheroid
      * @param  string|null  $geometryType
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Length.html
      */
-    public static function length($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanExpression
+    public static function length($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -168,20 +172,20 @@ trait MagellanMeasurementExpressions
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
-        return MagellanExpression::numeric('ST_Length', [$geometry], $optionalParamters, $geometryType);
+        return MagellanBaseExpression::numeric('ST_Length', [$geometry], $optionalParamters, $geometryType);
     }
 
     /**
      * Returns the 3-dimensional or 2-dimensional length of the geometry if it is a LineString or MultiLineString. For 2-d lines it will just return the 2-d length (same as ST_Length and ST_Length2D)
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_3DLength.html
      */
-    public static function length3D($geometry): MagellanExpression
+    public static function length3D($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_3DLength', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_3DLength', [$geometry]);
     }
 
     /**
@@ -189,13 +193,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometry
      * @param  string|null  $spheroid
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Length_Spheroid.html
      */
-    public static function lengthSpheroid($geometry, ?string $spheroid = 'SPHEROID["WGS 84",6378137,298.257223563]'): MagellanExpression
+    public static function lengthSpheroid($geometry, ?string $spheroid = 'SPHEROID["WGS 84",6378137,298.257223563]'): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_LengthSpheroid', [$geometry], [$spheroid]);
+        return MagellanBaseExpression::numeric('ST_LengthSpheroid', [$geometry], [$spheroid]);
     }
 
     /**
@@ -203,13 +207,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_ClosestPoint.html
      */
-    public static function closestPoint($geometryA, $geometryB): MagellanExpression
+    public static function closestPoint($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_ClosestPoint', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_ClosestPoint', [$geometryA, $geometryB]);
     }
 
     /**
@@ -217,13 +221,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_3DClosestPoint.html
      */
-    public static function closestPoint3D($geometryA, $geometryB): MagellanExpression
+    public static function closestPoint3D($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_3DClosestPoint', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_3DClosestPoint', [$geometryA, $geometryB]);
     }
 
     /**
@@ -233,13 +237,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_LongestLine.html
      */
-    public static function longestLine($geometryA, $geometryB): MagellanExpression
+    public static function longestLine($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_LongestLine', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_LongestLine', [$geometryA, $geometryB]);
     }
 
     /**
@@ -247,13 +251,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_3DLongestLine.html
      */
-    public static function longestLine3D($geometryA, $geometryB): MagellanExpression
+    public static function longestLine3D($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_3DLongestLine', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_3DLongestLine', [$geometryA, $geometryB]);
     }
 
     /**
@@ -261,13 +265,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_ShortestLine.html
      */
-    public static function shortestLine($geometryA, $geometryB): MagellanExpression
+    public static function shortestLine($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_ShortestLine', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_ShortestLine', [$geometryA, $geometryB]);
     }
 
     /**
@@ -275,13 +279,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $geometryA
      * @param $geometryB
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_3DShortestLine.html
      */
-    public static function shortestLine3D($geometryA, $geometryB): MagellanExpression
+    public static function shortestLine3D($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanExpression::numeric('ST_3DShortestLine', [$geometryA, $geometryB]);
+        return MagellanBaseExpression::geometry('ST_3DShortestLine', [$geometryA, $geometryB]);
     }
 
     /**
@@ -291,11 +295,11 @@ trait MagellanMeasurementExpressions
      * @param $geometry
      * @param  bool|null  $useSpheroid
      * @param  string|null  $geometryType
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Perimeter.html
      */
-    public static function perimeter($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanExpression
+    public static function perimeter($geometry, ?bool $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -303,20 +307,20 @@ trait MagellanMeasurementExpressions
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
-        return MagellanExpression::numeric('ST_Perimeter', [$geometry], $optionalParamters, $geometryType);
+        return MagellanBaseExpression::numeric('ST_Perimeter', [$geometry], $optionalParamters, $geometryType);
     }
 
     /**
      * Returns the 3-dimensional perimeter of the geometry, if it is a polygon or multi-polygon. If the geometry is 2-dimensional, then the 2-dimensional perimeter is returned.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_3DPerimeter.html
      */
-    public static function perimeter3D($geometry): MagellanExpression
+    public static function perimeter3D($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_3DPerimeter', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_3DPerimeter', [$geometry]);
     }
 
     /**
@@ -328,13 +332,13 @@ trait MagellanMeasurementExpressions
      * @param $geometryA
      * @param $geometryB
      * @param  string|null  $geometryType
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Azimuth.html
      */
-    public static function azimuth($geometryA, $geometryB, ?string $geometryType = null): MagellanExpression
+    public static function azimuth($geometryA, $geometryB, ?string $geometryType = null): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Azimuth', [$geometryA, $geometryB], [], $geometryType);
+        return MagellanBaseExpression::numeric('ST_Azimuth', [$geometryA, $geometryB], [], $geometryType);
     }
 
     /**
@@ -348,18 +352,18 @@ trait MagellanMeasurementExpressions
      * @param $point2
      * @param $point3
      * @param  mixed  $point4
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Angle.html
      */
-    public static function angleFromPoints($point1, $point2, $point3, $point4 = null): MagellanExpression
+    public static function angleFromPoints($point1, $point2, $point3, $point4 = null): MagellanNumericExpression
     {
         $arguments = [$point1, $point2, $point3];
         if ($point4 !== null) {
             $arguments[] = $point4;
         }
 
-        return MagellanExpression::numeric('ST_Angle', $arguments);
+        return MagellanBaseExpression::numeric('ST_Angle', $arguments);
     }
 
     /**
@@ -371,13 +375,13 @@ trait MagellanMeasurementExpressions
      *
      * @param $lineString1
      * @param $lineString2
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Angle.html
      */
-    public static function angleFromLines($lineString1, $lineString2): MagellanExpression
+    public static function angleFromLines($lineString1, $lineString2): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_Angle', [$lineString1, $lineString2]);
+        return MagellanBaseExpression::numeric('ST_Angle', [$lineString1, $lineString2]);
     }
 
     /**
@@ -388,15 +392,15 @@ trait MagellanMeasurementExpressions
      * @param $geography
      * @param  float  $distance
      * @param $azimuth
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Project.html
      */
-    public static function project($geography, float $distance, $azimuth): MagellanExpression
+    public static function project($geography, float $distance, $azimuth): MagellanGeometryExpression
     {
         $azimuth = is_float($azimuth) ? new BindingExpression($azimuth) : $azimuth;
         // TODO: consider returning geometry/geography
-        return MagellanExpression::geometry('ST_Project', [$geography, new BindingExpression($distance), $azimuth], [], 'geography');
+        return MagellanBaseExpression::geometry('ST_Project', [$geography, new BindingExpression($distance), $azimuth], [], 'geography');
     }
 
     /**
@@ -409,25 +413,25 @@ trait MagellanMeasurementExpressions
      * To avoid validity issues caused by precision loss, ST_ReducePrecision can reduce coordinate precision while ensuring that polygonal geometry remains valid.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_MinimumClearance.html
      */
-    public static function minimumClearance($geometry): MagellanExpression
+    public static function minimumClearance($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_MinimumClearance', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_MinimumClearance', [$geometry]);
     }
 
     /**
      * Returns the two-point LineString spanning a geometry's minimum clearance. If the geometry does not have a minimum clearance, LINESTRING EMPTY is returned.
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_MinimumClearanceLine.html
      */
-    public static function minimumClearanceLine($geometry): MagellanExpression
+    public static function minimumClearanceLine($geometry): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_MinimumClearanceLine', [$geometry]);
+        return MagellanBaseExpression::geometry('ST_MinimumClearanceLine', [$geometry]);
     }
 }

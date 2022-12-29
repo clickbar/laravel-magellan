@@ -2,6 +2,10 @@
 
 namespace Clickbar\Magellan\Eloquent\Builder;
 
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+
 trait MagellanSpatialReferenceSystemExpressions
 {
     /**
@@ -9,26 +13,26 @@ trait MagellanSpatialReferenceSystemExpressions
      *
      * @param $geometry
      * @param  int  $srid
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_SetSRID.html
      */
-    public static function setSrid($geometry, int $srid): MagellanExpression
+    public static function setSrid($geometry, int $srid): MagellanGeometryExpression
     {
-        return MagellanExpression::geometry('ST_SetSRID', [$geometry], [$srid]);
+        return MagellanBaseExpression::geometry('ST_SetSRID', [$geometry], [$srid]);
     }
 
     /**
      * Returns the spatial reference identifier for the ST_Geometry as defined in spatial_ref_sys table. Section 4.5, “Spatial Reference Systems”
      *
      * @param $geometry
-     * @return MagellanExpression
+     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_SRID.html
      */
-    public static function srid($geometry): MagellanExpression
+    public static function srid($geometry): MagellanNumericExpression
     {
-        return MagellanExpression::numeric('ST_SRID', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_SRID', [$geometry]);
     }
 
     /**
@@ -46,13 +50,13 @@ trait MagellanSpatialReferenceSystemExpressions
      * @param  string|null  $fromProjection
      * @param  string|null  $toProjection
      * @param  int|null  $toSrid
-     * @return MagellanExpression
+     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */
-    public static function transform($geometry, ?int $srid = null, ?string $fromProjection = null, ?string $toProjection = null, ?int $toSrid = null): MagellanExpression
+    public static function transform($geometry, ?int $srid = null, ?string $fromProjection = null, ?string $toProjection = null, ?int $toSrid = null): MagellanGeometryExpression
     {
         // TODO: Consider throwing exception when the overloading does not suite the available possibilitirs:
-        return MagellanExpression::geometry('ST_Transform', [$geometry], [$srid, $fromProjection, $toProjection, $toSrid]);
+        return MagellanBaseExpression::geometry('ST_Transform', [$geometry], [$srid, $fromProjection, $toProjection, $toSrid]);
     }
 }

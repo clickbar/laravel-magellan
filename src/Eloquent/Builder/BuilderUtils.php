@@ -35,7 +35,7 @@ class BuilderUtils
             if ($param instanceof BindingExpression) {
                 $invadedBuilder->addBinding([$param->getValue()], $bindingType);
             }
-            if ($param instanceof MagellanExpression) {
+            if ($param instanceof MagellanBaseExpression) {
                 $invoked = $param->invoke($builder, $bindingType, null);
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
             }
