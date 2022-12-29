@@ -58,7 +58,7 @@ abstract class MagellanBaseExpression
             ->filter(function ($param) {
                 return ! ($param === null || ($param instanceof GeoParam && $param->getValue() === null));
             })->map(function ($param) {
-                if ($param instanceof GeoParam || $param instanceof Expression) {
+                if ($param instanceof GeoParam || $param instanceof Expression || $param instanceof \Closure) {
                     return $param;
                 }
 
