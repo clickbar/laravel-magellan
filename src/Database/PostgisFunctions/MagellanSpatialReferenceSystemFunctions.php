@@ -2,9 +2,11 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
+use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use mysql_xdevapi\Expression;
 
 trait MagellanSpatialReferenceSystemFunctions
 {
@@ -12,14 +14,14 @@ trait MagellanSpatialReferenceSystemFunctions
      * Sets the SRID on a geometry to a particular integer value. Useful in constructing bounding boxes for queries.
      *
      * @param $geometry
-     * @param  int  $srid
+     * @param  int|Expression|\Closure  $srid
      * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_SetSRID.html
      */
-    public static function setSrid($geometry, int $srid): MagellanGeometryExpression
+    public static function setSrid($geometry, int|Expression|\Closure $srid): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SetSRID', [$geometry], [$srid]);
+        return MagellanBaseExpression::geometry('ST_SetSRID', [GeoParam::wrap($geometry), $srid]);
     }
 
     /**
@@ -32,7 +34,7 @@ trait MagellanSpatialReferenceSystemFunctions
      */
     public static function srid($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_SRID', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_SRID', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -46,17 +48,17 @@ trait MagellanSpatialReferenceSystemFunctions
      * - geometry ST_Transform(geometry geom, text from_proj, integer to_srid);
      *
      * @param $geometry
-     * @param  int|null  $srid
-     * @param  string|null  $fromProjection
-     * @param  string|null  $toProjection
-     * @param  int|null  $toSrid
+     * @param  int|Expression|\Closure|null  $srid
+     * @param  string|Expression|\Closure|null  $fromProjection
+     * @param  string|Expression|\Closure|null  $toProjection
+     * @param  int|Expression|\Closure|null  $toSrid
      * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */
-    public static function transform($geometry, ?int $srid = null, ?string $fromProjection = null, ?string $toProjection = null, ?int $toSrid = null): MagellanGeometryExpression
+    public static function transform($geometry, int|Expression|\Closure|null $srid = null, string|Expression|\Closure|null $fromProjection = null, string|Expression|\Closure|null $toProjection = null, int|Expression|\Closure|null $toSrid = null): MagellanGeometryExpression
     {
         // TODO: Consider throwing exception when the overloading does not suite the available possibilitirs:
-        return MagellanBaseExpression::geometry('ST_Transform', [$geometry], [$srid, $fromProjection, $toProjection, $toSrid]);
+        return MagellanBaseExpression::geometry('ST_Transform', [GeoParam::wrap($geometry), $srid, $fromProjection, $toProjection, $toSrid]);
     }
 }
