@@ -2,8 +2,8 @@
 
 namespace Clickbar\Magellan\IO\Parser\Geojson;
 
-use Clickbar\Magellan\Geometries\Dimension;
-use Clickbar\Magellan\Geometries\Geometry;
+use Clickbar\Magellan\Data\Geometries\Dimension;
+use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\IO\Coordinate;
 use Clickbar\Magellan\IO\Parser\BaseParser;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\Geometries;
+namespace Clickbar\Magellan\Data\Geometries;
 
 use Illuminate\Support\Facades\Config;
 use JsonSerializable;

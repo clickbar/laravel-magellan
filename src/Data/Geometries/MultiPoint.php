@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\Geometries;
+namespace Clickbar\Magellan\Data\Geometries;
 
 class MultiPoint extends PointCollection
 {

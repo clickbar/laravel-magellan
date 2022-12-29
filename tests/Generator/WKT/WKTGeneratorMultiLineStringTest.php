@@ -1,8 +1,8 @@
 <?php
 
-use Clickbar\Magellan\Geometries\LineString;
-use Clickbar\Magellan\Geometries\MultiLineString;
-use Clickbar\Magellan\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\MultiLineString;
+use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 
 beforeEach(function () {

@@ -1,7 +1,7 @@
 <?php
 
-use Clickbar\Magellan\Geometries\Dimension;
-use Clickbar\Magellan\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\Dimension;
+use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Support\Facades\App;
 

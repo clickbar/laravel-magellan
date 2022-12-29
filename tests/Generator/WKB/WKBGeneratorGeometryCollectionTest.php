@@ -1,9 +1,9 @@
 <?php
 
-use Clickbar\Magellan\Geometries\GeometryCollection;
-use Clickbar\Magellan\Geometries\LineString;
-use Clickbar\Magellan\Geometries\Point;
-use Clickbar\Magellan\Geometries\Polygon;
+use Clickbar\Magellan\Data\Geometries\GeometryCollection;
+use Clickbar\Magellan\Data\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 
 beforeEach(function () {

@@ -2,8 +2,8 @@
 
 namespace Clickbar\Magellan\Cast;
 
-use Clickbar\Magellan\Geometries\Geometry;
-use Clickbar\Magellan\Geometries\GeometryFactory;
+use Clickbar\Magellan\Data\Geometries\Geometry;
+use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
@@ -24,7 +24,7 @@ class GeometryWKBCast implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return \Clickbar\Magellan\Geometries\Geometry|null
+     * @return \Clickbar\Magellan\Data\Geometries\Geometry|null
      */
     public function get($model, string $key, mixed $value, array $attributes)
     {

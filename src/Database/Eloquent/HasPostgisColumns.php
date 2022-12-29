@@ -2,10 +2,10 @@
 
 namespace Clickbar\Magellan\Database\Eloquent;
 
+use Clickbar\Magellan\Data\Geometries\Geometry;
+use Clickbar\Magellan\Data\Geometries\GeometryCollection;
 use Clickbar\Magellan\Exception\PostgisColumnsNotDefinedException;
 use Clickbar\Magellan\Exception\SridMissmatchException;
-use Clickbar\Magellan\Geometries\Geometry;
-use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;

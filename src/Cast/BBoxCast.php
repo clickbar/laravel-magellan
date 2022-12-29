@@ -2,9 +2,9 @@
 
 namespace Clickbar\Magellan\Cast;
 
-use Clickbar\Magellan\Boxes\Box;
-use Clickbar\Magellan\Boxes\Box2D;
-use Clickbar\Magellan\Boxes\Box3D;
+use Clickbar\Magellan\Data\Boxes\Box;
+use Clickbar\Magellan\Data\Boxes\Box2D;
+use Clickbar\Magellan\Data\Boxes\Box3D;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Support\Str;
 

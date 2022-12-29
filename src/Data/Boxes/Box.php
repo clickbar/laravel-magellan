@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\Boxes;
+namespace Clickbar\Magellan\Data\Boxes;
 
 abstract class Box
 {

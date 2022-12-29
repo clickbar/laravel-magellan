@@ -2,15 +2,15 @@
 
 namespace Clickbar\Magellan\IO\Generator\WKT;
 
-use Clickbar\Magellan\Geometries\Geometry;
-use Clickbar\Magellan\Geometries\GeometryCollection;
-use Clickbar\Magellan\Geometries\GeometryHelper;
-use Clickbar\Magellan\Geometries\LineString;
-use Clickbar\Magellan\Geometries\MultiLineString;
-use Clickbar\Magellan\Geometries\MultiPoint;
-use Clickbar\Magellan\Geometries\MultiPolygon;
-use Clickbar\Magellan\Geometries\Point;
-use Clickbar\Magellan\Geometries\Polygon;
+use Clickbar\Magellan\Data\Geometries\Geometry;
+use Clickbar\Magellan\Data\Geometries\GeometryCollection;
+use Clickbar\Magellan\Data\Geometries\GeometryHelper;
+use Clickbar\Magellan\Data\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\MultiLineString;
+use Clickbar\Magellan\Data\Geometries\MultiPoint;
+use Clickbar\Magellan\Data\Geometries\MultiPolygon;
+use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 
 class WKTGenerator extends BaseGenerator

@@ -2,10 +2,10 @@
 
 namespace Clickbar\Magellan\Database\Builder;
 
-use Clickbar\Magellan\Boxes\Box2D;
-use Clickbar\Magellan\Boxes\Box3D;
+use Clickbar\Magellan\Data\Boxes\Box2D;
+use Clickbar\Magellan\Data\Boxes\Box3D;
+use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;

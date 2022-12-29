@@ -1,6 +1,6 @@
 <?php
 
-use Clickbar\Magellan\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Rules\GeometryGeojsonRule;
 
 test('will validate any valid geometry', function () {

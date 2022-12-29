@@ -3,9 +3,9 @@
 namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
+use Clickbar\Magellan\Data\Geometries\Geometry;
+use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
-use Clickbar\Magellan\Geometries\Geometry;
-use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;

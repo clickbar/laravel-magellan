@@ -1,7 +1,7 @@
 <?php
 
-use Clickbar\Magellan\Geometries\Dimension;
-use Clickbar\Magellan\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\Dimension;
+use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Illuminate\Support\Facades\App;
 
