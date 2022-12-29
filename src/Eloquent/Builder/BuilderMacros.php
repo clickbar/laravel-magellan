@@ -5,9 +5,13 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 use Clickbar\Magellan\Cast\BBoxCast;
 use Clickbar\Magellan\Cast\GeometryWKBCast;
 use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBBoxExpression;
 use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryOrBboxExpression;
 use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanSetExpression;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
@@ -46,14 +50,14 @@ class BuilderMacros
 
     public function mWhere()
     {
-        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
             return $this->where($magellanExpression->invoke($this, 'order'), $operator, $value, $boolean);
         };
     }
 
     public function mOrWhere()
     {
-        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null) {
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null) {
             return $this->orWhere($magellanExpression->invoke($this, 'order'), $operator, $value);
         };
     }
@@ -75,7 +79,7 @@ class BuilderMacros
 
     public function mHaving()
     {
-        return function (MagellanBaseExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
             return $this->having($magellanExpression->invoke($this, 'having'), $operator, $value, $boolean);
         };
     }
@@ -83,11 +87,7 @@ class BuilderMacros
     public function mFrom()
     {
         return function (MagellanSetExpression $magellanExpression) {
-            if (! $magellanExpression->returnsSet()) {
-                throw new \Exception("Cannot use {$magellanExpression->getPostgisFunction()} as from since it does not return a set");
-            }
-
-            return $this->from($magellanExpression->invoke($this, 'having'));
+            return $this->from($magellanExpression->invoke($this, 'from'));
         };
     }
 
