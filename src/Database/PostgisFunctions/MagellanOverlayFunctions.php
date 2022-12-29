@@ -8,7 +8,6 @@ use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
 use Illuminate\Database\Query\Expression;
-use RuntimeException;
 
 trait MagellanOverlayFunctions
 {
@@ -126,11 +125,6 @@ trait MagellanOverlayFunctions
      */
     public static function subdivide($geometry, int|Expression|\Closure|null $max_vertices = null, float|Expression|\Closure|null $gridSize = null): MagellanSetExpression
     {
-        if ($max_vertices !== null && $max_vertices < 5) {
-            // TODO: add custom exception
-            throw new RuntimeException('Max vertices must be 5 or more.');
-        }
-
         return MagellanBaseExpression::set('ST_Subdivide', [GeoParam::wrap($geometry), $max_vertices, $gridSize]);
     }
 
