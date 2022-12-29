@@ -46,7 +46,7 @@ trait MagellanGeometryProcessingFunctions
         ];
 
         $styleParameter = collect($styleParts)
-            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
+            ->filter(fn ($part) => ! Str::endsWith($part, '='))
             ->join(',');
 
         if (! empty($styleParameter) && $numSegQuarterCircle !== null) {
@@ -276,7 +276,7 @@ trait MagellanGeometryProcessingFunctions
         ];
 
         $styleParameter = collect($styleParts)
-            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
+            ->filter(fn ($part) => ! Str::endsWith($part, '='))
             ->join(',');
 
         if (! empty($styleParameter)) {

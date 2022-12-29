@@ -84,7 +84,7 @@ trait MagellanGeometryValidationFunctions
         ];
 
         $styleParameter = collect($params)
-            ->filter(fn ($part) => ! Str::endsWith($part, 'null'))
+            ->filter(fn ($part) => ! Str::endsWith($part, '='))
             ->join(' ');
         if (empty($styleParameter)) {
             $styleParameter = null;
