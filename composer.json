@@ -1,17 +1,23 @@
 {
     "name": "clickbar/laravel-magellan",
-    "description": "This package provides functionality for working with the postgis extension.",
+    "description": "This package provides functionality for working with the postgis extension in Laravel.",
     "keywords": [
         "clickbar",
         "laravel",
-        "postgis"
+        "postgis",
+        "magellan"
     ],
     "homepage": "https://github.com/clickbar/laravel-magellan",
     "license": "MIT",
     "authors": [
         {
-            "name": "Adrian",
+            "name": "Adrian Hawlitschek",
             "email": "ah@clickbar.dev",
+            "role": "Developer"
+        },
+        {
+            "name": "Tobias Kröll",
+            "email": "tk@clickbar.dev",
             "role": "Developer"
         }
     ],
