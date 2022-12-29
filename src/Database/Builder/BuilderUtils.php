@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Database\Builder;
 use Clickbar\Magellan\Data\Boxes\Box2D;
 use Clickbar\Magellan\Data\Boxes\Box3D;
 use Clickbar\Magellan\Data\Geometries\Geometry;
+use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -42,12 +43,24 @@ class BuilderUtils
             if ($invadedBuilder->isQueryable($param)) {
                 [$sub, $bindings] = $invadedBuilder->createSub($param);
 
-                array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
+                array_splice($params, $i, 1, [new Expression("($sub)")]);
                 $invadedBuilder->addBinding($bindings, $bindingType);
             }
             if ($param instanceof BindingExpression) {
                 $invadedBuilder->addBinding([$param->getValue()], $bindingType);
             }
+            if ($param instanceof GeoParam) {
+                $value = $param->getValue();
+                if ($value instanceof MagellanBaseExpression) {
+                    $invoked = $value->invoke($builder, $bindingType, null);
+                    array_splice($params, $i, 1, [new GeoParam(new Expression("{$invoked}$geometryTypeCastAppend"))]);
+                } elseif ($invadedBuilder->isQueryable($param)) {
+                    [$sub, $bindings] = $invadedBuilder->createSub($param);
+                    array_splice($params, $i, 1, [new GeoParam(new Expression("($sub)$geometryTypeCastAppend"))]);
+                    $invadedBuilder->addBinding($bindings, $bindingType);
+                }
+            }
+            // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wraped in GeoParam
             if ($param instanceof MagellanBaseExpression) {
                 $invoked = $param->invoke($builder, $bindingType, null);
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
@@ -67,8 +80,22 @@ class BuilderUtils
                 return 'ARRAY['.self::transformAndJoinParams($param, $wktGenerator, $geometryTypeCastAppend, $builder).']';
             }
 
+            if ($param instanceof GeoParam) {
+                $value = $param->getValue();
+
+                if ($value instanceof Geometry) {
+                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
+                }
+                if (is_string($value)) {
+                    return $builder->grammar->wrap($param).$geometryTypeCastAppend;
+                }
+
+                return $value;
+            }
+
+            // TODO: Check if this can be removed
             if ($param instanceof Geometry) {
-                return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
+                throw new \Exception('This should not happen, because it is wrapped in GeoParam');
             }
 
             if ($param instanceof Box2D) {
@@ -91,7 +118,7 @@ class BuilderUtils
                 return '?';
             }
 
-            return $builder->grammar->wrap($param).$geometryTypeCastAppend;
+            return $builder->grammar->wrap($param);
         }, $params);
 
         return implode(', ', array_map(fn ($param) => (string) $param, $params));
