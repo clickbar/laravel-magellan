@@ -146,7 +146,7 @@ trait MagellanMeasurementExpressions
         $useSpheroid = $useSpheroid ?? true;
         $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
 
-        return MagellanExpression::numeric('ST_Distance', [$geometry], $optionalParamters, $geometryType);
+        return MagellanExpression::numeric('ST_Area', [$geometry], $optionalParamters, $geometryType);
     }
 
     /**
