@@ -10,4 +10,5 @@ class Magellan
     use MagellanMeasurementExpressions;
     use MagellanOverlayExpressions;
     use MagellanTopologicalRelationshipExpressions;
+    use MagellanSpatialReferenceSystemExpressions;
 }
