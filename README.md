@@ -77,6 +77,12 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 If you discover any security related issues, please email [security@clickbar.dev](mailto:security@clickbar.dev) instead of using the issue tracker.
 
+## Thanks
+
+- [geo-io](https://github.com/geo-io)
+- [mstaack/laravel-postgis](https://github.com/mstaack/laravel-postgis)
+- [jmikola/geojson](https://github.com/jmikola/geojson)
+- [jsor/doctrine-postgis](https://github.com/jsor/doctrine-postgis)
 ## Credits
 
 - [Adrian](https://github.com/ahawlitschek)
