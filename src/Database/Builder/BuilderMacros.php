@@ -24,6 +24,11 @@ class BuilderMacros
     {
         /** @var EloquentBuilder|\Illuminate\Database\Query\Builder $this */
 
+        /**
+         * @param  MagellanBaseExpression  $magellanExpression
+         * @param  string|null  $as
+         * @return static
+         */
         return function (MagellanBaseExpression $magellanExpression, string $as = null) {
             $asOrDefault = mb_strtolower($as ?? $magellanExpression->getDefaultAs());
 
@@ -43,6 +48,11 @@ class BuilderMacros
 
     public function mOrderBy()
     {
+        /**
+         * @param  MagellanNumericExpression|MagellanBooleanExpression  $magellanExpression
+         * @param  string|null  $direction
+         * @return static
+         */
         return function (MagellanNumericExpression|MagellanBooleanExpression $magellanExpression, string $direction = 'ASC') {
             return $this->orderBy($magellanExpression->invoke($this, 'order'), $direction);
         };
@@ -50,6 +60,13 @@ class BuilderMacros
 
     public function mWhere()
     {
+        /**
+         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  mixed  $operator
+         * @param  mixed  $value
+         * @param  string|null  $boolean
+         * @return static
+         */
         return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
             return $this->where($magellanExpression->invoke($this, 'where'), $operator, $value, $boolean);
         };
@@ -57,6 +74,12 @@ class BuilderMacros
 
     public function mOrWhere()
     {
+        /**
+         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  mixed  $operator
+         * @param  mixed  $value
+         * @return static
+         */
         return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null) {
             return $this->orWhere($magellanExpression->invoke($this, 'where'), $operator, $value);
         };
@@ -64,6 +87,10 @@ class BuilderMacros
 
     public function mGroupBy()
     {
+        /**
+         * @param  array|string|MagellanBaseExpression  ...$groups
+         * @return static
+         */
         return function (...$groups) {
             $invokedGroups = array_map(function ($group) {
                 if ($group instanceof MagellanBaseExpression) {
@@ -79,6 +106,13 @@ class BuilderMacros
 
     public function mHaving()
     {
+        /**
+         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  mixed  $operator
+         * @param  mixed  $value
+         * @param  string|null  $boolean
+         * @return static
+         */
         return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
             return $this->having($magellanExpression->invoke($this, 'having'), $operator, $value, $boolean);
         };
@@ -86,6 +120,10 @@ class BuilderMacros
 
     public function mFrom()
     {
+        /**
+         * @param  MagellanSetExpression  $magellanExpression
+         * @return static
+         */
         return function (MagellanSetExpression $magellanExpression) {
             return $this->from($magellanExpression->invoke($this, 'from'));
         };
