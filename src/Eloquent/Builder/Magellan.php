@@ -9,4 +9,5 @@ class Magellan
     use MagellanGeometryProcessingExpressions;
     use MagellanMeasurementExpressions;
     use MagellanOverlayExpressions;
+    use MagellanTopologicalRelationshipExpressions;
 }
