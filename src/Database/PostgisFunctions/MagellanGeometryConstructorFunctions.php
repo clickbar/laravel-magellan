@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
+use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 
@@ -18,7 +19,7 @@ trait MagellanGeometryConstructorFunctions
      */
     public static function collectFromGeometries($geometry1, $geometry2): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Collect', [$geometry1, $geometry2]);
+        return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometry1),  GeoParam::wrap($geometry2)]);
     }
 
     /**
@@ -31,6 +32,6 @@ trait MagellanGeometryConstructorFunctions
      */
     public static function collect($geometryArrayOrSet): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Collect', [$geometryArrayOrSet]);
+        return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometryArrayOrSet)]);
     }
 }

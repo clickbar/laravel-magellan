@@ -7,15 +7,20 @@ use Illuminate\Database\Query\Expression;
 
 class GeoParam
 {
-    public function __construct(
-        protected readonly \Closure|MagellanBaseExpression|Expression|Geometry|string|null $value,
+    protected function __construct(
+        protected readonly array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null $value,
     ) {
     }
 
+    public static function wrap(array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null $value)
+    {
+        return new self($value);
+    }
+
     /**
-     * @return Geometry|MagellanBaseExpression|\Closure|Expression|string|null
+     * @return array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null
      */
-    public function getValue(): Geometry|\Closure|string|Expression|null
+    public function getValue(): array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null
     {
         return $this->value;
     }

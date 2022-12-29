@@ -53,11 +53,14 @@ class BuilderUtils
                 $value = $param->getValue();
                 if ($value instanceof MagellanBaseExpression) {
                     $invoked = $value->invoke($builder, $bindingType, null);
-                    array_splice($params, $i, 1, [new GeoParam(new Expression("{$invoked}$geometryTypeCastAppend"))]);
+                    array_splice($params, $i, 1, [GeoParam::wrap(new Expression("{$invoked}$geometryTypeCastAppend"))]);
                 } elseif ($invadedBuilder->isQueryable($param)) {
                     [$sub, $bindings] = $invadedBuilder->createSub($param);
-                    array_splice($params, $i, 1, [new GeoParam(new Expression("($sub)$geometryTypeCastAppend"))]);
+                    array_splice($params, $i, 1, [GeoParam::wrap(new Expression("($sub)$geometryTypeCastAppend"))]);
                     $invadedBuilder->addBinding($bindings, $bindingType);
+                } elseif (is_array($value)) {
+                    $wrapped = array_map(fn ($geometry) => GeoParam::wrap($geometry), $value);
+                    array_splice($params, $i, 1, [self::prepareParams($wrapped, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend)]);
                 }
             }
             // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wraped in GeoParam
@@ -84,10 +87,13 @@ class BuilderUtils
                 $value = $param->getValue();
 
                 if ($value instanceof Geometry) {
-                    return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
+                    return $wktGenerator->toPostgisGeometrySql($value, Config::get('magellan.schema')).$geometryTypeCastAppend;
                 }
                 if (is_string($value)) {
-                    return $builder->grammar->wrap($param).$geometryTypeCastAppend;
+                    return $builder->grammar->wrap($value).$geometryTypeCastAppend;
+                }
+                if (is_array($value)) {
+                    return 'ARRAY['.self::transformAndJoinParams($value, $wktGenerator, $geometryTypeCastAppend, $builder).']';
                 }
 
                 return $value;
