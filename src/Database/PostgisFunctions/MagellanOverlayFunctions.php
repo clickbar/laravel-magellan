@@ -49,13 +49,14 @@ trait MagellanOverlayFunctions
      * @param $geometryA
      * @param $geometryB
      * @param  float|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  string|null  $geometryType Defines the type of the input geometries. Which those values will be casted to.
      * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Intersection.html
      */
-    public static function intersection($geometryA, $geometryB, ?float $gridSize = null): MagellanGeometryExpression
+    public static function intersection($geometryA, $geometryB, ?float $gridSize = null, ?string $geometryType = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Intersection', [$geometryA, $geometryB], [$gridSize]);
+        return MagellanBaseExpression::geometry('ST_Intersection', [$geometryA, $geometryB], [$gridSize], $geometryType);
     }
 
     /**

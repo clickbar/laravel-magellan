@@ -51,14 +51,14 @@ class BuilderMacros
     public function mWhere()
     {
         return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
-            return $this->where($magellanExpression->invoke($this, 'order'), $operator, $value, $boolean);
+            return $this->where($magellanExpression->invoke($this, 'where'), $operator, $value, $boolean);
         };
     }
 
     public function mOrWhere()
     {
         return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null) {
-            return $this->orWhere($magellanExpression->invoke($this, 'order'), $operator, $value);
+            return $this->orWhere($magellanExpression->invoke($this, 'where'), $operator, $value);
         };
     }
 
