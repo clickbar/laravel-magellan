@@ -3,7 +3,7 @@
 namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
-use Clickbar\Magellan\Eloquent\Builder\BuilderMacros;
+use Clickbar\Magellan\Database\Builder\BuilderMacros;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryFactory;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;

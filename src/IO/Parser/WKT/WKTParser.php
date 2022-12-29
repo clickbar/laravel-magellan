@@ -3,6 +3,7 @@
 namespace Clickbar\Magellan\IO\Parser\WKT;
 
 use Clickbar\Magellan\Exception\UnknownWKTTypeException;
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\LineString;
@@ -12,7 +13,6 @@ use Clickbar\Magellan\Geometries\MultiPolygon;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\Geometries\Polygon;
 use Clickbar\Magellan\IO\Coordinate;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\BaseParser;
 use Illuminate\Support\Str;
 

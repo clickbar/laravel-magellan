@@ -1,10 +1,10 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\Builder;
 
 use Clickbar\Magellan\Boxes\Box2D;
 use Clickbar\Magellan\Boxes\Box3D;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;

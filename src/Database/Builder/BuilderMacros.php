@@ -1,17 +1,17 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
 use Clickbar\Magellan\Cast\GeometryWKBCast;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBBoxExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryOrBboxExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanSetExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 

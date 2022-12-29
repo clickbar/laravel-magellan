@@ -1,13 +1,13 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 
-trait MagellanTopologicalRelationshipExpressions
+trait MagellanTopologicalRelationshipFunctions
 {
     /**
      * Overlaps, Touches, Within all imply spatial intersection. If any of the aforementioned returns true, then the geometries also spatially intersect. Disjoint implies false for spatial intersection.

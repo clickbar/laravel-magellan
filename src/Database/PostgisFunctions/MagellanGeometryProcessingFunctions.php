@@ -1,9 +1,10 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\Builder\BuilderUtils;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Enums\DelaunayTrianglesOutput;
 use Clickbar\Magellan\Enums\EndCap;
 use Clickbar\Magellan\Enums\Join;
@@ -11,7 +12,7 @@ use Clickbar\Magellan\Enums\Side;
 use Illuminate\Support\Str;
 use RuntimeException;
 
-trait MagellanGeometryProcessingExpressions
+trait MagellanGeometryProcessingFunctions
 {
     /**
      * Computes a POLYGON or MULTIPOLYGON that represents all points whose distance from a geometry/geography is less than or equal to a given distance.

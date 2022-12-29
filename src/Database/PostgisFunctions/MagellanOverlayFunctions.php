@@ -1,13 +1,13 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanSetExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
 use RuntimeException;
 
-trait MagellanOverlayExpressions
+trait MagellanOverlayFunctions
 {
     /**
      * Clips a geometry by a 2D box in a fast and tolerant but possibly invalid way.

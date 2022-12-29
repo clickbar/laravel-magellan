@@ -1,12 +1,12 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 
-trait MagellanSpatialReferenceSystemExpressions
+trait MagellanSpatialReferenceSystemFunctions
 {
     /**
      * Sets the SRID on a geometry to a particular integer value. Useful in constructing bounding boxes for queries.

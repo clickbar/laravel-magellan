@@ -5,7 +5,7 @@ namespace Clickbar\Magellan\Commands;
 use Clickbar\Magellan\Commands\Utils\ModelInformation;
 use Clickbar\Magellan\Commands\Utils\PostgisColumnInformation;
 use Clickbar\Magellan\Commands\Utils\TableColumnsCollection;
-use Clickbar\Magellan\Eloquent\HasPostgisColumns;
+use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;

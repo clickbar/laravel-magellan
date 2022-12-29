@@ -2,8 +2,6 @@
 
 namespace Clickbar\Magellan\Geometries;
 
-use Clickbar\Magellan\IO\Dimension;
-
 class Point extends Geometry
 {
     public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self

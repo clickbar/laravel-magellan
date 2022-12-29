@@ -1,9 +1,9 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder\MagellanExpressions;
+namespace Clickbar\Magellan\Database\MagellanExpressions;
 
-use Clickbar\Magellan\Eloquent\Builder\BindingExpression;
-use Clickbar\Magellan\Eloquent\Builder\BuilderUtils;
+use Clickbar\Magellan\Database\Builder\BindingExpression;
+use Clickbar\Magellan\Database\Builder\BuilderUtils;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
 

@@ -1,10 +1,10 @@
 <?php
 
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\LineString;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\Geometries\Polygon;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Illuminate\Support\Facades\App;
 

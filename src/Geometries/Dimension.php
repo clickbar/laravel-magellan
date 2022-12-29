@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\IO;
+namespace Clickbar\Magellan\Geometries;
 
 enum Dimension: string
 {

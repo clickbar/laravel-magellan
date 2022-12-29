@@ -1,14 +1,14 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 
-trait MagellanGeometryAccessorExpressions
+trait MagellanGeometryAccessorFunctions
 {
     /**
      * Returns the closure of the combinatorial boundary of this Geometry. The combinatorial boundary is defined as described in section 3.12.3.2 of the OGC SPEC. Because the result of this function is a closure, and hence topologically closed, the resulting boundary can be represented using representational geometry primitives as discussed in the OGC SPEC, section 3.12.2.

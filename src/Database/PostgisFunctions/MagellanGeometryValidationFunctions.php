@@ -1,17 +1,17 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBooleanExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanSetExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanStringExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 use Clickbar\Magellan\Enums\MakeValidMethod;
 use Clickbar\Magellan\Enums\ValidFlag;
 use Illuminate\Support\Str;
 
-trait MagellanGeometryValidationExpressions
+trait MagellanGeometryValidationFunctions
 {
     /**
      * Tests if an ST_Geometry value is well-formed and valid in 2D according to the OGC rules. For geometries with 3 and 4 dimensions, the validity is still only tested in 2 dimensions. For geometries that are invalid, a PostgreSQL NOTICE is emitted providing details of why it is not valid.

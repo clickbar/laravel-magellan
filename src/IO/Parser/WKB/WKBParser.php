@@ -2,10 +2,10 @@
 
 namespace Clickbar\Magellan\IO\Parser\WKB;
 
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\IO\Coordinate;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\BaseParser;
 use RuntimeException;
 

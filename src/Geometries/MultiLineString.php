@@ -2,7 +2,6 @@
 
 namespace Clickbar\Magellan\Geometries;
 
-use Clickbar\Magellan\IO\Dimension;
 use Countable;
 
 class MultiLineString extends Geometry implements Countable

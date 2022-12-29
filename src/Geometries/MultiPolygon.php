@@ -2,8 +2,6 @@
 
 namespace Clickbar\Magellan\Geometries;
 
-use Clickbar\Magellan\IO\Dimension;
-
 class MultiPolygon extends Geometry implements \Countable
 {
     /**

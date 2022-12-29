@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\Builder;
 
 class BindingExpression
 {

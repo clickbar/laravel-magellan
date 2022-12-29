@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent;
+namespace Clickbar\Magellan\Database\Eloquent;
 
 use Clickbar\Magellan\Exception\PostgisColumnsNotDefinedException;
 use Clickbar\Magellan\Exception\SridMissmatchException;

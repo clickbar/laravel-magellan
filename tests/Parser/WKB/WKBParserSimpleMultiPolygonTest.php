@@ -1,7 +1,7 @@
 <?php
 
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\MultiPolygon;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Support\Facades\App;
 

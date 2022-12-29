@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\LineString;
@@ -8,7 +9,6 @@ use Clickbar\Magellan\Geometries\MultiPoint;
 use Clickbar\Magellan\Geometries\MultiPolygon;
 use Clickbar\Magellan\Geometries\Point;
 use Clickbar\Magellan\Geometries\Polygon;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

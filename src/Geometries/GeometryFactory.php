@@ -3,7 +3,6 @@
 namespace Clickbar\Magellan\Geometries;
 
 use Clickbar\Magellan\IO\Coordinate;
-use Clickbar\Magellan\IO\Dimension;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 
 class GeometryFactory implements GeometryModelFactory

@@ -1,14 +1,14 @@
 <?php
 
-namespace Clickbar\Magellan\Eloquent\Builder;
+namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBBoxExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanGeometryOrBboxExpression;
-use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use RuntimeException;
 
-trait MagellanBoundingBoxExpressions
+trait MagellanBoundingBoxFunctions
 {
     /**
      * Returns a box2d representing the 2D extent of the geometry.

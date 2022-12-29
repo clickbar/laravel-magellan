@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\IO;
 
+use Clickbar\Magellan\Geometries\Dimension;
 use Clickbar\Magellan\Geometries\GeometryCollection;
 use Clickbar\Magellan\Geometries\LineString;
 use Clickbar\Magellan\Geometries\MultiLineString;
