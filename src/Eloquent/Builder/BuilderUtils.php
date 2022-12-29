@@ -4,6 +4,7 @@ namespace Clickbar\Magellan\Eloquent\Builder;
 
 use Clickbar\Magellan\Boxes\Box2D;
 use Clickbar\Magellan\Boxes\Box3D;
+use Clickbar\Magellan\Eloquent\Builder\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -22,15 +23,27 @@ class BuilderUtils
         $invadedBuilder = invade($builder);
         $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
+        $params = self::prepareParams($params, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend);
+        $wktGenerator = new WKTGenerator();
+        $paramString = self::transformAndJoinParams($params, $wktGenerator, $geometryTypeCastAppend, $builder);
+
+        $expressionString = "$function($paramString)";
+
+        if ($as) {
+            $expressionString .= " AS $as";
+        }
+
+        return new Expression($expressionString);
+    }
+
+    protected static function prepareParams(array $params, $builder, $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
+    {
         foreach ($params as $i => $param) {
             if ($invadedBuilder->isQueryable($param)) {
                 [$sub, $bindings] = $invadedBuilder->createSub($param);
 
                 array_splice($params, $i, 1, [new Expression("($sub)$geometryTypeCastAppend")]);
-
-                return BuilderUtils::buildPostgisFunction(
-                    $invadedBuilder->addBinding($bindings, $bindingType), $bindingType, $geometryType, $function, $as, ...$params
-                );
+                $invadedBuilder->addBinding($bindings, $bindingType);
             }
             if ($param instanceof BindingExpression) {
                 $invadedBuilder->addBinding([$param->getValue()], $bindingType);
@@ -39,10 +52,21 @@ class BuilderUtils
                 $invoked = $param->invoke($builder, $bindingType, null);
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
             }
+            if (is_array($param)) {
+                array_splice($params, $i, 1, [self::prepareParams($param, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend)]);
+            }
         }
 
-        $wktGenerator = new WKTGenerator();
+        return $params;
+    }
+
+    protected static function transformAndJoinParams(array $params, WKTGenerator $wktGenerator, string $geometryTypeCastAppend, $builder): string
+    {
         $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator, $builder) {
+            if (is_array($param)) {
+                return 'ARRAY['.self::transformAndJoinParams($param, $wktGenerator, $geometryTypeCastAppend, $builder).']';
+            }
+
             if ($param instanceof Geometry) {
                 return $wktGenerator->toPostgisGeometrySql($param, Config::get('magellan.schema')).$geometryTypeCastAppend;
             }
@@ -70,14 +94,7 @@ class BuilderUtils
             return $builder->grammar->wrap($param).$geometryTypeCastAppend;
         }, $params);
 
-        $paramString = implode(', ', array_map(fn ($param) => (string) $param, $params));
-        $expressionString = "$function($paramString)";
-
-        if ($as) {
-            $expressionString .= " AS $as";
-        }
-
-        return new Expression($expressionString);
+        return implode(', ', array_map(fn ($param) => (string) $param, $params));
     }
 
     public static function appendAsBindingExpressionIfNotNull(array &$array, ...$values)

@@ -17,7 +17,7 @@ abstract class PointCollection extends Geometry
      */
     protected function __construct(array $points)
     {
-        GeometryHelper::assertValidGeometryInput(2, Point::class, $points, 'points');
+        GeometryHelper::assertValidGeometryInput(1, Point::class, $points, 'points');
         $this->points = $points;
     }
 
