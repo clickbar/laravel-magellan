@@ -2,10 +2,12 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
+use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use Illuminate\Database\Query\Expression;
 use RuntimeException;
 
 trait MagellanBoundingBoxFunctions
@@ -20,7 +22,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function box2D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('Box2D', [$geometry]);
+        return MagellanBaseExpression::bbox('Box2D', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -33,7 +35,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function box3D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('Box3D', [$geometry]);
+        return MagellanBaseExpression::bbox('Box3D', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -47,7 +49,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function extent($geometry): MagellanBaseExpression
     {
-        return MagellanBaseExpression::bbox('ST_Extent', [$geometry]);
+        return MagellanBaseExpression::bbox('ST_Extent', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -61,7 +63,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function extent3D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_3DExtent', [$geometry]);
+        return MagellanBaseExpression::bbox('ST_3DExtent', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -75,7 +77,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function makeBox2D($pointLowLeft, $pointUpRight): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_MakeBox2D', [$pointLowLeft, $pointUpRight]);
+        return MagellanBaseExpression::bbox('ST_MakeBox2D', [GeoParam::wrap($pointLowLeft), GeoParam::wrap($pointUpRight)]);
     }
 
     /**
@@ -89,7 +91,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function makeBox3D($pointLowLeft, $pointUpRight): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_3DMakeBox', [$pointLowLeft, $pointUpRight]);
+        return MagellanBaseExpression::bbox('ST_3DMakeBox', [GeoParam::wrap($pointLowLeft), GeoParam::wrap($pointUpRight)]);
     }
 
     /**
@@ -102,7 +104,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function xMax($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_XMax', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_XMax', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -115,7 +117,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function xMin($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_XMin', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_XMin', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -128,7 +130,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function yMax($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_YMax', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_YMax', [GeoParam::wrap($geometry)]);
     }
 
     /**
@@ -174,19 +176,19 @@ trait MagellanBoundingBoxFunctions
      * Returns a bounding box expanded from the bounding box of the input, either by specifying a single distance with which the box should be expanded on both axes, or by specifying an expansion distance for each axis. Uses double-precision. Can be used for distance queries, or to add a bounding box filter to a query to take advantage of a spatial index.
      *
      * @param $geometry
-     * @param  float|null  $unitsToExpand
-     * @param  float|null  $dx
-     * @param  float|null  $dy
-     * @param  float|null  $dz
-     * @param  float|null  $dm
+     * @param  float|Expression|\Closure|null  $unitsToExpand
+     * @param  float|Expression|\Closure|null  $dx
+     * @param  float|Expression|\Closure|null  $dy
+     * @param  float|Expression|\Closure|null  $dz
+     * @param  float|Expression|\Closure|null  $dm
      * @return MagellanGeometryOrBboxExpression
      *
      * @see https://postgis.net/docs/ST_Expand.html
      */
-    public static function expand($geometry, ?float $unitsToExpand = null, ?float $dx = null, ?float $dy = null, ?float $dz = null, ?float $dm = null): MagellanGeometryOrBboxExpression
+    public static function expand($geometry, float|Expression|\Closure|null $unitsToExpand = null, float|Expression|\Closure|null $dx = null, float|Expression|\Closure|null $dy = null, float|Expression|\Closure|null $dz = null, float|Expression|\Closure|null $dm = null): MagellanGeometryOrBboxExpression
     {
         if ($unitsToExpand !== null) {
-            return MagellanBaseExpression::geometryOrBox('ST_Expand', [$geometry], [$unitsToExpand]);
+            return MagellanBaseExpression::geometryOrBox('ST_Expand', [GeoParam::wrap($geometry), $unitsToExpand]);
         }
 
         if ($dy !== null) {
@@ -212,21 +214,21 @@ trait MagellanBoundingBoxFunctions
             $nonNullArguments[] = 0;
         }
 
-        return MagellanBaseExpression::geometryOrBox('ST_Expand', [$geometry], $nonNullArguments);
+        return MagellanBaseExpression::geometryOrBox('ST_Expand', [GeoParam::wrap($geometry), ...$nonNullArguments]);
     }
 
     /**
      * Returns the estimated extent of a spatial table as a box2d. The current schema is used if not specified. The estimated extent is taken from the geometry column's statistics. This is usually much faster than computing the exact extent of the table using ST_Extent or ST_3DExtent.
      *
-     * @param  string  $tableName
-     * @param  string  $geoColumn
-     * @param  string|null  $schemaName
-     * @param  bool|null  $parentOnly
+     * @param  string|Expression|\Closure  $tableName
+     * @param  string|Expression|\Closure  $geoColumn
+     * @param  string|Expression|\Closure|null  $schemaName
+     * @param  bool|Expression|\Closure|null  $parentOnly
      * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_EstimatedExtent.html
      */
-    public static function estimatedExtent(string $tableName, string $geoColumn, ?string $schemaName = null, ?bool $parentOnly = null): MagellanBBoxExpression
+    public static function estimatedExtent(string|Expression|\Closure $tableName, string|Expression|\Closure $geoColumn, string|Expression|\Closure|null $schemaName = null, bool|Expression|\Closure|null $parentOnly = null): MagellanBBoxExpression
     {
         $arguments = [
             $tableName,
@@ -246,6 +248,6 @@ trait MagellanBoundingBoxFunctions
             $arguments[] = $parentOnly;
         }
 
-        return MagellanBaseExpression::bbox('ST_EstimatedExtent', [], $arguments);
+        return MagellanBaseExpression::bbox('ST_EstimatedExtent', $arguments);
     }
 }
