@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
  */
 class BuilderMacros
 {
-    public function mSelect()
+    public function stSelect()
     {
         /** @var EloquentBuilder|\Illuminate\Database\Query\Builder $this */
 
@@ -46,7 +46,7 @@ class BuilderMacros
         };
     }
 
-    public function mOrderBy()
+    public function stOrderBy()
     {
         /**
          * @param  MagellanNumericExpression|MagellanBooleanExpression  $magellanExpression
@@ -58,7 +58,7 @@ class BuilderMacros
         };
     }
 
-    public function mWhere()
+    public function stWhere()
     {
         /**
          * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
@@ -72,7 +72,7 @@ class BuilderMacros
         };
     }
 
-    public function mOrWhere()
+    public function stOrWhere()
     {
         /**
          * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
@@ -85,7 +85,7 @@ class BuilderMacros
         };
     }
 
-    public function mGroupBy()
+    public function stGroupBy()
     {
         /**
          * @param  array|string|MagellanBaseExpression  ...$groups
@@ -104,7 +104,7 @@ class BuilderMacros
         };
     }
 
-    public function mHaving()
+    public function stHaving()
     {
         /**
          * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
@@ -118,7 +118,7 @@ class BuilderMacros
         };
     }
 
-    public function mFrom()
+    public function stFrom()
     {
         /**
          * @param  MagellanSetExpression  $magellanExpression

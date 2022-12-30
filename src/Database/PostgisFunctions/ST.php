@@ -2,7 +2,7 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-class Magellan
+class ST
 {
     use MagellanGeometryAccessorFunctions;
     use MagellanBoundingBoxFunctions;
