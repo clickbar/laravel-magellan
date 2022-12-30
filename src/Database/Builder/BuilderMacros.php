@@ -25,7 +25,7 @@ class BuilderMacros
         /** @var EloquentBuilder|\Illuminate\Database\Query\Builder $this */
 
         /**
-         * @param  MagellanBaseExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression  $magellanExpression
          * @param  string|null  $as
          * @return static
          */
@@ -49,7 +49,7 @@ class BuilderMacros
     public function stOrderBy()
     {
         /**
-         * @param  MagellanNumericExpression|MagellanBooleanExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression  $magellanExpression
          * @param  string|null  $direction
          * @return static
          */
@@ -61,7 +61,7 @@ class BuilderMacros
     public function stWhere()
     {
         /**
-         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
          * @param  mixed  $operator
          * @param  mixed  $value
          * @param  string|null  $boolean
@@ -75,7 +75,7 @@ class BuilderMacros
     public function stOrWhere()
     {
         /**
-         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
          * @param  mixed  $operator
          * @param  mixed  $value
          * @return static
@@ -107,7 +107,7 @@ class BuilderMacros
     public function stHaving()
     {
         /**
-         * @param  MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
          * @param  mixed  $operator
          * @param  mixed  $value
          * @param  string|null  $boolean
@@ -121,7 +121,7 @@ class BuilderMacros
     public function stFrom()
     {
         /**
-         * @param  MagellanSetExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression  $magellanExpression
          * @return static
          */
         return function (MagellanSetExpression $magellanExpression) {
