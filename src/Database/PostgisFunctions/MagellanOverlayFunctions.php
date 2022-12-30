@@ -7,6 +7,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
+use Clickbar\Magellan\Enums\GeometryType;
 use Illuminate\Database\Query\Expression;
 
 trait MagellanOverlayFunctions
@@ -51,12 +52,12 @@ trait MagellanOverlayFunctions
      * @param $geometryA
      * @param $geometryB
      * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
-     * @param  string|null  $geometryType Defines the type of the input geometries. Which those values will be casted to.
+     * @param  GeometryType|null  $geometryType Defines the type of the input geometries. Which those values will be casted to.
      * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Intersection.html
      */
-    public static function intersection($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null, ?string $geometryType = null): MagellanGeometryExpression
+    public static function intersection($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Intersection', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize], $geometryType);
     }

@@ -7,6 +7,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Enums\DelaunayTrianglesOutput;
 use Clickbar\Magellan\Enums\EndCap;
+use Clickbar\Magellan\Enums\GeometryType;
 use Clickbar\Magellan\Enums\Join;
 use Clickbar\Magellan\Enums\Side;
 use Illuminate\Database\Query\Expression;
@@ -85,12 +86,12 @@ trait MagellanGeometryProcessingFunctions
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Centroid.html
      */
-    public static function centroid($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?string $geometryType = null): MagellanGeometryExpression
+    public static function centroid($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';

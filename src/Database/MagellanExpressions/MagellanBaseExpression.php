@@ -4,6 +4,7 @@ namespace Clickbar\Magellan\Database\MagellanExpressions;
 
 use Clickbar\Magellan\Database\Builder\BindingExpression;
 use Clickbar\Magellan\Database\Builder\BuilderUtils;
+use Clickbar\Magellan\Enums\GeometryType;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Str;
 
@@ -12,41 +13,41 @@ abstract class MagellanBaseExpression
     public function __construct(
         protected readonly string $postgisFunction,
         protected readonly array $params,
-        protected readonly ?string $geometryType = 'geometry',
+        protected readonly ?GeometryType $geometryType = GeometryType::Geometry,
     ) {
     }
 
-    public static function numeric(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanNumericExpression
+    public static function numeric(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanNumericExpression
     {
         return new MagellanNumericExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function boolean(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanBooleanExpression
+    public static function boolean(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
     {
         return new MagellanBooleanExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function set(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanSetExpression
+    public static function set(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanSetExpression
     {
         return new MagellanSetExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function geometry(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanGeometryExpression
+    public static function geometry(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanGeometryExpression
     {
         return new MagellanGeometryExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function geometryOrBox(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanGeometryOrBboxExpression
+    public static function geometryOrBox(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanGeometryOrBboxExpression
     {
         return new MagellanGeometryOrBboxExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function string(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanStringExpression
+    public static function string(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanStringExpression
     {
         return new MagellanStringExpression($postgisFunction, $params, $geometryType);
     }
 
-    public static function bbox(string $postgisFunction, array $params, ?string $geometryType = 'geometry'): MagellanBBoxExpression
+    public static function bbox(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBBoxExpression
     {
         return new MagellanBBoxExpression($postgisFunction, $params, $geometryType);
     }
@@ -65,7 +66,7 @@ abstract class MagellanBaseExpression
                 return new BindingExpression($param);
             });
 
-        return BuilderUtils::buildPostgisFunction($builder, $bindingType, $this->geometryType, $this->postgisFunction, $as, ...$params);
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, $this->geometryType->value, $this->postgisFunction, $as, ...$params);
     }
 
     public function returnsGeometry(): bool

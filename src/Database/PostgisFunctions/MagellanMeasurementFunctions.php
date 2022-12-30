@@ -6,6 +6,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
+use Clickbar\Magellan\Enums\GeometryType;
 use Illuminate\Database\Query\Expression;
 
 trait MagellanMeasurementFunctions
@@ -31,12 +32,12 @@ trait MagellanMeasurementFunctions
      * @param $geometryA
      * @param $geometryB
      * @param  bool|Expression|\Closure|null  $useSpheroid
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Distance.html
      */
-    public static function distance($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
+    public static function distance($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -139,12 +140,12 @@ trait MagellanMeasurementFunctions
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Area.html
      */
-    public static function area($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
+    public static function area($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -161,12 +162,12 @@ trait MagellanMeasurementFunctions
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Length.html
      */
-    public static function length($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
+    public static function length($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -296,12 +297,12 @@ trait MagellanMeasurementFunctions
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Perimeter.html
      */
-    public static function perimeter($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?string $geometryType = null): MagellanNumericExpression
+    public static function perimeter($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = 'geography';
@@ -333,12 +334,12 @@ trait MagellanMeasurementFunctions
      *
      * @param $geometryA
      * @param $geometryB
-     * @param  string|null  $geometryType
+     * @param  GeometryType|null  $geometryType
      * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_Azimuth.html
      */
-    public static function azimuth($geometryA, $geometryB, ?string $geometryType = null): MagellanNumericExpression
+    public static function azimuth($geometryA, $geometryB, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_Azimuth', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }
