@@ -49,7 +49,7 @@ trait MagellanGeometryProcessingFunctions
 
         $styleParameter = collect($styleParts)
             ->filter(fn ($part) => ! Str::endsWith($part, '='))
-            ->join(',');
+            ->join(' ');
 
         if (! empty($styleParameter) && $numSegQuarterCircle !== null) {
             // TODO: Add propper exception class
@@ -280,7 +280,7 @@ trait MagellanGeometryProcessingFunctions
 
         $styleParameter = collect($styleParts)
             ->filter(fn ($part) => ! Str::endsWith($part, '='))
-            ->join(',');
+            ->join(' ');
 
         if (! empty($styleParameter)) {
             $arguments[] = $styleParameter;
