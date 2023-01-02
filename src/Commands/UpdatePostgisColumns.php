@@ -183,7 +183,7 @@ class UpdatePostgisColumns extends Command
         $tableColumns = new TableColumnsCollection();
 
         $geographyColumns = DB::table('geography_columns')->get();
-        $geometryColumns = DB::table('geometry_columns')->get()->groupBy('f_table_name');
+        $geometryColumns = DB::table('geometry_columns')->get();
 
         $this->appendColumns($geographyColumns, 'geography', $tableColumns);
         $this->appendColumns($geometryColumns, 'geometry', $tableColumns);
