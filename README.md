@@ -59,6 +59,63 @@ php artisan vendor:publish --tag="magellan-config"
 You may find the contents of the published config file here:
 [config/magellan.php](config/magellan.php)
 
+## What's in
+- [x] Migration Schema Blueprints
+- [x] Geometry Data Classes
+- [x] WKT Generator & Parser
+- [x] WKB Generator & Parser
+- [x] Geojson Generator & Parser
+- [x] Eloquent Model Trait
+- [x] Command for automatically adding postgis trait to models
+- [x] Auto Transform on insert with different projection
+- [x] Geojson Request Validation Rule
+- [x] Transforms Geometry for Form Requests
+- [x] Most of Postgis functions as typed functions that can be used in select, where, orderBy, groupBy, having, from
+- [x] Geometry and Bbox Caster
+- [x] Auto Cast when using functions that return geometry or bbox
+- [ ] Automatic Postgis Function Doc Generator
+- ...
+
+## Before you start
+We highly recommend using the [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) from barryvdh to be able to see everything included in the IDEs auto completion.
+
+## Creating Tables with Postgis Columns
+Laravel-magellan extends the default Schema Blueprint with all postgis functions. Since laravel has introduced basic geometry support, all methods are prefixed with `magellan`.
+e.g.
+```php
+$table->magellanPoint('location', 4326, 'GEOMETRY');
+```
+
+![List of all schema methods](art/magellan_schema.png)
+
+## Preparing the Model
+In order to properly integrate everything with the model you need to to perform the following 2 steps: 
+1. Add the `HasPostgisColumns` trait to your model
+2. Add the `$postgisColumns` array to the model
+```php
+protected array $postgisColumns = [
+        'location' => [
+            'type' => 'geometry',
+            'srid' => 4326,
+        ],
+    ];
+```
+
+Both steps can be automated by using the following command:
+```bash 
+php artisan magellan:update-postgis-columns
+```
+The command automatically scans the database and adds the trait and the array as well.
+
+## Using the geometry data classes
+
+## Request Validation and Transformation
+
+## Running queries
+
+
+
+
 ## Testing
 
 ```bash
