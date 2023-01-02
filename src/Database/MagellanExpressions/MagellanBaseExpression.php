@@ -66,7 +66,7 @@ abstract class MagellanBaseExpression
                 return new BindingExpression($param);
             });
 
-        return BuilderUtils::buildPostgisFunction($builder, $bindingType, $this->geometryType->value, $this->postgisFunction, $as, ...$params);
+        return BuilderUtils::buildPostgisFunction($builder, $bindingType, $this->geometryType?->value, $this->postgisFunction, $as, ...$params);
     }
 
     public function returnsGeometry(): bool
