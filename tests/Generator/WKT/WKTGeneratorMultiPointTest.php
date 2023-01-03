@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
@@ -7,6 +8,62 @@ use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
+
+test('can generate empty 2D WKT MultiPoint', function () {
+    $multiPoint = MultiPoint::make([]);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('MULTIPOINT EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 3DZ WKT MultiPoint', function () {
+    $multiPoint = MultiPoint::make([], dimension: Dimension::DIMENSION_3DZ);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('MULTIPOINT Z EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 3DM WKT MultiPoint', function () {
+    $multiPoint = MultiPoint::make([], dimension: Dimension::DIMENSION_3DM);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('MULTIPOINT M EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 4D WKT MultiPoint', function () {
+    $multiPoint = MultiPoint::make([], dimension: Dimension::DIMENSION_4D);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('MULTIPOINT ZM EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 2D WKT MultiPoint with SRID', function () {
+    $multiPoint = MultiPoint::make([], srid: 4326);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('SRID=4326;MULTIPOINT EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 3DZ WKT MultiPoint with SRID', function () {
+    $multiPoint = MultiPoint::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('SRID=4326;MULTIPOINT Z EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 3DM WKT MultiPoint with SRID', function () {
+    $multiPoint = MultiPoint::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('SRID=4326;MULTIPOINT M EMPTY');
+})->group('WKT MultiPoint');
+
+test('can generate empty 4D WKT MultiPoint with SRID', function () {
+    $multiPoint = MultiPoint::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $multiPointWKT = $this->generator->generate($multiPoint);
+
+    expect($multiPointWKT)->toBe('SRID=4326;MULTIPOINT ZM EMPTY');
+})->group('WKT MultiPoint');
 
 test('can generate 2D WKT MultiPoint', function () {
     $point1 = Point::make(8.12345, 50.12345);

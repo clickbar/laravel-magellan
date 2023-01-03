@@ -129,6 +129,10 @@ class WKTGenerator extends BaseGenerator
     {
         $wktType = $this->apply3dIfNeeded('MULTIPOINT', $multiPoint);
 
+        if ($multiPoint->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
+
         return sprintf('%s(%s)', $wktType, $this->generatePointsCoordinateString($multiPoint->getPoints()));
     }
 
