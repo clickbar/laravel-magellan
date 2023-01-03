@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiLineString;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -8,6 +9,62 @@ use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB MultiLineString', function () {
+    $multiLineString = MultiLineString::make([]);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('010500000000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 3DZ WKB MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_3DZ);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('010500008000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 3DM WKB MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_3DM);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('010500004000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 4D WKB MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_4D);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('01050000C000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 2D WKB MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('0105000020E610000000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 3DZ WKB MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('01050000A0E610000000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 3DM WKB MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('0105000060E610000000000000');
+})->group('WKB MultiLineString');
+
+test('can generate empty 4D WKB MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $multiLineStringWKB = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKB)->toBe('01050000E0E610000000000000');
+})->group('WKB MultiLineString');
 
 test('can generate 2D WKB MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
