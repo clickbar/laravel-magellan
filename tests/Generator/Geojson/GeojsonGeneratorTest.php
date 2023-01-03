@@ -13,6 +13,17 @@ beforeEach(function () {
     $this->generator = new GeojsonGenerator();
 });
 
+test('can generate empty Geojson Point', function () {
+    $point = Point::makeEmpty();
+
+    $pointGeojson = $this->generator->generate($point);
+
+    expect($pointGeojson)->toBe([
+        'type' => 'Point',
+        'coordinates' => [],
+    ]);
+})->group('Geojson Point');
+
 test('can generate 2D Geojson Point', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345);
 
@@ -34,6 +45,16 @@ test('can generate 3D Geojson Point', function () {
         'coordinates' => [8.12345, 50.12345, 10.0],
     ]);
 })->group('Geojson Point');
+
+test('can generate empty Geojson LineString', function () {
+    $lineString = LineString::make([]);
+    $lineStringGeojson = $this->generator->generate($lineString);
+
+    expect($lineStringGeojson)->toBe([
+        'type' => 'LineString',
+        'coordinates' => [],
+    ]);
+})->group('Geojson LineString');
 
 test('can generate 2D Geojson LineString', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
@@ -60,6 +81,16 @@ test('can generate 3D Geojson LineString', function () {
         'coordinates' => [[8.12345, 50.12345, 10.0], [9.12345, 51.12345, 20.0]],
     ]);
 })->group('Geojson LineString');
+
+test('can generate empty Geojson MultiLineString', function () {
+    $multiLineString = MultiLineString::make([]);
+    $multiLineStringGeojson = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringGeojson)->toBe([
+        'type' => 'MultiLineString',
+        'coordinates' => [],
+    ]);
+})->group('Geojson MultiLineString');
 
 test('can generate 2D Geojson MultiLineString', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
@@ -98,6 +129,16 @@ test('can generate 3D Geojson MultiLineString', function () {
         'coordinates' => [[[8.12345, 50.12345, 10.0], [9.12345, 51.12345, 20.0]], [[7.12345, 49.12345, 30.0], [6.12345, 48.12345, 40.0]]],
     ]);
 })->group('Geojson MultiLineString');
+
+test('can generate empty Geojson Simple Polygon', function () {
+    $polygon = Polygon::make([]);
+    $polygonGeojson = $this->generator->generate($polygon);
+
+    expect($polygonGeojson)->toBe([
+        'type' => 'Polygon',
+        'coordinates' => [],
+    ]);
+})->group('Geojson Polygon');
 
 test('can generate 2D Geojson Simple Polygon', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
@@ -212,6 +253,16 @@ test('can generate 3D Geojson Polygon with multi hole', function () {
     ]);
 })->group('Geojson Polygon');
 
+test('can generate empty Geojson MultiPoint', function () {
+    $multiPoint = MultiPoint::make([]);
+    $multiPointGeojson = $this->generator->generate($multiPoint);
+
+    expect($multiPointGeojson)->toBe([
+        'type' => 'MultiPoint',
+        'coordinates' => [],
+    ]);
+})->group('Geojson MultiPoint');
+
 test('can generate 2D Geojson MultiPoint', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
     $point2 = Point::makeGeodetic(51.12345, 9.12345);
@@ -247,6 +298,16 @@ test('can generate 3D Geojson MultiPoint', function () {
         ],
     ]);
 })->group('Geojson MultiPoint');
+
+test('can generate empty Geojson Simple MultiPolygon', function () {
+    $multiPolygon = MultiPolygon::make([]);
+    $multiPolygonGeojson = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonGeojson)->toBe([
+        'type' => 'MultiPolygon',
+        'coordinates' => [],
+    ]);
+})->group('Geojson MultiPolygon');
 
 test('can generate 2D Geojson Simple MultiPolygon', function () {
     $point1 = Point::makeGeodetic(50.12345, 8.12345);
@@ -301,6 +362,16 @@ test('can generate 3D Geojson Simple MultiPolygon', function () {
         ],
     ]);
 })->group('Geojson MultiPolygon');
+
+test('can generate empty Geojson GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([]);
+    $geometryCollectionGeojson = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionGeojson)->toBe([
+        'type' => 'GeometryCollection',
+        'geometries' => [],
+    ]);
+})->group('Geojson GeometryCollection');
 
 test('can generate 2D Geojson GeometryCollection', function () {
     $point = Point::makeGeodetic(50.12345, 8.12345);
