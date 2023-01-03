@@ -4,11 +4,20 @@ namespace Clickbar\Magellan\Data\Geometries;
 
 class Point extends Geometry
 {
-    public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
+    public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
     {
         return new self(Dimension::fromCoordinates($x, $y, $z, $m), $x, $y, $z, $m, $srid);
     }
 
+    /**
+     * Creates a point instance with the WGS84 projection (SRID=4326)
+     * Points using this projection can also use the geodectic getters and setters
+     * @param float $latitude
+     * @param float $longitude
+     * @param float|null $altitude
+     * @param float|null $m
+     * @return static
+     */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
         $dimension = Dimension::fromCoordinates($longitude, $latitude, $altitude, $m);
