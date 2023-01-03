@@ -35,7 +35,7 @@ test('can parse empty 2D WKB MultiLineString', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
     expect($multiLineString)->geometryHasSrid(null);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 2D WKB MultiLineString With SRID', function () {
     $multiLineStringWKB = '0105000020E610000002000000010200000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940010200000002000000CAC342AD697E1C407958A835CD8F4840CAC342AD697E18407958A835CD0F4840'; // st_setsrid(st_collect(st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345)), st_makeline(st_makepoint(7.12345, 49.12345), st_makepoint(6.12345, 48.12345))), 4326)
@@ -64,7 +64,7 @@ test('can parse empty 2D WKB MultiLineString with SRID', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
     expect($multiLineString)->geometryHasSrid(4326);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 3DZ WKB MultiLineString', function () {
     $multiLineStringWKB = '010500008002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_collect(st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345)), st_makeline(st_makepoint(7.12345, 49.12345), st_makepoint(6.12345, 48.12345)))
@@ -96,7 +96,7 @@ test('can parse empty 3DZ WKB MultiLineString', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
     expect($multiLineString)->geometryHasSrid(null);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 3DZ WKB MultiLineString with SRID', function () {
     $multiLineStringWKB = '01050000A0E610000002000000010200008002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200008002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_setsrid(st_collect(st_makeline(st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20)), st_makeline(st_makepoint(7.12345, 49.12345, 30), st_makepoint(6.12345, 48.12345, 40))), 4326)
@@ -129,7 +129,7 @@ test('can parse empty 3DZ WKB MultiLineString with SRID', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
     expect($multiLineString)->geometryHasSrid(4326);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 3DM WKB MultiLineString', function () {
     $multiLineStringWKB = '010500004002000000010200004002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200004002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_collect(st_makeline(st_makepointM(8.12345, 50.12345, 10), st_makepointM(9.12345, 51.12345, 20)), st_makeline(st_makepointM(7.12345, 49.12345, 30), st_makepointM(6.12345, 48.12345, 40)))
@@ -162,7 +162,7 @@ test('can parse empty 3DM WKB MultiLineString', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($multiLineString)->geometryHasSrid(null);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 3DM WKB MultiLineString with SRID', function () {
     $multiLineStringWKB = '0105000060E610000002000000010200004002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440010200004002000000CAC342AD697E1C407958A835CD8F48400000000000003E40CAC342AD697E18407958A835CD0F48400000000000004440'; // st_setsrid(st_collect(st_makeline(st_makepointM(8.12345, 50.12345, 10), st_makepointM(9.12345, 51.12345, 20)), st_makeline(st_makepointM(7.12345, 49.12345, 30), st_makepointM(6.12345, 48.12345, 40))), 4326)
@@ -196,7 +196,7 @@ test('can parse empty 3DM WKB MultiLineString with SRID', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($multiLineString)->geometryHasSrid(4326);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 4D WKB MultiLineString', function () {
     $multiLineStringWKB = '01050000C00200000001020000C002000000E561A1D6343F20407958A835CD0F494000000000000024400000000000002840E561A1D6343F22407958A835CD8F49400000000000003440000000000000364001020000C002000000CAC342AD697E1C407958A835CD8F48400000000000003E400000000000004040CAC342AD697E18407958A835CD0F484000000000000044400000000000004540'; // st_collect(st_makeline(st_makepoint(8.12345, 50.12345, 10,12), st_makepoint(9.12345, 51.12345, 20,22)), st_makeline(st_makepoint(7.12345, 49.12345, 30,32), st_makepoint(6.12345, 48.12345, 40,42)))
@@ -233,7 +233,7 @@ test('can parse empty 4D WKB MultiLineString', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($multiLineString)->geometryHasSrid(null);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
 
 test('can parse 4D WKB MultiLineString with SRID', function () {
     $multiLineStringWKB = '01050000E0E61000000200000001020000C002000000E561A1D6343F20407958A835CD0F494000000000000024400000000000002840E561A1D6343F22407958A835CD8F49400000000000003440000000000000364001020000C002000000CAC342AD697E1C407958A835CD8F48400000000000003E400000000000004040CAC342AD697E18407958A835CD0F484000000000000044400000000000004540'; // st_setsrid(st_collect(st_makeline(st_makepoint(8.12345, 50.12345, 10,12), st_makepoint(9.12345, 51.12345, 20,22)), st_makeline(st_makepoint(7.12345, 49.12345, 30,32), st_makepoint(6.12345, 48.12345, 40,42))), 4326)
@@ -271,4 +271,4 @@ test('can parse empty 4D WKB MultiLineString with SRID', function () {
     expect($multiLineString->isEmpty())->toBeTrue();
     expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($multiLineString)->geometryHasSrid(4326);
-})->group('WKB LineString');
+})->group('WKB MultiLineString');
