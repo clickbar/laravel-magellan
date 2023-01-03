@@ -115,6 +115,10 @@ class WKTGenerator extends BaseGenerator
     {
         $wktType = $this->apply3dIfNeeded('POLYGON', $polygon);
 
+        if ($polygon->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
+
         return sprintf('%s(%s)', $wktType, $this->generateMultiLineStringCoordinateString($polygon));
     }
 

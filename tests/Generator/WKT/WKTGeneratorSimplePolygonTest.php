@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
@@ -8,6 +9,62 @@ use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
+
+test('can generate empty 2D WKT Simple Polygon', function () {
+    $polygon = Polygon::make([]);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('POLYGON EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 3DZ WKT Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_3DZ);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('POLYGON Z EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 3DM WKT Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_3DM);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('POLYGON M EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 4D WKT Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_4D);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('POLYGON ZM EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 2D WKT Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('SRID=4326;POLYGON EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 3DZ WKT Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('SRID=4326;POLYGON Z EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 3DM WKT Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('SRID=4326;POLYGON M EMPTY');
+})->group('WKT Polygon');
+
+test('can generate empty 4D WKT Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $polygonWKT = $this->generator->generate($polygon);
+
+    expect($polygonWKT)->toBe('SRID=4326;POLYGON ZM EMPTY');
+})->group('WKT Polygon');
 
 test('can generate 2D WKT Simple Polygon', function () {
     $point1 = Point::make(8.12345, 50.12345);
