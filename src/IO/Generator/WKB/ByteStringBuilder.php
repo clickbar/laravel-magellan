@@ -10,9 +10,11 @@ class ByteStringBuilder
 
     protected string $byteString;
 
-    protected $unsignedLongType;
+    protected string $unsignedLongType;
 
-    protected $doubleType;
+    protected string $doubleType;
+
+    protected string $byteType;
 
     public function __construct(ByteOrder $byteOrder)
     {
@@ -26,9 +28,11 @@ class ByteStringBuilder
         if ($this->byteOrder === ByteOrder::bigEndian) {
             $this->unsignedLongType = 'N';
             $this->doubleType = 'E';
+            $this->byteType = 'h*';
         } else {
             $this->unsignedLongType = 'V';
             $this->doubleType = 'e';
+            $this->byteType = 'H*';
         }
 
         return $this;
@@ -61,7 +65,11 @@ class ByteStringBuilder
 
     public function addDouble(float $value): self
     {
-        $this->byteString .= pack($this->doubleType, $value);
+        if (is_nan($value)) {
+            $this->byteString .= pack($this->byteType, '000000000000F87F');
+        } else {
+            $this->byteString .= pack($this->doubleType, $value);
+        }
 
         return $this;
     }

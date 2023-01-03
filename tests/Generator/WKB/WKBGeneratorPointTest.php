@@ -1,11 +1,60 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB Point', function () {
+    $point = Point::makeEmpty();
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('0101000000000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 3DZ WKB Point', function () {
+    $point = Point::makeEmpty(dimension: Dimension::DIMENSION_3DZ);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('0101000080000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 3DM WKB Point', function () {
+    $point = Point::makeEmpty(dimension: Dimension::DIMENSION_3DM);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('0101000040000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 4D WKB Point', function () {
+    $point = Point::makeEmpty(dimension: Dimension::DIMENSION_4D);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('01010000C0000000000000F87F000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 2D WKB Point with SRID', function () {
+    $point = Point::makeEmpty(srid: 4326);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('0101000020E6100000000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 3DZ WKB Point with SRID', function () {
+    $point = Point::makeEmpty(srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('01010000A0E6100000000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 3DM WKB Point with SRID', function () {
+    $point = Point::makeEmpty(srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('0101000060E6100000000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
+
+test('can generate empty 4D WKB Point with SRID', function () {
+    $point = Point::makeEmpty(srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $pointWKB = $this->generator->generate($point);
+    expect($pointWKB)->toBe('01010000E0E6100000000000000000F87F000000000000F87F000000000000F87F000000000000F87F');
+})->group('WKB Point');
 
 test('can generate 2D WKB Point', function () {
     $point = Point::make(8.12345, 50.12345);

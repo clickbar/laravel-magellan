@@ -18,9 +18,17 @@ class Point extends Geometry
 
     public static function makeEmpty(?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
-        // TODO: Maybe use NAN value that postgis also uses?
-        // 000000000000F87F
-        return new self($dimension, NAN, NAN, null, null, $srid);
+        $z = null;
+        $m = null;
+
+        if ($dimension->isMeasured()) {
+            $m = NAN;
+        }
+        if ($dimension->hasZDimension()) {
+            $z = NAN;
+        }
+
+        return new self($dimension, NAN, NAN, $z, $m, $srid);
     }
 
     protected function __construct(

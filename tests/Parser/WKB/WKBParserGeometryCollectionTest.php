@@ -249,7 +249,7 @@ test('can parse empty 3DM WKB GeometryCollection', function () {
     expect($geometryCollection->isEmpty())->toBeTrue();
     expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($geometryCollection)->geometryHasSrid(null);
-})->group('WKB GeometryCollection')->only();
+})->group('WKB GeometryCollection');
 
 test('can parse 3DM WKB GeometryCollection with SRID', function () {
     $geometryCollectionWKB = '0107000060E6100000030000000101000040E561A1D6343F20407958A835CD0F49400000000000002440010200004002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F4940000000000000344001030000400100000004000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440CAC342AD697E1C407958A835CD0F48400000000000003E40E561A1D6343F20407958A835CD0F49400000000000002440'; // st_setsrid(st_collect(ARRAY[st_makepointm(8.12345, 50.12345, 10), st_makeline(st_makepointm(8.12345, 50.12345, 10), st_makepointm(9.12345, 51.12345, 20)), st_makepolygon(st_makeline(ARRAY[st_makepointm(8.12345, 50.12345, 10), st_makepointm(9.12345, 51.12345, 20), st_makepointm(7.12345, 48.12345, 30), st_makepointm(8.12345, 50.12345, 10)]))]), 4326)
