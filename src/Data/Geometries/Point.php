@@ -19,7 +19,7 @@ class Point extends Geometry
      * @param  float  $longitude
      * @param  float|null  $altitude
      * @param  float|null  $m
-     * @return static
+     * @return self
      */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
