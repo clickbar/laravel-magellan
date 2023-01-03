@@ -4,7 +4,7 @@ namespace Clickbar\Magellan\Data\Geometries;
 
 class Point extends Geometry
 {
-    public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
+    public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
         return new self(Dimension::fromCoordinates($x, $y, $z, $m), $x, $y, $z, $m, $srid);
     }
@@ -24,22 +24,14 @@ class Point extends Geometry
     }
 
     protected function __construct(
-        protected Dimension $dimension,
+        Dimension $dimension,
         protected float $x,
         protected float $y,
         protected ?float $z = null,
         protected ?float $m = null,
         ?int $srid = null
     ) {
-        parent::__construct($srid);
-    }
-
-    /**
-     * @return Dimension
-     */
-    public function getDimension(): Dimension
-    {
-        return $this->dimension;
+        parent::__construct($srid, $dimension);
     }
 
     /**

@@ -14,16 +14,17 @@ class GeometryCollection extends Geometry implements Countable
     /**
      * @param  Geometry[]  $geometries
      * @param  int|null  $srid
+     * @param  Dimension  $dimension
      * @return self
      */
-    public static function make(array $geometries, ?int $srid = null): self
+    public static function make(array $geometries, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
-        return new self($geometries, $srid);
+        return new self($geometries, $srid, $dimension);
     }
 
-    protected function __construct(array $geometries, ?int $srid = null)
+    protected function __construct(array $geometries, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
-        parent::__construct($srid);
+        parent::__construct($srid, $dimension);
 
         GeometryHelper::assertValidGeometryInput(0, Geometry::class, $geometries, 'geometries');
         $this->geometries = $geometries;
@@ -31,8 +32,8 @@ class GeometryCollection extends Geometry implements Countable
 
     public function getDimension(): Dimension
     {
-        if (empty($this->geometries)) {
-            return Dimension::DIMENSION_2D;
+        if ($this->isEmpty()) {
+            return parent::getDimension();
         }
 
         return $this->geometries[0]->getDimension();
@@ -40,11 +41,16 @@ class GeometryCollection extends Geometry implements Countable
 
     public function getSrid(): ?int
     {
-        if (empty($this->geometries)) {
+        if ($this->isEmpty()) {
             return parent::getSrid();
         }
 
         return $this->geometries[0]->getSrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->geometries);
     }
 
     /**

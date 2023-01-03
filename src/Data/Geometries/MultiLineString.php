@@ -14,16 +14,17 @@ class MultiLineString extends Geometry implements Countable
     /**
      * @param  LineString[]  $lineStrings
      * @param  int|null  $srid
+     * @param  Dimension  $dimension
      * @return self
      */
-    public static function make(array $lineStrings, ?int $srid = null): self
+    public static function make(array $lineStrings, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
-        return new self($lineStrings, $srid);
+        return new self($lineStrings, $srid, $dimension);
     }
 
-    protected function __construct(array $lineStrings, ?int $srid = null)
+    protected function __construct(array $lineStrings, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
-        parent::__construct($srid);
+        parent::__construct($srid, $dimension);
 
         GeometryHelper::assertValidGeometryInput(0, LineString::class, $lineStrings, 'lineStrings');
         $this->lineStrings = $lineStrings;
@@ -31,16 +32,25 @@ class MultiLineString extends Geometry implements Countable
 
     public function getDimension(): Dimension
     {
+        if ($this->isEmpty()) {
+            return parent::getDimension();
+        }
+
         return $this->lineStrings[0]->getDimension();
     }
 
     public function getSrid(): ?int
     {
-        if (empty($this->lineStrings)) {
+        if ($this->isEmpty()) {
             return parent::getSrid();
         }
 
         return $this->lineStrings[0]->getSrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->lineStrings);
     }
 
     /**

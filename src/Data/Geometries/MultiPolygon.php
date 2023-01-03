@@ -12,19 +12,20 @@ class MultiPolygon extends Geometry implements \Countable
     /**
      * @param  Polygon[]  $polygons
      * @param  int|null  $srid
+     * @param  Dimension  $dimension
      * @return self
      */
-    public static function make(array $polygons, ?int $srid = null): self
+    public static function make(array $polygons, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
-        return new self($polygons, $srid);
+        return new self($polygons, $srid, $dimension);
     }
 
     /**
      * @param  Polygon[]  $polygons
      */
-    protected function __construct(array $polygons, ?int $srid = null)
+    protected function __construct(array $polygons, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
-        parent::__construct($srid);
+        parent::__construct($srid, $dimension);
 
         GeometryHelper::assertValidGeometryInput(0, Polygon::class, $polygons, 'polygons');
         $this->polygons = $polygons;
@@ -32,8 +33,8 @@ class MultiPolygon extends Geometry implements \Countable
 
     public function getDimension(): Dimension
     {
-        if (empty($this->polygons)) {
-            return Dimension::DIMENSION_2D;
+        if ($this->isEmpty()) {
+            return parent::getDimension();
         }
 
         return $this->polygons[0]->getDimension();
@@ -41,11 +42,16 @@ class MultiPolygon extends Geometry implements \Countable
 
     public function getSrid(): ?int
     {
-        if (empty($this->polygons)) {
+        if ($this->isEmpty()) {
             return parent::getSrid();
         }
 
         return $this->polygons[0]->getSrid();
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->polygons);
     }
 
     /**

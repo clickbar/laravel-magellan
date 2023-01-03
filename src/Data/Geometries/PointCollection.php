@@ -15,9 +15,9 @@ abstract class PointCollection extends Geometry
      * @param  Point[]  $points
      * @param  int|null  $srid
      */
-    protected function __construct(array $points, ?int $srid = null)
+    protected function __construct(array $points, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
-        parent::__construct($srid);
+        parent::__construct($srid, $dimension);
 
         GeometryHelper::assertValidGeometryInput(0, Point::class, $points, 'points');
         $this->points = $points;
@@ -25,7 +25,7 @@ abstract class PointCollection extends Geometry
 
     public function getSrid(): ?int
     {
-        if (empty($this->points)) {
+        if ($this->isEmpty()) {
             return parent::getSrid();
         }
 
@@ -34,11 +34,16 @@ abstract class PointCollection extends Geometry
 
     public function getDimension(): Dimension
     {
-        if (empty($this->points)) {
-            return Dimension::DIMENSION_2D;
+        if ($this->isEmpty()) {
+            return parent::getDimension();
         }
 
         return $this->points[0]->getDimension();
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->points);
     }
 
     /**
