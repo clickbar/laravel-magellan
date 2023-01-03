@@ -82,6 +82,10 @@ class WKTGenerator extends BaseGenerator
     {
         $wktType = $this->apply3dIfNeeded('POINT', $point);
 
+        if ($point->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
+
         return sprintf('%s(%s)', $wktType, $this->generatePointCoordinateString($point));
     }
 
