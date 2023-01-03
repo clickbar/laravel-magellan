@@ -126,7 +126,7 @@ class WKTParser extends BaseParser
     public function parsePoint(?string $argument): Point
     {
         if ($argument === null) {
-            return $this->factory->createPoint(Dimension::DIMENSION_2D, $this->srid, null);
+            return $this->factory->createPoint($this->dimension, $this->srid, null);
         }
 
         $pair = $this->removeCharsAndBrackets($argument);
