@@ -36,6 +36,18 @@ test('can parse 2D WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKT MultiPolygon');
 
+test('can parse empty 2D WKT MultiPolygon', function () {
+    $multiPolygonWKT = 'MULTIPOLYGON EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiPolygon)->geometryHasSrid(null);
+})->group('WKT MultiPolygon');
+
 test('can parse 2D WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON(((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345)),((10.12345 50.12345,11.12345 51.12345,9.12345 48.12345,10.12345 50.12345)))';
 
@@ -62,6 +74,18 @@ test('can parse 2D WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+})->group('WKT MultiPolygon');
+
+test('can parse empty 2D WKT MultiPolygon with SRID', function () {
+    $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiPolygon)->geometryHasSrid(4326);
 })->group('WKT MultiPolygon');
 
 test('can parse 3DZ WKT Simple MultiPolygon', function () {
@@ -97,6 +121,18 @@ test('can parse 3DZ WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
+})->group('WKT MultiPolygon');
+
+test('can parse empty 3DZ WKT MultiPolygon', function () {
+    $multiPolygonWKT = 'MULTIPOLYGON Z EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiPolygon)->geometryHasSrid(null);
 })->group('WKT MultiPolygon');
 
 test('can parse 3DZ WKT Simple MultiPolygon with SRID', function () {
@@ -135,6 +171,18 @@ test('can parse 3DZ WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT MultiPolygon');
 
+test('can parse empty 3DZ WKT MultiPolygon with SRID', function () {
+    $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON Z EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiPolygon)->geometryHasSrid(4326);
+})->group('WKT MultiPolygon');
+
 test('can parse 3DM WKT Simple MultiPolygon', function () {
     $multiPolygonWKT = 'MULTIPOLYGON M (((8.12345 50.12345 10,9.12345 51.12345 10,7.12345 48.12345 10,8.12345 50.12345 10)),((10.12345 50.12345 10,11.12345 51.12345 10,9.12345 48.12345 10,10.12345 50.12345 10)))';
 
@@ -168,6 +216,18 @@ test('can parse 3DM WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
+})->group('WKT MultiPolygon');
+
+test('can parse empty 3DM WKT MultiPolygon', function () {
+    $multiPolygonWKT = 'MULTIPOLYGON M EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPolygon)->geometryHasSrid(null);
 })->group('WKT MultiPolygon');
 
 test('can parse 3DM WKT Simple MultiPolygon with SRID', function () {
@@ -204,6 +264,18 @@ test('can parse 3DM WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getX())->toBe(10.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
+})->group('WKT MultiPolygon');
+
+test('can parse empty 3DM WKT MultiPolygon with SRID', function () {
+    $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON M EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPolygon)->geometryHasSrid(4326);
 })->group('WKT MultiPolygon');
 
 test('can parse 4D WKT Simple MultiPolygon', function () {
@@ -249,6 +321,18 @@ test('can parse 4D WKT Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
 })->group('WKT MultiPolygon');
 
+test('can parse empty 4D WKT MultiPolygon', function () {
+    $multiPolygonWKT = 'MULTIPOLYGON ZM EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPolygon)->geometryHasSrid(null);
+})->group('WKT MultiPolygon');
+
 test('can parse 4D WKT Simple MultiPolygon with SRID', function () {
     $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON ZM (((8.12345 50.12345 10 12,9.12345 51.12345 10 12,7.12345 48.12345 10 12,8.12345 50.12345 10 12)),((10.12345 50.12345 10 12,11.12345 51.12345 10 12,9.12345 48.12345 10 12,10.12345 50.12345 10 12)))';
 
@@ -291,4 +375,16 @@ test('can parse 4D WKT Simple MultiPolygon with SRID', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
+})->group('WKT MultiPolygon');
+
+test('can parse empty 4D WKT MultiPolygon with SRID', function () {
+    $multiPolygonWKT = 'SRID=4326;MULTIPOLYGON ZM EMPTY';
+
+    $multiPolygon = $this->parser->parse($multiPolygonWKT);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->getPolygons())->toBeEmpty();
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPolygon)->geometryHasSrid(4326);
 })->group('WKT MultiPolygon');

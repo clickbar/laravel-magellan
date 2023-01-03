@@ -26,6 +26,18 @@ test('can parse 2D WKT Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
 })->group('WKT Polygon');
 
+test('can parse empty 2D WKT Polygon', function () {
+    $polygonWKT = 'POLYGON EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($polygon)->geometryHasSrid(null);
+})->group('WKT Polygon');
+
 test('can parse 2D WKT Simple Polygon with SRID', function () {
     $polygonWKT = 'SRID=4326;POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345))';
 
@@ -42,6 +54,18 @@ test('can parse 2D WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[2]->getY())->toBe(48.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
+})->group('WKT Polygon');
+
+test('can parse empty 2D WKT Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($polygon)->geometryHasSrid(4326);
 })->group('WKT Polygon');
 
 test('can parse 3DZ WKT Simple Polygon', function () {
@@ -63,6 +87,18 @@ test('can parse 3DZ WKT Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
+})->group('WKT Polygon');
+
+test('can parse empty 3DZ WKT Polygon', function () {
+    $polygonWKT = 'POLYGON Z EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($polygon)->geometryHasSrid(null);
 })->group('WKT Polygon');
 
 test('can parse 3DZ WKT Simple Polygon with SRID', function () {
@@ -87,6 +123,18 @@ test('can parse 3DZ WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
 })->group('WKT Polygon');
 
+test('can parse empty 3DZ WKT Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON Z EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($polygon)->geometryHasSrid(4326);
+})->group('WKT Polygon');
+
 test('can parse 3DM WKT Simple Polygon', function () {
     $polygonWKT = 'POLYGON M ((8.12345 50.12345 10,9.12345 51.12345 20,7.12345 48.12345 30,8.12345 50.12345 10))';
 
@@ -106,6 +154,18 @@ test('can parse 3DM WKT Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
+})->group('WKT Polygon');
+
+test('can parse empty 3DM WKT Polygon', function () {
+    $polygonWKT = 'POLYGON M EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($polygon)->geometryHasSrid(null);
 })->group('WKT Polygon');
 
 test('can parse 3DM WKT Simple Polygon with SRID', function () {
@@ -128,6 +188,18 @@ test('can parse 3DM WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getX())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(10.0);
+})->group('WKT Polygon');
+
+test('can parse empty 3DM WKT Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON M EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($polygon)->geometryHasSrid(4326);
 })->group('WKT Polygon');
 
 test('can parse 4D WKT Simple Polygon', function () {
@@ -155,6 +227,18 @@ test('can parse 4D WKT Simple Polygon', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
 })->group('WKT Polygon');
 
+test('can parse empty 4D WKT Polygon', function () {
+    $polygonWKT = 'POLYGON ZM EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($polygon)->geometryHasSrid(null);
+})->group('WKT Polygon');
+
 test('can parse 4D WKT Simple Polygon with SRID', function () {
     $polygonWKT = 'SRID=4326;POLYGON ZM ((8.12345 50.12345 10 12,9.12345 51.12345 20 22,7.12345 48.12345 30 32,8.12345 50.12345 10 12))';
 
@@ -179,4 +263,16 @@ test('can parse 4D WKT Simple Polygon with SRID', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getY())->toBe(50.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getZ())->toBe(10.0);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getM())->toBe(12.0);
+})->group('WKT Polygon');
+
+test('can parse empty 4D WKT Polygon with SRID', function () {
+    $polygonWKT = 'SRID=4326;POLYGON ZM EMPTY';
+
+    $polygon = $this->parser->parse($polygonWKT);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->getLineStrings())->toBeEmpty();
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($polygon)->geometryHasSrid(4326);
 })->group('WKT Polygon');
