@@ -78,7 +78,6 @@ expect()->extend('geometryHasSrid', function (?int $srid) {
 
     if ($this->value instanceof LineString) {
         assert($this->value->getSrid() === $srid);
-        assert(count($this->value->getPoints()) >= 2);
 
         foreach ($this->value->getPoints() as $point) {
             expect($point)->geometryHasSrid($srid);

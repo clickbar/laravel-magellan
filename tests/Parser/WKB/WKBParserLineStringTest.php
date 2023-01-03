@@ -21,6 +21,18 @@ test('can parse 2D WKB LineString', function () {
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
 })->group('WKB LineString');
 
+test('can parse empty 2D WKB LineString', function () {
+    $lineStringWKB = '010200000000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKB LineString');
+
 test('can parse 2D WKB LineString With SRID', function () {
     $lineStringWKB = '0102000020E610000002000000E561A1D6343F20407958A835CD0F4940E561A1D6343F22407958A835CD8F4940'; // st_setsrid(st_makeline(st_makepoint(8.12345, 50.12345), st_makepoint(9.12345, 51.12345)), 4326)
 
@@ -34,6 +46,18 @@ test('can parse 2D WKB LineString With SRID', function () {
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getSrid())->toBe(4326);
     expect($lineString->getSrid())->toBe(4326);
+})->group('WKB LineString');
+
+test('can parse empty 2D WKB LineString With SRID', function () {
+    $lineStringWKB = '0102000020E610000000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($lineString)->geometryHasSrid(4326);
 })->group('WKB LineString');
 
 test('can parse 3DZ WKB LineString', function () {
@@ -50,6 +74,18 @@ test('can parse 3DZ WKB LineString', function () {
     expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
 })->group('WKB LineString');
 
+test('can parse empty 3DZ WKB LineString', function () {
+    $lineStringWKB = '010200008000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKB LineString');
+
 test('can parse 3DZ WKB LineString with SRID', function () {
     $lineStringWKB = '01020000A0E610000002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440'; // st_makeline(st_makepoint(8.12345, 50.12345, 10), st_makepoint(9.12345, 51.12345, 20))
 
@@ -62,6 +98,18 @@ test('can parse 3DZ WKB LineString with SRID', function () {
     expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKB LineString');
+
+test('can parse empty 3DZ WKB LineString with SRID', function () {
+    $lineStringWKB = '01020000A0E610000000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
     expect($lineString)->geometryHasSrid(4326);
 })->group('WKB LineString');
 
@@ -80,6 +128,18 @@ test('can parse 3DM WKB LineString', function () {
     expect($lineString->getPoints()[1]->getM())->toBe(20.0);
 })->group('WKB LineString');
 
+test('can parse empty 3DM WKB LineString', function () {
+    $lineStringWKB = '010200004000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKB LineString');
+
 test('can parse 3DM WKB LineString with SRID', function () {
     $lineStringWKB = '0102000060E610000002000000E561A1D6343F20407958A835CD0F49400000000000002440E561A1D6343F22407958A835CD8F49400000000000003440'; // st_setsrid(st_makeline(st_makepointM(8.12345, 50.12345, 10), st_makepointm(9.12345, 51.12345, 20)), 4326)
 
@@ -92,6 +152,18 @@ test('can parse 3DM WKB LineString with SRID', function () {
     expect($lineString->getPoints()[1]->getX())->toBe(9.12345);
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getM())->toBe(20.0);
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKB LineString');
+
+test('can parse empty 3DM WKB LineString with SRID', function () {
+    $lineStringWKB = '0102000060E610000000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
     expect($lineString)->geometryHasSrid(4326);
 })->group('WKB LineString');
 
@@ -112,6 +184,18 @@ test('can parse 4D WKB LineString', function () {
     expect($lineString->getPoints()[1]->getM())->toBe(22.0);
 })->group('WKB LineString');
 
+test('can parse empty 4D WKB LineString', function () {
+    $lineStringWKB = '01020000C000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKB LineString');
+
 test('can parse 4D WKB LineString with SRID', function () {
     $lineStringWKB = '01020000E0E610000002000000E561A1D6343F20407958A835CD0F494000000000000024400000000000002840E561A1D6343F22407958A835CD8F494000000000000034400000000000003640'; // st_setsrid(st_makeline(st_makepoint(8.12345, 50.12345, 10, 12), st_makepoint(9.12345, 51.12345, 20, 22)), 4326)
 
@@ -127,5 +211,17 @@ test('can parse 4D WKB LineString with SRID', function () {
     expect($lineString->getPoints()[1]->getY())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getZ())->toBe(20.0);
     expect($lineString->getPoints()[1]->getM())->toBe(22.0);
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKB LineString');
+
+test('can parse empty 4D WKB LineString with SRID', function () {
+    $lineStringWKB = '01020000E0E610000000000000';
+
+    $lineString = $this->parser->parse($lineStringWKB);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->getPoints())->toBeEmpty();
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_4D);
     expect($lineString)->geometryHasSrid(4326);
 })->group('WKB LineString');
