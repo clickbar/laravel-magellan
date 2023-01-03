@@ -12,10 +12,11 @@ class Point extends Geometry
     /**
      * Creates a point instance with the WGS84 projection (SRID=4326)
      * Points using this projection can also use the geodectic getters and setters
-     * @param float $latitude
-     * @param float $longitude
-     * @param float|null $altitude
-     * @param float|null $m
+     *
+     * @param  float  $latitude
+     * @param  float  $longitude
+     * @param  float|null  $altitude
+     * @param  float|null  $m
      * @return static
      */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
