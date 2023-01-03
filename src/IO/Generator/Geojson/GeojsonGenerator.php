@@ -16,6 +16,10 @@ class GeojsonGenerator extends BaseGenerator
 {
     private function getPointCoordinatesArray(Point $point): array
     {
+        if ($point->isEmpty()) {
+            return [];
+        }
+
         $coordinates = [$point->getLongitude(), $point->getLatitude()];
 
         if ($point->getAltitude() !== null) {

@@ -13,26 +13,37 @@ class GeometryCollection extends Geometry implements Countable
 
     /**
      * @param  Geometry[]  $geometries
+     * @param  int|null  $srid
      * @return self
      */
-    public static function make(array $geometries): self
+    public static function make(array $geometries, ?int $srid = null): self
     {
-        return new self($geometries);
+        return new self($geometries, $srid);
     }
 
-    protected function __construct(array $geometries)
+    protected function __construct(array $geometries, ?int $srid = null)
     {
-        GeometryHelper::assertValidGeometryInput(1, Geometry::class, $geometries, 'geometries');
+        parent::__construct($srid);
+
+        GeometryHelper::assertValidGeometryInput(0, Geometry::class, $geometries, 'geometries');
         $this->geometries = $geometries;
     }
 
     public function getDimension(): Dimension
     {
+        if (empty($this->geometries)) {
+            return Dimension::DIMENSION_2D;
+        }
+
         return $this->geometries[0]->getDimension();
     }
 
     public function getSrid(): ?int
     {
+        if (empty($this->geometries)) {
+            return parent::getSrid();
+        }
+
         return $this->geometries[0]->getSrid();
     }
 

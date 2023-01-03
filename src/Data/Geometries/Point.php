@@ -16,14 +16,22 @@ class Point extends Geometry
         return new self($dimension, $longitude, $latitude, $altitude, $m, 4326);
     }
 
+    public static function makeEmpty(?int $srid = null): self
+    {
+        // TODO: Maybe use NAN value that postgis also uses?
+        // 000000000000F87F
+        return new self(Dimension::DIMENSION_2D, NAN, NAN, null, null, $srid);
+    }
+
     protected function __construct(
         protected Dimension $dimension,
         protected float $x,
         protected float $y,
         protected ?float $z = null,
         protected ?float $m = null,
-        protected ?int $srid = null
+        ?int $srid = null
     ) {
+        parent::__construct($srid);
     }
 
     /**
@@ -35,13 +43,16 @@ class Point extends Geometry
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getSrid(): ?int
+    public function isEmpty(): bool
     {
-        return $this->srid;
+        return is_nan($this->x) && is_nan($this->y);
     }
 
+    /**
+     * @return bool
+     */
     public function is3d(): bool
     {
         return $this->dimension->hasZDimension();

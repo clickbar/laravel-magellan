@@ -25,9 +25,12 @@ class WKTParser extends BaseParser
     public function parse($input): Geometry
     {
         $input = $this->parseAndRemoveSrid($input);
-        $method = 'parse'.$this->getParseMethodName($input);
 
-        return $this->$method($this->getWKTArgument($input));
+        $wktType = $this->getWKTType($input);
+
+        $method = 'parse'.$this->getParseMethodName($wktType);
+
+        return $this->$method($this->getWKTArgument($wktType, $input));
     }
 
     private function parseAndRemoveSrid(string $input): string
@@ -40,28 +43,53 @@ class WKTParser extends BaseParser
         return $input;
     }
 
-    private function parseWKTSegment(string $segment)
+    /**
+     * Returns a WKT argument text without the type tag and the parentheses.
+     * The argument can either be "EMPTY" or text wrapped in parentheses.
+     * For EMPTY, null is returned. For text wrapped in parentheses, the text is returned as a string.
+     *
+     * @param  string  $wktType
+     * @param  string  $input
+     * @return null|string
+     */
+    private function getWKTArgument(string $wktType, string $input): ?string
     {
+        $value = Str::of($input)
+            ->after($wktType)
+            ->trim()
+            ->toString();
+
+        if ($value === 'EMPTY') {
+            return null;
+        }
+
+        return Str::between($value, '(', ')');
     }
 
-    private function getWKTArgument(string $value)
+    /**
+     * Returns the WKT type of the given WKT string.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    private function getWKTType(string $value): string
     {
-        return Str::between($value, '(', ')');
+        return Str::of($value)
+             ->before('(')
+             ->before('EMPTY')
+             ->trim()
+             ->toString();
     }
 
     /**
      * Returns the method name of the method being responsible for parsing the specific type
      *
-     * @param  string  $value
+     * @param  string  $wktType
      * @return string
      */
-    private function getParseMethodName(string $value): string
+    private function getParseMethodName(string $wktType): string
     {
-        $type = Str::of($value)
-            ->before('(')
-            ->trim();
-
-        $upperType = strtoupper($type);
+        $upperType = strtoupper($wktType);
 
         if (Str::endsWith($upperType, 'ZM')) {
             $dimension = Dimension::DIMENSION_4D;
@@ -84,7 +112,7 @@ class WKTParser extends BaseParser
             'MULTILINESTRING', 'MULTILINESTRINGZ', 'MULTILINESTRING Z', 'MULTILINESTRINGM', 'MULTILINESTRING M', 'MULTILINESTRINGZM', 'MULTILINESTRING ZM' => 'MultiLineString',
             'MULTIPOLYGON', 'MULTIPOLYGONZ', 'MULTIPOLYGON Z', 'MULTIPOLYGONM', 'MULTIPOLYGON M', 'MULTIPOLYGONZM', 'MULTIPOLYGON ZM' => 'MultiPolygon',
             'GEOMETRYCOLLECTION', 'GEOMETRYCOLLECTIONZ', 'GEOMETRYCOLLECTION Z', 'GEOMETRYCOLLECTIONM', 'GEOMETRYCOLLECTION M', 'GEOMETRYCOLLECTIONZM', 'GEOMETRYCOLLECTION ZM' => 'GeometryCollection',
-            default => throw new UnknownWKTTypeException('Type was '.$type),
+            default => throw new UnknownWKTTypeException('Type was '.$wktType),
         };
     }
 
@@ -95,8 +123,12 @@ class WKTParser extends BaseParser
         return preg_replace('/[a-zA-Z\(\)]+$/', '', $leadingRemoved);
     }
 
-    public function parsePoint(string $argument): Point
+    public function parsePoint(?string $argument): Point
     {
+        if ($argument === null) {
+            return $this->factory->createPoint(Dimension::DIMENSION_2D, $this->srid, null);
+        }
+
         $pair = $this->removeCharsAndBrackets($argument);
         $splits = explode(' ', trim($pair));
         $coordinate = new Coordinate($splits[0], $splits[1]);
@@ -113,24 +145,36 @@ class WKTParser extends BaseParser
         return $this->factory->createPoint($this->dimension, $this->srid, $coordinate);
     }
 
-    public function parseLineString(string $argument): LineString
+    public function parseLineString(?string $argument): LineString
     {
+        if ($argument === null) {
+            return $this->factory->createLineString($this->dimension, $this->srid, []);
+        }
+
         $pointArguments = explode(',', trim($argument));
         $points = array_map(fn ($pointArgument) => $this->parsePoint($pointArgument), $pointArguments);
 
         return $this->factory->createLineString($this->dimension, $this->srid, $points);
     }
 
-    public function parsePolygon(string $argument): Polygon
+    public function parsePolygon(?string $argument): Polygon
     {
+        if ($argument === null) {
+            return $this->factory->createPolygon($this->dimension, $this->srid, []);
+        }
+
         $lineStringArguments = preg_split('/\)\s*,\s*\(/', substr(trim($argument), 1, -1));
         $lineStrings = array_map(fn ($lineStringArgument) => $this->parseLineString($lineStringArgument), $lineStringArguments);
 
         return $this->factory->createPolygon($this->dimension, $this->srid, $lineStrings);
     }
 
-    public function parseMultiPoint(string $argument): MultiPoint
+    public function parseMultiPoint(?string $argument): MultiPoint
     {
+        if ($argument === null) {
+            return $this->factory->createMultiPoint($this->dimension, $this->srid, []);
+        }
+
         if (! strpos(trim($argument), '(')) {
             $points = explode(',', $argument);
             $argument = implode(',', array_map(function ($pair) {
@@ -147,16 +191,24 @@ class WKTParser extends BaseParser
         return $this->factory->createMultiPoint($this->dimension, $this->srid, $points);
     }
 
-    private function parseMultiLineString(string $argument): MultiLineString
+    private function parseMultiLineString(?string $argument): MultiLineString
     {
+        if ($argument === null) {
+            return $this->factory->createMultiLineString($this->dimension, $this->srid, []);
+        }
+
         $lineStringArguments = preg_split('/\)\s*,\s*\(/', substr(trim($argument), 1, -1));
         $lineStrings = array_map(fn ($lineStringArgument) => $this->parseLineString($lineStringArgument), $lineStringArguments);
 
         return $this->factory->createMultiLineString($this->dimension, $this->srid, $lineStrings);
     }
 
-    private function parseMultiPolygon(string $argument): MultiPolygon
+    private function parseMultiPolygon(?string $argument): MultiPolygon
     {
+        if ($argument === null) {
+            return $this->factory->createMultiPolygon($this->dimension, $this->srid, []);
+        }
+
         $parts = preg_split('/(\)\s*\)\s*,\s*\(\s*\()/', $argument, -1, PREG_SPLIT_DELIM_CAPTURE);
         $polygonArguments = $this->assembleParts($parts);
 
@@ -165,14 +217,16 @@ class WKTParser extends BaseParser
         return $this->factory->createMultiPolygon($this->dimension, $this->srid, $polygons);
     }
 
-    private function parseGeometryCollection(string $argument): GeometryCollection
+    private function parseGeometryCollection(?string $argument): GeometryCollection
     {
+        if ($argument === null) {
+            return $this->factory->createGeometryCollection($this->dimension, $this->srid, []);
+        }
+
         $geometryWktSegments = preg_split('/,\s*(?=[A-Za-z])/', $argument);
         $geometries = array_map(
             function ($geometryWktSegment) {
-                $method = 'parse'.$this->getParseMethodName($geometryWktSegment);
-
-                return $this->$method($this->getWKTArgument($geometryWktSegment));
+                return $this->parse($geometryWktSegment);
             },
             $geometryWktSegments
         );

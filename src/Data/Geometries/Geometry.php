@@ -7,15 +7,16 @@ use JsonSerializable;
 
 abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringable
 {
-    /**
-     * @return Dimension
-     */
+    public function __construct(protected ?int $srid = null)
+    {
+    }
+
     abstract public function getDimension(): Dimension;
 
-    /**
-     * @return int|null
-     */
-    abstract public function getSrid(): ?int;
+    public function getSrid(): ?int
+    {
+        return $this->srid;
+    }
 
     public function hasSrid(): bool
     {

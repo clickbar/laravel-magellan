@@ -67,9 +67,9 @@ expect()->extend('geometryHasDimension', function (Dimension $dimension) {
 /**
  * Checks if a geometry has a Srid and that it's everywhere set correctly.
  *
- * @param $srid int
+ * @param $srid ?int
  */
-expect()->extend('geometryHasSrid', function (int $srid) {
+expect()->extend('geometryHasSrid', function (?int $srid) {
     assert($this->value instanceof Geometry);
 
     if ($this->value instanceof Point) {
