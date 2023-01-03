@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\GeometryCollection;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiLineString;
@@ -13,6 +14,16 @@ use Illuminate\Support\Facades\App;
 beforeEach(function () {
     $this->parser = App::make(GeojsonParser::class);
 });
+
+test('can parse empty 2D Geojson Point', function () {
+    $pointGeojson = '{"type":"Point","coordinates":[]}';
+
+    $point = $this->parser->parse($pointGeojson);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($point->isEmpty())->toBeTrue();
+})->group('Geojson Point');
 
 test('can parse 2D Geojson Point', function () {
     $pointGeojson = '{"type":"Point","coordinates":[8.12345,50.12345]}';
@@ -34,6 +45,16 @@ test('can parse 3D Geojson Point', function () {
     expect($point->getLatitude())->toBe(50.12345);
     expect($point->getAltitude())->toBe(10.0);
 })->group('Geojson Point');
+
+test('can parse empty 2D Geojson LineString', function () {
+    $lineStringGeojson = '{"type":"LineString","coordinates":[]}';
+
+    $lineString = $this->parser->parse($lineStringGeojson);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson LineString');
 
 test('can parse 2D Geojson LineString', function () {
     $lineStringGeojson = '{"type":"LineString","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]}';
@@ -60,6 +81,16 @@ test('can parse 3D Geojson LineString', function () {
     expect($lineString->getPoints()[1]->getLatitude())->toBe(51.12345);
     expect($lineString->getPoints()[1]->getAltitude())->toBe(20.0);
 })->group('Geojson LineString');
+
+test('can parse empty 2D Geojson MultiLineString', function () {
+    $multiLineStringGeojson = '{"type":"MultiLineString","coordinates":[]}';
+
+    $multiLineString = $this->parser->parse($multiLineStringGeojson);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson MultiLineString');
 
 test('can parse 2D Geojson MultiLineString', function () {
     $multiLineStringGeojson = '{"type":"MultiLineString","coordinates":[[[8.12345,50.12345],[9.12345,51.12345]],[[7.12345,49.12345],[6.12345,48.12345]]]}';
@@ -96,6 +127,16 @@ test('can parse 3D Geojson MultiLineString', function () {
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getLatitude())->toBe(48.12345);
     expect($multiLineString->getLineStrings()[1]->getPoints()[1]->getAltitude())->toBe(40.0);
 })->group('Geojson MultiLineString');
+
+test('can parse empty 2D Geojson Simple Polygon', function () {
+    $polygonGeojson = '{"type":"Polygon","coordinates":[]}';
+
+    $polygon = $this->parser->parse($polygonGeojson);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon->isEmpty())->toBeTrue();
+    expect($polygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson Polygon');
 
 test('can parse 2D Geojson Simple Polygon', function () {
     $polygonGeojson = '{"type":"Polygon","coordinates":[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]]}';
@@ -238,6 +279,16 @@ test('can parse 3D Geojson Polygon with multi hole', function () {
     expect($polygon->getLineStrings()[2]->getPoints()[3]->getAltitude())->toBe(10.0);
 })->group('Geojson Polygon');
 
+test('can parse empty 2D Geojson MultiPoint', function () {
+    $multiPointGeojson = '{"type":"MultiPoint","coordinates":[]}';
+
+    $multiPoint = $this->parser->parse($multiPointGeojson);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson MultiPoint');
+
 test('can parse 2D Geojson MultiPoint', function () {
     $multiPointGeojson = '{"type":"MultiPoint","coordinates":[[8.12345,50.12345],[9.12345,51.12345],[7.12345,49.12345],[6.12345,48.12345]]}';
 
@@ -273,6 +324,16 @@ test('can parse 3D Geojson MultiPoint', function () {
     expect($multiPoint->getPoints()[3]->getLatitude())->toBe(48.12345);
     expect($multiPoint->getPoints()[3]->getAltitude())->toBe(40.0);
 })->group('Geojson MultiPoint');
+
+test('can parse empty 2D Geojson Simple MultiPolygon', function () {
+    $multiPolygonGeojson = '{"type":"MultiPolygon","coordinates":[]}';
+
+    $multiPolygon = $this->parser->parse($multiPolygonGeojson);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon->isEmpty())->toBeTrue();
+    expect($multiPolygon)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson MultiPolygon');
 
 test('can parse 2D Geojson Simple MultiPolygon', function () {
     $multiPolygonGeojson = '{"type":"MultiPolygon","coordinates":[[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]],[[[10.12345,50.12345],[11.12345,51.12345],[9.12345,48.12345],[10.12345,50.12345]]]]}';
@@ -331,6 +392,16 @@ test('can parse 3D Geojson Simple MultiPolygon', function () {
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
     expect($multiPolygon->getPolygons()[1]->getLineStrings()[0]->getPoints()[3]->getAltitude())->toBe(10.0);
 })->group('Geojson MultiPolygon');
+
+test('can parse empty 2D Geojson GeometryCollection', function () {
+    $geometryCollectionGeojson = '{"type":"GeometryCollection","geometries":[]}';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionGeojson);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('Geojson GeometryCollection');
 
 test('can parse 2D Geojson GeometryCollection', function () {
     $geometryCollectionGeojson = '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[8.12345,50.12345]},{"type":"LineString","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]},{"type":"Polygon","coordinates":[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]]}]}';

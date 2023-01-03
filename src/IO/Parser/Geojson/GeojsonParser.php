@@ -42,10 +42,6 @@ class GeojsonParser extends BaseParser
     protected function parseGeomeryCollection(array $geometryCollectionData): Geometry
     {
         $geometries = $geometryCollectionData['geometries'];
-        if (empty($geometries)) {
-            throw new \RuntimeException('Invalid GeoJSON: GeometryCollection must have at least one geometry');
-        }
-
         $geometries = array_map(fn (array $geometry) => $this->parse($geometry), $geometries);
 
         return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, 4326, $geometries);
