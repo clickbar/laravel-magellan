@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\GeometryCollection;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -9,6 +10,62 @@ use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([]);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('010700000000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 3DZ WKB GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([], dimension: Dimension::DIMENSION_3DZ);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('010700008000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 3DM WKB GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([], dimension: Dimension::DIMENSION_3DM);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('010700004000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 4D WKB GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([], dimension: Dimension::DIMENSION_4D);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('01070000C000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 2D WKB GeometryCollection with SRID', function () {
+    $geometryCollection = GeometryCollection::make([], srid: 4326);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('0107000020E610000000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 3DZ WKB GeometryCollection with SRID', function () {
+    $geometryCollection = GeometryCollection::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('01070000A0E610000000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 3DM WKB GeometryCollection with SRID', function () {
+    $geometryCollection = GeometryCollection::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('0107000060E610000000000000');
+})->group('WKB GeometryCollection');
+
+test('can generate empty 4D WKB GeometryCollection with SRID', function () {
+    $geometryCollection = GeometryCollection::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $geometryCollectionWKB = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKB)->toBe('01070000E0E610000000000000');
+})->group('WKB GeometryCollection');
 
 test('can generate 2D WKB GeometryCollection', function () {
     $point = Point::make(8.12345, 50.12345);
