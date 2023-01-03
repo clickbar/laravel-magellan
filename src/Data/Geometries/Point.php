@@ -130,7 +130,7 @@ class Point extends Geometry
     }
 
     // **********************************************************************************
-    // * GEODESIC METHODS                                                               *
+    // * GEODETIC METHODS                                                               *
     // *                                                                                *
     // * Since most Points might use WGS84 as their coordinate system, we provide       *
     // * some additional WGS named functions                                            *
@@ -141,7 +141,7 @@ class Point extends Geometry
      */
     public function getLatitude(): float
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
 
         return $this->y;
     }
@@ -151,7 +151,7 @@ class Point extends Geometry
      */
     public function setLatitude(float $latitude): void
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
         $this->y = $latitude;
     }
 
@@ -160,7 +160,7 @@ class Point extends Geometry
      */
     public function getLongitude(): float
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
 
         return $this->x;
     }
@@ -170,7 +170,7 @@ class Point extends Geometry
      */
     public function setLongitude(float $longitude): void
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
         $this->x = $longitude;
     }
 
@@ -179,7 +179,7 @@ class Point extends Geometry
      */
     public function getAltitude(): ?float
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
 
         return $this->z;
     }
@@ -189,14 +189,14 @@ class Point extends Geometry
      */
     public function setAltitude(float $altitude): void
     {
-        $this->assertPointIsGeodesic();
+        $this->assertPointIsGeodetic();
         $this->z = $altitude;
     }
 
-    private function assertPointIsGeodesic()
+    private function assertPointIsGeodetic()
     {
         if ($this->srid !== 4326 && $this->srid !== 0) {
-            throw new \Exception('Point is not geodesic');
+            throw new \Exception('Point is not geodetic');
         }
     }
 }

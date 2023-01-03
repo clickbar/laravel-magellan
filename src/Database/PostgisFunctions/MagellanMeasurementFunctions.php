@@ -27,7 +27,7 @@ trait MagellanMeasurementFunctions
 
     /**
      * For geometry types returns the minimum 2D Cartesian (planar) distance between two geometries, in projected units (spatial ref units).
-     * For geography types defaults to return the minimum geodesic distance between two geographies in meters, compute on the spheroid determined by the SRID. If use_spheroid is false, a faster spherical calculation is used.
+     * For geography types defaults to return the minimum geodetic distance between two geographies in meters, compute on the spheroid determined by the SRID. If use_spheroid is false, a faster spherical calculation is used.
      *
      * @param $geometryA
      * @param $geometryB
@@ -158,7 +158,7 @@ trait MagellanMeasurementFunctions
 
     /**
      * For geometry types: returns the 2D Cartesian length of the geometry if it is a LineString, MultiLineString, ST_Curve, ST_MultiCurve. For areal geometries 0 is returned; use ST_Perimeter instead. The units of length is determined by the spatial reference system of the geometry.
-     * For geography types: computation is performed using the inverse geodesic calculation. Units of length are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then the calculation is based on a sphere instead of a spheroid.
+     * For geography types: computation is performed using the inverse geodetic calculation. Units of length are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then the calculation is based on a sphere instead of a spheroid.
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
@@ -293,7 +293,7 @@ trait MagellanMeasurementFunctions
 
     /**
      * Returns the 2D perimeter of the geometry/geography if it is a ST_Surface, ST_MultiSurface (Polygon, MultiPolygon). 0 is returned for non-areal geometries. For linear geometries use ST_Length. For geometry types, units for perimeter measures are specified by the spatial reference system of the geometry.
-     * For geography types, the calculations are performed using the inverse geodesic problem, where perimeter units are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then calculations will approximate a sphere instead of a spheroid.
+     * For geography types, the calculations are performed using the inverse geodetic problem, where perimeter units are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then calculations will approximate a sphere instead of a spheroid.
      *
      * @param $geometry
      * @param  bool|Expression|\Closure|null  $useSpheroid
@@ -328,7 +328,7 @@ trait MagellanMeasurementFunctions
 
     /**
      * Returns the azimuth in radians of the target point from the origin point, or NULL if the two points are coincident. The azimuth angle is a positive clockwise angle referenced from the positive Y axis (geometry) or the North meridian (geography): North = 0; Northeast = π/4; East = π/2; Southeast = 3π/4; South = π; Southwest 5π/4; West = 3π/2; Northwest = 7π/4.
-     * For the geography type, the azimuth solution is known as the inverse geodesic problem.
+     * For the geography type, the azimuth solution is known as the inverse geodetic problem.
      * The azimuth is a mathematical concept defined as the angle between a reference vector and a point, with angular units in radians. The result value in radians can be converted to degrees using the PostgreSQL function degrees().
      * Azimuth can be used in conjunction with ST_Translate to shift an object along its perpendicular axis. See the upgis_lineshift() function in the PostGIS wiki for an implementation of this.
      *
@@ -383,7 +383,7 @@ trait MagellanMeasurementFunctions
     }
 
     /**
-     * Returns a point projected from a start point along a geodesic using a given distance and azimuth (bearing). This is known as the direct geodesic problem.
+     * Returns a point projected from a start point along a geodetic using a given distance and azimuth (bearing). This is known as the direct geodetic problem.
      * The distance is given in meters. Negative values are supported.
      * The azimuth (also known as heading or bearing) is given in radians. It is measured clockwise from true north (azimuth zero). East is azimuth π/2 (90 degrees); south is azimuth π (180 degrees); west is azimuth 3π/2 (270 degrees). Negative azimuth values and values greater than 2π (360 degrees) are supported.
      *
