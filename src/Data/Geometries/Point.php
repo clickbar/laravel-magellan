@@ -147,6 +147,14 @@ class Point extends Geometry
     // **********************************************************************************
 
     /**
+     * @return bool
+     */
+    public function isGeodetic(): bool
+    {
+        return $this->srid === 4326 || $this->srid === 0;
+    }
+
+    /**
      * @return float
      */
     public function getLatitude(): float

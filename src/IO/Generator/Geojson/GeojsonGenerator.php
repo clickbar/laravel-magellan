@@ -11,6 +11,7 @@ use Clickbar\Magellan\Data\Geometries\MultiPolygon;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
+use RuntimeException;
 
 class GeojsonGenerator extends BaseGenerator
 {
@@ -18,6 +19,10 @@ class GeojsonGenerator extends BaseGenerator
     {
         if ($point->isEmpty()) {
             return [];
+        }
+
+        if (! $point->isGeodetic()) {
+            throw new RuntimeException('GeoJSON only supports geodetic coordinates. Make sure to use points with SRID=4326 or SRID=0.');
         }
 
         $coordinates = [$point->getLongitude(), $point->getLatitude()];
