@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
@@ -7,6 +8,62 @@ use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB LineString', function () {
+    $lineString = LineString::make([]);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('010200000000000000');
+})->group('WKB LineString');
+
+test('can generate empty 3DZ WKB LineString', function () {
+    $lineString = LineString::make([], dimension: Dimension::DIMENSION_3DZ);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('010200008000000000');
+})->group('WKB LineString');
+
+test('can generate empty 3DM WKB LineString', function () {
+    $lineString = LineString::make([], dimension: Dimension::DIMENSION_3DM);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('010200004000000000');
+})->group('WKB LineString');
+
+test('can generate empty 4D WKB LineString', function () {
+    $lineString = LineString::make([], dimension: Dimension::DIMENSION_4D);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('01020000C000000000');
+})->group('WKB LineString');
+
+test('can generate empty 2D WKB LineString with SRID', function () {
+    $lineString = LineString::make([], srid: 4326);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('0102000020E610000000000000');
+})->group('WKB LineString');
+
+test('can generate empty 3DZ WKB LineString with SRID', function () {
+    $lineString = LineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('01020000A0E610000000000000');
+})->group('WKB LineString');
+
+test('can generate empty 3DM WKB LineString with SRID', function () {
+    $lineString = LineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('0102000060E610000000000000');
+})->group('WKB LineString');
+
+test('can generate empty 4D WKB LineString with SRID', function () {
+    $lineString = LineString::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $lineStringWKB = $this->generator->generate($lineString);
+
+    expect($lineStringWKB)->toBe('01020000E0E610000000000000');
+})->group('WKB LineString');
 
 test('can generate 2D WKB LineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
