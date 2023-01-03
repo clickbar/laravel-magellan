@@ -9,6 +9,94 @@ beforeEach(function () {
     $this->parser = App::make(WKTParser::class);
 });
 
+test('can parse empty 2D WKT MultiPoint', function () {
+    $multiPointWKT = 'MULTIPOINT EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(null);
+})->group('WKT MultiPoint');
+
+test('can parse empty 3DZ WKT MultiPoint', function () {
+    $multiPointWKT = 'MULTIPOINT Z EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(null);
+})->group('WKT MultiPoint');
+
+test('can parse empty 3DM WKT MultiPoint', function () {
+    $multiPointWKT = 'MULTIPOINT M EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(null);
+})->group('WKT MultiPoint');
+
+test('can parse empty 4D WKT MultiPoint', function () {
+    $multiPointWKT = 'MULTIPOINT ZM EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(null);
+})->group('WKT MultiPoint');
+
+test('can parse empty 2D WKT MultiPoint with SRID', function () {
+    $multiPointWKT = 'SRID=4326;MULTIPOINT EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(4326);
+})->group('WKT MultiPoint');
+
+test('can parse empty 3DZ WKT MultiPoint with SRID', function () {
+    $multiPointWKT = 'SRID=4326;MULTIPOINT Z EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(4326);
+})->group('WKT MultiPoint');
+
+test('can parse empty 3DM WKT MultiPoint with SRID', function () {
+    $multiPointWKT = 'SRID=4326;MULTIPOINT M EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(4326);
+})->group('WKT MultiPoint');
+
+test('can parse empty 4D WKT MultiPoint with SRID', function () {
+    $multiPointWKT = 'SRID=4326;MULTIPOINT ZM EMPTY';
+
+    $multiPoint = $this->parser->parse($multiPointWKT);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiPoint->isEmpty())->toBeTrue();
+    expect($multiPoint)->geometryHasSrid(4326);
+})->group('WKT MultiPoint');
+
 test('can parse 2D WKT MultiPoint', function () {
     $multiPointWKT = 'MULTIPOINT(8.12345 50.12345,9.12345 51.12345,7.12345 49.12345,6.12345 48.12345)';
 
