@@ -11,6 +11,13 @@ beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
 
+test('can generate empty 2D WKT GeometryCollection', function () {
+    $geometryCollection = GeometryCollection::make([]);
+    $geometryCollectionWKT = $this->generator->generate($geometryCollection);
+
+    expect($geometryCollectionWKT)->toBe('GEOMETRYCOLLECTION EMPTY');
+})->group('WKT GeometryCollection');
+
 test('can generate empty 3DZ WKT GeometryCollection', function () {
     $geometryCollection = GeometryCollection::make([], dimension: Dimension::DIMENSION_3DZ);
     $geometryCollectionWKT = $this->generator->generate($geometryCollection);
@@ -74,13 +81,6 @@ test('can generate 2D WKT GeometryCollection', function () {
     $geometryCollectionWKT = $this->generator->generate($geometryCollection);
 
     expect($geometryCollectionWKT)->toBe('GEOMETRYCOLLECTION(POINT(8.12345 50.12345),LINESTRING(8.12345 50.12345,9.12345 51.12345),POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345)))');
-})->group('WKT GeometryCollection');
-
-test('can generate empty 2D WKT GeometryCollection', function () {
-    $geometryCollection = GeometryCollection::make([]);
-    $geometryCollectionWKT = $this->generator->generate($geometryCollection);
-
-    expect($geometryCollectionWKT)->toBe('GEOMETRYCOLLECTION EMPTY');
 })->group('WKT GeometryCollection');
 
 test('can generate 2D WKT GeometryCollection with SRID', function () {
