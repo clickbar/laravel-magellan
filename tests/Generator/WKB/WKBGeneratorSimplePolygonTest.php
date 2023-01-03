@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
@@ -8,6 +9,62 @@ use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB Simple Polygon', function () {
+    $polygon = Polygon::make([]);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('010300000000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 3DZ WKB Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_3DZ);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('010300008000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 3DM WKB Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_3DM);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('010300004000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 4D WKB Simple Polygon', function () {
+    $polygon = Polygon::make([], dimension: Dimension::DIMENSION_4D);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('01030000C000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 2D WKB Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('0103000020E610000000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 3DZ WKB Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('01030000A0E610000000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 3DM WKB Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('0103000060E610000000000000');
+})->group('WKB Polygon');
+
+test('can generate empty 4D WKB Simple Polygon with SRID', function () {
+    $polygon = Polygon::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $polygonWKB = $this->generator->generate($polygon);
+
+    expect($polygonWKB)->toBe('01030000E0E610000000000000');
+})->group('WKB Polygon');
 
 test('can generate 2D WKB Simple Polygon', function () {
     $point1 = Point::make(8.12345, 50.12345);
