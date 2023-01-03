@@ -9,6 +9,94 @@ beforeEach(function () {
     $this->parser = App::make(WKTParser::class);
 });
 
+test('can parse empty 2D WKT LineString', function () {
+    $lineStringWKT = 'LINESTRING EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKT LineString');
+
+test('can parse empty 3DZ WKT LineString', function () {
+    $lineStringWKT = 'LINESTRING Z EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKT LineString');
+
+test('can parse empty 3DM WKT LineString', function () {
+    $lineStringWKT = 'LINESTRING M EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKT LineString');
+
+test('can parse empty 4D WKT LineString', function () {
+    $lineStringWKT = 'LINESTRING ZM EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(null);
+})->group('WKT LineString');
+
+test('can parse empty 2D WKT LineString with SRID', function () {
+    $lineStringWKT = 'SRID=4326;LINESTRING EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKT LineString');
+
+test('can parse empty 3DZ WKT LineString with SRID', function () {
+    $lineStringWKT = 'SRID=4326;LINESTRING Z EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKT LineString');
+
+test('can parse empty 3DM WKT LineString with SRID', function () {
+    $lineStringWKT = 'SRID=4326;LINESTRING M EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKT LineString');
+
+test('can parse empty 4D WKT LineString with SRID', function () {
+    $lineStringWKT = 'SRID=4326;LINESTRING ZM EMPTY';
+
+    $lineString = $this->parser->parse($lineStringWKT);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($lineString->isEmpty())->toBeTrue();
+    expect($lineString)->geometryHasSrid(4326);
+})->group('WKT LineString');
+
 test('can parse 2D WKT LineString', function () {
     $lineStringWKT = 'LINESTRING(8.12345 50.12345,9.12345 51.12345)';
 
