@@ -122,6 +122,10 @@ class WKTGenerator extends BaseGenerator
     {
         $wktType = $this->apply3dIfNeeded('MULTIPOLYGON', $multiPolygon);
 
+        if ($multiPolygon->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
+
         $polygonCoordinateStrings = implode(',', array_map(function (Polygon $polygon) {
             return sprintf('(%s)', $this->generateMultiLineStringCoordinateString($polygon));
         }, $multiPolygon->getPolygons()));
