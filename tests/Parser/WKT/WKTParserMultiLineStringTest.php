@@ -9,6 +9,94 @@ beforeEach(function () {
     $this->parser = App::make(WKTParser::class);
 });
 
+test('can parse empty 2D WKT MultiLineString', function () {
+    $multiLineStringWKT = 'MULTILINESTRING EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(null);
+})->group('WKT MultiLineString');
+
+test('can parse empty 3DZ WKT MultiLineString', function () {
+    $multiLineStringWKT = 'MULTILINESTRING Z EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(null);
+})->group('WKT MultiLineString');
+
+test('can parse empty 3DM WKT MultiLineString', function () {
+    $multiLineStringWKT = 'MULTILINESTRING M EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(null);
+})->group('WKT MultiLineString');
+
+test('can parse empty 4D WKT MultiLineString', function () {
+    $multiLineStringWKT = 'MULTILINESTRING ZM EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(null);
+})->group('WKT MultiLineString');
+
+test('can parse empty 2D WKT MultiLineString with SRID', function () {
+    $multiLineStringWKT = 'SRID=4326;MULTILINESTRING EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_2D);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(4326);
+})->group('WKT MultiLineString');
+
+test('can parse empty 3DZ WKT MultiLineString with SRID', function () {
+    $multiLineStringWKT = 'SRID=4326;MULTILINESTRING Z EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(4326);
+})->group('WKT MultiLineString');
+
+test('can parse empty 3DM WKT MultiLineString with SRID', function () {
+    $multiLineStringWKT = 'SRID=4326;MULTILINESTRING M EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_3DM);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(4326);
+})->group('WKT MultiLineString');
+
+test('can parse empty 4D WKT MultiLineString with SRID', function () {
+    $multiLineStringWKT = 'SRID=4326;MULTILINESTRING ZM EMPTY';
+
+    $multiLineString = $this->parser->parse($multiLineStringWKT);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasDimension(Dimension::DIMENSION_4D);
+    expect($multiLineString->isEmpty())->toBeTrue();
+    expect($multiLineString)->geometryHasSrid(4326);
+})->group('WKT MultiLineString');
+
 test('can parse 2D WKT MultiLineString', function () {
     $multiLineStringWKT = 'MULTILINESTRING((8.12345 50.12345,9.12345 51.12345),(7.12345 49.12345,6.12345 48.12345))';
 
