@@ -89,6 +89,10 @@ class WKTGenerator extends BaseGenerator
     {
         $wktType = $this->apply3dIfNeeded('LINESTRING', $lineString);
 
+        if ($lineString->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
+
         return sprintf('%s(%s)', $wktType, $this->generateLineStringCoordinateString($lineString));
     }
 
