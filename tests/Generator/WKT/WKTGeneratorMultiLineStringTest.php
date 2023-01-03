@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiLineString;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -8,6 +9,62 @@ use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 beforeEach(function () {
     $this->generator = new WKTGenerator();
 });
+
+test('can generate empty 2D WKT MultiLineString', function () {
+    $multiLineString = MultiLineString::make([]);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('MULTILINESTRING EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 3DZ WKT MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_3DZ);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('MULTILINESTRING Z EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 3DM WKT MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_3DM);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('MULTILINESTRING M EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 4D WKT MultiLineString', function () {
+    $multiLineString = MultiLineString::make([], dimension: Dimension::DIMENSION_4D);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('MULTILINESTRING ZM EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 2D WKT MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('SRID=4326;MULTILINESTRING EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 3DZ WKT MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('SRID=4326;MULTILINESTRING Z EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 3DM WKT MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('SRID=4326;MULTILINESTRING M EMPTY');
+})->group('WKT MultiLineString');
+
+test('can generate empty 4D WKT MultiLineString with SRID', function () {
+    $multiLineString = MultiLineString::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $multiLineStringWKT = $this->generator->generate($multiLineString);
+
+    expect($multiLineStringWKT)->toBe('SRID=4326;MULTILINESTRING ZM EMPTY');
+})->group('WKT MultiLineString');
 
 test('can generate 2D WKT MultiLineString', function () {
     $point1 = Point::make(8.12345, 50.12345);
