@@ -12,6 +12,94 @@ beforeEach(function () {
     $this->parser = App::make(WKTParser::class);
 });
 
+test('can parse empty 2D WKT GeometryCollection', function () {
+    $geometryCollectionWKT = 'GEOMETRYCOLLECTION EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBeNull();
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 3DZ WKT GeometryCollection', function () {
+    $geometryCollectionWKT = 'GEOMETRYCOLLECTION Z EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBeNull();
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 3DM WKT GeometryCollection', function () {
+    $geometryCollectionWKT = 'GEOMETRYCOLLECTION M EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBeNull();
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DM);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 4D WKT GeometryCollection', function () {
+    $geometryCollectionWKT = 'GEOMETRYCOLLECTION ZM EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBeNull();
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_4D);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 2D WKT GeometryCollection with SRID', function () {
+    $geometryCollectionWKT = 'SRID=4326;GEOMETRYCOLLECTION EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBe(4326);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_2D);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 3DZ WKT GeometryCollection with SRID', function () {
+    $geometryCollectionWKT = 'SRID=4326;GEOMETRYCOLLECTION Z EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBe(4326);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DZ);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 3DM WKT GeometryCollection with SRID', function () {
+    $geometryCollectionWKT = 'SRID=4326;GEOMETRYCOLLECTION M EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBe(4326);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_3DM);
+})->group('WKT GeometryCollection');
+
+test('can parse empty 4D WKT GeometryCollection with SRID', function () {
+    $geometryCollectionWKT = 'SRID=4326;GEOMETRYCOLLECTION ZM EMPTY';
+
+    $geometryCollection = $this->parser->parse($geometryCollectionWKT);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection->isEmpty())->toBeTrue();
+    expect($geometryCollection->getSrid())->toBe(4326);
+    expect($geometryCollection)->geometryHasDimension(Dimension::DIMENSION_4D);
+})->group('WKT GeometryCollection');
+
 test('can parse 2D WKT GeometryCollection', function () {
     $geometryCollectionWKT = 'GEOMETRYCOLLECTION(POINT(8.12345 50.12345),LINESTRING(8.12345 50.12345,9.12345 51.12345),POLYGON((8.12345 50.12345,9.12345 51.12345,7.12345 48.12345,8.12345 50.12345)))';
 
