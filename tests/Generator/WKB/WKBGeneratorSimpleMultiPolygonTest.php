@@ -1,5 +1,6 @@
 <?php
 
+use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiPolygon;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -9,6 +10,62 @@ use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 beforeEach(function () {
     $this->generator = new WKBGenerator();
 });
+
+test('can generate empty 2D WKB Simple MultiPolygon', function () {
+    $multiPolygon = MultiPolygon::make([]);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('010600000000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 3DZ WKB Simple MultiPolygon', function () {
+    $multiPolygon = MultiPolygon::make([], dimension: Dimension::DIMENSION_3DZ);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('010600008000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 3DM WKB Simple MultiPolygon', function () {
+    $multiPolygon = MultiPolygon::make([], dimension: Dimension::DIMENSION_3DM);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('010600004000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 4D WKB Simple MultiPolygon', function () {
+    $multiPolygon = MultiPolygon::make([], dimension: Dimension::DIMENSION_4D);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('01060000C000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 2D WKB Simple MultiPolygon with SRID', function () {
+    $multiPolygon = MultiPolygon::make([], srid: 4326);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('0106000020E610000000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 3DZ WKB Simple MultiPolygon with SRID', function () {
+    $multiPolygon = MultiPolygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DZ);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('01060000A0E610000000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 3DM WKB Simple MultiPolygon with SRID', function () {
+    $multiPolygon = MultiPolygon::make([], srid: 4326, dimension: Dimension::DIMENSION_3DM);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('0106000060E610000000000000');
+})->group('WKB MultiPolygon');
+
+test('can generate empty 4D WKB Simple MultiPolygon with SRID', function () {
+    $multiPolygon = MultiPolygon::make([], srid: 4326, dimension: Dimension::DIMENSION_4D);
+    $multiPolygonWKB = $this->generator->generate($multiPolygon);
+
+    expect($multiPolygonWKB)->toBe('01060000E0E610000000000000');
+})->group('WKB MultiPolygon');
 
 test('can generate 2D WKB Simple MultiPolygon', function () {
     $point1 = Point::make(8.12345, 50.12345);
