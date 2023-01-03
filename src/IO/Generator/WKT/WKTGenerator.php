@@ -62,6 +62,11 @@ class WKTGenerator extends BaseGenerator
         return $type.(! empty($dimensionLetters) ? ' '.$dimensionLetters : '');
     }
 
+    private function generateEmpty(string $type): string
+    {
+        return sprintf('%s EMPTY', $type);
+    }
+
     public function generate(Geometry $geometry)
     {
         $wktWithoutSrid = parent::generate($geometry);
@@ -129,6 +134,10 @@ class WKTGenerator extends BaseGenerator
         ));
 
         $wktType = $this->apply3dIfNeeded('GEOMETRYCOLLECTION', $geometryCollection);
+
+        if ($geometryCollection->isEmpty()) {
+            return $this->generateEmpty($wktType);
+        }
 
         return sprintf('%s(%s)', $wktType, $geometryWktStrings);
     }
