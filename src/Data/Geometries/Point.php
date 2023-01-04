@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Exception\MissingGeodeticSRIDException;
+
 class Point extends Geometry
 {
     public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
@@ -17,7 +19,7 @@ class Point extends Geometry
      * @param  float  $longitude
      * @param  float|null  $altitude
      * @param  float|null  $m
-     * @return static
+     * @return self
      */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
@@ -147,6 +149,14 @@ class Point extends Geometry
     // **********************************************************************************
 
     /**
+     * @return bool
+     */
+    public function isGeodetic(): bool
+    {
+        return $this->srid === 4326 || $this->srid === 0;
+    }
+
+    /**
      * @return float
      */
     public function getLatitude(): float
@@ -205,8 +215,8 @@ class Point extends Geometry
 
     private function assertPointIsGeodetic()
     {
-        if ($this->srid !== 4326 && $this->srid !== 0) {
-            throw new \Exception('Point is not geodetic');
+        if (! $this->isGeodetic()) {
+            throw new MissingGeodeticSRIDException($this->getSrid());
         }
     }
 }

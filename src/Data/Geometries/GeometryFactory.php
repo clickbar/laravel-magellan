@@ -13,7 +13,7 @@ class GeometryFactory implements GeometryModelFactory
             return Point::makeEmpty($srid, $dimension);
         }
 
-        return Point::make($coordinate->x, $coordinate->y, $coordinate->z, $coordinate->m, $srid, $dimension);
+        return Point::make($coordinate->x, $coordinate->y, $coordinate->z, $coordinate->m, $srid);
     }
 
     public function createLineString(Dimension $dimension, ?int $srid, array $points): LineString

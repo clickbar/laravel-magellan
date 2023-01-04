@@ -180,6 +180,44 @@ properly named getters and setters:
 An exception will be thrown if you try to use this functions on a point without srid === 4326. Use the default x,y,z,m
 getters and setters instead.
 
+
+## Generators & Parsers
+We currently provide parsers & generators for the following formats:
+
+- EWKB
+- EWKT
+- GeoJSON
+
+These are also used to format our data classes to strings, convert the return value from the database (which comes in EWKB format) and output our data to the frontend as GeoJSON for example.
+
+> **Note**
+> In the following we will use EWKB & WBK or EWKT & WKT interchangeably, even though we always use the extended version of each.
+
+The config file allows you to customize which representation you would like to be used eg. for default string conversion on our data classes, where GeoJSON is otherwise the default.
+
+```php
+$point = Point::makeGeodetic(51.087, 8.76);
+
+(string) $pointA;
+// "{"type":"Point","coordinates":[8.76,51.087]}"
+```
+
+You can always use instances of each parser / generator and parse / generate on your own behalf.  
+While Generators have to be created on demand, Parsers are already instanciated in the app container as singletons and you can use them as follows:
+
+```php
+$parser = app(WKTParser::class);
+
+$point = $parser->parse('SRID=4326;POINT (2, 2)');
+
+$generator = new WKBGenerator();
+
+$generator->generate($point);
+// "0101000020E610000000000000000000400000000000000040"
+```
+
+In this example we obtain an instance of the `WKTParser` and convert the string to one of our data classes. `$point` is then a valid `Point` instance and we can use any other generator eg. the `WKBGenerator` to output the `$point` in hexadecimal WKB format.
+
 ## Request Validation and Transformation
 
 When a form request contains a geometry in Geojson format, you can use the `GeometryGeojsonRule` for validation. You can
