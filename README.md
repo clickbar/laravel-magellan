@@ -4,8 +4,8 @@
     <br>
     <br>
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="art/logo_dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="art/logo_light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="art/logo_dark.png">
+        <source media="(prefers-color-scheme: light)" srcset="art/logo_light.png">
         <img
             width="60%"
             alt="The logo for laravel-magellan, which shows a small blue paper ship with the package name right beside it." src="art/logo_light.png"
@@ -71,18 +71,18 @@ You may find the contents of the published config file here:
 - [x] Geometry Data Classes
 - [x] WKT Generator & Parser
 - [x] WKB Generator & Parser
-- [x] Geojson Generator & Parser
+- [x] GeoJson Generator & Parser
 - [x] Eloquent Model Trait
-- [x] Command for automatically adding postgis trait to models
-- [x] Auto Transform on insert with different projection
-- [x] Geojson Request Validation Rule
+- [x] Command to automatically add the PostGIS trait to models
+- [x] Auto transform on insert with different projection
+- [x] GeoJson Request Validation Rule
 - [x] Transforms Geometry for Form Requests
-- [x] Most of Postgis functions as typed functions that can be used in select, where, orderBy, groupBy, having, from
-- [x] Geometry and Bbox Caster
+- [x] Exposes nearly all PostGIS functions as typed functions that can be used in select, where, orderBy, groupBy, having, from
+- [x] Geometry and BBox Cast classes
 - [x] Auto Cast when using functions that return geometry or bbox
 - [x] Empty Geometry Support
-- [ ] Automatic Postgis Function Doc Generator
-- [ ] Bbox also with postgisColumns trait (currently with cast only)
+- [ ] Automatic PostGIS Function Doc Generator
+- [ ] BBox support within $postgisColumns & trait (currently with cast only)
 - [ ] Custom Geometry Factories & Models
 - [ ] More tests
 - ...
@@ -92,9 +92,9 @@ You may find the contents of the published config file here:
 We highly recommend using the [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) from barryvdh to be
 able to see everything included in the IDEs auto completion.
 
-## Creating Tables with Postgis Columns
+## Creating Tables with PostGIS Columns
 
-Laravel-magellan extends the default Schema Blueprint with all postgis functions. Since laravel has introduced basic
+Laravel-magellan extends the default Schema Blueprint with all PostGIS functions. Since Laravel has introduced basic
 geometry support, all methods are prefixed with `magellan`. e.g.
 
 ```php
@@ -139,17 +139,17 @@ We've included data classes for the following common geometries:
 - MultiPolygon
 - GeometryCollection
 
-To create a geometry object manually use the suited `<GeometryClass>::make` method. e.g.
+To create a geometry object manually, use the suited `<GeometryClass>::make` method. e.g.
 
 ```php
 $point = Point::make(51.087, 8.76);
 ```
 
-You will notice, that there are 3 different make methods for the point class with different parameters:
+You will notice that there are 3 different make methods for the Point class with different parameters:
 
-1. make
-2. makeGeodectic
-3. makeEmpty
+1. `make(...)`
+2. `makeGeodectic(...)`
+3. `makeEmpty(...)`
 
 Let's take a closer look to the first two:
 
@@ -168,7 +168,7 @@ accepts those terms and automatically sets the srid to 4326.
 function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
 ```
 
-When using a point class that uses the WGS84 projection, you can access the latitude, longitude and altitude with
+When using a Point class that uses the WGS84 projection, you can access the latitude, longitude and altitude with
 properly named getters and setters:
 
 - `function getLatitude(): float`
@@ -178,8 +178,7 @@ properly named getters and setters:
 - `function getAltitude(): ?float`
 - `function setAltitude(float $altitude): void`
 
-An exception will be thrown if you try to use this functions on a point without srid === 4326. Use the default x,y,z,m
-getters and setters instead.
+An exception will be thrown if you try to use this functions on a Point without srid=4326. Use the default x, y, z, m getters and setters instead.
 
 
 ## Generators & Parsers
@@ -187,14 +186,14 @@ We currently provide parsers & generators for the following formats:
 
 - EWKB
 - EWKT
-- GeoJSON
+- GeoJson
 
-These are also used to format our data classes to strings, convert the return value from the database (which comes in EWKB format) and output our data to the frontend as GeoJSON for example.
+These are also used to format our data classes to strings, convert the return value from the database (which comes in EWKB format) and output our data to the frontend as GeoJson for example.
 
 > **Note**
 > In the following we will use EWKB & WBK or EWKT & WKT interchangeably, even though we always use the extended version of each.
 
-The config file allows you to customize which representation you would like to be used eg. for default string conversion on our data classes, where GeoJSON is otherwise the default.
+The config file allows you to customize which representation you would like to be used eg. for default string conversion on our data classes, where GeoJson is otherwise the default.
 
 ```php
 $point = Point::makeGeodetic(51.087, 8.76);
@@ -229,7 +228,7 @@ use automatic transformation of the geojson to the proper geometry object. There
 the `geometries(): array` function.
 
 > **Note**
-> Currently nested transformation is not supported
+> Currently we only support simple field transformation. Arrays & wildcard notation support will follow.
 
 ```php
 class StorePortRequest extends FormRequest
@@ -329,21 +328,20 @@ $port->location = Point::make(473054.9891044726, 5524365.310057224, srid: 25832)
 $port->save();
 ```
 
-Since our port table uses a point with SRID=4326, magellan will raise an error:  
+Since our port table uses a point with SRID=4326, Magellan will raise an error:  
 
-> _  SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
+> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
-We included an auto transform option, that directly apply ST_Transform(geometry, databaseSRID) for you.
+We included an auto transform option, that directly applies `ST_Transform(geometry, databaseSRID)` for you.
 
-> **Note**
+> **Note**  
 > This option will only be applied when inserting/updating directly on an eloquent model.  
-
-> **Note**
 > This option will not be applied on geography columns.
 
 ### Select
 
 When selecting data from a model that uses the `HasPostgisColumns` trait, all attributes will directly be parsed to the internal data classes:
+
 ```php
 $port = Port::first();
 dd($port->location);
@@ -361,16 +359,17 @@ Clickbar\Magellan\Data\Geometries\Point {#1732
   #m: null
 }
 ```
-There might be cases where you also use box2d or box3d as column types. Currently, we don't support boxes within the `$postgisColumns`.
+
+There might be cases where you also want to use box2d or box3d as column types. Currently, we don't support boxes within the `$postgisColumns`.
 Please use the `BBoxCast` instead.
 
-### Using Postgis functions in queries
-A big part of laravel-magallan is its query feature. To provide a seamless and ready use of postgis functions, we have
-included a wide scope of the typically ST-prefixed functions that can directly be used with Laravels query builder.
+### Using PostGIS functions in queries
+A big part of laravel-magallan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
+included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
-Whenever you want to use a postis function on a query builder, you have to use one of our builder methods. All of them are
-prefixed with an `st`.  
-Currently, there are the following 7:
+Whenever you want to use a PostGIS function on a query builder, you have to use one of our builder methods. All of them are
+prefixed with `ST`.  
+We currently provide the following:
 
 - stSelect
 - stWhere
@@ -381,10 +380,9 @@ Currently, there are the following 7:
 - stFrom
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
-A _MagellanExpression_ is a wrapper around a ST-prefixed from postgis. When sailing with magellan, you should never write 'ST_xxx' in raw sql yourself. Therefore, we have included some paddles.
+A _MagellanExpression_ is a wrapper around a ST-prefixed from PostGIS. When sailing with Magellan, you should never have to write 'ST_xxx' in raw SQL for yourself. Therefore, we have included some paddles.
 
-Most of the ST-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start
-sailing (with some examples):
+Most of the ST-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
 
 Assuming we have our ships current position and want to query all ports with their distance:
 ```php
@@ -412,7 +410,7 @@ $portsWithDistance = Port::select()
     ->get();
 ```
 
-As you can see, using the `st`-Builder functions is as easy as using the default laravel ones. 
+As you can see, using the `ST`-Builder functions is as easy as using the default Laravel ones. 
 But what about more complex queries?
 What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
@@ -425,7 +423,7 @@ $hullsWithArea = Port::select('country')
 ```
 
 ### Autocast for bbox or geometries
-In the previous section we used some postgis functions. In the first examples, the return types only consist out of scalar values. 
+In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values. 
 But in the more complex example we received a geometry as return value. 
 
 Since "hull" is not present in our `$postgisColumns` array, we might intentionally add a cast to the query:
