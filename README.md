@@ -150,7 +150,7 @@ You will notice that there are 3 different make methods for the Point class with
 
 Let's take a closer look to the first two:
 
-This is the default factory method, that can be used to fill all possible values. This method is considered the "plain"
+This is the default factory method that can be used to fill all possible values. This method is considered the "plain"
 way. You should consider using this method when you use a different projection than WGS84 (srid=4326).
 
 ```php
@@ -158,7 +158,7 @@ function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid
 ```
 
 Most of the common web use cases use the WGS84 projection. Therefore, most of the time the terms that are used will be
-latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method, that
+latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method that
 accepts those terms and automatically sets the srid to 4326.
 
 ```php
@@ -179,6 +179,7 @@ An exception will be thrown if you try to use this functions on a Point without 
 
 
 ## Generators & Parsers
+
 We currently provide parsers & generators for the following formats:
 
 - EWKB
@@ -190,7 +191,7 @@ These are also used to format our data classes to strings, convert the return va
 > **Note**
 > In the following we will use EWKB & WBK or EWKT & WKT interchangeably, even though we always use the extended version of each.
 
-The config file allows you to customize which representation you would like to be used eg. for default string conversion on our data classes, where GeoJson is otherwise the default.
+The config file allows you to customize which representation you would like to be used eg. when toJson conversion is done for our data classes, where GeoJson is otherwise the default.
 
 ```php
 $point = Point::makeGeodetic(51.087, 8.76);
@@ -252,11 +253,13 @@ class StorePortRequest extends FormRequest
 
 
 ### Example Setup
+
 For demo purpose we consider the following fictional scenario:
 > We are a sails person with a lovely boat and a database of several ports all over the world.  
 > For each port we store the name, the country and the location.
 
 Here is the migration we use to create the ports table:
+
 ```php
 Schema::create('ports', function (Blueprint $table) {
     $table->id();
@@ -266,7 +269,9 @@ Schema::create('ports', function (Blueprint $table) {
     $table->timestamps();
 });
 ```
+
 and the model implementation:
+
 ```php
 class Port extends Model
 {
@@ -285,6 +290,7 @@ class Port extends Model
 ```
 
 ### Insert/Update
+
 Magellan geometry objects can be inserted directly as long as they are specified in the `$postgisColumns` of the affected model.
 In our case, we can insert a new Port like this:
 
@@ -297,6 +303,7 @@ Port::create([
 ```
 
 When you want to update a geometry you can either assign the new location to the model and call `save()` or use the `update()` method on the query builder:
+
 ```php
 $port->location = Point::makeGeodetic(55, 11);
 $port->save();
@@ -308,6 +315,7 @@ Port::where('name', 'Magellan Home Port')
 ```
 
 ### Insert/Update with different SRID
+
 When getting Geometries from external systems you might receive them in another projection than the one in the database.
 Consider we want to insert or update a geometry with a different SRID:
 
@@ -329,7 +337,7 @@ Since our port table uses a point with SRID=4326, Magellan will raise an error:
 
 > _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
-We included an auto transform option, that directly applies `ST_Transform(geometry, databaseSRID)` for you.
+We included an auto transform option that directly applies `ST_Transform(geometry, databaseSRID)` for you.
 
 > **Note**  
 > This option will only be applied when inserting/updating directly on an eloquent model.  
@@ -361,11 +369,12 @@ There might be cases where you also want to use box2d or box3d as column types. 
 Please use the `BBoxCast` instead.
 
 ### Using PostGIS functions in queries
+
 A big part of laravel-magallan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
 included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
 Whenever you want to use a PostGIS function on a query builder, you have to use one of our builder methods. All of them are
-prefixed with `ST`.  
+prefixed with `st`.  
 We currently provide the following:
 
 - stSelect
@@ -377,11 +386,12 @@ We currently provide the following:
 - stFrom
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
-A _MagellanExpression_ is a wrapper around a ST-prefixed from PostGIS. When sailing with Magellan, you should never have to write 'ST_xxx' in raw SQL for yourself. Therefore, we have included some paddles.
+A _MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
 
-Most of the ST-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
+Most of the `ST`-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
 
 Assuming we have our ships current position and want to query all ports with their distance:
+
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
@@ -390,6 +400,7 @@ $portsWithDistance = Port::select()
 ```
 
 Since we cannot sail over the whole world, let's limit the distance to max. 50.000 meters:
+
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
@@ -397,7 +408,9 @@ $portsWithDistance = Port::select()
     ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
     ->get();
 ```
+
 Now let us order them based on the distance:
+
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
@@ -407,10 +420,11 @@ $portsWithDistance = Port::select()
     ->get();
 ```
 
-As you can see, using the `ST`-Builder functions is as easy as using the default Laravel ones. 
+As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones. 
 But what about more complex queries?
 What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
+
 ```php
 $hullsWithArea = Port::select('country')
     ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
@@ -420,6 +434,7 @@ $hullsWithArea = Port::select('country')
 ```
 
 ### Autocast for bbox or geometries
+
 In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values. 
 But in the more complex example we received a geometry as return value. 
 
