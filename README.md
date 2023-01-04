@@ -6,7 +6,7 @@
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="art/logo_dark.svg">
         <source media="(prefers-color-scheme: light)" srcset="art/logo_light.svg">
-        <img alt="The logo for laravel-magellan, which shows a small blue paper ship with the package name right beside it." src="art/logo_light.png">
+        <img width="60%" alt="The logo for laravel-magellan, which shows a small blue paper ship with the package name right beside it." src="art/logo_light.png">
     </picture>
     <br>
     <br>
