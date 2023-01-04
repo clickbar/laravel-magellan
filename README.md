@@ -251,31 +251,25 @@ class StorePortRequest extends FormRequest
 }
 ```
 
-## Running queries
+## Interaction with the database
 
-A big part of laravel-magallan is its query feature. To provide a seemless and eady use of postgis functions, we have
-included a wide scope of the typically ST_xxx functions that can directly be used with Laravels query builder.
 
-Whenever you want to use a postis function on a query builder, you have to use one of our main methods. All of them are
-prefixed with an `st`. Currently, there are the following 7:
+### Example Setup
+For demo purpose we consider the following fictional scenario:
+> We are a sails person with a lovely boat and a database of several ports all over the world.  
+> For each port we store the name, the country and the location.
 
-- stSelect
-- stWhere
-- stOrWhere
-- stOrderBy
-- stGroupBy
-- stHaving
-- stFrom
-
-Each of those builder methods expect to receive a _MagellanExpression_. A _MagellanExpression_ represents a typical
-ST_Blabla function from postgis. When sailing with magellan, you should never write a 'ST_Blabla' yourself. Therefore,
-we have included some paddles.
-
-Most of the ST_Blabla functions can be found using the static functions on the `ST` class. But enough talk, let's start
-sailing (with some examples):
-
-Considerung we have the following model:
-
+Here is the migration we use to create the ports table:
+```php
+Schema::create('ports', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('country');
+    $table->magellanPoint('location', postgisType: 'GEOMETRY');
+    $table->timestamps();
+});
+```
+And the model implementation:
 ```php
 class Port extends Model
 {
@@ -293,53 +287,156 @@ class Port extends Model
 }
 ```
 
-Created by the following migration:
+### Insert/Update
+Magellan geometry objects can be inserted directly as long as they are specified in the `$postgisColumns` of the affected model.
+In our case, we can insert a new Port like this:
 
 ```php
- Schema::create('ports', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('country');
-            $table->magellanPoint('location', postgisType: 'GEOMETRY');
-            $table->timestamps();
-        });
+Port::create([
+    'name' => 'Magellan Home Port',
+    'country' => 'Germany',
+    'location' => Point::makeGeodetic(49.87108851299202, 8.625026485851762),
+]);
 ```
-Let's query all the available ports with their current distance:
+
+When you want to update a geometry you can either assign the new location to the model and call `save()` or use the `update()` method on the query builder:
+```php
+$port->location = Point::makeGeodetic(55, 11);
+$port->save();
+
+// -- or --
+
+Port::where('name', 'Magellan Home Port')
+    ->update(['location' => Point::makeGeodetic(55, 11)]);
+```
+
+### Insert/Update with different SRID
+When getting Geometries from external systems you might receive them in another projection than the one in the database.
+Consider we want to insert or update a geometry with a different SRID:
+
+```php
+Port::create([
+    'name' => 'Magellan Home Port',
+    'country' => 'Germany',
+    'location' => Point::make(473054.9891044726, 5524365.310057224, srid: 25832),
+]);
+
+// -- or --
+
+$port = Port::find(1);
+$port->location = Point::make(473054.9891044726, 5524365.310057224, srid: 25832);
+$port->save();
+```
+
+Since our port table uses a point with SRID=4326, magellan will raise an error:  
+
+> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling transform_on_insert in order to apply automatic transformation_
+
+We included an auto transform option, that directly apply ST_Transform(geometry, databaseSRID) for you.
+
+> **Note**
+> This option will only be applied when inserting/updating directly on an eloquent model 
+
+### Select
+
+When selecting data from a model that uses the `HasPostgisColumns` trait, all attributes will directly be parsed to the internal data classes:
+```php
+$port = Port::first();
+dd($port->location);
+```
+```bash
+Clickbar\Magellan\Data\Geometries\Point {#1732
+  #srid: 4326
+  #dimension: Clickbar\Magellan\Data\Geometries\Dimension {#740
+    +name: "DIMENSION_2D"
+    +value: "2D"
+  }
+  #x: 8.6250264858452
+  #y: 49.87108851299
+  #z: null
+  #m: null
+}
+```
+There might be cases where you also use box2d or box3d as column types. Currently, we don't support boxes within the `$postgisColumns`.
+Please use the `BBoxCast` instead.
+
+### Using Postgis functions in queries
+A big part of laravel-magallan is its query feature. To provide a seamless and ready use of postgis functions, we have
+included a wide scope of the typically ST-prefixed functions that can directly be used with Laravels query builder.
+
+Whenever you want to use a postis function on a query builder, you have to use one of our builder methods. All of them are
+prefixed with an `st`.  
+Currently, there are the following 7:
+
+- stSelect
+- stWhere
+- stOrWhere
+- stOrderBy
+- stGroupBy
+- stHaving
+- stFrom
+
+Each of those builder methods expect to receive a _MagellanExpression_.  
+A _MagellanExpression_ is a wrapper around a ST-prefixed from postgis. When sailing with magellan, you should never write 'ST_xxx' in raw sql yourself.   
+Therefore, we have included some paddles.
+
+Most of the ST-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start
+sailing (with some examples):
+
+Assuming we have our ships current position and want to query all ports with their distance:
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-            ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
-            ->get();
+    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
+    ->get();
 ```
 
 Since we cannot sail over the whole world, let's limit the distance to max. 50.000 meters:
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-            ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
-            ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
-            ->get();
+    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
+    ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
+    ->get();
 ```
 Now let us order them based on the distance:
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-            ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), as: 'distance_to_ship')
-            ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
-            ->stOrderBy(ST::distanceSphere($currentShipPosition, 'location'))
-            ->get();
+    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), as: 'distance_to_ship')
+    ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
+    ->stOrderBy(ST::distanceSphere($currentShipPosition, 'location'))
+    ->get();
 ```
-You see, using the `st`-Builder functions is as easy as using the default laravel ones. 
-But what about some more complex queries?
-What about the convex hull of all ports grouped by the country they lay in including the area of the hull?
+
+As you can see, using the `st`-Builder functions is as easy as using the default laravel ones. 
+But what about more complex queries?
+What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
 ```php
 $hullsWithArea = Port::select('country')
-            ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
-            ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
-            ->groupBy('country')
-            ->get();
+    ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
+    ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
+    ->groupBy('country')
+    ->get();
 ```
+
+### Autocast for bbox or geometries
+In the previous section we used some postgis functions. In the first examples, the return types only consist out of scalar values. 
+But in the more complex example we received a geometry as return value. 
+
+Since "hull" is not present in our `$postgisColumns` array, we might intentionally add a cast to the query:
+```php
+$hullWithArea = Port::select('country')
+    ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
+    ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
+    ->groupBy('country')
+    ->withCasts(['hull' => GeometryWKBCast::class]) /* <======= */
+    ->first();
+```
+But that's **not necessary!**  
+Magellan will automatically add the cast for all functions that return geometry, box2d or box3d.
+
 ## Testing
 
 ```bash
