@@ -52,8 +52,9 @@ trait HasPostgisColumns
     {
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeometrySql($geometry, Config::get('magellan.schema', 'public'));
+
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (Config::get('magellan.transform_on_insert', false)) {
+            if (Config::get('magellan.eloquent.transform_to_database_projection', false)) {
                 $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
@@ -69,7 +70,7 @@ trait HasPostgisColumns
         $geometrySql = $generator->toPostgisGeographySql($geometry, Config::get('magellan.schema', 'public'));
 
         if ($geometry->hasSrid() && $geometry->getSrid() != $srid) {
-            if (Config::get('magellan.transform_on_insert', false)) {
+            if (Config::get('magellan.eloquent.transform_to_database_projection', false)) {
                 $geometrySql = 'ST_TRANSFORM('.$geometrySql.', '.$srid.')';
             } else {
                 throw new SridMissmatchException($srid, $geometry->getSrid());
