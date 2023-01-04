@@ -6,7 +6,7 @@ use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
-use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
+use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -67,8 +68,17 @@ class MagellanServiceProvider extends PackageServiceProvider
         }
 
         // TODO: Move to Facade and export for users to use this on any DB connection
+        /**
+         * We use the beforeExecuting event to convert Geometry objects that are passed as bindings
+         * to the sql string representation using the configured generator.
+         *
+         * This will allow us to explicitly use another generator than the string generator, because
+         * Laravel would otherwise convert the Geometry object to a string using the __toString() method.
+         */
         DB::beforeExecuting(function ($query, &$bindings, $connection) {
-            $generator = new WKBGenerator();
+            $generatorClass = Config::get('magellan.sql_generator', WKTGenerator::class);
+            /** @var \Clickbar\Magellan\IO\Generator\BaseGenerator */
+            $generator = new $generatorClass();
 
             foreach ($bindings as $key => $value) {
                 if ($value instanceof Geometry) {
