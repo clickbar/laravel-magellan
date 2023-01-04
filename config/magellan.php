@@ -12,7 +12,7 @@ return [
 
     'json_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
 
-    'insert_generator' => \Clickbar\Magellan\IO\Generator\WKB\WKBGenerator::class,
+    'sql_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
 
     'string_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
 

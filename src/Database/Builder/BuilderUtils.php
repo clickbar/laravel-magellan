@@ -7,6 +7,7 @@ use Clickbar\Magellan\Data\Boxes\Box3D;
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
@@ -25,8 +26,9 @@ class BuilderUtils
         $geometryTypeCastAppend = $geometryType ? "::$geometryType" : '';
 
         $params = self::prepareParams($params, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend);
-        $wktGenerator = new WKTGenerator();
-        $paramString = self::transformAndJoinParams($params, $wktGenerator, $geometryTypeCastAppend, $builder);
+        $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
+        $generator = new $generatorClass();
+        $paramString = self::transformAndJoinParams($params, $generator, $geometryTypeCastAppend, $builder);
 
         $expressionString = "$function($paramString)";
 
@@ -76,24 +78,24 @@ class BuilderUtils
         return $params;
     }
 
-    protected static function transformAndJoinParams(array $params, WKTGenerator $wktGenerator, string $geometryTypeCastAppend, $builder): string
+    protected static function transformAndJoinParams(array $params, BaseGenerator $generator, string $geometryTypeCastAppend, $builder): string
     {
-        $params = array_map(function ($param) use ($geometryTypeCastAppend, $wktGenerator, $builder) {
+        $params = array_map(function ($param) use ($geometryTypeCastAppend, $generator, $builder) {
             if (is_array($param)) {
-                return 'ARRAY['.self::transformAndJoinParams($param, $wktGenerator, $geometryTypeCastAppend, $builder).']';
+                return 'ARRAY['.self::transformAndJoinParams($param, $generator, $geometryTypeCastAppend, $builder).']';
             }
 
             if ($param instanceof GeoParam) {
                 $value = $param->getValue();
 
                 if ($value instanceof Geometry) {
-                    return $wktGenerator->toPostgisGeometrySql($value, Config::get('magellan.schema')).$geometryTypeCastAppend;
+                    return $generator->toPostgisGeometrySql($value, Config::get('magellan.schema')).$geometryTypeCastAppend;
                 }
                 if (is_string($value)) {
                     return $builder->grammar->wrap($value).$geometryTypeCastAppend;
                 }
                 if (is_array($value)) {
-                    return 'ARRAY['.self::transformAndJoinParams($value, $wktGenerator, $geometryTypeCastAppend, $builder).']';
+                    return 'ARRAY['.self::transformAndJoinParams($value, $generator, $geometryTypeCastAppend, $builder).']';
                 }
 
                 return $value;
