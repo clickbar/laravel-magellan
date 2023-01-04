@@ -29,7 +29,7 @@ This package will have you prepared for accessing [PostGIS](https://postgis.net)
 It was heavily inspired by [mstaack/laravel-postgis](https://github.com/mstaack/laravel-postgis), but has evolved into
 much more since. Other than some slight changes, you should be familiar with Magellan very quickly.
 
-Magellan comes with batteries included and also provides parsers/generators for GeoJSON, WKB & WKT out of the box.
+Magellan comes with paddles included and also provides parsers/generators for GeoJson, WKB & WKT out of the box.
 Easily use all PostGIS datatypes in your migrations and avoid raw SQL to access PostGIS functions by using our Builder
 functions.
 
@@ -451,8 +451,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security Vulnerabilities
 
-If you discover any security related issues, please email [security@clickbar.dev](mailto:security@clickbar.dev) instead
-of using the issue tracker.
+Please see [SECURITY](SECURITY.md) for details.
 
 ## Thanks
 
@@ -469,4 +468,4 @@ of using the issue tracker.
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License file](LICENSE.md) for more information.
