@@ -48,7 +48,7 @@ trait HasPostgisColumns
         return new $generatorClass();
     }
 
-    protected function geomFromText(Geometry $geometry, $srid = 4326)
+    protected function geomFromText(Geometry $geometry, int $srid = 4326)
     {
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeometrySql($geometry, Config::get('magellan.schema', 'public'));
@@ -64,7 +64,7 @@ trait HasPostgisColumns
         return $this->getConnection()->raw($geometrySql);
     }
 
-    protected function geogFromText(Geometry $geometry, $srid = 4326)
+    protected function geogFromText(Geometry $geometry, int $srid = 4326)
     {
         $generator = $this->getGenerator();
         $geometrySql = $generator->toPostgisGeographySql($geometry, Config::get('magellan.schema', 'public'));
@@ -129,7 +129,7 @@ trait HasPostgisColumns
     {
         $pgfields = $this->getPostgisColumnNames();
 
-        // postgis always returns the geometry as a WKB string, so we need to convert it to a Geometry object
+        // PostGIS always returns the geometry as a WKB string, so we need to convert it to a Geometry object
         $parser = App::make(WKBParser::class);
 
         foreach ($attributes as $key => &$value) {

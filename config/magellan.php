@@ -26,6 +26,9 @@ return [
          * model's $postgisColumns array.
          *
          * NOTE: This only works for Eloquent based insert/update operations, and will not work for custom DB queries.
+         * NOTE: This will ignore geography columns, since they do not support transformation to other SRIDs.
+         *
+         * @see https://postgis.net/docs/ST_Transform.html
          */
         'transform_to_database_projection' => false,
     ],

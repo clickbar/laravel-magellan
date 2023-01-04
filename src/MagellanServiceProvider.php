@@ -61,7 +61,7 @@ class MagellanServiceProvider extends PackageServiceProvider
             return new WKBParser($app->make(GeometryModelFactory::class));
         });
 
-        // Register custom Doctrine types for PostGIS
+        // Register custom Doctrine types for PostGIS only if DBAL is available
         if (class_exists('Doctrine\DBAL\Connection')) {
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
