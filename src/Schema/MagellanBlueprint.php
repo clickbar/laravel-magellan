@@ -195,14 +195,18 @@ class MagellanBlueprint
 
     public function magellanGeography(): \Closure
     {
-        return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
+        return function ($column, $srid = 4326) {
+            $postgisType = 'GEOGRAPHY';
+
             return $this->addColumn('magellanGeography', $column, compact('postgisType', 'srid'));
         };
     }
 
     public function magellanGeometry(): \Closure
     {
-        return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') {
+        return function ($column, $srid = 4326) {
+            $postgisType = 'GEOMETRY';
+
             return $this->addColumn('magellanGeometry', $column, compact('postgisType', 'srid'));
         };
     }
