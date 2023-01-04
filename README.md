@@ -84,6 +84,7 @@ You may find the contents of the published config file here:
 - [ ] Automatic Postgis Function Doc Generator
 - [ ] Bbox also with postgisColumns trait (currently with cast only)
 - [ ] Custom Geometry Factories & Models
+- [ ] More tests
 - ...
 
 ## Before you start
@@ -97,7 +98,7 @@ Laravel-magellan extends the default Schema Blueprint with all postgis functions
 geometry support, all methods are prefixed with `magellan`. e.g.
 
 ```php
-$table->magellanPoint('location', 4326, 'GEOMETRY');
+$table->magellanPoint('location', 4326);
 ```
 
 ![List of all schema methods](art/magellan_schema.png)
@@ -265,11 +266,11 @@ Schema::create('ports', function (Blueprint $table) {
     $table->id();
     $table->string('name');
     $table->string('country');
-    $table->magellanPoint('location', postgisType: 'GEOMETRY');
+    $table->magellanPoint('location');
     $table->timestamps();
 });
 ```
-And the model implementation:
+and the model implementation:
 ```php
 class Port extends Model
 {
@@ -330,12 +331,15 @@ $port->save();
 
 Since our port table uses a point with SRID=4326, magellan will raise an error:  
 
-> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling transform_on_insert in order to apply automatic transformation_
+> _  SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
 We included an auto transform option, that directly apply ST_Transform(geometry, databaseSRID) for you.
 
 > **Note**
-> This option will only be applied when inserting/updating directly on an eloquent model 
+> This option will only be applied when inserting/updating directly on an eloquent model.  
+
+> **Note**
+> This option will not be applied on geography columns.
 
 ### Select
 
@@ -377,8 +381,7 @@ Currently, there are the following 7:
 - stFrom
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
-A _MagellanExpression_ is a wrapper around a ST-prefixed from postgis. When sailing with magellan, you should never write 'ST_xxx' in raw sql yourself.   
-Therefore, we have included some paddles.
+A _MagellanExpression_ is a wrapper around a ST-prefixed from postgis. When sailing with magellan, you should never write 'ST_xxx' in raw sql yourself. Therefore, we have included some paddles.
 
 Most of the ST-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start
 sailing (with some examples):
