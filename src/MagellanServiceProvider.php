@@ -67,7 +67,6 @@ class MagellanServiceProvider extends PackageServiceProvider
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
         }
 
-        // TODO: Move to Facade and export for users to use this on any DB connection
         /**
          * We use the beforeExecuting event to convert Geometry objects that are passed as bindings
          * to the sql string representation using the configured generator.
@@ -76,13 +75,15 @@ class MagellanServiceProvider extends PackageServiceProvider
          * Laravel would otherwise convert the Geometry object to a string using the __toString() method.
          */
         DB::beforeExecuting(function ($query, &$bindings, $connection) {
+            $postgisSchema = Config::get('magellan.schema', 'public');
             $generatorClass = Config::get('magellan.sql_generator', WKTGenerator::class);
+
             /** @var \Clickbar\Magellan\IO\Generator\BaseGenerator */
             $generator = new $generatorClass();
 
             foreach ($bindings as $key => $value) {
                 if ($value instanceof Geometry) {
-                    $bindings[$key] = $generator->generate($value);
+                    $bindings[$key] = $generator->toPostgisGeometrySql($value, $postgisSchema);
                 }
             }
         });
