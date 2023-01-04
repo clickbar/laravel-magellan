@@ -217,7 +217,7 @@ class MagellanBlueprint
 
     private function createAddColumnClosure(string $type): \Closure
     {
-        return function ($column, $srid = 4326, string $postgisType = 'GEOGRAPHY') use ($type) {
+        return function ($column, $srid = 4326, string $postgisType = 'GEOMETRY') use ($type) {
             return $this->addColumn($type, $column, compact('postgisType', 'srid'));
         };
     }
