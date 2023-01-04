@@ -150,7 +150,7 @@ You will notice that there are 3 different make methods for the Point class with
 
 Let's take a closer look to the first two:
 
-This is the default factory method, that can be used to fill all possible values. This method is considered the "plain"
+This is the default factory method that can be used to fill all possible values. This method is considered the "plain"
 way. You should consider using this method when you use a different projection than WGS84 (srid=4326).
 
 ```php
@@ -158,7 +158,7 @@ function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid
 ```
 
 Most of the common web use cases use the WGS84 projection. Therefore, most of the time the terms that are used will be
-latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method, that
+latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method that
 accepts those terms and automatically sets the srid to 4326.
 
 ```php
@@ -337,7 +337,7 @@ Since our port table uses a point with SRID=4326, Magellan will raise an error:
 
 > _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
-We included an auto transform option, that directly applies `ST_Transform(geometry, databaseSRID)` for you.
+We included an auto transform option that directly applies `ST_Transform(geometry, databaseSRID)` for you.
 
 > **Note**  
 > This option will only be applied when inserting/updating directly on an eloquent model.  
