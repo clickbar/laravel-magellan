@@ -21,8 +21,8 @@ trait HasPostgisColumns
         $this->assertKeyIsInPostgisColumns($key);
 
         $default = [
-            'type' => Config::get('magellan.eloquent.default_postgis_type'),
-            'srid' => Config::get('magellan.eloquent.default_srid'),
+            'type' => Config::get('magellan.eloquent.default_postgis_type', 'geometry'),
+            'srid' => Config::get('magellan.eloquent.default_srid', 4326),
         ];
 
         return Arr::get($this->postgisColumns, $key, $default);

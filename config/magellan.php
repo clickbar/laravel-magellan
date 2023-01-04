@@ -17,7 +17,7 @@ return [
          * on Eloquent models. This is used when the type information is not specified in the $postgisColumns
          * array on the model.
          */
-        'default_postgis_type' => 'geography',
+        'default_postgis_type' => 'geometry',
         'default_srid' => 4326,
 
         /**
