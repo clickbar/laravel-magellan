@@ -52,4 +52,15 @@ class PostgisColumnInformation
     {
         return $this->coord_dimesion;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'type' => $this->geometry_type,
+            'srid' => $this->srid,
+        ];
+    }
 }

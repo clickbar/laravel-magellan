@@ -91,8 +91,8 @@ class UpdatePostgisColumns extends Command
                 // @phpstan-ignore-next-line We know that the property exists because of the if statement above
                 $currentColumnsArray = $modelInstance->postgisColumns;
 
-                if (! collect($columns)->every(fn ($column) => Arr::has($currentColumnsArray, $column->getColumn()))) {
-                    $this->components->warn('> '.'The $postgisColumns array does not contain all the columns from the DB. The columns will be added.');
+                if (! collect($columns)->every(fn ($column) => Arr::get($currentColumnsArray, $column->getColumn()) == $column->toArray())) {
+                    $this->components->warn('> '.'The $postgisColumns array does not contain all the columns/information from the DB. The columns will be added/replaced.');
                 } else {
                     $this->components->info('> '.'The $postgisColumns array contains all the columns from the DB. No changes needed.');
 
@@ -193,7 +193,7 @@ class UpdatePostgisColumns extends Command
 
     private function appendColumns(Collection $columns, string $type, TableColumnsCollection &$tableColumns)
     {
-        $columnKey = "f_${type}_column";
+        $columnKey = "f_{$type}_column";
         foreach ($columns as $column) {
             $tableColumns->add($column->f_table_name, new PostgisColumnInformation(
                 $type,
