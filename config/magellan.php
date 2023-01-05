@@ -55,6 +55,8 @@ return [
      * The generator that should be used when converting a geometry to a string.
      * This should be a sensitive default for all use-cases and will be used by the
      * __toString() method on the geometry objects.
+     *
+     * It may also be implicitly used, when passing Geometry objects to the DB as bindings in queries.
      */
     'string_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
 

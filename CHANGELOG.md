@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- Fix bindings being wrongly converted to SQL function statements, eg. in `query()->update()` calls.
+
 ## [1.0.0](https://github.com/clickbar/laravel-magellan/tree/1.0.0) - 2023-01-04
 
 - Initial Release 🎉
