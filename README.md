@@ -83,6 +83,7 @@ You may find the contents of the published config file here:
 - [x] Geometry and BBox Cast classes
 - [x] Auto Cast when using functions that return geometry or bbox
 - [x] Empty Geometry Support
+- [ ] Custom update Builder method for conversion safety
 - [ ] Automatic PostGIS Function Doc Generator
 - [ ] BBox support within $postgisColumns & trait (currently with cast only)
 - [ ] Custom Geometry Factories & Models
