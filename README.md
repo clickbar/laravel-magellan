@@ -21,6 +21,11 @@
 <br>
 </div>
 
+## 📣 Upcoming Meetup: Introduction to Laravel-Magellan
+
+On **07.02.2023 at 20:00 CET** we organize a hybrid meetup, to talk about our new package, its functionality and some background knowledge.  
+You can find more information [here](https://www.meetup.com/de-DE/clickbar-fullstack-talks/events/290735121/).
+
 ## Introduction
 
 Every sailor needs a nice ship to travel the seven seas ⛵️
@@ -191,12 +196,12 @@ These are also used to format our data classes to strings, convert the return va
 > **Note**
 > In the following we will use EWKB & WBK or EWKT & WKT interchangeably, even though we always use the extended version of each.
 
-The config file allows you to customize which representation you would like to be used eg. when toJson conversion is done for our data classes, where GeoJson is otherwise the default.
+The config file allows you to customize which representation you would like to be used eg. when JSON serialization is done for our data classes, where GeoJson is otherwise the default.
 
 ```php
 $point = Point::makeGeodetic(51.087, 8.76);
 
-(string) $pointA;
+json_encode($point); // returns GeoJson
 // "{"type":"Point","coordinates":[8.76,51.087]}"
 ```
 
