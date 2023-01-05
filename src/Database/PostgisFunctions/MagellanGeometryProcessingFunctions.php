@@ -94,11 +94,11 @@ trait MagellanGeometryProcessingFunctions
     public static function centroid($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = 'geography';
+            $geometryType = GeometryType::Geography;
         }
 
         $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
 
         return MagellanBaseExpression::geometry('ST_Centroid', [GeoParam::wrap($geometry), ...$optionalParamters], $geometryType);
     }

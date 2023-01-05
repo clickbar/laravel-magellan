@@ -40,10 +40,10 @@ trait MagellanMeasurementFunctions
     public static function distance($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = 'geography';
+            $geometryType = GeometryType::Geography;
         }
         $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
 
         return MagellanBaseExpression::numeric('ST_Distance', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), ...$optionalParamters], $geometryType);
     }
@@ -148,10 +148,10 @@ trait MagellanMeasurementFunctions
     public static function area($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = 'geography';
+            $geometryType = GeometryType::Geography;
         }
         $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
 
         return MagellanBaseExpression::numeric('ST_Area', [GeoParam::wrap($geometry), ...$optionalParamters], $geometryType);
     }
@@ -170,10 +170,10 @@ trait MagellanMeasurementFunctions
     public static function length($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = 'geography';
+            $geometryType = GeometryType::Geography;
         }
         $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
 
         return MagellanBaseExpression::numeric('ST_Length', [GeoParam::wrap($geometry), ...$optionalParamters], $geometryType);
     }
@@ -305,10 +305,10 @@ trait MagellanMeasurementFunctions
     public static function perimeter($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = 'geography';
+            $geometryType = GeometryType::Geography;
         }
         $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === 'geography' ? [$useSpheroid] : [];
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
 
         return MagellanBaseExpression::numeric('ST_Perimeter', [GeoParam::wrap($geometry), ...$optionalParamters], $geometryType);
     }
