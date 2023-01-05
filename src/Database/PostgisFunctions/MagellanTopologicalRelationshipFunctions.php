@@ -8,6 +8,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
+use Clickbar\Magellan\Enums\GeometryType;
 use Illuminate\Database\Query\Expression;
 
 trait MagellanTopologicalRelationshipFunctions
@@ -64,12 +65,12 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @param $geometryA
      * @param $geometryB
-     * @param  string|null  $geometryType
+     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
      * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_CoveredBy.html
      */
-    public static function coveredBy($geometryA, $geometryB, ?string $geometryType = 'geometry'): MagellanBooleanExpression
+    public static function coveredBy($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
     {
         return MagellanBaseExpression::boolean('ST_CoveredBy', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }
@@ -79,12 +80,12 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @param $geometryA
      * @param $geometryB
-     * @param  string|null  $geometryType
+     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
      * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Covers.html
      */
-    public static function covers($geometryA, $geometryB, ?string $geometryType = 'geometry'): MagellanBooleanExpression
+    public static function covers($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
     {
         return MagellanBaseExpression::boolean('ST_Covers', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }
@@ -150,12 +151,12 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @param $geometryA
      * @param $geometryB
-     * @param  string|null  $geometryType
+     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
      * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Intersects.html
      */
-    public static function intersects($geometryA, $geometryB, ?string $geometryType = 'geometry'): MagellanBooleanExpression
+    public static function intersects($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
     {
         return MagellanBaseExpression::boolean('ST_Intersects', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }
