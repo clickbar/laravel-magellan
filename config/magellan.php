@@ -57,6 +57,7 @@ return [
      * __toString() method on the geometry objects.
      *
      * It may also be implicitly used, when passing Geometry objects to the DB as bindings in queries.
+     * NOTE: The GeoJson generator will not work for geography columns, since they do not support SRIDs.
      */
     'string_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
 
