@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Laravel 10 support
 - PHP 8.2 support
 
+### Fixed
+- Typing bug when trying to use a Closure as Geoparam
+
 ## [1.0.2](https://github.com/clickbar/laravel-magellan/tree/1.0.2) - 2023-01-05
 
 ### Fixed
