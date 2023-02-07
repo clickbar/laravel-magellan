@@ -56,8 +56,8 @@ class BuilderUtils
                 if ($value instanceof MagellanBaseExpression) {
                     $invoked = $value->invoke($builder, $bindingType, null);
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("{$invoked}$geometryTypeCastAppend"))]);
-                } elseif ($invadedBuilder->isQueryable($param)) {
-                    [$sub, $bindings] = $invadedBuilder->createSub($param);
+                } elseif ($invadedBuilder->isQueryable($value)) {
+                    [$sub, $bindings] = $invadedBuilder->createSub($value);
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("($sub)$geometryTypeCastAppend"))]);
                     $invadedBuilder->addBinding($bindings, $bindingType);
                 } elseif (is_array($value)) {
