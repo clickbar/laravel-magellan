@@ -33,7 +33,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_Buffer.html
      */
-    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null, ?Side $styleSide = null): MagellanGeometryExpression
+    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null, ?Side $styleSide = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -65,7 +65,7 @@ trait MagellanGeometryProcessingFunctions
             $arguments[] = $numSegQuarterCircle;
         }
 
-        return MagellanBaseExpression::geometry('ST_Buffer', $arguments, null);
+        return MagellanBaseExpression::geometry('ST_Buffer', $arguments, $geometryType);
     }
 
     /**
