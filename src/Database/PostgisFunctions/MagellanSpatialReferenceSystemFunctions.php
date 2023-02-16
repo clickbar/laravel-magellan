@@ -13,9 +13,6 @@ trait MagellanSpatialReferenceSystemFunctions
     /**
      * Sets the SRID on a geometry to a particular integer value. Useful in constructing bounding boxes for queries.
      *
-     * @param $geometry
-     * @param  int|Expression|\Closure  $srid
-     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_SetSRID.html
      */
@@ -27,8 +24,6 @@ trait MagellanSpatialReferenceSystemFunctions
     /**
      * Returns the spatial reference identifier for the ST_Geometry as defined in spatial_ref_sys table. Section 4.5, “Spatial Reference Systems”
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_SRID.html
      */
@@ -47,12 +42,10 @@ trait MagellanSpatialReferenceSystemFunctions
      * - geometry ST_Transform(geometry geom, text from_proj, text to_proj);
      * - geometry ST_Transform(geometry geom, text from_proj, integer to_srid);
      *
-     * @param $geometry
      * @param  int|Expression|\Closure|null  $srid
      * @param  string|Expression|\Closure|null  $fromProjection
      * @param  string|Expression|\Closure|null  $toProjection
      * @param  int|Expression|\Closure|null  $toSrid
-     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */

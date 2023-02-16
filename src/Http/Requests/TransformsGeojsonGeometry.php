@@ -42,7 +42,6 @@ trait TransformsGeojsonGeometry
     /**
      * Get a validated input container for the validated input.
      *
-     * @param  array|null  $keys
      * @return \Illuminate\Support\ValidatedInput|array
      */
     public function safe(array $keys = null)

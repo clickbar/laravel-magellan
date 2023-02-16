@@ -15,8 +15,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns a box2d representing the 2D extent of the geometry.
      *
-     * @param $geometry
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/Box2D.html
      */
@@ -28,8 +26,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns a box3d representing the 3D extent of the geometry.
      *
-     * @param $geometry
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/Box3D.html
      */
@@ -42,7 +38,6 @@ trait MagellanBoundingBoxFunctions
      * An aggregate function that returns a box2d bounding box that bounds a set of geometries.
      * The bounding box coordinates are in the spatial reference system of the input geometries.
      *
-     * @param $geometry
      * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_Extent.html
@@ -56,8 +51,6 @@ trait MagellanBoundingBoxFunctions
      * An aggregate function that returns a box3d (includes Z ordinate) bounding box that bounds a set of geometries.
      * The bounding box coordinates are in the spatial reference system of the input geometries.
      *
-     * @param $geometry
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_3DExtent.html
      */
@@ -69,9 +62,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Creates a box2d defined by two Point geometries. This is useful for doing range queries.
      *
-     * @param $pointLowLeft
-     * @param $pointUpRight
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_MakeBox2D.html
      */
@@ -83,9 +73,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Creates a box3d defined by two 3D Point geometries.
      *
-     * @param $pointLowLeft
-     * @param $pointUpRight
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_3DMakeBox.html
      */
@@ -97,8 +84,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the X maxima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_XMax.html
      */
@@ -110,8 +95,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the X minima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_XMin.html
      */
@@ -123,8 +106,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the Y maxima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_YMax.html
      */
@@ -136,8 +117,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the Y minima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_YMin.html
      */
@@ -149,8 +128,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the Z maxima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_ZMax.html
      */
@@ -162,8 +139,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the Z minima of a 2D or 3D bounding box or a geometry.
      *
-     * @param $geometry
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_ZMin.html
      */
@@ -175,13 +150,11 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns a bounding box expanded from the bounding box of the input, either by specifying a single distance with which the box should be expanded on both axes, or by specifying an expansion distance for each axis. Uses double-precision. Can be used for distance queries, or to add a bounding box filter to a query to take advantage of a spatial index.
      *
-     * @param $geometry
      * @param  float|Expression|\Closure|null  $unitsToExpand
      * @param  float|Expression|\Closure|null  $dx
      * @param  float|Expression|\Closure|null  $dy
      * @param  float|Expression|\Closure|null  $dz
      * @param  float|Expression|\Closure|null  $dm
-     * @return MagellanGeometryOrBboxExpression
      *
      * @see https://postgis.net/docs/ST_Expand.html
      */
@@ -220,11 +193,8 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the estimated extent of a spatial table as a box2d. The current schema is used if not specified. The estimated extent is taken from the geometry column's statistics. This is usually much faster than computing the exact extent of the table using ST_Extent or ST_3DExtent.
      *
-     * @param  string|Expression|\Closure  $tableName
-     * @param  string|Expression|\Closure  $geoColumn
      * @param  string|Expression|\Closure|null  $schemaName
      * @param  bool|Expression|\Closure|null  $parentOnly
-     * @return MagellanBBoxExpression
      *
      * @see https://postgis.net/docs/ST_EstimatedExtent.html
      */

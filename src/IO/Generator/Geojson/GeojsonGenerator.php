@@ -36,7 +36,6 @@ class GeojsonGenerator extends BaseGenerator
 
     /**
      * @param  Point[]  $points
-     * @return array
      */
     private function getPointsCoordinateArray(array $points): array
     {

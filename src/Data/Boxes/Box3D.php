@@ -13,49 +13,31 @@ class Box3D extends Box
         return new self($xMin, $yMin, $zMin, $xMax, $yMax, $zMax);
     }
 
-    /**
-     * @return float
-     */
     public function getXMin(): float
     {
         return $this->xMin;
     }
 
-    /**
-     * @return float
-     */
     public function getYMin(): float
     {
         return $this->yMin;
     }
 
-    /**
-     * @return float
-     */
     public function getZMin(): float
     {
         return $this->zMin;
     }
 
-    /**
-     * @return float
-     */
     public function getXMax(): float
     {
         return $this->xMax;
     }
 
-    /**
-     * @return float
-     */
     public function getYMax(): float
     {
         return $this->yMax;
     }
 
-    /**
-     * @return float
-     */
     public function getZMax(): float
     {
         return $this->zMax;

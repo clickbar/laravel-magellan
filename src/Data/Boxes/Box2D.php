@@ -13,33 +13,21 @@ class Box2D extends Box
         return new self($xMin, $yMin, $xMax, $yMax);
     }
 
-    /**
-     * @return float
-     */
     public function getXMin(): float
     {
         return $this->xMin;
     }
 
-    /**
-     * @return float
-     */
     public function getYMin(): float
     {
         return $this->yMin;
     }
 
-    /**
-     * @return float
-     */
     public function getXMax(): float
     {
         return $this->xMax;
     }
 
-    /**
-     * @return float
-     */
     public function getYMax(): float
     {
         return $this->yMax;

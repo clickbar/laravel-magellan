@@ -11,9 +11,6 @@ class MultiPolygon extends Geometry implements \Countable
 
     /**
      * @param  Polygon[]  $polygons
-     * @param  int|null  $srid
-     * @param  Dimension  $dimension
-     * @return self
      */
     public static function make(array $polygons, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {

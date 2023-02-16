@@ -28,9 +28,6 @@ class Scanner
         $this->byteOrder = $byteOrder;
     }
 
-    /**
-     * @return ByteOrder|null
-     */
     public function getByteOrder(): ?ByteOrder
     {
         return $this->byteOrder;

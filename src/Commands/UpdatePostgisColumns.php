@@ -243,9 +243,6 @@ class UpdatePostgisColumns extends Command
 
     /**
      * Searchs within the model code start and end line of the $postgisColumns property.
-     *
-     * @param  Collection  $modelCodeLines
-     * @return array|null
      */
     private function getCurrentPostgisColumnsLineInterval(Collection $modelCodeLines): ?array
     {
@@ -276,10 +273,6 @@ class UpdatePostgisColumns extends Command
     /**
      * Discovers the starting line for inserting the $postgisColumns property.
      * Tries to find the line after the last Trait use or as default the first line after the class declaration.
-     *
-     * @param  Collection  $modelCodeLines
-     * @param  ReflectionClass  $modelReflectionClass
-     * @return int
      */
     private function getAfterLastTraitOrClassPosition(Collection $modelCodeLines, ReflectionClass $modelReflectionClass, bool $postgisTraitAdded = false): int
     {
@@ -310,9 +303,6 @@ class UpdatePostgisColumns extends Command
     }
 
     /**
-     * @param  Collection  $lines
-     * @param  int  $startLine
-     * @param  array  $columns
      * @param  bool  $overwrite In case of overwrite, we don't need to add a blank upfront
      */
     private function insertPostgisColumns(Collection $lines, int $startLine, array $columns, bool $overwrite)
@@ -332,7 +322,6 @@ class UpdatePostgisColumns extends Command
      * Builds the necessary lines for the $postgisColumns property based on the postgis views for geometry and geography.
      *
      * @param  PostgisColumnInformation[]  $columns
-     * @return array
      */
     private function buildPostgisColumnCodeLines(array $columns): array
     {
@@ -362,9 +351,6 @@ class UpdatePostgisColumns extends Command
      *
      * This is taken from https://github.com/facade/ignition/blob/f47e26a84b6738cd4a24c25af70d7cb32ada1ab6/src/Support/ComposerClassMap.php#L70
      * Which is licened under MIT.
-     *
-     * @param  \Symfony\Component\Finder\SplFileInfo  $file
-     * @return string
      */
     protected function getFullyQualifiedClassNameFromFile(SplFileInfo $file): string
     {

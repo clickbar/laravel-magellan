@@ -17,9 +17,6 @@ class GeoParam
         return new self($value);
     }
 
-    /**
-     * @return array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null
-     */
     public function getValue(): array|\Closure|MagellanBaseExpression|Expression|Geometry|string|null
     {
         return $this->value;

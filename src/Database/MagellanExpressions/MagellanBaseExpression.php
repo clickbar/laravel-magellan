@@ -99,9 +99,6 @@ abstract class MagellanBaseExpression
         return Str::of($this->postgisFunction)->remove('ST_')->camel();
     }
 
-    /**
-     * @return string
-     */
     public function getPostgisFunction(): string
     {
         return $this->postgisFunction;
