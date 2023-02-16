@@ -33,8 +33,6 @@ class WKBGenerator extends BaseGenerator
 
     /**
      * Writes all the coordinates of the given point without the byte order and type code
-     *
-     * @param  Point  $point
      */
     private function writePointCoordinates(Point $point)
     {
@@ -52,8 +50,6 @@ class WKBGenerator extends BaseGenerator
 
     /**
      * Writes the number of coordinates and all coordinates of the given lineString without the byte order and type code
-     *
-     * @param  LineString  $lineString
      */
     private function writeLineStringCoordinates(LineString $lineString)
     {

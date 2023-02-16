@@ -14,9 +14,6 @@ class BBoxCast implements CastsAttributes
      * Cast the given value.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
      * @return Box2D|Box3D|null
      */
     public function get($model, string $key, mixed $value, array $attributes)
@@ -45,9 +42,6 @@ class BBoxCast implements CastsAttributes
      * Prepare the given value for storage.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
      * @return string
      */
     public function set($model, string $key, mixed $value, array $attributes)

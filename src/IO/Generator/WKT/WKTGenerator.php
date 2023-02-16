@@ -30,7 +30,6 @@ class WKTGenerator extends BaseGenerator
 
     /**
      * @param  Point[]  $points
-     * @return string
      */
     private function generatePointsCoordinateString(array $points): string
     {

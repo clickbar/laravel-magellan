@@ -13,9 +13,6 @@ class GeometryCollection extends Geometry implements Countable
 
     /**
      * @param  Geometry[]  $geometries
-     * @param  int|null  $srid
-     * @param  Dimension  $dimension
-     * @return self
      */
     public static function make(array $geometries, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {

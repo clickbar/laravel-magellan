@@ -21,11 +21,6 @@
 <br>
 </div>
 
-## 📣 Upcoming Meetup: Introduction to Laravel-Magellan
-
-On **07.02.2023 at 20:00 CET** we organize a hybrid meetup, to talk about our new package, its functionality and some background knowledge.  
-You can find more information [here](https://www.meetup.com/de-DE/clickbar-fullstack-talks/events/290735121/).
-
 ## Introduction
 
 Every sailor needs a nice ship to travel the seven seas ⛵️

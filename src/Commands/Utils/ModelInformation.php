@@ -13,33 +13,21 @@ class ModelInformation
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getModelClassName(): string
     {
         return $this->modelClassName;
     }
 
-    /**
-     * @return string
-     */
     public function getRelativePath(): string
     {
         return $this->relativePath;
     }
 
-    /**
-     * @return string
-     */
     public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Model
-     */
     public function getInstance(): Model
     {
         return new $this->modelClassName();

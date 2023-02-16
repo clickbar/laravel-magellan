@@ -16,8 +16,6 @@ class MagellanGrammarHelper
      */
 
     /**
-     * @param  Fluent  $column
-     *
      * @throws UnsupportedPostgisTypeException
      */
     public static function assertValidPostgisType(Fluent $column)

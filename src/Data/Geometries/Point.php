@@ -14,12 +14,6 @@ class Point extends Geometry
     /**
      * Creates a point instance with the WGS84 projection (SRID=4326)
      * Points using this projection can also use the geodectic getters and setters
-     *
-     * @param  float  $latitude
-     * @param  float  $longitude
-     * @param  float|null  $altitude
-     * @param  float|null  $m
-     * @return self
      */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
@@ -54,82 +48,52 @@ class Point extends Geometry
         parent::__construct($srid, $dimension);
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return is_nan($this->x) && is_nan($this->y);
     }
 
-    /**
-     * @return bool
-     */
     public function is3d(): bool
     {
         return $this->dimension->hasZDimension();
     }
 
-    /**
-     * @return float
-     */
     public function getX(): float
     {
         return $this->x;
     }
 
-    /**
-     * @param  float  $x
-     */
     public function setX(float $x): void
     {
         $this->x = $x;
     }
 
-    /**
-     * @return float
-     */
     public function getY(): float
     {
         return $this->y;
     }
 
-    /**
-     * @param  float  $y
-     */
     public function setY(float $y): void
     {
         $this->y = $y;
     }
 
-    /**
-     * @return float|null
-     */
     public function getZ(): ?float
     {
         return $this->z;
     }
 
-    /**
-     * @param  float|null  $z
-     */
     public function setZ(?float $z): void
     {
         $this->z = $z;
         $this->updateDimension();
     }
 
-    /**
-     * @return float|null
-     */
     public function getM(): ?float
     {
         return $this->m;
     }
 
-    /**
-     * @param  float|null  $m
-     */
     public function setM(?float $m): void
     {
         $this->m = $m;
@@ -148,17 +112,11 @@ class Point extends Geometry
     // * some additional WGS named functions                                            *
     // **********************************************************************************
 
-    /**
-     * @return bool
-     */
     public function isGeodetic(): bool
     {
         return $this->srid === 4326 || $this->srid === 0;
     }
 
-    /**
-     * @return float
-     */
     public function getLatitude(): float
     {
         $this->assertPointIsGeodetic();
@@ -166,18 +124,12 @@ class Point extends Geometry
         return $this->y;
     }
 
-    /**
-     * @param  float  $latitude
-     */
     public function setLatitude(float $latitude): void
     {
         $this->assertPointIsGeodetic();
         $this->y = $latitude;
     }
 
-    /**
-     * @return float
-     */
     public function getLongitude(): float
     {
         $this->assertPointIsGeodetic();
@@ -185,18 +137,12 @@ class Point extends Geometry
         return $this->x;
     }
 
-    /**
-     * @param  float  $longitude
-     */
     public function setLongitude(float $longitude): void
     {
         $this->assertPointIsGeodetic();
         $this->x = $longitude;
     }
 
-    /**
-     * @return float|null
-     */
     public function getAltitude(): ?float
     {
         $this->assertPointIsGeodetic();
@@ -204,9 +150,6 @@ class Point extends Geometry
         return $this->z;
     }
 
-    /**
-     * @param  float  $altitude
-     */
     public function setAltitude(float $altitude): void
     {
         $this->assertPointIsGeodetic();

@@ -11,9 +11,6 @@ trait MagellanGeometryConstructorFunctions
     /**
      * Collects geometries into a geometry collection. The result is either a Multi* or a GeometryCollection, depending on whether the input geometries have the same or different types (homogeneous or heterogeneous). The input geometries are left unchanged within the collection.
      *
-     * @param $geometry1
-     * @param $geometry2
-     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Collect.html
      */
@@ -25,8 +22,6 @@ trait MagellanGeometryConstructorFunctions
     /**
      * Collects geometries into a geometry collection. The result is either a Multi* or a GeometryCollection, depending on whether the input geometries have the same or different types (homogeneous or heterogeneous). The input geometries are left unchanged within the collection.
      *
-     * @param $geometryArrayOrSet
-     * @return MagellanGeometryExpression
      *
      * @see https://postgis.net/docs/ST_Collect.html
      */

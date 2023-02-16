@@ -6,9 +6,6 @@ class LineString extends PointCollection
 {
     /**
      * @param  \Clickbar\Magellan\Data\Geometries\Point[]  $points
-     * @param  null|int  $srid
-     * @param  Dimension  $dimension
-     * @return self
      */
     public static function make(array $points, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {

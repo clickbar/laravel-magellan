@@ -47,10 +47,6 @@ class WKTParser extends BaseParser
      * Returns a WKT argument text without the type tag and the parentheses.
      * The argument can either be "EMPTY" or text wrapped in parentheses.
      * For EMPTY, null is returned. For text wrapped in parentheses, the text is returned as a string.
-     *
-     * @param  string  $wktType
-     * @param  string  $input
-     * @return null|string
      */
     private function getWKTArgument(string $wktType, string $input): ?string
     {
@@ -68,9 +64,6 @@ class WKTParser extends BaseParser
 
     /**
      * Returns the WKT type of the given WKT string.
-     *
-     * @param  string  $value
-     * @return string
      */
     private function getWKTType(string $value): string
     {
@@ -83,9 +76,6 @@ class WKTParser extends BaseParser
 
     /**
      * Returns the method name of the method being responsible for parsing the specific type
-     *
-     * @param  string  $wktType
-     * @return string
      */
     private function getParseMethodName(string $wktType): string
     {
@@ -247,7 +237,6 @@ class WKTParser extends BaseParser
      * "((-1 -1,-1 -2,-2 -2,-2 -1,-1 -1))",
      * "((-1 -1,-1 -2,-2 -2,-2 -1,-1 -1))"
      *
-     * @param  array  $parts
      * @return array
      */
     private function assembleParts(array $parts)

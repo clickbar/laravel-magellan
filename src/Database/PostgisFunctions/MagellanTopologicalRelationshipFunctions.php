@@ -16,9 +16,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Overlaps, Touches, Within all imply spatial intersection. If any of the aforementioned returns true, then the geometries also spatially intersect. Disjoint implies false for spatial intersection.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_3DIntersects.html
      */
@@ -32,9 +29,6 @@ trait MagellanTopologicalRelationshipFunctions
      * A subtlety of the definition is that a geometry does not contain things in its boundary. Thus polygons and lines do not contain lines and points lying in their boundary. For further details see Subtleties of OGC Covers, Contains, Within. (The ST_Covers predicate provides a more inclusive relationship.) However, a geometry does contain itself. (In contrast, in the ST_ContainsProperly predicate a geometry does not properly contain itself.)
      * ST_Contains is the inverse of ST_Within. So, ST_Contains(A,B) = ST_Within(B,A).
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Contains.html
      */
@@ -49,9 +43,6 @@ trait MagellanTopologicalRelationshipFunctions
      * Every point of the other geometry is a point of this geometry's interior. The DE-9IM Intersection Matrix for the two geometries matches [T**FF*FF*] used in ST_Relate
      * An example use case for this predicate is computing the intersections of a set of geometries with a large polygonal geometry. Since intersection is a fairly slow operation, it can be more efficient to use containsProperly to filter out test geometries which lie wholly inside the area. In these cases the intersection is known a priori to be exactly the original test geometry.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_ContainsProperly.html
      */
@@ -63,10 +54,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Returns true if no point in Geometry/Geography A lies outside Geometry/Geography B. Equivalently, tests if every point of geometry A is inside (i.e. intersects the interior or boundary of) geometry B.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_CoveredBy.html
      */
@@ -78,10 +65,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Returns true if no point in Geometry/Geography B is outside Geometry/Geography A. Equivalently, tests if every point of geometry B is inside (i.e. intersects the interior or boundary of) geometry A.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Covers.html
      */
@@ -100,9 +83,6 @@ trait MagellanTopologicalRelationshipFunctions
      * For Point/Point and Area/Area situations this predicate returns false.
      * The OpenGIS Simple Features Specification defines this predicate only for Point/Line, Point/Area, Line/Line, and Line/Area situations. JTS / GEOS extends the definition to apply to Line/Point, Area/Point and Area/Line situations as well. This makes the relation symmetric.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Crosses.html
      */
@@ -114,9 +94,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Overlaps, Touches, Within all imply geometries are not spatially disjoint. If any of the aforementioned returns true, then the geometries are not spatially disjoint. Disjoint implies false for spatial intersection.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Disjoint.html
      */
@@ -128,9 +105,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Returns true if the given geometries are "spatially equal". Use this for a 'better' answer than '='. Note by spatially equal we mean ST_Within(A,B) = true and ST_Within(B,A) = true and also mean ordering of points can be different but represent the same geometry structure. To verify the order of points is consistent, use ST_OrderingEquals (it must be noted ST_OrderingEquals is a little more stringent than simply verifying order of points are the same).
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Equals.html
      */
@@ -149,10 +123,6 @@ trait MagellanTopologicalRelationshipFunctions
      * - ****T****
      * Spatial intersection is implied by all the other spatial relationship tests, except ST_Disjoint, which tests that geometries do NOT intersect.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @param  \Clickbar\Magellan\Enums\GeometryType|null  $geometryType
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Intersects.html
      */
@@ -172,9 +142,6 @@ trait MagellanTopologicalRelationshipFunctions
      * - -3: LINE MULTICROSS END SAME FIRST LEFT
      * - 3: LINE MULTICROSS END SAME FIRST RIGHT
      *
-     * @param $lineStringA
-     * @param $lineStringB
-     * @return MagellanNumericExpression
      *
      * @see https://postgis.net/docs/ST_LineCrossingDirection.html
      */
@@ -186,9 +153,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * ST_OrderingEquals compares two geometries and returns t (TRUE) if the geometries are equal and the coordinates are in the same order; otherwise it returns f (FALSE).
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_OrderingEquals.html
      */
@@ -200,9 +164,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Returns TRUE if geometry A and B "spatially overlap". Two geometries overlap if they have the same dimension, each has at least one point not shared by the other (or equivalently neither covers the other), and the intersection of their interiors has the same dimension. The overlaps relationship is symmetrical.
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Overlaps.html
      */
@@ -218,11 +179,8 @@ trait MagellanTopologicalRelationshipFunctions
      * For more information refer to Section 5.1, “Determining Spatial Relationships”.
      * Variant 1: Tests if two geometries are spatially related according to the given intersectionMatrixPattern.
      *
-     * @param $geometryA
-     * @param $geometryB
      * @param  string|Expression|\Closure|null  $intersectionMatrixPattern
      * @param  int|Expression|\Closure|null  $boundaryNodeRule
-     * @return MagellanBooleanExpression|MagellanStringExpression
      *
      * @see https://postgis.net/docs/ST_Relate.html
      */
@@ -238,9 +196,6 @@ trait MagellanTopologicalRelationshipFunctions
     /**
      * Tests if a Dimensionally Extended 9-Intersection Model (DE-9IM) intersectionMatrix value satisfies an intersectionMatrixPattern. Intersection matrix values can be computed by ST_Relate.
      *
-     * @param  string|Expression|\Closure  $intersectionMatrix
-     * @param  string|Expression|\Closure  $intersectionMatrixPattern
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_RelateMatch.html
      */
@@ -257,9 +212,6 @@ trait MagellanTopologicalRelationshipFunctions
      * - F**T*****
      * - F***T****
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Touches.html
      */
@@ -273,9 +225,6 @@ trait MagellanTopologicalRelationshipFunctions
      * A subtlety of this definition is that the boundary of a geometry is not within the geometry. This means that lines and points lying in the boundary of a polygon or line are not within the geometry. For further details see Subtleties of OGC Covers, Contains, Within. (The ST_CoveredBy predicate provides a more inclusive relationship).
      * ST_Within is the inverse of ST_Contains. So, ST_Within(A,B) = ST_Contains(B,A).
      *
-     * @param $geometryA
-     * @param $geometryB
-     * @return MagellanBooleanExpression
      *
      * @see https://postgis.net/docs/ST_Within.html
      */
