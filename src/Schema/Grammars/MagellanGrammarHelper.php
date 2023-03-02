@@ -36,11 +36,9 @@ class MagellanGrammarHelper
     }
 
     /**
-     * @param  Fluent  $column
      * @param  string  $geometryType  The type of the geometry (Point, LineString, GeometryCollection, Geometry).
      *                              Default value is geometry, which allows all types.
      *                              HINT: Geometry in that case doesn't have an influence on being spatial or not
-     * @return string
      */
     public static function createTypeDefinition(Fluent $column, string $geometryType = 'geometry'): string
     {
