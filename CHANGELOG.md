@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed sql syntax error when trying to create magellanGeography (fixes #27, thanks @tanabi)
+- Fix getValue calls on Expressions in Laravel 10
 
 ## [1.1.0](https://github.com/clickbar/laravel-magellan/tree/1.1.0) - 2023-02-07
 
