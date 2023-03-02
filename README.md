@@ -152,7 +152,7 @@ You will notice that there are 3 different make methods for the Point class with
 Let's take a closer look to the first two:
 
 This is the default factory method that can be used to fill all possible values. This method is considered the "plain"
-way. You should consider using this method when you use a different projection than WGS84 (srid=4326).
+way. You should consider using this method when you use a non lng/lat projection (e.g.something different than WGS84:srid=4326).
 
 ```php
 function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
@@ -160,13 +160,13 @@ function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid
 
 Most of the common web use cases use the WGS84 projection. Therefore, most of the time the terms that are used will be
 latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method that
-accepts those terms and automatically sets the srid to 4326.
+accepts those terms and automatically sets the srid to the default geodetic srid, which can be set in the config file.
 
 ```php
 function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
 ```
 
-When using a Point class that uses the WGS84 projection, you can access the latitude, longitude and altitude with
+When using a Point class that uses a geodetic projection, you can access the latitude, longitude and altitude with
 properly named getters and setters:
 
 - `function getLatitude(): float`
@@ -176,7 +176,7 @@ properly named getters and setters:
 - `function getAltitude(): ?float`
 - `function setAltitude(float $altitude): void`
 
-An exception will be thrown if you try to use this functions on a Point without srid=4326. Use the default x, y, z, m getters and setters instead.
+An exception will be thrown if you try to use this functions on a Point without a srid listed in the geodetic_srids config. Use the default x, y, z, m getters and setters instead.
 
 
 ## Generators & Parsers

@@ -194,14 +194,14 @@ class MagellanGrammar
     public function typeMagellanGeography(): \Closure
     {
         return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'GEOGRAPHY');
+            return MagellanGrammarHelper::createTypeDefinition($column);
         };
     }
 
     public function typeMagellanGeometry(): \Closure
     {
         return function (Fluent $column) {
-            return MagellanGrammarHelper::createTypeDefinition($column, 'GEOMETRY');
+            return MagellanGrammarHelper::createTypeDefinition($column);
         };
     }
 
