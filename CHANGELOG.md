@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.2.0](https://github.com/clickbar/laravel-magellan/tree/1.2.0) - 2023-03-02
+
 ### Improved
 - Added config for geodetic SRIDs (most of the time WGS84 is sufficient, but there are much more geodetic SRIDs than 4326)
 
