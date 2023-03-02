@@ -39,7 +39,7 @@ class BuilderUtils
         return new Expression($expressionString);
     }
 
-    protected static function prepareParams(array $params, $builder, $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
+    protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
     {
         foreach ($params as $i => $param) {
             if ($invadedBuilder->isQueryable($param)) {
@@ -53,8 +53,9 @@ class BuilderUtils
             }
             if ($param instanceof GeoParam) {
                 $value = $param->getValue();
+
                 if ($value instanceof MagellanBaseExpression) {
-                    $invoked = $value->invoke($builder, $bindingType, null);
+                    $invoked = $builder->grammar->wrap($value->invoke($builder, $bindingType, null));
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("{$invoked}$geometryTypeCastAppend"))]);
                 } elseif ($invadedBuilder->isQueryable($value)) {
                     [$sub, $bindings] = $invadedBuilder->createSub($value);
@@ -67,7 +68,7 @@ class BuilderUtils
             }
             // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wraped in GeoParam
             if ($param instanceof MagellanBaseExpression) {
-                $invoked = $param->invoke($builder, $bindingType, null);
+                $invoked = $builder->grammar->wrap($param->invoke($builder, $bindingType, null));
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
             }
             if (is_array($param)) {
@@ -78,7 +79,7 @@ class BuilderUtils
         return $params;
     }
 
-    protected static function transformAndJoinParams(array $params, BaseGenerator $generator, string $geometryTypeCastAppend, $builder): string
+    protected static function transformAndJoinParams(array $params, BaseGenerator $generator, string $geometryTypeCastAppend, Builder|EloquentBuilder $builder): string
     {
         $params = array_map(function ($param) use ($geometryTypeCastAppend, $generator, $builder) {
             if (is_array($param)) {
@@ -112,14 +113,6 @@ class BuilderUtils
 
             if ($param instanceof Box3D) {
                 return "'{$param->toString()}'::box3d";
-            }
-
-            if ($param instanceof Expression) {
-                if (is_bool($param->getValue())) {
-                    return $param->getValue() ? 'true' : 'false';
-                }
-
-                return $param;
             }
 
             if ($param instanceof BindingExpression) {

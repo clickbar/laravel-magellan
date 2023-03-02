@@ -6,6 +6,7 @@ use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Support\Facades\App;
 
+/** @phpstan-ignore-next-line We still need to support Laravel 9 */
 class GeometryGeojsonRule implements InvokableRule
 {
     private array $allowedGeometries;
