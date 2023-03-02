@@ -33,20 +33,28 @@ class MagellanGrammarHelper
         if (filter_var($srid, FILTER_VALIDATE_INT) === false) {
             throw new UnsupportedPostgisTypeException("The given SRID '$srid' is not valid. Only integers are allowed");
         }
-
-        if (strtoupper($postgisType) === 'GEOGRAPHY' && $srid != 4326) {
-            throw new UnsupportedPostgisTypeException('Error with validation of srid! SRID of GEOGRAPHY must be 4326)');
-        }
     }
 
-    public static function createTypeDefinition(Fluent $column, $geometryType): string
+    /**
+     * @param  Fluent  $column
+     * @param  string  $geometryType  The type of the geometry (Point, LineString, GeometryCollection, Geometry).
+     *                              Default value is geometry, which allows all types.
+     *                              HINT: Geometry in that case doesn't have an influence on being spatial or not
+     * @return string
+     */
+    public static function createTypeDefinition(Fluent $column, string $geometryType = 'geometry'): string
     {
         self::assertValidPostgisType($column);
 
         $schema = Config::get('magellan.schema', 'public');
         $type = strtoupper(strval($column->get('postgisType', '')));
+        $srid = $column->get('srid');
 
-        return $schema.'.'.$type.'('.$geometryType.', '.$column->get('srid', '').')';
+        $params = collect([$geometryType, $srid])
+            ->filter()
+            ->implode(',');
+
+        return "$schema.$type($params)";
     }
 
     public static function createBoxTypeDefinition(Fluent $column, $boxType): string
