@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Improved
+- Added config for geodetic SRIDs (most of the time WGS84 is sufficient, but there are much more geodetic SRIDs than 4326)
+
 ### Fixed
 - Fixed sql syntax error when trying to create magellanGeography (fixes #27, thanks @tanabi)
 

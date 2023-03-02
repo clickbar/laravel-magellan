@@ -19,7 +19,7 @@ class Point extends Geometry
     {
         $dimension = Dimension::fromCoordinates($longitude, $latitude, $altitude, $m);
 
-        return new self($dimension, $longitude, $latitude, $altitude, $m, 4326);
+        return new self($dimension, $longitude, $latitude, $altitude, $m, config('magellan.geodetic_default_srid'));
     }
 
     public static function makeEmpty(?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
@@ -108,13 +108,13 @@ class Point extends Geometry
     // **********************************************************************************
     // * GEODETIC METHODS                                                               *
     // *                                                                                *
-    // * Since most Points might use WGS84 as their coordinate system, we provide       *
-    // * some additional WGS named functions                                            *
+    // * Since most Points might use lng/lat (mostly WGS84) as their coordinate system, *
+    // * we provide some additional lng/lat named functions                             *
     // **********************************************************************************
 
     public function isGeodetic(): bool
     {
-        return $this->srid === 4326 || $this->srid === 0;
+        return in_array($this->srid, config('magellan.geodetic_srids')) || $this->srid === 0;
     }
 
     public function getLatitude(): float

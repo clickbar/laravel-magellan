@@ -22,7 +22,7 @@ class GeojsonGenerator extends BaseGenerator
         }
 
         if (! $point->isGeodetic()) {
-            throw new MissingGeodeticSRIDException(message: 'GeoJSON only supports geodetic coordinates. Make sure to use points with SRID=4326 or SRID=0.');
+            throw new MissingGeodeticSRIDException(message: 'GeoJSON only supports geodetic coordinates. Make sure to use points with geodetic SRIDs that are listed in the geodetic_srids config or SRID=0.');
         }
 
         $coordinates = [$point->getLongitude(), $point->getLatitude()];

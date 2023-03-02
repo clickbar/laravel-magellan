@@ -69,4 +69,20 @@ return [
     'model_directories' => [
         'Models',
     ],
+
+    /**
+     * The SRIDs, that are used to determine whether a geometry class uses a geodetic projection when trying
+     * to access coordinates using the geodetic named lat/lng/alt methods. Using a SRID not present in this list
+     * will raise an error stating that the projection is not lng/lat and therefore shouldn't be accessed that way
+     */
+    'geodetic_srids' => [
+        4326,
+        4267,
+        4269,
+    ],
+
+    /**
+     * The default SRID that will be set in the Point Geometry Class when using the makeGeodetic factory function.
+     */
+    'geodetic_default_srid' => 4326,
 ];
