@@ -137,7 +137,7 @@ class BuilderMacros
             $freshQuery = ($this instanceof EloquentBuilder) ? $this->toBase()->newQuery() : $this->newQuery();
 
             return $freshQuery
-                ->selectRaw("json_build_object('type', 'FeatureCollection', 'features', json_agg(ST_AsGeoJSON(f.*)::json)) AS geojson")
+                ->selectRaw("json_build_object('type', 'FeatureCollection', 'features', COALESCE(json_agg(ST_AsGeoJSON(f.*)::json), ('[]')::json)) AS geojson")
                 ->fromSub($this, 'f')
                 ->first()
                 ->geojson;
