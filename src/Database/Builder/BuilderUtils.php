@@ -99,7 +99,8 @@ class BuilderUtils
                     return 'ARRAY['.self::transformAndJoinParams($value, $generator, $geometryTypeCastAppend, $builder).']';
                 }
 
-                return $value;
+                // process with default handling of the unwrapped GeoParam
+                $param = $value;
             }
 
             // TODO: Check if this can be removed
