@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- Fixed generation of invalid FeatureCollection in case of zero database rows (thanks @djfhe)
+
 ## [1.2.0](https://github.com/clickbar/laravel-magellan/tree/1.2.0) - 2023-03-02
 
 ### Improved
