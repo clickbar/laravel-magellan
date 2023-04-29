@@ -1,4 +1,4 @@
-name: Check & fix styling
+name: Check styling
 
 on: [push]
 
@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -23,9 +23,4 @@ jobs:
         run: composer install -n --prefer-dist
 
       - name: Run Laravel Pint
-        run: ./vendor/bin/pint
-
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Fix styling
+        run: ./vendor/bin/pint --test
