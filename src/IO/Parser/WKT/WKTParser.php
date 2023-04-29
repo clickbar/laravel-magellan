@@ -68,10 +68,10 @@ class WKTParser extends BaseParser
     private function getWKTType(string $value): string
     {
         return Str::of($value)
-             ->before('(')
-             ->before('EMPTY')
-             ->trim()
-             ->toString();
+            ->before('(')
+            ->before('EMPTY')
+            ->trim()
+            ->toString();
     }
 
     /**

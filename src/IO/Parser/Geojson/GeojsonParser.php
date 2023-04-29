@@ -34,8 +34,8 @@ class GeojsonParser extends BaseParser
             'Point' => $this->parsePoint($input['coordinates']),
             'Polygon' => $this->parsePolygon($input['coordinates']),
             'GeometryCollection' => $this->parseGeomeryCollection($input),
-            'FeatureCollection' => throw  new \RuntimeException('Invalid GeoJSON: The type FeatureCollection is not supported'),
-            default => throw  new \RuntimeException("Invalid GeoJSON: Invalid GeoJSON type $type"),
+            'FeatureCollection' => throw new \RuntimeException('Invalid GeoJSON: The type FeatureCollection is not supported'),
+            default => throw new \RuntimeException("Invalid GeoJSON: Invalid GeoJSON type $type"),
         };
     }
 
