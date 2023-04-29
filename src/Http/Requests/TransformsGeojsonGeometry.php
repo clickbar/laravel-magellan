@@ -24,7 +24,7 @@ trait TransformsGeojsonGeometry
         $input = $this->all();
 
         foreach ($attributes as $key) {
-            if (! isset($this[$key])) {
+            if (! isset($this[$key]) || empty($this[$key])) {
                 continue;
             }
 

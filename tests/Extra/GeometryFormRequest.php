@@ -14,11 +14,12 @@ class GeometryFormRequest extends FormRequest
     {
         return [
             'point' => ['required', new GeometryGeojsonRule()],
+            'nullable_point' => ['nullable', new GeometryGeojsonRule()],
         ];
     }
 
     public function geometries(): array
     {
-        return ['point'];
+        return ['point', 'nullable_point'];
     }
 }
