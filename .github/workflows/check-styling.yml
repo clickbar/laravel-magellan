@@ -2,6 +2,9 @@ name: Check styling
 
 on: [push]
 
+permissions:
+  contents: read
+
 jobs:
   fix-styling:
     runs-on: ubuntu-latest
