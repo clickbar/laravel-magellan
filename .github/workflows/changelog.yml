@@ -1,0 +1,17 @@
+name: "Changelog Enforcer"
+on:
+  pull_request:
+      types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  # Enforces the update of a changelog file on every pull request
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dangoslen/changelog-enforcer@v3.3.2
+        with:
+          changeLogPath: 'CHANGELOG.md'
+          skipLabels: 'skip-changelog'

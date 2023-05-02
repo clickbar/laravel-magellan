@@ -42,6 +42,7 @@ class UpdatePostgisColumns extends Command
 
         $postgisTables = $postgisTableColumns->getColumns();
 
+        /** @phpstan-ignore-next-line PHPStan does not get the type annotation right */
         if (is_string($this->option('table'))) {
             $postgisTables = collect($postgisTables)
                 ->only($this->option('table'))
