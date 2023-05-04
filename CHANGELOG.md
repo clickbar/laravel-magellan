@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+- Fixed nullable handling in `TransformsGeojsonGeometry` trait (Fixes #37)
+
 ## [1.2.2](https://github.com/clickbar/laravel-magellan/tree/1.2.2) - 2023-03-28
 
 ### Fixed
