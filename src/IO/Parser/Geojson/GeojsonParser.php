@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\IO\Parser\Geojson;
 
+use Clickbar\Magellan\Data\Features\Feature;
 use Clickbar\Magellan\Data\Geometries\Dimension;
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\IO\Coordinate;
@@ -34,7 +35,7 @@ class GeojsonParser extends BaseParser
             'Point' => $this->parsePoint($input['coordinates']),
             'Polygon' => $this->parsePolygon($input['coordinates']),
             'GeometryCollection' => $this->parseGeomeryCollection($input),
-            'FeatureCollection' => throw new \RuntimeException('Invalid GeoJSON: The type FeatureCollection is not supported'),
+            'FeatureCollection' => $this->parseFeatureCollection($input),
             default => throw new \RuntimeException("Invalid GeoJSON: Invalid GeoJSON type $type"),
         };
     }
@@ -45,6 +46,16 @@ class GeojsonParser extends BaseParser
         $geometries = array_map(fn (array $geometry) => $this->parse($geometry), $geometries);
 
         return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, 4326, $geometries);
+    }
+
+    protected function parseFeatureCollection(array $featureCollectionData): Feature
+    {
+        $features = $featureCollectionData['features'];
+
+        // TODO - Parse `properties` and `id` from the feature collection
+        $geometries = array_map(fn (array $feature) => $this->parse($feature['geometry']), $features);
+
+        return $this->featureFactory->createFeatureCollection(Dimension::DIMENSION_2D, 4326, $geometries);
     }
 
     protected function parsePoint(array $coordinates): Geometry
