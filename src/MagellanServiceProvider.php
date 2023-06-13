@@ -3,8 +3,10 @@
 namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Commands\UpdatePostgisColumns;
+use Clickbar\Magellan\Data\Features\FeatureFactory;
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
+use Clickbar\Magellan\IO\FeatureModelFactory;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -46,16 +48,20 @@ class MagellanServiceProvider extends PackageServiceProvider
             return new GeometryFactory();
         });
 
+        $this->app->singleton(FeatureModelFactory::class, function ($app) {
+            return new FeatureFactory();
+        });
+
         $this->app->singleton(GeojsonParser::class, function ($app) {
-            return new GeojsonParser($app->make(GeometryModelFactory::class));
+            return new GeojsonParser($app->make(GeometryModelFactory::class), $app->make(FeatureModelFactory::class));
         });
 
         $this->app->singleton(WKTParser::class, function ($app) {
-            return new WKTParser($app->make(GeometryModelFactory::class));
+            return new WKTParser($app->make(GeometryModelFactory::class), null);
         });
 
         $this->app->singleton(WKBParser::class, function ($app) {
-            return new WKBParser($app->make(GeometryModelFactory::class));
+            return new WKBParser($app->make(GeometryModelFactory::class), null);
         });
 
         // Register custom Doctrine types for PostGIS only if DBAL is available
