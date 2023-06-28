@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Added Missing Distance Relationships Functions (Fixes #46)
+
 ### Fixed
 - Fixed nullable handling in `TransformsGeojsonGeometry` trait (Fixes #37)
 
