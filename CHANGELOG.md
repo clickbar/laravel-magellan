@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.0](https://github.com/clickbar/laravel-magellan/tree/1.3.0) - 2023-06-28
+
 ### Added
 - Added Missing Distance Relationships Functions (Fixes #46)
 
