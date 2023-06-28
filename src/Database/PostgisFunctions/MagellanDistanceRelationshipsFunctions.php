@@ -33,7 +33,7 @@ trait MagellanDistanceRelationshipsFunctions
     /**
      * Returns true if the geometries are entirely within the specified distance of one another. The distance is specified in units defined by the spatial reference system of the geometries. For this function to make sense, the source geometries must both be of the same coordinate projection, having the same SRID.
      *
-     * @see https://postgis.net/docs/ST_DWithin.html
+     * @see https://postgis.net/docs/ST_DFullyWithin.html
      */
     public static function dFullyWithin($geometryA, $geometryB, float|Expression|\Closure $distance): MagellanBooleanExpression
     {
