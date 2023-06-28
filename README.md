@@ -391,6 +391,12 @@ A _MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS
 
 Most of the `ST`-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
 
+**Note:** The necessary classes can be imported as follows:  
+```php
+use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Database\PostgisFunctions\ST;
+```
+
 Assuming we have our ships current position and want to query all ports with their distance:
 
 ```php
