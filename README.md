@@ -38,6 +38,12 @@ PostGIS database functions like `ST_EXTENT`. It does all this without breaking c
 like [tpetry/laravel-postgresql-enhanced](https://github.com/tpetry/laravel-postgresql-enhanced), which has to extend
 the Grammar and Connection.
 
+## Requirements
+
+Magellan supports Laravel projects, which meet the following requirements:
+- Laravel `^9.28` or `^10.0`
+- PHP `^8.1`
+
 ## Installation
 
 You can install the package via composer:
