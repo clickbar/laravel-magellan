@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Improved
+- Added Typing for Box2D and Box3D in GeoParam allowing Box objects as params in Magellan Expressions
+
 ### Fixed
 - Fixed nullable handling in `TransformsGeojsonGeometry` trait (Fixes #37)
 
