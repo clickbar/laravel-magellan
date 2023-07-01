@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improved
 - Added Typing for Box2D and Box3D in GeoParam allowing Box objects as params in Magellan Expressions
 - Added evaluation of parameters in stWhere in order to also allow magellan expressions in value and regular string, boxes or geometries in first parameter
-- Added note for using boolean queries with stWhere
 
 ## [1.3.0](https://github.com/clickbar/laravel-magellan/tree/1.3.0) - 2023-06-28
 
