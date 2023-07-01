@@ -392,6 +392,15 @@ We currently provide the following:
 - stHaving
 - stFrom
 
+> **Note**  
+> Using the stWhere with a MagellanExpression that returns a boolean always requires a following true or false.
+> 
+> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.  
+
+```php
+->stWhere(ST::contains('location', 'polygon'), true)
+```
+
 Each of those builder methods expect to receive a _MagellanExpression_.  
 A _MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
 
