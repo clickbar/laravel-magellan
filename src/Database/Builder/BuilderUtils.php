@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Database\Builder;
 
+use Clickbar\Magellan\Data\Boxes\Box;
 use Clickbar\Magellan\Data\Boxes\Box2D;
 use Clickbar\Magellan\Data\Boxes\Box3D;
 use Clickbar\Magellan\Data\Geometries\Geometry;
@@ -133,5 +134,28 @@ class BuilderUtils
                 $array[] = new BindingExpression($value);
             }
         }
+    }
+
+    /**
+     * Evaluates the given value to a proper value that can be used by the default laravel query parameters
+     */
+    public static function evaluate($builder, $value, string $bindingType): mixed
+    {
+        if ($value instanceof MagellanBaseExpression) {
+            return $value->invoke($builder, $bindingType);
+        }
+
+        if ($value instanceof Geometry) {
+            $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
+            $generator = new $generatorClass();
+
+            return $generator->generate($value);
+        }
+
+        if ($value instanceof Box) {
+            return $value->toExpression();
+        }
+
+        return $value;
     }
 }

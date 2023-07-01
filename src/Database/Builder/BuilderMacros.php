@@ -4,6 +4,9 @@ namespace Clickbar\Magellan\Database\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
 use Clickbar\Magellan\Cast\GeometryWKBCast;
+use Clickbar\Magellan\Data\Boxes\Box2D;
+use Clickbar\Magellan\Data\Boxes\Box3D;
+use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
@@ -61,27 +64,35 @@ class BuilderMacros
     public function stWhere()
     {
         /**
-         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string  $column
          * @param  mixed  $operator
          * @param  mixed  $value
          * @param  string|null  $boolean
          * @return static
          */
-        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, ?string $boolean = 'and') {
-            return $this->where($magellanExpression->invoke($this, 'where'), $operator, $value, $boolean);
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string $column, $operator = null, $value = null, ?string $boolean = 'and') {
+            return $this->where(
+                BuilderUtils::evaluate($this, $column, 'where'),
+                BuilderUtils::evaluate($this, $operator, 'where'),
+                BuilderUtils::evaluate($this, $value, 'where'),
+                $boolean);
         };
     }
 
     public function stOrWhere()
     {
         /**
-         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string  $column
          * @param  mixed  $operator
          * @param  mixed  $value
          * @return static
          */
-        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null) {
-            return $this->orWhere($magellanExpression->invoke($this, 'where'), $operator, $value);
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string $column, $operator = null, $value = null) {
+            return $this->orWhere(
+                BuilderUtils::evaluate($this, $column, 'where'),
+                BuilderUtils::evaluate($this, $operator, 'where'),
+                BuilderUtils::evaluate($this, $value, 'where'),
+            );
         };
     }
 
