@@ -138,11 +138,6 @@ class BuilderUtils
 
     /**
      * Evaluates the given value to a proper value that can be used by the default laravel query parameters
-     *
-     * @param $builder
-     * @param $value
-     * @param  string  $bindingType
-     * @return mixed
      */
     public static function evaluate($builder, $value, string $bindingType): mixed
     {
