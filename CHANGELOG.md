@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Improved
+- Added Typing for Box2D and Box3D in GeoParam allowing Box objects as params in Magellan Expressions
+
 ## [1.3.0](https://github.com/clickbar/laravel-magellan/tree/1.3.0) - 2023-06-28
 
 ### Added
