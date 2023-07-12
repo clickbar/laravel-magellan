@@ -63,9 +63,9 @@ class PostgisColumnInformation
     public function toCastLineCode(): string
     {
         if ($this->geometry_type === 'geometry') {
-            return "'$this->column' => GeometryCast::class . ':$this->srid',";
+            return "'$this->column' => GeometryCast::class.':$this->srid',";
         }
 
-        return "'$this->column' => GeographyCast::class . ':$this->srid',";
+        return "'$this->column' => GeographyCast::class.':$this->srid',";
     }
 }
