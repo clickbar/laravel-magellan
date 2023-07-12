@@ -12,7 +12,7 @@ class PostgisColumnInformation
         protected string $type,
         protected int $srid,
         protected string $column,
-        protected int $coord_dimesion,
+        protected int $coord_dimension,
     ) {
     }
 
@@ -36,9 +36,9 @@ class PostgisColumnInformation
         return $this->column;
     }
 
-    public function getCoordDimesion(): int
+    public function getCoordDimension(): int
     {
-        return $this->coord_dimesion;
+        return $this->coord_dimension;
     }
 
     public function getCasterClass(): string
