@@ -2,12 +2,9 @@
 
 namespace Clickbar\Magellan\Commands;
 
-use Clickbar\Magellan\Cast\GeographyCast;
-use Clickbar\Magellan\Cast\GeometryCast;
 use Clickbar\Magellan\Commands\Utils\ModelInformation;
 use Clickbar\Magellan\Commands\Utils\PostgisColumnInformation;
 use Clickbar\Magellan\Commands\Utils\TableColumnsCollection;
-use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Filesystem\Filesystem;
@@ -25,7 +22,7 @@ class UpdateModelCasts extends Command
 {
     public $signature = 'magellan:update-casts {--table=*}';
 
-    public $description = 'Adds the $$postgisColumns array and trait to all models that have postgis columns in the DB.';
+    public $description = 'Adds the proper casts to the $$casts array and imports to all models that have postgis columns in the DB.';
 
     protected Filesystem $files;
 
@@ -45,8 +42,9 @@ class UpdateModelCasts extends Command
 
         $postgisTables = $postgisTableColumns->getColumns();
 
-        $tableFromOption = 'points'; //$this->option('table'); TODO: FIX ME
-        /** @phpstan-ignore-next-line PHPStan does not get the type annotation right */
+        /** @var string|array|bool|null */
+        $tableFromOption = $this->option('table');
+
         if (is_string($tableFromOption)) {
             $postgisTables = collect($postgisTables)
                 ->only($tableFromOption)
@@ -54,11 +52,11 @@ class UpdateModelCasts extends Command
         }
 
         foreach ($postgisTables as $tableName => $columns) {
-            $this->components->info("Updating Model for table $tableName");
+            $this->components->info("Updating model for table $tableName");
 
             $modelInformation = $this->getModelInformationForTable($tableName);
-            if (!$modelInformation) {
-                $this->components->warn('Cannot find model for table ' . $tableName);
+            if (! $modelInformation) {
+                $this->components->warn('Cannot find model for table '.$tableName);
 
                 continue;
             }
@@ -70,7 +68,7 @@ class UpdateModelCasts extends Command
             $modelCodeLines = Str::of($this->files->get($filePath))->explode(PHP_EOL);
 
             $usedCasters = collect($columns)
-                ->map(fn(PostgisColumnInformation $columnInfo) => $columnInfo->getCasterClass())
+                ->map(fn (PostgisColumnInformation $columnInfo) => $columnInfo->getCasterClass())
                 ->unique()
                 ->toArray();
 
@@ -83,20 +81,20 @@ class UpdateModelCasts extends Command
                 $currentCastsInterval = $this->getCurrentCastsLineInterval($modelCodeLines);
 
                 if ($currentCastsInterval === null) {
-                    $this->components->error('> ' . 'Unable to detect current $casts. Please delete the property and rerun the command');
+                    $this->components->error('> '.'Unable to detect current $casts. Please delete the property and rerun the command');
 
                     continue;
                 }
 
                 $modelInstance = invade($modelInformation->getInstance());
 
-                // @phpstan-ignore-next-line We know that the property exists because of the if statement above
                 $currentCasts = $modelInstance->casts;
 
-                if (!collect($columns)->every(fn($column) => Arr::get($currentCasts, $column->getColumn()) == $column->toCastValue())) {
-                    $this->components->warn('> ' . 'The $postgisColumns array does not contain all the columns/information from the DB. The columns will be added/replaced.');
+                if (! collect($columns)->every(fn ($column) => Arr::get($currentCasts, $column->getColumn()) == $column->toCastValue())) {
+                    $this->components->warn('> '.'The $casts array does not contain all the columns/information from the DB. The columns will be added/replaced.');
                 } else {
-                    $this->components->info('> ' . 'The $postgisColumns array contains all the columns from the DB. No changes needed.');
+                    $this->components->info('> '.'The $casts array contains all the columns from the DB. No changes needed.');
+
                     continue;
                 }
 
@@ -110,12 +108,11 @@ class UpdateModelCasts extends Command
                 $this->printCode($currentCode, $start + 1);
                 $this->output->writeln('');
 
-
                 $this->output->writeln('New code:');
                 $this->printCode(collect($this->buildCastsCodeLines($columns, $currentCastsCodeLines))->join(PHP_EOL), $start + 1);
 
                 $confirmOverride = $this->components->confirm('Override the above displayed code?', true);
-                if (!$confirmOverride) {
+                if (! $confirmOverride) {
                     continue;
                 }
 
@@ -129,7 +126,7 @@ class UpdateModelCasts extends Command
             $this->insertCastsCodeLines($modelCodeLines, $startLine, $columns, $overwrite, $currentCastsCodeLines);
 
             $this->files->put($filePath, $modelCodeLines->join(PHP_EOL));
-            $this->components->info('> ' . '$postgisColumns added to model');
+            $this->components->info('> '.'$casts added to model');
         }
 
         return self::SUCCESS;
@@ -139,7 +136,7 @@ class UpdateModelCasts extends Command
     {
         renderUsing($this->output);
 
-        render('<code start-line="' . ($startLine - 2) . '">' . htmlentities('<?php' . PHP_EOL . '    // ...' . PHP_EOL . $code) . '</code>');
+        render('<code start-line="'.($startLine - 2).'">'.htmlentities('<?php'.PHP_EOL.'    // ...'.PHP_EOL.$code).'</code>');
     }
 
     private function loadModelInformation()
@@ -208,7 +205,6 @@ class UpdateModelCasts extends Command
         }
     }
 
-
     private function hasCastsArray(ReflectionClass $modelReflectionClass): bool
     {
         /*
@@ -227,22 +223,21 @@ class UpdateModelCasts extends Command
                 ->isNotEmpty();
     }
 
-
     private function addMissingCastImportsColumnsTrait(Collection $modelCodeLines, ReflectionClass $reflectionClass, array $usedCasters): void
     {
 
-        $usedCastersUseLines = array_map(fn($casterClass) => "use $casterClass;", $usedCasters);
+        $usedCastersUseLines = array_map(fn ($casterClass) => "use $casterClass;", $usedCasters);
 
         /*
          * Import Statement
          */
 
         // Find the first use import statement
-        $firstImportUseLine = $modelCodeLines->search(fn(string $line) => Str::contains($line, 'use '));
+        $firstImportUseLine = $modelCodeLines->search(fn (string $line) => Str::contains($line, 'use '));
 
         // check if the use statement is already there
-        $missingCasterUseLines = array_filter($usedCastersUseLines, fn($casterLine) => $modelCodeLines->every(fn($line) => !Str::contains($line, $casterLine)));
-        if (!empty($missingCasterUseLines)) {
+        $missingCasterUseLines = array_filter($usedCastersUseLines, fn ($casterLine) => $modelCodeLines->every(fn ($line) => ! Str::contains($line, $casterLine)));
+        if (! empty($missingCasterUseLines)) {
             $modelCodeLines->splice($firstImportUseLine, 0, $missingCasterUseLines);
         }
     }
@@ -253,7 +248,7 @@ class UpdateModelCasts extends Command
     private function getCurrentCastsLineInterval(Collection $modelCodeLines): ?array
     {
         $openBracketCount = 0;
-        $startLine = $modelCodeLines->search(fn($line) => Str::contains($line, '$casts'));
+        $startLine = $modelCodeLines->search(fn ($line) => Str::contains($line, '$casts'));
         if (Str::contains($modelCodeLines->get($startLine), '[')) {
             $openBracketCount = 1;
         }
@@ -284,31 +279,31 @@ class UpdateModelCasts extends Command
     {
         $startLine = 0;
 
-        if (!empty($modelReflectionClass->getTraitNames())) {
+        if (! empty($modelReflectionClass->getTraitNames())) {
             // --> Determine the insert position after the last use statement
             $lastUsedTraitName = Str::of(collect($modelReflectionClass->getTraitNames())->last())
                 ->afterLast('\\');
-            $startLine = $modelCodeLines->search(fn(string $line) => Str::contains($line, "use $lastUsedTraitName;"));
+            $startLine = $modelCodeLines->search(fn (string $line) => Str::contains($line, "use $lastUsedTraitName;"));
         }
 
         // Fallback in case of no traits or failed discovery of start line based on traits
         if ($startLine === 0) {
             // --> insert directly after the class name
-            $startLine = $modelCodeLines->search(fn(string $line) => Str::contains($line, "class {$modelReflectionClass->getShortName()}"));
+            $startLine = $modelCodeLines->search(fn (string $line) => Str::contains($line, "class {$modelReflectionClass->getShortName()}"));
         }
 
         return $startLine + 2;
     }
 
     /**
-     * @param bool $overwrite In case of overwrite, we don't need to add a blank upfront
+     * @param  bool  $overwrite In case of overwrite, we don't need to add a blank upfront
      */
     private function insertCastsCodeLines(Collection $lines, int $startLine, array $columns, bool $overwrite, array $currentCastsLines)
     {
         $newCastsCodeLines = $this->buildCastsCodeLines($columns, $currentCastsLines);
         $linesToWrite = $newCastsCodeLines;
 
-        if (!$overwrite) {
+        if (! $overwrite) {
             $linesToWrite = Arr::prepend($newCastsCodeLines, '');
             $linesToWrite[] = '';
         }
@@ -319,19 +314,19 @@ class UpdateModelCasts extends Command
     /**
      * Builds the necessary lines for the $postgisColumns property based on the postgis views for geometry and geography.
      *
-     * @param PostgisColumnInformation[] $columns
+     * @param  PostgisColumnInformation[]  $columns
      */
     private function buildCastsCodeLines(array $columns, array $currentCastsLines): array
     {
         // Filter out all lines containing the name of the postgis columns that should be added
         // The protected $casts and the ] line will remain as first and last line
-        $remainingCurrentCastsLines = array_filter($currentCastsLines, fn($codeLine) => collect($columns)->every(fn($columnInfo) => !Str::contains($codeLine, $columnInfo->getColumn())));
+        $remainingCurrentCastsLines = array_filter($currentCastsLines, fn ($codeLine) => collect($columns)->every(fn ($columnInfo) => ! Str::contains($codeLine, $columnInfo->getColumn())));
         // Remove the first and last line, because we will write it again
         // --> only the key => value of other casts should remain
         array_pop($remainingCurrentCastsLines);
         array_shift($remainingCurrentCastsLines);
 
-        $remainingCurrentCastsLines = array_map(fn($line) => trim($line), $remainingCurrentCastsLines);
+        $remainingCurrentCastsLines = array_map(fn ($line) => trim($line), $remainingCurrentCastsLines);
 
         $castsArrayLines = [];
         $castsArrayLines[] = $this->addInset(1, 'protected $casts = [');
@@ -353,7 +348,7 @@ class UpdateModelCasts extends Command
 
     private function addInset(int $level, string $line): string
     {
-        return Str::repeat(' ', $level * 4) . $line;
+        return Str::repeat(' ', $level * 4).$line;
     }
 
     /**
@@ -374,6 +369,6 @@ class UpdateModelCasts extends Command
             ucfirst(Str::replaceLast('.php', '', $class))
         );
 
-        return $appNamespace . $class;
+        return $appNamespace.$class;
     }
 }

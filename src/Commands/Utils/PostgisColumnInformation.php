@@ -10,11 +10,10 @@ class PostgisColumnInformation
     public function __construct(
         protected string $geometry_type,
         protected string $type,
-        protected int    $srid,
+        protected int $srid,
         protected string $column,
-        protected int    $coord_dimesion,
-    )
-    {
+        protected int $coord_dimesion,
+    ) {
     }
 
     public function getGeometryType(): string
@@ -42,19 +41,22 @@ class PostgisColumnInformation
         return $this->coord_dimesion;
     }
 
-    public function getCasterClass(): string {
+    public function getCasterClass(): string
+    {
         if ($this->geometry_type === 'geometry') {
             return GeometryCast::class;
         }
+
         return GeographyCast::class;
     }
 
     public function toCastValue(): string
     {
         if ($this->geometry_type === 'geometry') {
-            return GeometryCast::class . ":$this->srid";
+            return GeometryCast::class.":$this->srid";
         }
-        return GeographyCast::class . ":$this->srid";
+
+        return GeographyCast::class.":$this->srid";
 
     }
 
@@ -63,6 +65,7 @@ class PostgisColumnInformation
         if ($this->geometry_type === 'geometry') {
             return "'$this->column' => GeometryCast::class . ':$this->srid',";
         }
+
         return "'$this->column' => GeographyCast::class . ':$this->srid',";
     }
 }
