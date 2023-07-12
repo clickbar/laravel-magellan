@@ -460,13 +460,13 @@ $hullsWithArea = Port::select('country')
 In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values. 
 But in the more complex example we received a geometry as return value. 
 
-Since "hull" is not present in our `$postgisColumns` array, we might intentionally add a cast to the query:
+Since "hull" is not present in our `$casts` array, we might intentionally add a cast to the query:
 ```php
 $hullWithArea = Port::select('country')
     ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
     ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
     ->groupBy('country')
-    ->withCasts(['hull' => GeometryWKBCast::class]) /* <======= */
+    ->withCasts(['hull' => GeometryCast::class]) /* <======= */
     ->first();
 ```
 But that's **not necessary!**  
