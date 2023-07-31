@@ -14,7 +14,7 @@ abstract class PointCollection extends Geometry
     /**
      * @param  Point[]  $points
      */
-    protected function __construct(array $points, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
+    protected function __construct(array $points, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
         parent::__construct($srid, $dimension);
 

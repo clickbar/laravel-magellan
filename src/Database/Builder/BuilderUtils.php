@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Config;
 
 class BuilderUtils
 {
-    public static function buildPostgisFunction(Builder|EloquentBuilder $builder, string $bindingType, ?string $geometryType, string $function, ?string $as = null, ...$params): Expression
+    public static function buildPostgisFunction(Builder|EloquentBuilder $builder, string $bindingType, ?string $geometryType, string $function, string $as = null, ...$params): Expression
     {
         if ($builder instanceof EloquentBuilder) {
             $builder = $builder->getQuery();

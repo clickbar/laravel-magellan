@@ -158,7 +158,7 @@ trait MagellanBoundingBoxFunctions
      *
      * @see https://postgis.net/docs/ST_Expand.html
      */
-    public static function expand($geometry, float|Expression|\Closure|null $unitsToExpand = null, float|Expression|\Closure|null $dx = null, float|Expression|\Closure|null $dy = null, float|Expression|\Closure|null $dz = null, float|Expression|\Closure|null $dm = null): MagellanGeometryOrBboxExpression
+    public static function expand($geometry, float|Expression|\Closure $unitsToExpand = null, float|Expression|\Closure $dx = null, float|Expression|\Closure $dy = null, float|Expression|\Closure $dz = null, float|Expression|\Closure $dm = null): MagellanGeometryOrBboxExpression
     {
         if ($unitsToExpand !== null) {
             return MagellanBaseExpression::geometryOrBox('ST_Expand', [GeoParam::wrap($geometry), $unitsToExpand]);
@@ -198,7 +198,7 @@ trait MagellanBoundingBoxFunctions
      *
      * @see https://postgis.net/docs/ST_EstimatedExtent.html
      */
-    public static function estimatedExtent(string|Expression|\Closure $tableName, string|Expression|\Closure $geoColumn, string|Expression|\Closure|null $schemaName = null, bool|Expression|\Closure|null $parentOnly = null): MagellanBBoxExpression
+    public static function estimatedExtent(string|Expression|\Closure $tableName, string|Expression|\Closure $geoColumn, string|Expression|\Closure $schemaName = null, bool|Expression|\Closure $parentOnly = null): MagellanBBoxExpression
     {
         $arguments = [
             $tableName,

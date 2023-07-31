@@ -14,4 +14,5 @@ class ST
     use MagellanGeometryValidationFunctions;
     use MagellanGeometryConstructorFunctions;
     use MagellanDistanceRelationshipsFunctions;
+    use MagellanOtherFormatFunctions;
 }

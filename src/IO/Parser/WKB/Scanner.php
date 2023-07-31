@@ -52,7 +52,7 @@ class Scanner
         return $result[1];
     }
 
-    public function integer(?ByteOrder $byteOrder = null): int
+    public function integer(ByteOrder $byteOrder = null): int
     {
         if ($this->pos + 4 > $this->len) {
             throw new \RuntimeException('Not enough bytes left to fulfill 1 integer.');
@@ -67,7 +67,7 @@ class Scanner
         return $result[1];
     }
 
-    public function double(?ByteOrder $byteOrder = null): float
+    public function double(ByteOrder $byteOrder = null): float
     {
         if ($this->pos + 8 > $this->len) {
             throw new \RuntimeException('Not enough bytes left to fulfill 1 double.');
