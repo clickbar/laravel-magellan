@@ -152,7 +152,7 @@ $point = Point::make(51.087, 8.76);
 You will notice that there are 3 different make methods for the Point class with different parameters:
 
 1. `make(...)`
-2. `makeGeodectic(...)`
+2. `makeGeodetic(...)`
 3. `makeEmpty(...)`
 
 Let's take a closer look to the first two:
