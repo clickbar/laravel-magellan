@@ -101,7 +101,6 @@ trait MagellanOverlayFunctions
      * Point-in-polygon and other spatial operations are normally faster for indexed subdivided datasets. Since the bounding boxes for the parts usually cover a smaller area than the original geometry bbox, index queries produce fewer "hit" cases.
      * The "hit" cases are faster because the spatial operations executed by the index recheck process fewer points.
      *
-     * @param  int|Expression|\Closure|null  $max_vertices
      * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Subdivide.html

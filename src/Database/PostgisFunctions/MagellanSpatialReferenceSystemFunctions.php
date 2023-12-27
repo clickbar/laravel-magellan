@@ -42,10 +42,6 @@ trait MagellanSpatialReferenceSystemFunctions
      * - geometry ST_Transform(geometry geom, text from_proj, text to_proj);
      * - geometry ST_Transform(geometry geom, text from_proj, integer to_srid);
      *
-     * @param  int|Expression|\Closure|null  $srid
-     * @param  string|Expression|\Closure|null  $fromProjection
-     * @param  string|Expression|\Closure|null  $toProjection
-     * @param  int|Expression|\Closure|null  $toSrid
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */
