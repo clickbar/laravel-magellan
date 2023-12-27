@@ -1,17 +1,20 @@
 name: Check styling
 
-on: [push]
+on:
+  push:
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
-  fix-styling:
+  check-styling:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
