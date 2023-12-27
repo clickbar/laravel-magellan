@@ -40,7 +40,10 @@ class BuilderUtils
         return new Expression($expressionString);
     }
 
-    protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
+    /**
+     * @param  Invader<Builder>  $invadedBuilder
+     */
+    protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, Invader $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
     {
         foreach ($params as $i => $param) {
             if ($invadedBuilder->isQueryable($param)) {
@@ -67,7 +70,7 @@ class BuilderUtils
                     array_splice($params, $i, 1, [self::prepareParams($wrapped, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend)]);
                 }
             }
-            // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wraped in GeoParam
+            // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wrapped in GeoParam
             if ($param instanceof MagellanBaseExpression) {
                 $invoked = $builder->grammar->wrap($param->invoke($builder, $bindingType, null));
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
