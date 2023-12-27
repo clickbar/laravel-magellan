@@ -17,6 +17,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @mixin \Illuminate\Database\Query\Builder
@@ -135,8 +136,14 @@ class BuilderMacros
          * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression  $magellanExpression
          * @return static
          */
-        return function (MagellanSetExpression $magellanExpression) {
-            return $this->from($magellanExpression->invoke($this, 'from'));
+        return function (MagellanSetExpression $magellanExpression, string $as = null) {
+            // NOTE: the `as` field has to be included in the DB expression instead of using the `from` method with the
+            // `as` parameter, because the latter will try to use the expression in a string concatenation with `as`.
+            /** @var Builder $this */
+            // @phpstan-ignore-next-line Laravel did not type the property correctly
+            $this->from = $magellanExpression->invoke($this, 'from', $as);
+
+            return $this;
         };
     }
 

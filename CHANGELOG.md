@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Added `as` parameter for `stFrom` function
+
 ## [1.4.0](https://github.com/clickbar/laravel-magellan/tree/1.4.0) - 2023-07-02
 
 ### Improved
