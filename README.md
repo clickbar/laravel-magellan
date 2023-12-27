@@ -41,6 +41,7 @@ the Grammar and Connection.
 ## Requirements
 
 Magellan supports Laravel projects, which meet the following requirements:
+
 - Laravel `^9.28` or `^10.0`
 - PHP `^8.1`
 
@@ -109,27 +110,22 @@ $table->magellanPoint('location', 4326);
 
 ## Preparing the Model
 
-In order to properly integrate everything with the model you need to to perform the following 2 steps:
-
-1. Add the `HasPostgisColumns` trait to your model
-2. Add the `$postgisColumns` array to the model
+In order to properly integrate everything with the model you only need to add the appropriate cast:
 
 ```php
-protected array $postgisColumns = [
-        'location' => [
-            'type' => 'geometry',
-            'srid' => 4326,
-        ],
-    ];
+protected $casts = [
+    /** ... */
+    'location' => GeometryCast::class,
+];
 ```
 
-Both steps can be automated by using the following command:
+This step can be automated by using the following command:
 
 ```bash 
-php artisan magellan:update-postgis-columns
+php artisan magellan:update-casts
 ```
 
-The command automatically scans the database and adds the trait and the array as well.
+The command automatically scans the database and adds the correct cast with the appropriate SRID.
 
 ## Using the geometry data classes
 
@@ -183,7 +179,6 @@ properly named getters and setters:
 - `function setAltitude(float $altitude): void`
 
 An exception will be thrown if you try to use this functions on a Point without a srid listed in the geodetic_srids config. Use the default x, y, z, m getters and setters instead.
-
 
 ## Generators & Parsers
 
@@ -258,7 +253,6 @@ class StorePortRequest extends FormRequest
 
 ## Interaction with the database
 
-
 ### Example Setup
 
 For demo purpose we consider the following fictional scenario:
@@ -287,11 +281,8 @@ class Port extends Model
 
     protected $guarded = [];
 
-    protected array $postgisColumns = [
-        'location' => [
-            'type' => 'geometry',
-            'srid' => 4326,
-        ],
+    protected $casts = [
+        'location' => GeometryCast::class,
     ];
 }
 ```
@@ -340,9 +331,10 @@ $port->location = Point::make(473054.9891044726, 5524365.310057224, srid: 25832)
 $port->save();
 ```
 
-Since our port table uses a point with SRID=4326, Magellan will raise an error:  
+Since our port table uses a point with SRID=4326, Magellan will raise an error:
 
-> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
+> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider
+enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
 We included an auto transform option that directly applies `ST_Transform(geometry, databaseSRID)` for you.
 
@@ -358,6 +350,7 @@ When selecting data from a model that uses the `HasPostgisColumns` trait, all at
 $port = Port::first();
 dd($port->location);
 ```
+
 ```bash
 Clickbar\Magellan\Data\Geometries\Point {#1732
   #srid: 4326
@@ -394,19 +387,21 @@ We currently provide the following:
 
 > **Note**  
 > Using the stWhere with a MagellanExpression that returns a boolean always requires a following true or false.
-> 
-> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.  
+>
+> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.
 
 ```php
 ->stWhere(ST::contains('location', 'polygon'), true)
 ```
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
-A _MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
+A
+_MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
 
 Most of the `ST`-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
 
-**Note:** The necessary classes can be imported as follows:  
+**Note:** The necessary classes can be imported as follows:
+
 ```php
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
@@ -442,7 +437,7 @@ $portsWithDistance = Port::select()
     ->get();
 ```
 
-As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones. 
+As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones.
 But what about more complex queries?
 What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
@@ -457,10 +452,11 @@ $hullsWithArea = Port::select('country')
 
 ### Autocast for bbox or geometries
 
-In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values. 
-But in the more complex example we received a geometry as return value. 
+In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values.
+But in the more complex example we received a geometry as return value.
 
 Since "hull" is not present in our `$casts` array, we might intentionally add a cast to the query:
+
 ```php
 $hullWithArea = Port::select('country')
     ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
@@ -469,6 +465,7 @@ $hullWithArea = Port::select('country')
     ->withCasts(['hull' => GeometryCast::class]) /* <======= */
     ->first();
 ```
+
 But that's **not necessary!**  
 Magellan will automatically add the cast for all functions that return geometry, box2d or box3d.
 
