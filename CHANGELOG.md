@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Added `as` parameter for `stFrom` function
+
 ### Fixed
 - Fixed `ST_PROJECT` function not being migrated to the GeometryType enum.
 
