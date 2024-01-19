@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Disabled for now, to mitigate issues with the Laravel IDE Helper Generator.
+ * PLEASE keep parameter annotations in here with their fully qualified class names, so that the IDE Helper Generator
+ * can pick them up properly.
+ * See https://github.com/barryvdh/laravel-ide-helper/pull/953
+ *
+ * @noinspection PhpFullyQualifiedNameUsageInspection
+ * @noinspection PhpUnnecessaryFullyQualifiedNameInspection
+ */
+
 namespace Clickbar\Magellan\Database\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
@@ -17,6 +27,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 
 /**
  * @mixin \Illuminate\Database\Query\Builder
@@ -53,7 +64,7 @@ class BuilderMacros
     {
         /**
          * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression  $magellanExpression
-         * @param  string|null  $direction
+         * @param  string  $direction
          * @return static
          */
         return function (MagellanNumericExpression|MagellanBooleanExpression $magellanExpression, string $direction = 'ASC') {
@@ -64,7 +75,7 @@ class BuilderMacros
     public function stWhere()
     {
         /**
-         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string  $column
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|\Clickbar\Magellan\Data\Geometries\Geometry|\Clickbar\Magellan\Data\Boxes\Box2D|\Clickbar\Magellan\Data\Boxes\Box3D|string  $column
          * @param  mixed  $operator
          * @param  mixed  $value
          * @param  string|null  $boolean
@@ -82,7 +93,7 @@ class BuilderMacros
     public function stOrWhere()
     {
         /**
-         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|Geometry|Box2D|Box3D|string  $column
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|\Clickbar\Magellan\Data\Geometries\Geometry|\Clickbar\Magellan\Data\Boxes\Box2D|\Clickbar\Magellan\Data\Boxes\Box3D|string  $column
          * @param  mixed  $operator
          * @param  mixed  $value
          * @return static
@@ -99,7 +110,7 @@ class BuilderMacros
     public function stGroupBy()
     {
         /**
-         * @param  array|string|MagellanBaseExpression  ...$groups
+         * @param  array|string|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression  ...$groups
          * @return static
          */
         return function (...$groups) {
@@ -135,8 +146,14 @@ class BuilderMacros
          * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression  $magellanExpression
          * @return static
          */
-        return function (MagellanSetExpression $magellanExpression) {
-            return $this->from($magellanExpression->invoke($this, 'from'));
+        return function (MagellanSetExpression $magellanExpression, string $as = null) {
+            // NOTE: the `as` field has to be included in the DB expression instead of using the `from` method with the
+            // `as` parameter, because the latter will try to use the expression in a string concatenation with `as`.
+            /** @var Builder $this */
+            // @phpstan-ignore-next-line Laravel did not type the property correctly
+            $this->from = $magellanExpression->invoke($this, 'from', $as);
+
+            return $this;
         };
     }
 

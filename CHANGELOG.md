@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Added `as` parameter for `stFrom` function
+
 ### Fixed
+- Fixed builder macro docblocks to use FQDN for an issue within laravel-ide-helper
+- Fixed `ST_PROJECT` function not being migrated to the GeometryType enum.
 - Fixed model attribute equality checks for geometries, reduces unnecessary database updates (thanks @adamczykpiotr)
 
 ## [1.4.0](https://github.com/clickbar/laravel-magellan/tree/1.4.0) - 2023-07-02
