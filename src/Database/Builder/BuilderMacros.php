@@ -129,14 +129,18 @@ class BuilderMacros
     public function stHaving()
     {
         /**
-         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression  $magellanExpression
+         * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression|\Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression|string  $magellanExpression
          * @param  mixed  $operator
          * @param  mixed  $value
          * @param  string|null  $boolean
          * @return static
          */
-        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
-            return $this->having($magellanExpression->invoke($this, 'having'), $operator, $value, $boolean);
+        return function (MagellanStringExpression|MagellanBooleanExpression|MagellanBBoxExpression|MagellanNumericExpression|MagellanGeometryExpression|MagellanGeometryOrBboxExpression|string $magellanExpression, $operator = null, $value = null, $boolean = 'and') {
+            return $this->having(
+                BuilderUtils::evaluate($this, $magellanExpression, 'having'),
+                BuilderUtils::evaluate($this, $operator, 'having'),
+                BuilderUtils::evaluate($this, $value, 'having'),
+                $boolean);
         };
     }
 
