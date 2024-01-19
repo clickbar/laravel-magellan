@@ -65,7 +65,7 @@ trait MagellanMeasurementFunctions
     /**
      * Implements algorithm for computing the Fréchet distance restricted to discrete points for both geometries, based on Computing Discrete Fréchet Distance. The Fréchet distance is a measure of similarity between curves that takes into account the location and ordering of the points along the curves. Therefore it is often better than the Hausdorff distance.
      *
-     * @param  float|Expression|\Closure|null  $densityFrac When the optional densifyFrac is specified, this function performs a segment densification before computing the discrete Fréchet distance. The densifyFrac parameter sets the fraction by which to densify each segment. Each segment will be split into a number of equal-length subsegments, whose fraction of the total length is closest to the given fraction.
+     * @param  float|Expression|\Closure|null  $densityFrac  When the optional densifyFrac is specified, this function performs a segment densification before computing the discrete Fréchet distance. The densifyFrac parameter sets the fraction by which to densify each segment. Each segment will be split into a number of equal-length subsegments, whose fraction of the total length is closest to the given fraction.
      *
      * @see https://postgis.net/docs/ST_FrechetDistance.html
      */
@@ -77,7 +77,7 @@ trait MagellanMeasurementFunctions
     /**
      * Returns the Hausdorff distance between two geometries. The Hausdorff distance is a measure of how similar or dissimilar 2 geometries are.
      *
-     * @param  float|Expression|\Closure|null  $densityFrac The densifyFrac parameter can be specified, to provide a more accurate answer by densifying segments before computing the discrete Hausdorff distance. Each segment is split into a number of equal-length subsegments whose fraction of the segment length is closest to the given fraction.
+     * @param  float|Expression|\Closure|null  $densityFrac  The densifyFrac parameter can be specified, to provide a more accurate answer by densifying segments before computing the discrete Hausdorff distance. Each segment is split into a number of equal-length subsegments whose fraction of the segment length is closest to the given fraction.
      *
      * @see https://postgis.net/docs/ST_HausdorffDistance.html
      */
@@ -318,7 +318,7 @@ trait MagellanMeasurementFunctions
     public static function project($geography, float|Expression|\Closure $distance, $azimuth): MagellanGeometryExpression
     {
         // TODO: consider returning geometry/geography
-        return MagellanBaseExpression::geometry('ST_Project', [GeoParam::wrap($geography), $distance, $azimuth], 'geography');
+        return MagellanBaseExpression::geometry('ST_Project', [GeoParam::wrap($geography), $distance, $azimuth], GeometryType::Geography);
     }
 
     /**
