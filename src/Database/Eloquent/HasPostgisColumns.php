@@ -10,10 +10,14 @@ use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * @mixin Model
+ */
 trait HasPostgisColumns
 {
     public function getPostgisTypeAndSrid(string $key)
@@ -139,6 +143,22 @@ trait HasPostgisColumns
         }
 
         return parent::setRawAttributes($attributes, $sync);
+    }
+
+    public function originalIsEquivalent($key)
+    {
+        $this->assertPostgisColumnsNotEmpty();
+
+        // Not a postgis column
+        if (array_key_exists($key, $this->postgisColumns) === false) {
+            return parent::originalIsEquivalent($key);
+        }
+
+        $attribute = Arr::get($this->attributes, $key);
+        $original = Arr::get($this->original, $key);
+
+        // Compare already cast objects
+        return $attribute == $original;
     }
 
     protected function assertPostgisColumnsNotEmpty()
