@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added `as` parameter for `stFrom` function
 
+### Fixed
+- Fixed `ST_PROJECT` function not being migrated to the GeometryType enum.
+
 ## [1.4.0](https://github.com/clickbar/laravel-magellan/tree/1.4.0) - 2023-07-02
 
 ### Improved
