@@ -29,7 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use of ST functions directly in the Laravel default builder methods
 - Use of ST functions directly in Model::create array
 - Renamed parameters of ST functions that can receive geometry or geography from `$geometry` to `$geometryOrGeography`
-- Geometry & Box implements `Expression` and therefore can be used in `->select(...)` directly now 
+- Geometry & Box implements `Expression` and therefore can be used in `->select(...)` directly now
+
+### Fixed
+
+- Fixed only using a precision of 6 decimal digits in WKT, now uses the maximum precision
 
 ### Removed
 
