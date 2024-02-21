@@ -26,11 +26,10 @@ trait MagellanMeasurementFunctions
      * For geometry types returns the minimum 2D Cartesian (planar) distance between two geometries, in projected units (spatial ref units).
      * For geography types defaults to return the minimum geodetic distance between two geographies in meters, compute on the spheroid determined by the SRID. If use_spheroid is false, a faster spherical calculation is used.
      *
-     * @param  bool|Expression|\Closure|null  $useSpheroid
      *
      * @see https://postgis.net/docs/ST_Distance.html
      */
-    public static function distance($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function distance($geometryA, $geometryB, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -70,7 +69,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_FrechetDistance.html
      */
-    public static function distanceFrechet($geometryA, $geometryB, float|Expression|\Closure|null $densityFrac = null): MagellanNumericExpression
+    public static function distanceFrechet($geometryA, $geometryB, float|Expression|\Closure $densityFrac = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_FrechetDistance', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $densityFrac]);
     }
@@ -82,7 +81,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_HausdorffDistance.html
      */
-    public static function distanceHausdorff($geometryA, $geometryB, float|Expression|\Closure|null $densityFrac = null): MagellanNumericExpression
+    public static function distanceHausdorff($geometryA, $geometryB, float|Expression|\Closure $densityFrac = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_HausdorffDistance', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $densityFrac]);
     }
@@ -112,11 +111,10 @@ trait MagellanMeasurementFunctions
     /**
      * Returns the area of a polygonal geometry. For geometry types a 2D Cartesian (planar) area is computed, with units specified by the SRID. For geography types by default area is determined on a spheroid with units in square meters. To compute the area using the faster but less accurate spherical model use ST_Area(geog,false).
      *
-     * @param  bool|Expression|\Closure|null  $useSpheroid
      *
      * @see https://postgis.net/docs/ST_Area.html
      */
-    public static function area($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function area($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -131,11 +129,10 @@ trait MagellanMeasurementFunctions
      * For geometry types: returns the 2D Cartesian length of the geometry if it is a LineString, MultiLineString, ST_Curve, ST_MultiCurve. For areal geometries 0 is returned; use ST_Perimeter instead. The units of length is determined by the spatial reference system of the geometry.
      * For geography types: computation is performed using the inverse geodetic calculation. Units of length are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then the calculation is based on a sphere instead of a spheroid.
      *
-     * @param  bool|Expression|\Closure|null  $useSpheroid
      *
      * @see https://postgis.net/docs/ST_Length.html
      */
-    public static function length($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function length($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -240,11 +237,10 @@ trait MagellanMeasurementFunctions
      * Returns the 2D perimeter of the geometry/geography if it is a ST_Surface, ST_MultiSurface (Polygon, MultiPolygon). 0 is returned for non-areal geometries. For linear geometries use ST_Length. For geometry types, units for perimeter measures are specified by the spatial reference system of the geometry.
      * For geography types, the calculations are performed using the inverse geodetic problem, where perimeter units are in meters. If PostGIS is compiled with PROJ version 4.8.0 or later, the spheroid is specified by the SRID, otherwise it is exclusive to WGS84. If use_spheroid=false, then calculations will approximate a sphere instead of a spheroid.
      *
-     * @param  bool|Expression|\Closure|null  $useSpheroid
      *
      * @see https://postgis.net/docs/ST_Perimeter.html
      */
-    public static function perimeter($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function perimeter($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -275,7 +271,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Azimuth.html
      */
-    public static function azimuth($geometryA, $geometryB, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function azimuth($geometryA, $geometryB, GeometryType $geometryType = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_Azimuth', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }

@@ -179,12 +179,10 @@ trait MagellanTopologicalRelationshipFunctions
      * For more information refer to Section 5.1, “Determining Spatial Relationships”.
      * Variant 1: Tests if two geometries are spatially related according to the given intersectionMatrixPattern.
      *
-     * @param  string|Expression|\Closure|null  $intersectionMatrixPattern
-     * @param  int|Expression|\Closure|null  $boundaryNodeRule
      *
      * @see https://postgis.net/docs/ST_Relate.html
      */
-    public static function relate($geometryA, $geometryB, string|Expression|\Closure|null $intersectionMatrixPattern = null, int|Expression|\Closure|null $boundaryNodeRule = null): MagellanBooleanExpression|MagellanStringExpression
+    public static function relate($geometryA, $geometryB, string|Expression|\Closure $intersectionMatrixPattern = null, int|Expression|\Closure $boundaryNodeRule = null): MagellanBooleanExpression|MagellanStringExpression
     {
         if ($intersectionMatrixPattern != null) {
             return MagellanBaseExpression::boolean('ST_Relate', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $intersectionMatrixPattern]);

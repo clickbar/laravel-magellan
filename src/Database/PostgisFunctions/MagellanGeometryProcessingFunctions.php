@@ -21,11 +21,10 @@ trait MagellanGeometryProcessingFunctions
      * A negative distance shrinks the geometry rather than expanding it. A negative distance may shrink a polygon completely, in which case POLYGON EMPTY is returned.
      * For points and lines negative distances always return empty results.
      *
-     * @param  float|Expression|\Closure|null  $styleMitreLevel
      *
      * @see https://postgis.net/docs/ST_Buffer.html
      */
-    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null, ?Side $styleSide = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function buffer($geometry, float|Expression|\Closure $radius, int $numSegQuarterCircle = null, int $styleQuadSegs = null, EndCap $styleEndCap = null, Join $styleJoin = null, float|Expression|\Closure $styleMitreLimit = null, Side $styleSide = null, GeometryType $geometryType = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -36,7 +35,7 @@ trait MagellanGeometryProcessingFunctions
             "quad_segs=$styleQuadSegs",
             "endcap=$styleEndCap?->value",
             "join=$styleJoin?->value",
-            "mitre_level=$styleMitreLevel",
+            "mitre_limit=$styleMitreLimit",
             "side=$styleSide?->value",
         ];
 
@@ -74,11 +73,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Computes a point which is the geometric center of mass of a geometry. For [MULTI]POINTs, the centroid is the arithmetic mean of the input coordinates. For [MULTI]LINESTRINGs, the centroid is computed using the weighted length of each line segment. For [MULTI]POLYGONs, the centroid is computed in terms of area. If an empty geometry is supplied, an empty GEOMETRYCOLLECTION is returned. If NULL is supplied, NULL is returned. If CIRCULARSTRING or COMPOUNDCURVE are supplied, they are converted to linestring with CurveToLine first, then same than for LINESTRING
      *
-     * @param  bool|Expression|\Closure|null  $useSpheroid
      *
      * @see https://postgis.net/docs/ST_Centroid.html
      */
-    public static function centroid($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function centroid($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanGeometryExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -93,12 +91,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Returns a "smoothed" version of the given geometry using the Chaikin algorithm. See Chaikins-Algorithm for an explanation of the process. For each iteration the number of vertex points will double. The function puts new vertex points at 1/4 of the line before and after each point and removes the original point. To reduce the number of points use one of the simplification functions on the result. The new points gets interpolated values for all included dimensions, also z and m.
      *
-     * @param  int|Expression|\Closure|null  $iterations
-     * @param  bool|Expression|\Closure|null  $preserveEndPoints
      *
      * @see https://postgis.net/docs/ST_ChaikinSmoothing.html
      */
-    public static function chaikinSmoothing($geometry, int|Expression|\Closure|null $iterations = null, bool|Expression|\Closure|null $preserveEndPoints = null): MagellanGeometryExpression
+    public static function chaikinSmoothing($geometry, int|Expression|\Closure $iterations = null, bool|Expression|\Closure $preserveEndPoints = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_ChaikinSmoothing', [GeoParam::wrap($geometry), $iterations, $preserveEndPoints]);
     }
@@ -107,11 +103,10 @@ trait MagellanGeometryProcessingFunctions
      * A concave hull of a geometry is a possibly concave geometry that encloses the vertices of the input geometry. In the general case the concave hull is a Polygon. The polygon will not contain holes unless the optional param_allow_holes argument is specified as true. The concave hull of two or more collinear points is a two-point LineString. The concave hull of one or more identical points is a Point.
      *
      * @param  float|Expression|\Closure  $pctconvex controls the concaveness of the computed hull. A value of 1 produces the convex hull. A value of 0 produces a hull of maximum concaveness (but still a single polygon). Values between 1 and 0 produce hulls of increasing concaveness. Choosing a suitable value depends on the nature of the input data, but often values between 0.3 and 0.1 produce reasonable results.
-     * @param  bool|Expression|\Closure|null  $allowHoles
      *
      * @see https://postgis.net/docs/ST_ConcaveHull.html
      */
-    public static function concaveHull($geometry, float|Expression|\Closure $pctconvex, bool|Expression|\Closure|null $allowHoles = null): MagellanGeometryExpression
+    public static function concaveHull($geometry, float|Expression|\Closure $pctconvex, bool|Expression|\Closure $allowHoles = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_ConcaveHull', [GeoParam::wrap($geometry), $pctconvex, $allowHoles]);
     }
@@ -131,11 +126,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Return the Delaunay triangulation of the vertices of the input geometry. Output is a COLLECTION of polygons (for flags=0) or a MULTILINESTRING (for flags=1) or TIN (for flags=2). The tolerance, if any, is used to snap input vertices together.
      *
-     * @param  float|Expression|\Closure|null  $tolerance
      *
      * @see https://postgis.net/docs/ST_DelaunayTriangles.html
      */
-    public static function delaunayTriangles($geometry, float|Expression|\Closure|null $tolerance = null, ?DelaunayTrianglesOutput $output = null): MagellanGeometryExpression
+    public static function delaunayTriangles($geometry, float|Expression|\Closure $tolerance = null, DelaunayTrianglesOutput $output = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_DelaunayTriangles', [GeoParam::wrap($geometry), $tolerance, $output?->value]);
     }
@@ -143,12 +137,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Filters out vertex points based on their M-value. Returns a geometry with only vertex points that have a M-value larger or equal to the min value and smaller or equal to the max value. If max-value argument is left out only min value is considered. If fourth argument is left out the m-value will not be in the resulting geometry. If resulting geometry have too few vertex points left for its geometry type an empty geometry will be returned. In a geometry collection geometries without enough points will just be left out silently.
      *
-     * @param  float|Expression|\Closure|null  $max
-     * @param  bool|Expression|\Closure|null  $returnM
      *
      * @see https://postgis.net/docs/ST_FilterByM.html
      */
-    public static function filterByM($geometry, float|Expression|\Closure $min, float|Expression|\Closure|null $max = null, bool|Expression|\Closure|null $returnM = null): MagellanGeometryExpression
+    public static function filterByM($geometry, float|Expression|\Closure $min, float|Expression|\Closure $max = null, bool|Expression|\Closure $returnM = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_FilterByM', [GeoParam::wrap($geometry), $min, $max, $returnM]);
     }
@@ -160,7 +152,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_GeneratePoints.html
      */
-    public static function generatePoints($geometry, int|Expression|\Closure $numberOfPoints, int|Expression|\Closure|null $seed = null): MagellanGeometryExpression
+    public static function generatePoints($geometry, int|Expression|\Closure $numberOfPoints, int|Expression|\Closure $seed = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_GeneratePoints', [GeoParam::wrap($geometry), $numberOfPoints, $seed]);
     }
@@ -168,13 +160,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Computes the approximate geometric median of a MultiPoint geometry using the Weiszfeld algorithm. The geometric median is the point minimizing the sum of distances to the input points. It provides a centrality measure that is less sensitive to outlier points than the centroid (center of mass).
      *
-     * @param  float|Expression|\Closure|null  $tolerance
-     * @param  int|Expression|\Closure|null  $maxIterations
-     * @param  bool|Expression|\Closure|null  $failIfNotConverged
      *
      * @see https://postgis.net/docs/ST_GeometricMedian.html
      */
-    public static function geometricMedian($geometry, float|Expression|\Closure|null $tolerance = null, int|Expression|\Closure|null $maxIterations = null, bool|Expression|\Closure|null $failIfNotConverged = null): MagellanGeometryExpression
+    public static function geometricMedian($geometry, float|Expression|\Closure $tolerance = null, int|Expression|\Closure $maxIterations = null, bool|Expression|\Closure $failIfNotConverged = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_GeometricMedian', [GeoParam::wrap($geometry), $tolerance, $maxIterations, $failIfNotConverged]);
     }
@@ -182,11 +171,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Returns a LineString or MultiLineString formed by joining together the line elements of a MultiLineString. Lines are joined at their endpoints at 2-way intersections. Lines are not joined across intersections of 3-way or greater degree.
      *
-     * @param  bool|Expression|\Closure|null  $directed
      *
      * @see https://postgis.net/docs/ST_LineMerge.html
      */
-    public static function lineMerge($geometry, bool|Expression|\Closure|null $directed = null): MagellanGeometryExpression
+    public static function lineMerge($geometry, bool|Expression|\Closure $directed = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_LineMerge', [GeoParam::wrap($geometry), $directed]);
     }
@@ -198,7 +186,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_MinimumBoundingCircle.html
      */
-    public static function minimumBoundingCircle($geometry, int|Expression|\Closure|null $numberOfSegmentsPerQuarterCircle = null): MagellanGeometryExpression
+    public static function minimumBoundingCircle($geometry, int|Expression|\Closure $numberOfSegmentsPerQuarterCircle = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_MinimumBoundingCircle', [GeoParam::wrap($geometry), $numberOfSegmentsPerQuarterCircle]);
     }
@@ -221,12 +209,10 @@ trait MagellanGeometryProcessingFunctions
      * All points of the returned geometries are not further than the given distance from the input geometry.
      * Useful for computing parallel lines about a center line.
      *
-     * @param  int|Expression|\Closure|null  $numSegQuarterCircle
-     * @param  float|Expression|\Closure|null  $styleMitreLevel
      *
      * @see https://postgis.net/docs/ST_OffsetCurve.html
      */
-    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null): MagellanGeometryExpression
+    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure $numSegQuarterCircle = null, Join $styleJoin = null, float|Expression|\Closure $styleMitreLevel = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -286,11 +272,10 @@ trait MagellanGeometryProcessingFunctions
     /**
      * Returns a "simplified" version of the given geometry using the Douglas-Peucker algorithm. Will actually do something only with (multi)lines and (multi)polygons but you can safely call it with any kind of geometry. Since simplification occurs on a object-by-object basis you can also feed a GeometryCollection to this function.
      *
-     * @param  bool|Expression|\Closure|null  $preserveCollapsed
      *
      * @see https://postgis.net/docs/ST_Simplify.html
      */
-    public static function simplify($geometry, float|Expression|\Closure $tolerance, bool|Expression|\Closure|null $preserveCollapsed = null): MagellanGeometryExpression
+    public static function simplify($geometry, float|Expression|\Closure $tolerance, bool|Expression|\Closure $preserveCollapsed = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Simplify', [GeoParam::wrap($geometry), $tolerance, $preserveCollapsed]);
     }
@@ -299,11 +284,10 @@ trait MagellanGeometryProcessingFunctions
      * Computes a simplified topology-preserving outer or inner hull of a polygonal geometry. An outer hull completely covers the input geometry. An inner hull is completely covered by the input geometry. The result is a polygonal geometry formed by a subset of the input vertices. MultiPolygons and holes are handled and produce a result with the same structure as the input.
      *
      * @param  float|Expression|\Closure  $vertexFraction The reduction in vertex count is controlled by the vertex_fraction parameter, which is a number in the range 0 to 1. Lower values produce simpler results, with smaller vertex count and less concaveness. For both outer and inner hulls a vertex fraction of 1.0 produces the orginal geometry. For outer hulls a value of 0.0 produces the convex hull (for a single polygon); for inner hulls it produces a triangle.
-     * @param  bool|Expression|\Closure|null  $isOuter
      *
      * @see https://postgis.net/docs/ST_SimplifyPolygonHull.html
      */
-    public static function simplifyPolygonHull($geometry, float|Expression|\Closure $vertexFraction, bool|Expression|\Closure|null $isOuter = null): MagellanGeometryExpression
+    public static function simplifyPolygonHull($geometry, float|Expression|\Closure $vertexFraction, bool|Expression|\Closure $isOuter = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_SimplifyPolygonHull', [GeoParam::wrap($geometry), $vertexFraction, $isOuter]);
     }
@@ -338,12 +322,10 @@ trait MagellanGeometryProcessingFunctions
      * If the optional "theshold" parameter is used, a simplified geometry will be returned,
      * containing only vertices with an effective area greater than or equal to the threshold value.
      *
-     * @param  float|Expression|\Closure|null  $threshold
-     * @param  int|Expression|\Closure|null  $setArea
      *
      * @see https://postgis.net/docs/ST_SetEffectiveArea.html
      */
-    public static function setEffectiveArea($geometry, float|Expression|\Closure|null $threshold = null, int|Expression|\Closure|null $setArea = null): MagellanGeometryExpression
+    public static function setEffectiveArea($geometry, float|Expression|\Closure $threshold = null, int|Expression|\Closure $setArea = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_SetEffectiveArea', [GeoParam::wrap($geometry), $threshold, $setArea]);
     }
@@ -368,7 +350,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_VoronoiLines.html
      */
-    public static function voronoiLines($geometry, float|Expression|\Closure|null $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
+    public static function voronoiLines($geometry, float|Expression|\Closure $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_VoronoiLines', [GeoParam::wrap($geometry), $tolerance, GeoParam::wrap($extendToGeometry)]);
     }
@@ -381,7 +363,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_VoronoiPolygons.html
      */
-    public static function voronoiPolygons($geometry, float|Expression|\Closure|null $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
+    public static function voronoiPolygons($geometry, float|Expression|\Closure $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_VoronoiPolygons', [GeoParam::wrap($geometry), $tolerance, GeoParam::wrap($extendToGeometry)]);
     }

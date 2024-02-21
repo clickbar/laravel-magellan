@@ -26,11 +26,10 @@ trait MagellanGeometryAccessorFunctions
     /**
      * Orders by the diagonal of the supplied geometry's bounding box as a LineString. The diagonal is a 2-point LineString with the minimum values of each dimension in its start point and the maximum values in its end point. If the input geometry is empty, the diagonal line is a LINESTRING EMPTY.
      *
-     * @param  bool|Expression|\Closure|null  $fits
      *
      * @see https://postgis.net/docs/ST_BoundingDiagonal.html
      */
-    public static function boundingDiagonal($geometry, bool|Expression|\Closure|null $fits = null): MagellanGeometryExpression
+    public static function boundingDiagonal($geometry, bool|Expression|\Closure $fits = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_BoundingDiagonal', [GeoParam::wrap($geometry), $fits]);
     }

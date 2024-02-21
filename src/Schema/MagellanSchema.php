@@ -12,22 +12,22 @@ use Illuminate\Support\Facades\DB;
  */
 class MagellanSchema
 {
-    public static function enablePostgis(?string $connection = null): void
+    public static function enablePostgis(string $connection = null): void
     {
         DB::connection($connection)->statement('CREATE EXTENSION postgis;');
     }
 
-    public static function enablePostgisIfNotExists(?string $connection = null): void
+    public static function enablePostgisIfNotExists(string $connection = null): void
     {
         DB::connection($connection)->statement('CREATE EXTENSION IF NOT EXISTS postgis;');
     }
 
-    public static function disablePostgis(?string $connection = null): void
+    public static function disablePostgis(string $connection = null): void
     {
         DB::connection($connection)->statement('DROP EXTENSION postgis;');
     }
 
-    public static function disablePostgisIfExists(?string $connection = null): void
+    public static function disablePostgisIfExists(string $connection = null): void
     {
         DB::connection($connection)->statement('DROP EXTENSION IF EXISTS postgis;');
     }

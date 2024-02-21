@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Commands\Utils;
 
+use Clickbar\Magellan\Cast\GeometryCast;
+
 class PostgisColumnInformation
 {
     public function __construct(
@@ -9,7 +11,7 @@ class PostgisColumnInformation
         protected string $type,
         protected int $srid,
         protected string $column,
-        protected int $coord_dimesion,
+        protected int $coord_dimension,
     ) {
     }
 
@@ -33,16 +35,23 @@ class PostgisColumnInformation
         return $this->column;
     }
 
-    public function getCoordDimesion(): int
+    public function getCoordDimension(): int
     {
-        return $this->coord_dimesion;
+        return $this->coord_dimension;
     }
 
-    public function toArray(): array
+    public function getCasterClass(): string
     {
-        return [
-            'type' => $this->geometry_type,
-            'srid' => $this->srid,
-        ];
+        return GeometryCast::class;
+    }
+
+    public function toCastValue(): string
+    {
+        return GeometryCast::class;
+    }
+
+    public function toCastLineCode(): string
+    {
+        return "'$this->column' => GeometryCast::class,";
     }
 }

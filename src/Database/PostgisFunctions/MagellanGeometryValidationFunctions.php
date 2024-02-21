@@ -21,7 +21,7 @@ trait MagellanGeometryValidationFunctions
      *
      * @see https://postgis.net/docs/ST_IsValid.html
      */
-    public static function isValid($geometry, ?ValidFlag $validFlag = null): MagellanBooleanExpression
+    public static function isValid($geometry, ValidFlag $validFlag = null): MagellanBooleanExpression
     {
         return MagellanBaseExpression::boolean('ST_IsValid', [GeoParam::wrap($geometry), $validFlag?->value]);
     }
@@ -36,7 +36,7 @@ trait MagellanGeometryValidationFunctions
      *
      * @see https://postgis.net/docs/ST_IsValidDetail.html
      */
-    public static function isValidDetail($geometry, ?ValidFlag $validFlag = null): MagellanSetExpression
+    public static function isValidDetail($geometry, ValidFlag $validFlag = null): MagellanSetExpression
     {
         return MagellanBaseExpression::set('ST_IsValidDetail', [GeoParam::wrap($geometry), $validFlag?->value]);
     }
@@ -48,7 +48,7 @@ trait MagellanGeometryValidationFunctions
      *
      * @see https://postgis.net/docs/ST_IsValidReason.html
      */
-    public static function isValidReason($geometry, ?ValidFlag $validFlag = null): MagellanStringExpression
+    public static function isValidReason($geometry, ValidFlag $validFlag = null): MagellanStringExpression
     {
         return MagellanBaseExpression::string('ST_IsValidReason', [GeoParam::wrap($geometry), $validFlag?->value]);
     }
@@ -65,7 +65,7 @@ trait MagellanGeometryValidationFunctions
      *
      * @see https://postgis.net/docs/ST_MakeValid.html
      */
-    public static function makeValid($geometry, ?MakeValidMethod $makeValidMethod = null, ?bool $keepCollapsed = null): MagellanGeometryExpression
+    public static function makeValid($geometry, MakeValidMethod $makeValidMethod = null, bool $keepCollapsed = null): MagellanGeometryExpression
     {
         $params = [
             "method=$makeValidMethod?->value",

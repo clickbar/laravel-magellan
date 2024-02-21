@@ -59,7 +59,7 @@ trait MagellanDistanceRelationshipsFunctions
      *
      * @see https://postgis.net/docs/ST_DWithin.html
      */
-    public static function dWithinGeography($geographyA, $geographyB, float|Expression|\Closure $distanceMeters, bool|Expression|\Closure|null $useSpheroid = null): MagellanBooleanExpression
+    public static function dWithinGeography($geographyA, $geographyB, float|Expression|\Closure $distanceMeters, bool|Expression|\Closure $useSpheroid = null): MagellanBooleanExpression
     {
         $useSpheroid = $useSpheroid ?? true;
 

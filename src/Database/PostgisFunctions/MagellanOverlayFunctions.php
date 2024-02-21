@@ -32,7 +32,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_Difference.html
      */
-    public static function difference($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
+    public static function difference($geometryA, $geometryB, float|Expression|\Closure $gridSize = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Difference', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
     }
@@ -48,7 +48,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_Intersection.html
      */
-    public static function intersection($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function intersection($geometryA, $geometryB, float|Expression|\Closure $gridSize = null, GeometryType $geometryType = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Intersection', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize], $geometryType);
     }
@@ -101,12 +101,11 @@ trait MagellanOverlayFunctions
      * Point-in-polygon and other spatial operations are normally faster for indexed subdivided datasets. Since the bounding boxes for the parts usually cover a smaller area than the original geometry bbox, index queries produce fewer "hit" cases.
      * The "hit" cases are faster because the spatial operations executed by the index recheck process fewer points.
      *
-     * @param  int|Expression|\Closure|null  $max_vertices
      * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Subdivide.html
      */
-    public static function subdivide($geometry, int|Expression|\Closure|null $max_vertices = null, float|Expression|\Closure|null $gridSize = null): MagellanSetExpression
+    public static function subdivide($geometry, int|Expression|\Closure $max_vertices = null, float|Expression|\Closure $gridSize = null): MagellanSetExpression
     {
         return MagellanBaseExpression::set('ST_Subdivide', [GeoParam::wrap($geometry), $max_vertices, $gridSize]);
     }
@@ -120,7 +119,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_SymDifference.html
      */
-    public static function symDifference($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
+    public static function symDifference($geometryA, $geometryB, float|Expression|\Closure $gridSize = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_SymDifference', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
     }
@@ -136,7 +135,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_UnaryUnion.html
      */
-    public static function unaryUnion($geometry, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
+    public static function unaryUnion($geometry, float|Expression|\Closure $gridSize = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_UnaryUnion', [GeoParam::wrap($geometry), $gridSize]);
     }
@@ -152,7 +151,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_Union.html
      */
-    public static function unionFromGeometries($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
+    public static function unionFromGeometries($geometryA, $geometryB, float|Expression|\Closure $gridSize = null): MagellanGeometryExpression
     {
         // TODO: Think about standardizing the naming of the methods to be more consistent (where multiple methods are available for the same function)
         return MagellanBaseExpression::geometry('ST_Union', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
@@ -169,7 +168,7 @@ trait MagellanOverlayFunctions
      *
      * @see https://postgis.net/docs/ST_Union.html
      */
-    public static function union($geometryArrayOrSet, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
+    public static function union($geometryArrayOrSet, float|Expression|\Closure $gridSize = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Union', [GeoParam::wrap($geometryArrayOrSet), $gridSize]);
     }
