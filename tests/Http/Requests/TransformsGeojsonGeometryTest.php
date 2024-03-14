@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 function createRequest(
-    Container $container = null,
+    ?Container $container = null,
     array $parameters = [],
     string $method = Request::METHOD_POST
 ): GeometryFormRequest {

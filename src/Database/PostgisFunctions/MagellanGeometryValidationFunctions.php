@@ -61,7 +61,7 @@ trait MagellanGeometryValidationFunctions
      * The params argument can be used to supply an options string to select the method to use for building valid geometry. The options string is in the format "method=linework|structure keepcollapsed=true|false".
      *
      *
-     * @param  bool|null  $keepCollapsed The "keepcollapsed" key is only valid for the "structure" algorithm, and takes a value of "true" or "false". When set to "false", geometry components that collapse to a lower dimensionality, for example a one-point linestring would be dropped.
+     * @param  bool|null  $keepCollapsed  The "keepcollapsed" key is only valid for the "structure" algorithm, and takes a value of "true" or "false". When set to "false", geometry components that collapse to a lower dimensionality, for example a one-point linestring would be dropped.
      *
      * @see https://postgis.net/docs/ST_MakeValid.html
      */
