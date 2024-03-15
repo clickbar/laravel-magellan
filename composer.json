@@ -32,9 +32,9 @@
     },
     "require-dev": {
         "doctrine/dbal": "^3.5",
+        "larastan/larastan": "^2.6",
         "laravel/pint": "^1.2.1",
         "nunomaduro/collision": "^6.0",
-        "nunomaduro/larastan": "^2.0.1",
         "orchestra/testbench": "^7.15|^8.0",
         "pestphp/pest": "^1.22",
         "pestphp/pest-plugin-laravel": "^1.1",
