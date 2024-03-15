@@ -27,14 +27,14 @@
         "illuminate/contracts": "^9.28|^10.0|^11.0",
         "illuminate/database": "^9.0|^10.0|^11.0",
         "illuminate/support": "^9.0|^10.0|^11.0",
-        "spatie/invade": "^1.1",
+        "spatie/invade": "^2.0",
         "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
         "doctrine/dbal": "^3.5",
+        "larastan/larastan": "^2.6",
         "laravel/pint": "^1.2.1",
         "nunomaduro/collision": "^6.0|^v8.1",
-        "larastan/larastan": "^2.0.1",
         "orchestra/testbench": "^7.15|^8.0|^9.0",
         "pestphp/pest": "^1.22|^2.34",
         "pestphp/pest-plugin-laravel": "^1.1|^2.3",

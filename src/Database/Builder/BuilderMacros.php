@@ -154,7 +154,6 @@ class BuilderMacros
             // NOTE: the `as` field has to be included in the DB expression instead of using the `from` method with the
             // `as` parameter, because the latter will try to use the expression in a string concatenation with `as`.
             /** @var Builder $this */
-            // @phpstan-ignore-next-line Laravel did not type the property correctly
             $this->from = $magellanExpression->invoke($this, 'from', $as);
 
             return $this;
