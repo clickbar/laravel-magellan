@@ -150,11 +150,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns a bounding box expanded from the bounding box of the input, either by specifying a single distance with which the box should be expanded on both axes, or by specifying an expansion distance for each axis. Uses double-precision. Can be used for distance queries, or to add a bounding box filter to a query to take advantage of a spatial index.
      *
-     * @param  float|Expression|\Closure|null  $unitsToExpand
-     * @param  float|Expression|\Closure|null  $dx
-     * @param  float|Expression|\Closure|null  $dy
-     * @param  float|Expression|\Closure|null  $dz
-     * @param  float|Expression|\Closure|null  $dm
      *
      * @see https://postgis.net/docs/ST_Expand.html
      */
@@ -193,8 +188,6 @@ trait MagellanBoundingBoxFunctions
     /**
      * Returns the estimated extent of a spatial table as a box2d. The current schema is used if not specified. The estimated extent is taken from the geometry column's statistics. This is usually much faster than computing the exact extent of the table using ST_Extent or ST_3DExtent.
      *
-     * @param  string|Expression|\Closure|null  $schemaName
-     * @param  bool|Expression|\Closure|null  $parentOnly
      *
      * @see https://postgis.net/docs/ST_EstimatedExtent.html
      */

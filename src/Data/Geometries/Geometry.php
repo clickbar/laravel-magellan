@@ -5,7 +5,7 @@ namespace Clickbar\Magellan\Data\Geometries;
 use Illuminate\Support\Facades\Config;
 use JsonSerializable;
 
-abstract class Geometry implements GeometryInterface, JsonSerializable, \Stringable
+abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializable
 {
     public function __construct(
         protected ?int $srid = null,
