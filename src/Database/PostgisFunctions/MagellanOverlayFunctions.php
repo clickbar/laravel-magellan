@@ -28,7 +28,7 @@ trait MagellanOverlayFunctions
     /**
      * Returns a geometry representing the part of geometry A that does not intersect geometry B. This is equivalent to A - ST_Intersection(A,B). If A is completely contained in B then an empty atomic geometry of appropriate type is returned.
      *
-     * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Difference.html
      */
@@ -43,8 +43,8 @@ trait MagellanOverlayFunctions
      *
      * Note: GridSize is only supported for geometry inputs, not geography.
      *
-     * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
-     * @param  GeometryType|null  $geometryType Defines the type of the input geometries. Which those values will be casted to.
+     * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  GeometryType|null  $geometryType  Defines the type of the input geometries. Which those values will be casted to.
      *
      * @see https://postgis.net/docs/ST_Intersection.html
      */
@@ -101,8 +101,7 @@ trait MagellanOverlayFunctions
      * Point-in-polygon and other spatial operations are normally faster for indexed subdivided datasets. Since the bounding boxes for the parts usually cover a smaller area than the original geometry bbox, index queries produce fewer "hit" cases.
      * The "hit" cases are faster because the spatial operations executed by the index recheck process fewer points.
      *
-     * @param  int|Expression|\Closure|null  $max_vertices
-     * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Subdivide.html
      */
@@ -116,7 +115,7 @@ trait MagellanOverlayFunctions
      * This is equivalent to ST_Union(A,B) - ST_Intersection(A,B).
      * It is called a symmetric difference because ST_SymDifference(A,B) = ST_SymDifference(B,A).
      *
-     * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_SymDifference.html
      */
@@ -132,7 +131,7 @@ trait MagellanOverlayFunctions
      * Another use of this function is to node and dissolve a collection of linestrings which cross or overlap to make them simple. (To add nodes but not dissolve duplicate linework use ST_Node.)
      * It is possible to combine ST_UnaryUnion with ST_Collect to fine-tune how many geometries are be unioned at once. This allows trading off between memory usage and compute time, striking a balance between ST_Union and ST_MemUnion.
      *
-     * @param  float|Expression|\Closure|null  $gridSize If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_UnaryUnion.html
      */
@@ -148,7 +147,7 @@ trait MagellanOverlayFunctions
      * Aggregate variant: returns a geometry that is the union of a rowset of geometries. The ST_Union() function is an "aggregate" function in the terminology of PostgreSQL. That means that it operates on rows of data, in the same way the SUM() and AVG() functions do and like most aggregates, it also ignores NULL geometries.
      * See ST_UnaryUnion for a non-aggregate, single-input variant.
      *
-     * @param  float|Expression|\Closure|null  $gridSize A gridSize can be specified to work in fixed-precision space. The inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  A gridSize can be specified to work in fixed-precision space. The inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Union.html
      */
@@ -165,7 +164,7 @@ trait MagellanOverlayFunctions
      * Aggregate variant: returns a geometry that is the union of a rowset of geometries. The ST_Union() function is an "aggregate" function in the terminology of PostgreSQL. That means that it operates on rows of data, in the same way the SUM() and AVG() functions do and like most aggregates, it also ignores NULL geometries.
      * See ST_UnaryUnion for a non-aggregate, single-input variant.
      *
-     * @param  float|Expression|\Closure|null  $gridSize A gridSize can be specified to work in fixed-precision space. The inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
+     * @param  float|Expression|\Closure|null  $gridSize  A gridSize can be specified to work in fixed-precision space. The inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
      *
      * @see https://postgis.net/docs/ST_Union.html
      */

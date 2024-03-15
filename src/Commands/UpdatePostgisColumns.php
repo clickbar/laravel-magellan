@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
+
 use function Termwind\render;
 use function Termwind\renderUsing;
 
@@ -304,7 +305,7 @@ class UpdatePostgisColumns extends Command
     }
 
     /**
-     * @param  bool  $overwrite In case of overwrite, we don't need to add a blank upfront
+     * @param  bool  $overwrite  In case of overwrite, we don't need to add a blank upfront
      */
     private function insertPostgisColumns(Collection $lines, int $startLine, array $columns, bool $overwrite)
     {
