@@ -21,7 +21,7 @@ class GeometryHelper
 
     public static function stringifyFloat($float): string
     {
-        // normalized output among locales
-        return trim(trim(rtrim(sprintf('%15F', $float), '0'), '.'));
+        // normalized output, without trailing zeros
+        return rtrim(rtrim(sprintf('%.15F', $float), '0'), '.');
     }
 }
