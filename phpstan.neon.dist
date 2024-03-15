@@ -7,4 +7,6 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::registerDoctrineType\(\)#'
 

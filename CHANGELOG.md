@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Laravel 11.x support
+
 ### Improved
 - Updated `spatie/invade` to v2, works without reflection now 🥳
 
