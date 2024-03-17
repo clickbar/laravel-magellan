@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.6.0](https://github.com/clickbar/laravel-magellan/tree/1.6.0) - 2024-03-17
+
 ### Added
 - Laravel 11.x support
 
