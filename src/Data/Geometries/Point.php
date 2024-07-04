@@ -127,7 +127,7 @@ class Point extends Geometry
     public function setLatitude(float $latitude): void
     {
         $this->assertPointIsGeodetic();
-        $this->y = $latitude;
+        $this->setY($latitude);
     }
 
     public function getLongitude(): float
@@ -140,7 +140,7 @@ class Point extends Geometry
     public function setLongitude(float $longitude): void
     {
         $this->assertPointIsGeodetic();
-        $this->x = $longitude;
+        $this->setX($longitude);
     }
 
     public function getAltitude(): ?float
@@ -153,7 +153,7 @@ class Point extends Geometry
     public function setAltitude(float $altitude): void
     {
         $this->assertPointIsGeodetic();
-        $this->z = $altitude;
+        $this->setZ($altitude);
     }
 
     private function assertPointIsGeodetic()
