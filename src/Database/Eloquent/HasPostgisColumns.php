@@ -9,7 +9,6 @@ use Clickbar\Magellan\Exception\SridMissmatchException;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
@@ -84,49 +83,31 @@ trait HasPostgisColumns
         };
     }
 
-    protected function transformGeometriesInAttributes(): array
+    protected function transformGeometryAttributesToExpression(array $attributes): array
     {
-        $geometryCache = [];
-
-        foreach ($this->attributes as $key => $value) {
+        foreach ($attributes as $key => $value) {
             if ($value instanceof Geometry) {
-                $geometryCache[$key] = $value; //Preserve the geometry objects prior to the insert
                 if ($value instanceof GeometryCollection) {
                     // --> Only insertable into geometry column types
-                    $this->attributes[$key] = $this->geomFromText($value);
+                    $attributes[$key] = $this->geomFromText($value);
                 } else {
                     $columnConfig = $this->getPostgisTypeAndSrid($key);
-                    $this->attributes[$key] = $this->getGeometryAsInsertable($value, $columnConfig);
+                    $attributes[$key] = $this->getGeometryAsInsertable($value, $columnConfig);
                 }
             }
         }
 
-        return $geometryCache;
+        return $attributes;
     }
 
-    protected function restoreOriginalGeometriesInAttributes(array $originalGeometries)
+    protected function getDirtyForUpdate(): array
     {
-        foreach ($originalGeometries as $key => $value) {
-            $this->attributes[$key] = $value; //Retrieve the geometry objects, so they can be used in the model
-        }
+        return $this->transformGeometryAttributesToExpression(parent::getDirtyForUpdate());
     }
 
-    protected function performInsert(EloquentBuilder $query, array $options = [])
+    protected function getAttributesForInsert(): array
     {
-        $originalGeometries = $this->transformGeometriesInAttributes();
-        $insert = parent::performInsert($query, $options);
-        $this->restoreOriginalGeometriesInAttributes($originalGeometries);
-
-        return $insert; //Return the result of the parent insert
-    }
-
-    protected function performUpdate(EloquentBuilder $query)
-    {
-        $originalGeometries = $this->transformGeometriesInAttributes();
-        $update = parent::performUpdate($query);
-        $this->restoreOriginalGeometriesInAttributes($originalGeometries);
-
-        return $update; //Return the result of the parent insert
+        return $this->transformGeometryAttributesToExpression(parent::getAttributesForInsert());
     }
 
     public function setRawAttributes(array $attributes, $sync = false)
