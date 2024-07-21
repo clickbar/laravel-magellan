@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Improved
+- Only override attribute preparation functions on models instead of `performInsert` or `performUpdate` entirely (thanks @RomainMazB #89)
+
+### Fixed
+- Fixed geometries not being passed to model events (fixes #87) (thanks @RomainMazB #89)
+
 ## [1.6.0](https://github.com/clickbar/laravel-magellan/tree/1.6.0) - 2024-03-17
 
 ### Added
