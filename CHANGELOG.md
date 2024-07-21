@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improved
 - Updated `spatie/invade` to v2, works without reflection now 🥳
 
+### Fixed
+- Fixed not updating `Point` dimension when using `setAltitude` 
+
 ## [1.5.0](https://github.com/clickbar/laravel-magellan/tree/1.5.0) - 2024-01-19
 
 ### Added
