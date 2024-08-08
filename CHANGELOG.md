@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
+
 ### Improved
 - Only override attribute preparation functions on models instead of `performInsert` or `performUpdate` entirely (thanks @RomainMazB #89)
 
