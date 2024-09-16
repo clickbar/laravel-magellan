@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Database\PostgisFunctions;
 use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Enums\DelaunayTrianglesOutput;
 use Clickbar\Magellan\Enums\EndCap;
 use Clickbar\Magellan\Enums\GeometryType;
@@ -166,6 +167,24 @@ trait MagellanGeometryProcessingFunctions
     public static function geometricMedian($geometry, float|Expression|\Closure|null $tolerance = null, int|Expression|\Closure|null $maxIterations = null, bool|Expression|\Closure|null $failIfNotConverged = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_GeometricMedian', [GeoParam::wrap($geometry), $tolerance, $maxIterations, $failIfNotConverged]);
+    }
+
+    /**
+     * Returns a float between 0 and 1 representing the location of the closest point on a LineString to the given Point, as a fraction of 2d line length.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineLocatePoint.html
+     */
+    public static function lineLocatePoint($geometryA, $geometryB, bool|Expression| Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    {
+        if ($geometryType === null && $useSpheroid !== null) {
+            $geometryType = GeometryType::Geography;
+        }
+
+        $useSpheroid = $useSpheroid ?? true;
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
+
+        return MagellanBaseExpression::numeric('ST_LineLocatePoint', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), ...$optionalParamters], $geometryType);
     }
 
     /**
