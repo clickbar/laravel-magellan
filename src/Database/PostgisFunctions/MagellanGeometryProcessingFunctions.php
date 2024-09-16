@@ -175,7 +175,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_LineLocatePoint.html
      */
-    public static function lineLocatePoint($geometryA, $geometryB, bool|Expression| Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function lineLocatePoint($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
