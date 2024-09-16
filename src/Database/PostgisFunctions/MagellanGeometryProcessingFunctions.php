@@ -185,12 +185,8 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_LineSubstring.html
      */
-    public static function lineSubstring($geometry, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function lineSubstring($geometry, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
-        if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = GeometryType::Geography;
-        }
-
         return MagellanBaseExpression::geometry('ST_LineSubstring', [GeoParam::wrap($geometry), $startFraction, $endFraction], $geometryType);
     }
 
