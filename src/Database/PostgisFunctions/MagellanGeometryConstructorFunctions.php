@@ -29,4 +29,15 @@ trait MagellanGeometryConstructorFunctions
     {
         return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometryArrayOrSet)]);
     }
+
+    /**
+     * Creates a LineString from an Encoded Polyline string.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineFromEncodedPolyline.html
+     */
+    public static function lineFromEncodedPolyline(string|Expression|\Closure $polyline, float|Expression|\Closure|null $precision = null): MagellanGeometryExpression
+    {
+        return MagellanBaseExpression::geometry('ST_LineFromEncodedPolyline', [$polyline, $precision]);
+    }
 }
