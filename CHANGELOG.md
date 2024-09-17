@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
+- PostGIS ST_LineFromEncodedPolyline support
 - PostGIS ST_LineLocatePoint support
 
 ## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
