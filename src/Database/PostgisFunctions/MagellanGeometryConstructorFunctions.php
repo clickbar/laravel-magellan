@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Database\PostgisFunctions;
 use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Illuminate\Database\Query\Expression;
 
 trait MagellanGeometryConstructorFunctions
 {
