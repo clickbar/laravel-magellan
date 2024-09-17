@@ -199,6 +199,17 @@ trait MagellanGeometryProcessingFunctions
     }
 
     /**
+     * Computes the line which is the section of the input line starting and ending at the given fractional locations. The first argument must be a LINESTRING. The second and third arguments are values in the range [0, 1] representing the start and end locations as fractions of line length. The Z and M values are interpolated for added endpoints if present.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineSubstring.html
+     */
+    public static function lineSubstring($geometry, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    {
+        return MagellanBaseExpression::geometry('ST_LineSubstring', [GeoParam::wrap($geometry), $startFraction, $endFraction], $geometryType);
+    }
+
+    /**
      * Returns the smallest circle polygon that contains a geometry.
      *
      * @param  int|Expression|\Closure|null  $numberOfSegmentsPerQuarterCircle  The bounding circle is approximated by a polygon with a default of 48 segments per quarter circle. Because the polygon is an approximation of the minimum bounding circle, some points in the input geometry may not be contained within the polygon. The approximation can be improved by increasing the number of segments. For applications where an approximation is not suitable ST_MinimumBoundingRadius may be used.

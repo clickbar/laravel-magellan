@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
+- PostGIS ST_LineSubstring support
 - PostGIS ST_LineFromEncodedPolyline support
 - PostGIS ST_LineLocatePoint support
 
