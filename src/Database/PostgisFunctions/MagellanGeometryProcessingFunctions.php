@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Database\PostgisFunctions;
 use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Enums\DelaunayTrianglesOutput;
 use Clickbar\Magellan\Enums\EndCap;
 use Clickbar\Magellan\Enums\GeometryType;
@@ -169,6 +170,24 @@ trait MagellanGeometryProcessingFunctions
     }
 
     /**
+     * Returns a float between 0 and 1 representing the location of the closest point on a LineString to the given Point, as a fraction of 2d line length.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineLocatePoint.html
+     */
+    public static function lineLocatePoint($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    {
+        if ($geometryType === null && $useSpheroid !== null) {
+            $geometryType = GeometryType::Geography;
+        }
+
+        $useSpheroid = $useSpheroid ?? true;
+        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
+
+        return MagellanBaseExpression::numeric('ST_LineLocatePoint', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), ...$optionalParamters], $geometryType);
+    }
+
+    /**
      * Returns a LineString or MultiLineString formed by joining together the line elements of a MultiLineString. Lines are joined at their endpoints at 2-way intersections. Lines are not joined across intersections of 3-way or greater degree.
      *
      *
@@ -177,6 +196,17 @@ trait MagellanGeometryProcessingFunctions
     public static function lineMerge($geometry, bool|Expression|\Closure $directed = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_LineMerge', [GeoParam::wrap($geometry), $directed]);
+    }
+
+    /**
+     * Computes the line which is the section of the input line starting and ending at the given fractional locations. The first argument must be a LINESTRING. The second and third arguments are values in the range [0, 1] representing the start and end locations as fractions of line length. The Z and M values are interpolated for added endpoints if present.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineSubstring.html
+     */
+    public static function lineSubstring($geometry, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    {
+        return MagellanBaseExpression::geometry('ST_LineSubstring', [GeoParam::wrap($geometry), $startFraction, $endFraction], $geometryType);
     }
 
     /**

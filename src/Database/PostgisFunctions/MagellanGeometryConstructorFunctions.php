@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Database\PostgisFunctions;
 use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
+use Illuminate\Database\Query\Expression;
 
 trait MagellanGeometryConstructorFunctions
 {
@@ -28,5 +29,16 @@ trait MagellanGeometryConstructorFunctions
     public static function collect($geometryArrayOrSet): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometryArrayOrSet)]);
+    }
+
+    /**
+     * Creates a LineString from an Encoded Polyline string.
+     *
+     *
+     * @see https://postgis.net/docs/ST_LineFromEncodedPolyline.html
+     */
+    public static function lineFromEncodedPolyline(string|Expression|\Closure $polyline, float|Expression|\Closure|null $precision = null): MagellanGeometryExpression
+    {
+        return MagellanBaseExpression::geometry('ST_LineFromEncodedPolyline', [$polyline, $precision]);
     }
 }

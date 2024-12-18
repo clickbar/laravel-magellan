@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- PostGIS ST_LineSubstring support
+- PostGIS ST_LineFromEncodedPolyline support
+- PostGIS ST_LineLocatePoint support
+
+## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
+
+### Improved
+- Only override attribute preparation functions on models instead of `performInsert` or `performUpdate` entirely (thanks @RomainMazB #89)
+
+### Fixed
+- Fixed geometries not being passed to model events (fixes #87) (thanks @RomainMazB #89)
+
 ## [1.6.0](https://github.com/clickbar/laravel-magellan/tree/1.6.0) - 2024-03-17
 
 ### Added
@@ -14,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Improved
 - Updated `spatie/invade` to v2, works without reflection now 🥳
+
+### Fixed
+- Fixed not updating `Point` dimension when using `setAltitude` 
 
 ## [1.5.0](https://github.com/clickbar/laravel-magellan/tree/1.5.0) - 2024-01-19
 
