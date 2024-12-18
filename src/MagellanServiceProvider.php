@@ -2,7 +2,6 @@
 
 namespace Clickbar\Magellan;
 
-use Clickbar\Magellan\Commands\UpdateModelCasts;
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
 use Clickbar\Magellan\IO\GeometryModelFactory;
@@ -31,19 +30,18 @@ class MagellanServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-magellan')
             ->hasConfigFile()
-            ->hasMigration('enable_postgis_extension')
-            ->hasCommand(UpdateModelCasts::class);
+            ->hasMigration('enable_postgis_extension');
     }
 
     public function registeringPackage()
     {
-        PostgresGrammar::mixin(new MagellanGrammar());
-        Blueprint::mixin(new MagellanBlueprint());
+        PostgresGrammar::mixin(new MagellanGrammar);
+        Blueprint::mixin(new MagellanBlueprint);
 
-        $this->registerBuilderMixin(new BuilderMacros());
+        $this->registerBuilderMixin(new BuilderMacros);
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
-            return new GeometryFactory();
+            return new GeometryFactory;
         });
 
         $this->app->singleton(GeojsonParser::class, function ($app) {
