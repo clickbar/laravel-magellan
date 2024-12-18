@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.6.0](https://github.com/clickbar/laravel-magellan/tree/1.6.0) - 2024-03-17
+
+### Added
+- Laravel 11.x support
+
+### Improved
+- Updated `spatie/invade` to v2, works without reflection now 🥳
+
+## [1.5.0](https://github.com/clickbar/laravel-magellan/tree/1.5.0) - 2024-01-19
+
 ### Added
 - Added `as` parameter for `stFrom` function
 - Aligned `stHaving` with `stWhere` to also accept string column and ST expressions, boxes and geometries as value

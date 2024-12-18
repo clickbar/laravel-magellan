@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\Finder\SplFileInfo;
+
 use function Termwind\render;
 use function Termwind\renderUsing;
 
@@ -296,7 +297,7 @@ class UpdateModelCasts extends Command
     }
 
     /**
-     * @param  bool  $overwrite In case of overwrite, we don't need to add a blank upfront
+     * @param  bool  $overwrite  In case of overwrite, we don't need to add a blank upfront
      */
     private function insertCastsCodeLines(Collection $lines, int $startLine, array $columns, bool $overwrite, array $currentCastsLines)
     {

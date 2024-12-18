@@ -11,7 +11,7 @@ jobs:
   changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: dangoslen/changelog-enforcer@v3.5.1
+      - uses: dangoslen/changelog-enforcer@v3.6.0
         with:
           changeLogPath: 'CHANGELOG.md'
           skipLabels: 'skip-changelog'

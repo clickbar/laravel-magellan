@@ -51,7 +51,7 @@ class GeographyType extends PostGISType
     {
         $srid = (int) ($options['srid'] ?? 4326);
 
-        if (0 === $srid) {
+        if ($srid === 0) {
             $srid = 4326;
         }
 

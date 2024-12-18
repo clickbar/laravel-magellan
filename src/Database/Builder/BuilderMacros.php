@@ -43,7 +43,7 @@ class BuilderMacros
          * @param  string|null  $as
          * @return static
          */
-        return function (MagellanBaseExpression $magellanExpression, string $as = null) {
+        return function (MagellanBaseExpression $magellanExpression, ?string $as = null) {
             $asOrDefault = mb_strtolower($as ?? $magellanExpression->getDefaultAs());
 
             if ($this instanceof EloquentBuilder) {
@@ -151,11 +151,10 @@ class BuilderMacros
          * @param  \Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression  $magellanExpression
          * @return static
          */
-        return function (MagellanSetExpression $magellanExpression, string $as = null) {
+        return function (MagellanSetExpression $magellanExpression, ?string $as = null) {
             // NOTE: the `as` field has to be included in the DB expression instead of using the `from` method with the
             // `as` parameter, because the latter will try to use the expression in a string concatenation with `as`.
             /** @var Builder $this */
-            // @phpstan-ignore-next-line Laravel did not type the property correctly
             $this->from = $magellanExpression->invoke($this, 'from', $as);
 
             return $this;
