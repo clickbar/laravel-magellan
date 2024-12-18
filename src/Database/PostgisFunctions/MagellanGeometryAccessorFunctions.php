@@ -29,7 +29,7 @@ trait MagellanGeometryAccessorFunctions
      *
      * @see https://postgis.net/docs/ST_BoundingDiagonal.html
      */
-    public static function boundingDiagonal($geometry, bool|Expression|\Closure $fits = null): MagellanGeometryExpression
+    public static function boundingDiagonal($geometry, bool|Expression|\Closure|null $fits = null): MagellanGeometryExpression
     {
         return MagellanBaseExpression::geometry('ST_BoundingDiagonal', [GeoParam::wrap($geometry), $fits]);
     }

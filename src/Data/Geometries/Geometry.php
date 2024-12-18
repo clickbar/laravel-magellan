@@ -10,8 +10,7 @@ abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializa
     public function __construct(
         protected ?int $srid = null,
         protected Dimension $dimension = Dimension::DIMENSION_2D,
-    ) {
-    }
+    ) {}
 
     public function getDimension(): Dimension
     {
@@ -33,7 +32,7 @@ abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializa
     public function jsonSerialize(): mixed
     {
         $generatorClass = Config::get('magellan.json_generator');
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         return $generator->generate($this);
     }
@@ -41,7 +40,7 @@ abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializa
     public function __toString(): string
     {
         $generatorClass = Config::get('magellan.string_generator');
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         $generated = $generator->generate($this);
         if (! is_string($generated)) {

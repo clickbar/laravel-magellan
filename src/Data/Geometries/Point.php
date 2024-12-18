@@ -6,7 +6,7 @@ use Clickbar\Magellan\Exception\MissingGeodeticSRIDException;
 
 class Point extends Geometry
 {
-    public static function make(float $x, float $y, float $z = null, float $m = null, int $srid = null): self
+    public static function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
     {
         return new self(Dimension::fromCoordinates($x, $y, $z, $m), $x, $y, $z, $m, $srid);
     }
@@ -15,14 +15,14 @@ class Point extends Geometry
      * Creates a point instance with the WGS84 projection (SRID=4326)
      * Points using this projection can also use the geodectic getters and setters
      */
-    public static function makeGeodetic(float $latitude, float $longitude, float $altitude = null, float $m = null): self
+    public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
         $dimension = Dimension::fromCoordinates($longitude, $latitude, $altitude, $m);
 
         return new self($dimension, $longitude, $latitude, $altitude, $m, config('magellan.geodetic_default_srid'));
     }
 
-    public static function makeEmpty(int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
+    public static function makeEmpty(?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
         $z = null;
         $m = null;
@@ -43,7 +43,7 @@ class Point extends Geometry
         protected float $y,
         protected ?float $z = null,
         protected ?float $m = null,
-        int $srid = null
+        ?int $srid = null
     ) {
         parent::__construct($srid, $dimension);
     }

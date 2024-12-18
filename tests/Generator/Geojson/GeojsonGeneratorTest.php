@@ -10,7 +10,7 @@ use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
 
 beforeEach(function () {
-    $this->generator = new GeojsonGenerator();
+    $this->generator = new GeojsonGenerator;
 });
 
 test('can generate empty Geojson Point', function () {

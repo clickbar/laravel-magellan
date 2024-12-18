@@ -4,7 +4,7 @@ namespace Clickbar\Magellan\Exception;
 
 class MissingGeodeticSRIDException extends \RuntimeException
 {
-    public function __construct(int $geometrySrid = null, string $message = null)
+    public function __construct(?int $geometrySrid = null, ?string $message = null)
     {
         $hint = ' Use the non-geodetic getters and setters instead or make sure to retrieve the geometry with a SRID specified in the geodetic_srids config or SRID = 0.';
 

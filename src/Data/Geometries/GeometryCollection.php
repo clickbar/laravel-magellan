@@ -14,12 +14,12 @@ class GeometryCollection extends Geometry implements Countable
     /**
      * @param  Geometry[]  $geometries
      */
-    public static function make(array $geometries, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
+    public static function make(array $geometries, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
         return new self($geometries, $srid, $dimension);
     }
 
-    protected function __construct(array $geometries, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
+    protected function __construct(array $geometries, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
         parent::__construct($srid, $dimension);
 

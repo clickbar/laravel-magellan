@@ -4,7 +4,7 @@ use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Rules\GeometryGeojsonRule;
 
 test('will validate any valid geometry', function () {
-    $rule = new GeometryGeojsonRule();
+    $rule = new GeometryGeojsonRule;
 
     $ruleMessage = null;
 
@@ -19,7 +19,7 @@ test('will validate any valid geometry', function () {
 });
 
 test('will reject any valid geometry', function () {
-    $rule = new GeometryGeojsonRule();
+    $rule = new GeometryGeojsonRule;
 
     $ruleMessage = null;
 

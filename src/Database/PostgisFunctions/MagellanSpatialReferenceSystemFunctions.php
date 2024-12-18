@@ -45,7 +45,7 @@ trait MagellanSpatialReferenceSystemFunctions
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */
-    public static function transform($geometry, int|Expression|\Closure $srid = null, string|Expression|\Closure $fromProjection = null, string|Expression|\Closure $toProjection = null, int|Expression|\Closure $toSrid = null): MagellanGeometryExpression
+    public static function transform($geometry, int|Expression|\Closure|null $srid = null, string|Expression|\Closure|null $fromProjection = null, string|Expression|\Closure|null $toProjection = null, int|Expression|\Closure|null $toSrid = null): MagellanGeometryExpression
     {
         // TODO: Consider throwing exception when the overloading does not suite the available possibilitirs:
         return MagellanBaseExpression::geometry('ST_Transform', [GeoParam::wrap($geometry), $srid, $fromProjection, $toProjection, $toSrid]);

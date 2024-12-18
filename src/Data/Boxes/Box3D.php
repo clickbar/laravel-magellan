@@ -6,9 +6,7 @@ use Illuminate\Database\Query\Expression;
 
 class Box3D extends Box
 {
-    private function __construct(protected float $xMin, protected float $yMin, protected float $zMin, protected float $xMax, protected float $yMax, protected float $zMax)
-    {
-    }
+    private function __construct(protected float $xMin, protected float $yMin, protected float $zMin, protected float $xMax, protected float $yMax, protected float $zMax) {}
 
     public static function make(float $xMin, float $yMin, float $zMin, float $xMax, float $yMax, float $zMax): self
     {

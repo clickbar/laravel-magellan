@@ -11,8 +11,7 @@ class GeoParam
 {
     protected function __construct(
         protected readonly array|\Closure|MagellanBaseExpression|Expression|Geometry|Box2D|Box3D|string|null $value,
-    ) {
-    }
+    ) {}
 
     public static function wrap(array|\Closure|MagellanBaseExpression|Expression|Geometry|Box2D|Box3D|string|null $value)
     {

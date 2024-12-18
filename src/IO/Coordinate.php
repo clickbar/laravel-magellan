@@ -9,8 +9,7 @@ final class Coordinate
         public readonly float $y,
         public ?float $z = null,
         public ?float $m = null,
-    ) {
-    }
+    ) {}
 
     public function setZ(float $z)
     {

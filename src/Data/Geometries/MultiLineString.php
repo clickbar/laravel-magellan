@@ -14,12 +14,12 @@ class MultiLineString extends Geometry implements Countable
     /**
      * @param  LineString[]  $lineStrings
      */
-    public static function make(array $lineStrings, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
+    public static function make(array $lineStrings, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
         return new self($lineStrings, $srid, $dimension);
     }
 
-    protected function __construct(array $lineStrings, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
+    protected function __construct(array $lineStrings, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
         parent::__construct($srid, $dimension);
 

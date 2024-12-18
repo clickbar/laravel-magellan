@@ -58,7 +58,9 @@ class MagellanServiceProvider extends PackageServiceProvider
 
         // Register custom Doctrine types for PostGIS only if DBAL is available
         if (class_exists('Doctrine\DBAL\Connection') && method_exists('Illuminate\Database\Connection', 'registerDoctrineType')) {
+            // @phpstan-ignore staticMethod.notFound
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
+            // @phpstan-ignore staticMethod.notFound
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
         }
     }

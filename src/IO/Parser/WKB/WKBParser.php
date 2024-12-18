@@ -33,7 +33,7 @@ class WKBParser extends BaseParser
         return $this->parseWkbSegment();
     }
 
-    protected function parseWkbSegment(WKBGeometryType $expectedGeometryType = null): Geometry
+    protected function parseWkbSegment(?WKBGeometryType $expectedGeometryType = null): Geometry
     {
         $this->setupByteOrder();
 

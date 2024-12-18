@@ -14,8 +14,7 @@ abstract class MagellanBaseExpression
         protected readonly string $postgisFunction,
         protected readonly array $params,
         protected readonly ?GeometryType $geometryType = GeometryType::Geometry,
-    ) {
-    }
+    ) {}
 
     public static function numeric(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanNumericExpression
     {
@@ -52,7 +51,7 @@ abstract class MagellanBaseExpression
         return new MagellanBBoxExpression($postgisFunction, $params, $geometryType);
     }
 
-    public function invoke($builder, string $bindingType, string $as = null): Expression
+    public function invoke($builder, string $bindingType, ?string $as = null): Expression
     {
         // Remove null values from params and map to the BindingValue if it is no GeoParam or Expression
         $params = collect($this->params)

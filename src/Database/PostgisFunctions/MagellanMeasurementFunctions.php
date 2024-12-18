@@ -29,7 +29,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Distance.html
      */
-    public static function distance($geometryA, $geometryB, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
+    public static function distance($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -69,7 +69,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_FrechetDistance.html
      */
-    public static function distanceFrechet($geometryA, $geometryB, float|Expression|\Closure $densityFrac = null): MagellanNumericExpression
+    public static function distanceFrechet($geometryA, $geometryB, float|Expression|\Closure|null $densityFrac = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_FrechetDistance', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $densityFrac]);
     }
@@ -81,7 +81,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_HausdorffDistance.html
      */
-    public static function distanceHausdorff($geometryA, $geometryB, float|Expression|\Closure $densityFrac = null): MagellanNumericExpression
+    public static function distanceHausdorff($geometryA, $geometryB, float|Expression|\Closure|null $densityFrac = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_HausdorffDistance', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $densityFrac]);
     }
@@ -114,7 +114,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Area.html
      */
-    public static function area($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
+    public static function area($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -132,7 +132,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Length.html
      */
-    public static function length($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
+    public static function length($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -240,7 +240,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Perimeter.html
      */
-    public static function perimeter($geometry, bool|Expression|\Closure $useSpheroid = null, GeometryType $geometryType = null): MagellanNumericExpression
+    public static function perimeter($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         if ($geometryType === null && $useSpheroid !== null) {
             $geometryType = GeometryType::Geography;
@@ -271,7 +271,7 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_Azimuth.html
      */
-    public static function azimuth($geometryA, $geometryB, GeometryType $geometryType = null): MagellanNumericExpression
+    public static function azimuth($geometryA, $geometryB, ?GeometryType $geometryType = null): MagellanNumericExpression
     {
         return MagellanBaseExpression::numeric('ST_Azimuth', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
     }

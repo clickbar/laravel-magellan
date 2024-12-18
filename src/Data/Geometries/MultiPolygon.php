@@ -12,7 +12,7 @@ class MultiPolygon extends Geometry implements \Countable
     /**
      * @param  Polygon[]  $polygons
      */
-    public static function make(array $polygons, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
+    public static function make(array $polygons, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {
         return new self($polygons, $srid, $dimension);
     }
@@ -20,7 +20,7 @@ class MultiPolygon extends Geometry implements \Countable
     /**
      * @param  Polygon[]  $polygons
      */
-    protected function __construct(array $polygons, int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
+    protected function __construct(array $polygons, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D)
     {
         parent::__construct($srid, $dimension);
 

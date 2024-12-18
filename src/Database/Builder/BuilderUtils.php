@@ -18,7 +18,7 @@ use Spatie\Invade\Invader;
 
 class BuilderUtils
 {
-    public static function buildPostgisFunction(Builder|EloquentBuilder $builder, string $bindingType, ?string $geometryType, string $function, string $as = null, ...$params): Expression
+    public static function buildPostgisFunction(Builder|EloquentBuilder $builder, string $bindingType, ?string $geometryType, string $function, ?string $as = null, ...$params): Expression
     {
         if ($builder instanceof EloquentBuilder) {
             $builder = $builder->getQuery();
@@ -29,7 +29,7 @@ class BuilderUtils
 
         $params = self::prepareParams($params, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend);
         $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
         $paramString = self::transformAndJoinParams($params, $generator, $geometryTypeCastAppend, $builder);
 
         $expressionString = "$function($paramString)";
@@ -47,7 +47,9 @@ class BuilderUtils
     protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, Invader $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
     {
         foreach ($params as $i => $param) {
+            // @phpstan-ignore if.alwaysTrue
             if ($invadedBuilder->isQueryable($param)) {
+                // @phpstan-ignore offsetAccess.nonArray
                 [$sub, $bindings] = $invadedBuilder->createSub($param);
 
                 array_splice($params, $i, 1, [new Expression("($sub)")]);
@@ -62,7 +64,8 @@ class BuilderUtils
                 if ($value instanceof MagellanBaseExpression) {
                     $invoked = $builder->grammar->wrap($value->invoke($builder, $bindingType, null));
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("{$invoked}$geometryTypeCastAppend"))]);
-                } elseif ($invadedBuilder->isQueryable($value)) {
+                } elseif ($invadedBuilder->isQueryable($value)) { // @phpstan-ignore elseif.alwaysTrue
+                    // @phpstan-ignore offsetAccess.nonArray
                     [$sub, $bindings] = $invadedBuilder->createSub($value);
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("($sub)$geometryTypeCastAppend"))]);
                     $invadedBuilder->addBinding($bindings, $bindingType);
@@ -151,7 +154,7 @@ class BuilderUtils
 
         if ($value instanceof Geometry) {
             $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-            $generator = new $generatorClass();
+            $generator = new $generatorClass;
 
             return $generator->generate($value);
         }
