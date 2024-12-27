@@ -31,7 +31,7 @@ class BuilderUtils
         $generator = new $generatorClass();
         $paramString = self::transformAndJoinParams($params, $generator, $geometryTypeCastAppend, $builder);
 
-        $expressionString = "$function($paramString)";
+        $expressionString = Config::get('magellan.schema').'.'."$function($paramString)";
 
         if ($as) {
             $expressionString .= " AS $as";
