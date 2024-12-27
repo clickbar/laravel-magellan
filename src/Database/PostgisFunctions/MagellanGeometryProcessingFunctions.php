@@ -25,7 +25,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_Buffer.html
      */
-    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null, ?Side $styleSide = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null, ?Side $styleSide = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -36,7 +36,7 @@ trait MagellanGeometryProcessingFunctions
             "quad_segs=$styleQuadSegs",
             "endcap=$styleEndCap?->value",
             "join=$styleJoin?->value",
-            "mitre_level=$styleMitreLevel",
+            "mitre_limit=$styleMitreLimit",
             "side=$styleSide?->value",
         ];
 
@@ -242,7 +242,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_OffsetCurve.html
      */
-    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null): MagellanGeometryExpression
+    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -252,7 +252,7 @@ trait MagellanGeometryProcessingFunctions
         $styleParts = [
             "quad_segs=$numSegQuarterCircle",
             "join=$styleJoin?->value",
-            "mitre_level=$styleMitreLevel",
+            "mitre_limit=$styleMitreLimit",
         ];
 
         $styleParameter = collect($styleParts)
