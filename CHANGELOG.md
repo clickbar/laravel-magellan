@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed `Expression` types in SRID-related functions
 - Fixed missing schema prefix for generated SQL of first-level `ST` functions
+- Fixed numeric SRID queries in `ST::transform` and `ST::setSRID` (thanks @BezBIS #91)
 
 ## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
 
