@@ -55,9 +55,9 @@ test('it can find points within a polygon', function () {
         ->stWhere(ST::contains($germany, 'location'), true)
         ->get();
 
-    expect($locationsInGermany)->toHaveCount(2)
-        ->and($locationsInGermany->pluck('name'))->toContain('Berlin', 'Munich')
-        ->and($locationsInGermany->pluck('name'))->not->toContain('Paris');
+    expect($locationsInGermany)->toHaveCount(2);
+    expect($locationsInGermany->pluck('name'))->toContain('Berlin', 'Munich');
+    expect($locationsInGermany->pluck('name'))->not->toContain('Paris');
 });
 
 test('it can calculate distances between points', function () {
@@ -80,10 +80,10 @@ test('it can calculate distances between points', function () {
         ->orderBy('distance_in_meters')
         ->get();
 
-    expect($distances)->toHaveCount(2)
-        ->and($distances[0]->name)->toBe('Berlin')
-        ->and($distances[0]->distance_in_meters)->toBeLessThan(1) // Should be very close to 0
-        ->and($distances[1]->name)->toBe('Hamburg')
-        ->and($distances[1]->distance_in_meters)->toBeGreaterThan(200000) // Hamburg is > 200km from Berlin
-        ->and($distances[1]->distance_in_meters)->toBeLessThan(300000); // but < 300km
+    expect($distances)->toHaveCount(2);
+    expect($distances[0]->name)->toBe('Berlin');
+    expect($distances[0]->distance_in_meters)->toBeLessThan(1); // Should be very close to 0
+    expect($distances[1]->name)->toBe('Hamburg');
+    expect($distances[1]->distance_in_meters)->toBeGreaterThan(200000); // Hamburg is > 200km from Berlin
+    expect($distances[1]->distance_in_meters)->toBeLessThan(300000); // but < 300km
 });

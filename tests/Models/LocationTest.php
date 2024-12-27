@@ -1,6 +1,7 @@
 <?php
 
 use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Database\PostgisFunctions\ST;
 use Clickbar\Magellan\Tests\Models\Location;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,17 +25,15 @@ test('it can store and retrieve a point', function () {
         'location' => Point::makeGeodetic(51.087, 8.76),
     ]);
 
-    expect($location->location)
-        ->toBeInstanceOf(Point::class)
-        ->and($location->location->getLatitude())->toBe(51.087)
-        ->and($location->location->getLongitude())->toBe(8.76);
+    expect($location->location)->toBeInstanceOf(Point::class);
+    expect($location->location->getLatitude())->toBe(51.087);
+    expect($location->location->getLongitude())->toBe(8.76);
 
     // Test after fresh retrieval
     $location = $location->fresh();
-    expect($location->location)
-        ->toBeInstanceOf(Point::class)
-        ->and($location->location->getLatitude())->toBe(51.087)
-        ->and($location->location->getLongitude())->toBe(8.76);
+    expect($location->location)->toBeInstanceOf(Point::class);
+    expect($location->location->getLatitude())->toBe(51.087);
+    expect($location->location->getLongitude())->toBe(8.76);
 });
 
 test('it can query points within distance', function () {
@@ -54,12 +53,14 @@ test('it can query points within distance', function () {
         'location' => Point::makeGeodetic(48.137, 11.576),
     ]);
 
+    $berlinPoint = Point::makeGeodetic(52.52, 13.405);
+
     // Find locations within 300km of Berlin
-    $nearbyLocations = Location::whereRaw('ST_DWithin(location::geography, ST_SetSRID(ST_MakePoint(13.405, 52.52), 4326)::geography, 300000)')
+    $nearbyLocations = Location::query()
+        ->stWhere(ST::dWithinGeography('location', $berlinPoint, 300000), true)
         ->get();
 
-    expect($nearbyLocations)->toHaveCount(2)
-        ->and($nearbyLocations->pluck('name')->contains('Berlin'))->toBeTrue()
-        ->and($nearbyLocations->pluck('name')->contains('Hamburg'))->toBeTrue()
-        ->and($nearbyLocations->pluck('name')->contains('Munich'))->toBeFalse();
+    expect($nearbyLocations)->toHaveCount(2);
+    expect($nearbyLocations->pluck('name'))->toContain('Berlin', 'Hamburg');
+    expect($nearbyLocations->pluck('name'))->not->toContain('Munich');
 });
