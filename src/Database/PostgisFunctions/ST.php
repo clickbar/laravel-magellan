@@ -11,6 +11,7 @@ class ST
     use MagellanGeometryProcessingFunctions;
     use MagellanGeometryValidationFunctions;
     use MagellanMeasurementFunctions;
+    use MagellanOtherFormatFunctions;
     use MagellanOverlayFunctions;
     use MagellanSpatialReferenceSystemFunctions;
     use MagellanTopologicalRelationshipFunctions;
