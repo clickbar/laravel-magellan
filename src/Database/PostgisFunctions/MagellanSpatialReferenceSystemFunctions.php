@@ -6,18 +6,24 @@ use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
-use mysql_xdevapi\Expression;
+use Illuminate\Database\Query\Expression;
 
 trait MagellanSpatialReferenceSystemFunctions
 {
     /**
      * Sets the SRID on a geometry to a particular integer value. Useful in constructing bounding boxes for queries.
      *
+     * NOTE: If you use an Expression or Closure for the SRID, you might need to add an `::int` cast.
+     * See https://stackoverflow.com/questions/66625661/cannot-bind-value-as-int-with-pdo-pgsql-driver
      *
      * @see https://postgis.net/docs/ST_SetSRID.html
      */
     public static function setSrid($geometry, int|Expression|\Closure $srid): MagellanGeometryExpression
     {
+        if (is_int($srid)) {
+            $srid = new Expression($srid.'::int');
+        }
+
         return MagellanBaseExpression::geometry('ST_SetSRID', [GeoParam::wrap($geometry), $srid]);
     }
 
@@ -42,12 +48,21 @@ trait MagellanSpatialReferenceSystemFunctions
      * - geometry ST_Transform(geometry geom, text from_proj, text to_proj);
      * - geometry ST_Transform(geometry geom, text from_proj, integer to_srid);
      *
+     * NOTE: If you use an Expression or Closure for the SRID, you might need to add an `::int` cast.
+     * See https://stackoverflow.com/questions/66625661/cannot-bind-value-as-int-with-pdo-pgsql-driver
      *
      * @see https://postgis.net/docs/ST_Transform.html
      */
     public static function transform($geometry, int|Expression|\Closure|null $srid = null, string|Expression|\Closure|null $fromProjection = null, string|Expression|\Closure|null $toProjection = null, int|Expression|\Closure|null $toSrid = null): MagellanGeometryExpression
     {
-        // TODO: Consider throwing exception when the overloading does not suite the available possibilitirs:
+        if ($srid === null && $toProjection === null && ($fromProjection === null || $toSrid === null)) {
+            throw new \InvalidArgumentException('Invalid parameters: At least one valid parameter combination must be provided. See the DocBlock for possible calls.');
+        }
+
+        if (is_int($srid)) {
+            $srid = new Expression($srid.'::int');
+        }
+
         return MagellanBaseExpression::geometry('ST_Transform', [GeoParam::wrap($geometry), $srid, $fromProjection, $toProjection, $toSrid]);
     }
 }

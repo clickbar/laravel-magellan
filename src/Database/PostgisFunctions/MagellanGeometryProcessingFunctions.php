@@ -242,7 +242,7 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_OffsetCurve.html
      */
-    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLevel = null): MagellanGeometryExpression
+    public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null): MagellanGeometryExpression
     {
         $arguments = [
             GeoParam::wrap($geometry),
@@ -252,7 +252,7 @@ trait MagellanGeometryProcessingFunctions
         $styleParts = [
             "quad_segs=$numSegQuarterCircle",
             "join=$styleJoin?->value",
-            "mitre_level=$styleMitreLevel",
+            "mitre_limit=$styleMitreLimit",
         ];
 
         $styleParameter = collect($styleParts)

@@ -11,33 +11,11 @@ return [
      */
     'schema' => 'public',
 
-    'eloquent' => [
-        /**
-         * The default PostGIS type information that should be used when interacting with PostGIS columns
-         * on Eloquent models. This is used when the type information is not specified in the $postgisColumns
-         * array on the model.
-         */
-        'default_postgis_type' => 'geometry',
-        'default_srid' => 4326,
-
-        /**
-         * When set to true, the Eloquent model will automatically transform geometries to the database projection
-         * using ST_TRANSFORM(), when the SRID of the geometry does not match the SRID of the column as described in the
-         * model's $postgisColumns array.
-         *
-         * NOTE: This only works for Eloquent based insert/update operations, and will not work for custom DB queries.
-         * NOTE: This will ignore geography columns, since they do not support transformation to other SRIDs.
-         *
-         * @see https://postgis.net/docs/ST_Transform.html
-         */
-        'transform_to_database_projection' => false,
-    ],
-
     /**
      * The generator that should be used when converting a geometry to JSON.
      * This should be a sensitive default for most WGS use-cases, but remember that
      * the GeoJSON standard is only defined for SRID 4326 and will fail otherwise. You
-     * may use another generator if you need to support other SRIDs eg. the WKT generator.
+     * may use another generator if you need to support other SRIDs e.g. the WKT generator.
      */
     'json_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
 
@@ -60,15 +38,6 @@ return [
      * NOTE: The GeoJson generator will not work for geography columns, since they do not support SRIDs.
      */
     'string_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
-
-    /**
-     * The directories where the models are located that we should consider for the magellan commands.
-     * E.g. the update-postgis-columns command uses these locations to find the models of tables which should
-     * be updated.
-     */
-    'model_directories' => [
-        'Models',
-    ],
 
     /**
      * The SRIDs, that are used to determine whether a geometry class uses a geodetic projection when trying

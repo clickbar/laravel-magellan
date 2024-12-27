@@ -44,6 +44,7 @@ abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializa
         $generator = new $generatorClass();
 
         $generated = $generator->generate($this);
+
         if (! is_string($generated)) {
             return json_encode($generated);
         }
