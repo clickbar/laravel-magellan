@@ -15,8 +15,6 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
 [![Total Downloads](https://img.shields.io/packagist/dt/clickbar/laravel-magellan.svg?style=flat-square)](https://packagist.org/packages/clickbar/laravel-magellan)
-[![GitHub Tests Action Status](https://github.com/clickbar/laravel-magellan/actions/workflows/run-tests.yml/badge.svg)](https://github.com/clickbar/laravel-magellan/actions/workflows/run-tests.yml)
-[![GitHub Code Style Action Status](https://github.com/clickbar/laravel-magellan/actions/workflows/fix-styling.yml/badge.svg)](https://github.com/clickbar/laravel-magellan/actions/workflows/fix-styling.yml)
 <br>
 <br>
 </div>
@@ -42,7 +40,7 @@ the Grammar and Connection.
 
 Magellan supports Laravel projects, which meet the following requirements:
 
-- Laravel `^9.28` or `^10.0`
+- Laravel `^9.28` or `^10.0` or `^11.0`
 - PHP `^8.1`
 
 ## Installation
@@ -78,7 +76,6 @@ You may find the contents of the published config file here:
 - [x] GeoJson Generator & Parser
 - [x] Eloquent Model Trait
 - [x] Command to automatically add the PostGIS trait to models
-- [x] Auto transform on insert with different projection
 - [x] GeoJson Request Validation Rule
 - [x] Transforms Geometry for Form Requests
 - [x] Exposes nearly all PostGIS functions as typed functions that can be used in select, where, orderBy, groupBy, having, from
@@ -118,14 +115,6 @@ protected $casts = [
     'location' => GeometryCast::class,
 ];
 ```
-
-This step can be automated by using the following command:
-
-```bash 
-php artisan magellan:update-casts
-```
-
-The command automatically scans the database and adds the correct cast with the appropriate SRID.
 
 ## Using the geometry data classes
 
@@ -292,7 +281,8 @@ class Port extends Model
 
 ### Insert/Update
 
-Magellan geometry objects can be inserted directly as long as they are specified in the `$postgisColumns` of the affected model.
+Magellan geometry objects can be inserted directly as long as they are specified in the
+`$casts` of the affected model.
 In our case, we can insert a new Port like this:
 
 ```php
@@ -319,36 +309,39 @@ Port::where('name', 'Magellan Home Port')
 ### Insert/Update with different SRID
 
 When getting Geometries from external systems you might receive them in another projection than the one in the database.
-Consider we want to insert or update a geometry with a different SRID:
+Consider we want to insert or update a geometry with a different SRID. To do so, we have to use the `ST::transform(...)`
+function first.
 
 ```php
+$point = Point::make(473054.9891044726, 5524365.310057224, srid: 25832);
+
+$wkbParser = App::make(WKBParser::class);
+
+$d = DB::query()
+  ->stSelect(ST::transform($point, 4326))
+  ->first()->transform;
+
+$point = $wkbParser->parse($d);
+
 Port::create([
     'name' => 'Magellan Home Port',
     'country' => 'Germany',
-    'location' => Point::make(473054.9891044726, 5524365.310057224, srid: 25832),
+    'location' => $point,
 ]);
 
 // -- or --
 
 $port = Port::find(1);
-$port->location = Point::make(473054.9891044726, 5524365.310057224, srid: 25832);
-$port->save();
+
+$port->query()->update([
+    'location' => ST::transform(Point::make(473054.9891044726, 5524365.310057224, srid: 25832), 4326),
+]);
 ```
-
-Since our port table uses a point with SRID=4326, Magellan will raise an error:
-
-> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider
-enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
-
-We included an auto transform option that directly applies `ST_Transform(geometry, databaseSRID)` for you.
-
-> **Note**  
-> This option will only be applied when inserting/updating directly on an eloquent model.  
-> This option will not be applied on geography columns.
 
 ### Select
 
-When selecting data from a model that uses the `HasPostgisColumns` trait, all attributes will directly be parsed to the internal data classes:
+When selecting data from a model that uses the
+`GeometryCast`, the attributes will directly be parsed to the internal Geometry data classes:
 
 ```php
 $port = Port::first();
@@ -369,7 +362,8 @@ Clickbar\Magellan\Data\Geometries\Point {#1732
 }
 ```
 
-There might be cases where you also want to use box2d or box3d as column types. Currently, we don't support boxes within the `$postgisColumns`.
+There might be cases where you also want to use Box2D or Box3D as column types. Currently, we don't support boxes within the
+`GeometryCast`.
 Please use the `BBoxCast` instead.
 
 ### Using PostGIS functions in queries
