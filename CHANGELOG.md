@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PostGIS ST_LineSubstring support
 - PostGIS ST_LineFromEncodedPolyline support
 - PostGIS ST_LineLocatePoint support
+- Added comprehensive test suite for geometry types, spatial queries, and GeoJSON validation
+- Added tests demonstrating proper usage of ST helper functions
+
+### Improved
+
+- Streamlined the phpunit configuration and the `TestCase` class
 
 ## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
 
