@@ -23,6 +23,10 @@ class GeojsonParser extends BaseParser
             throw new \RuntimeException('Invalid GeoJSON: Missing type');
         }
 
+        if (isset($input['coordinates']) && ! is_array($input['coordinates'])) {
+            throw new \RuntimeException('Invalid GeoJSON: The coordinates must be an array');
+        }
+
         $type = $input['type'];
 
         return match ($type) {

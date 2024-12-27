@@ -12,10 +12,19 @@ permissions:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    services:
+      postgis:
+        image: postgis/postgis:17-3.5
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         php: [8.3, 8.2, 8.1]
         laravel: [9.*, 10.*, 11.*]
         stability: [prefer-lowest, prefer-stable]
