@@ -95,7 +95,7 @@ You may find the contents of the published config file here:
 ## Before you start
 
 We highly recommend using the [laravel-ide-helper](https://github.com/barryvdh/laravel-ide-helper) from barryvdh to be
-able to see everything included in the IDEs auto completion.
+able to see everything included in the IDEs auto-completion.
 
 ## Creating Tables with PostGIS Columns
 
@@ -154,15 +154,16 @@ You will notice that there are 3 different make methods for the Point class with
 Let's take a closer look to the first two:
 
 This is the default factory method that can be used to fill all possible values. This method is considered the "plain"
-way. You should consider using this method when you use a non lng/lat projection (e.g.something different than WGS84:srid=4326).
+way. You should consider using this method when you use a non LNG/LAT projection
+(e.g. something different from WGS84:SRID=4326).
 
 ```php
 function make(float $x, float $y, ?float $z = null, ?float $m = null, ?int $srid = null): self
 ```
 
 Most of the common web use cases use the WGS84 projection. Therefore, most of the time the terms that are used will be
-latitude, longitute and altitude instead of x, y and z. To provide more comfort we have included a factory method that
-accepts those terms and automatically sets the srid to the default geodetic srid, which can be set in the config file.
+latitude, longitude and altitude instead of x, y and z. To provide more comfort we have included a factory method that
+accepts those terms and automatically sets the SRID to the default geodetic SRID, which can be set in the config file.
 
 ```php
 function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
@@ -216,15 +217,17 @@ $generator->generate($point);
 // "0101000020E610000000000000000000400000000000000040"
 ```
 
-In this example we obtain an instance of the `WKTParser` and convert the string to one of our data classes. `$point` is then a valid `Point` instance and we can use any other generator eg. the `WKBGenerator` to output the `$point` in hexadecimal WKB format.
+In this example we obtain an instance of the `WKTParser` and convert the string to one of our data classes.
+`$point` is then a valid `Point` instance, and we can use any other generator e.g. the `WKBGenerator` to output the
+`$point` in hexadecimal WKB format.
 
 ## Request Validation and Transformation
 
-When a form request contains a geometry in Geojson format, you can use the `GeometryGeojsonRule` for validation. You can
+When a form request contains a geometry in GeoJson format, you can use the `GeometryGeojsonRule` for validation. You can
 even limit the types of allowed geometries by passing an array with the classes.
 
 In order to properly continue working with the received geometry you can use the `TransformsGeojsonGeometry` trait to
-use automatic transformation of the geojson to the proper geometry object. Therefore, return the keys in
+use automatic transformation of the GeoJson to the proper geometry object. Therefore, return the keys in
 the `geometries(): array` function.
 
 > **Note**
@@ -300,7 +303,8 @@ Port::create([
 ]);
 ```
 
-When you want to update a geometry you can either assign the new location to the model and call `save()` or use the `update()` method on the query builder:
+When you want to update a geometry you can either assign the new location to the model and call `save()` or use the
+`update()` method on the query builder:
 
 ```php
 $port->location = Point::makeGeodetic(55, 11);
@@ -370,7 +374,7 @@ Please use the `BBoxCast` instead.
 
 ### Using PostGIS functions in queries
 
-A big part of laravel-magallan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
+A big part of laravel-magellan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
 included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
 Whenever you want to use a PostGIS function on a query builder, you have to use one of our builder methods. All of them are
@@ -386,9 +390,11 @@ We currently provide the following:
 - stFrom
 
 > **Note**  
-> Using the stWhere with a MagellanExpression that returns a boolean always requires a following true or false.
+> Using the `stWhere` with a `MagellanExpression` that returns a boolean always requires a following true or false.
 >
-> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.
+> That's Laravel default behaviour when using the `$query->where()`, but since PHP supports stuff like
+`if($boolean)` without the explicit
+`$boolean == true` condition, the true/false will easily be forgotten, resulting in a null check query instead a boolean query.
 
 ```php
 ->stWhere(ST::contains('location', 'polygon'), true)
@@ -396,9 +402,12 @@ We currently provide the following:
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
 A
-_MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
+_MagellanExpression_ is a wrapper around a
+`ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write
+`ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
 
-Most of the `ST`-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
+Most of the `ST`-prefixed functions can be accessed using the static functions on the
+`ST` class. But enough talk, let's start sailing (with some examples):
 
 **Note:** The necessary classes can be imported as follows:
 
@@ -450,7 +459,7 @@ $hullsWithArea = Port::select('country')
     ->get();
 ```
 
-### Autocast for bbox or geometries
+### Autocast for BBox or geometries
 
 In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values.
 But in the more complex example we received a geometry as return value.
@@ -467,7 +476,7 @@ $hullWithArea = Port::select('country')
 ```
 
 But that's **not necessary!**  
-Magellan will automatically add the cast for all functions that return geometry, box2d or box3d.
+Magellan will automatically add the cast for all functions that return geometry, Box2D or Box3D.
 
 ## Testing
 

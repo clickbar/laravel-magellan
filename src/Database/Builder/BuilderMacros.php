@@ -52,7 +52,6 @@ class BuilderMacros
                 }
 
                 if ($magellanExpression->returnsGeometry()) {
-                    // TODO: Consider if we need to differentiate between geography and geometry
                     $this->withCasts([$asOrDefault => GeometryCast::class]);
                 }
             }
