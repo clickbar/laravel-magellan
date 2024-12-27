@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `GeometryCast` to cast geometries instead of the `GeometryWKBCast`
 
+### Improved
+
+- Validate the structure of Geometry coordinates to be an array in the `GeojsonParser` and fail if not
+
 ### Removed
 
 - Removed `magellan:update-postgis-columns` command
