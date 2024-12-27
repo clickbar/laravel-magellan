@@ -6,7 +6,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
-use mysql_xdevapi\Expression;
+use Illuminate\Database\Query\Expression;
 
 trait MagellanSpatialReferenceSystemFunctions
 {
