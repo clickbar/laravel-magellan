@@ -16,22 +16,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added `GeometryCast` to cast geometries instead of the `GeometryWKBCast`
-- Added `ST::asGeoJson` to convert geometries to GeoJSON via the database
-- PostGIS ST_LineSubstring support
-- PostGIS ST_LineFromEncodedPolyline support
-- PostGIS ST_LineLocatePoint support
-
-### Fixed
-
-- Fixed missing schema prefix to first-level `ST` functions
-- Fixed `Expression` types in SRID-related functions
-- Fixed numeric SRID queries in `ST::transform` and `ST::setSRID` (thanks @BezBIS #91)
-- `ST::buffer`: Renamed `styleMitreLevel` to `styleMitreLimit`
 
 ### Removed
 
 - Removed `magellan:update-postgis-columns` command
 - Removed `magellan.eloquent` & `magellan.model_directories` configs
+
+## [1.7.0](https://github.com/clickbar/laravel-magellan/tree/1.7.0) - 2024-12-27
+
+### Added
+
+- PostGIS ST_LineSubstring support
+- PostGIS ST_LineFromEncodedPolyline support
+- PostGIS ST_LineLocatePoint support
+- Added `ST::asGeoJson` function to convert geometries to GeoJSON via the database
+
+### Fixed
+
+- Fixed `Expression` types in SRID-related functions
+- Fixed missing schema prefix for generated SQL of first-level `ST` functions
+- Fixed numeric SRID queries in `ST::transform` and `ST::setSRID` (thanks @BezBIS #91)
+- Fixed `ST::buffer` & `ST:offsetCurve`: Correctly renamed `styleMitreLevel` to `styleMitreLimit`
 
 ## [1.6.1](https://github.com/clickbar/laravel-magellan/tree/1.6.1) - 2024-08-08
 
