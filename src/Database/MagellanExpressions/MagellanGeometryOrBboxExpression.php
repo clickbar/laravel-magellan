@@ -2,4 +2,6 @@
 
 namespace Clickbar\Magellan\Database\MagellanExpressions;
 
-class MagellanGeometryOrBboxExpression extends MagellanBaseExpression {}
+class MagellanGeometryOrBboxExpression extends MagellanBaseExpression
+{
+}

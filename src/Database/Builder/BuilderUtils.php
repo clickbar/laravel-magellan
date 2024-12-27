@@ -29,7 +29,7 @@ class BuilderUtils
 
         $params = self::prepareParams($params, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend);
         $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-        $generator = new $generatorClass;
+        $generator = new $generatorClass();
         $paramString = self::transformAndJoinParams($params, $generator, $geometryTypeCastAppend, $builder);
 
         $expressionString = "$function($paramString)";

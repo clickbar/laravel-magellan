@@ -7,7 +7,7 @@ use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 
 beforeEach(function () {
-    $this->generator = new WKBGenerator;
+    $this->generator = new WKBGenerator();
 });
 
 test('can generate empty 2D WKB Simple Polygon', function () {

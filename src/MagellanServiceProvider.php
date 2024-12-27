@@ -35,13 +35,13 @@ class MagellanServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        PostgresGrammar::mixin(new MagellanGrammar);
-        Blueprint::mixin(new MagellanBlueprint);
+        PostgresGrammar::mixin(new MagellanGrammar());
+        Blueprint::mixin(new MagellanBlueprint());
 
-        $this->registerBuilderMixin(new BuilderMacros);
+        $this->registerBuilderMixin(new BuilderMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
-            return new GeometryFactory;
+            return new GeometryFactory();
         });
 
         $this->app->singleton(GeojsonParser::class, function ($app) {

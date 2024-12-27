@@ -13,8 +13,8 @@ class GeometryFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'point' => ['required', new GeometryGeojsonRule],
-            'nullable_point' => ['nullable', new GeometryGeojsonRule],
+            'point' => ['required', new GeometryGeojsonRule()],
+            'nullable_point' => ['nullable', new GeometryGeojsonRule()],
         ];
     }
 

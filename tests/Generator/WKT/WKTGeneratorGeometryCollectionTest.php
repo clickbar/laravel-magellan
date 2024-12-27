@@ -8,7 +8,7 @@ use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 
 beforeEach(function () {
-    $this->generator = new WKTGenerator;
+    $this->generator = new WKTGenerator();
 });
 
 test('can generate empty 2D WKT GeometryCollection', function () {

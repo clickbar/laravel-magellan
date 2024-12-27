@@ -14,7 +14,8 @@ abstract class MagellanBaseExpression
         protected readonly string $postgisFunction,
         protected readonly array $params,
         protected readonly ?GeometryType $geometryType = GeometryType::Geometry,
-    ) {}
+    ) {
+    }
 
     public static function numeric(string $postgisFunction, array $params, ?GeometryType $geometryType = GeometryType::Geometry): MagellanNumericExpression
     {

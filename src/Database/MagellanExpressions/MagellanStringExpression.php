@@ -2,4 +2,6 @@
 
 namespace Clickbar\Magellan\Database\MagellanExpressions;
 
-class MagellanStringExpression extends MagellanBaseExpression {}
+class MagellanStringExpression extends MagellanBaseExpression
+{
+}

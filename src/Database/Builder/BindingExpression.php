@@ -4,7 +4,9 @@ namespace Clickbar\Magellan\Database\Builder;
 
 class BindingExpression
 {
-    public function __construct(protected mixed $value) {}
+    public function __construct(protected mixed $value)
+    {
+    }
 
     /**
      * @return string
