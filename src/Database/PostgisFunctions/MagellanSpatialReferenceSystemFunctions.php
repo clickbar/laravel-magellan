@@ -55,6 +55,10 @@ trait MagellanSpatialReferenceSystemFunctions
      */
     public static function transform($geometry, int|Expression|\Closure|null $srid = null, string|Expression|\Closure|null $fromProjection = null, string|Expression|\Closure|null $toProjection = null, int|Expression|\Closure|null $toSrid = null): MagellanGeometryExpression
     {
+        if ($srid === null && $toProjection === null && ($fromProjection === null || $toSrid === null)) {
+            throw new \InvalidArgumentException('Invalid parameters: At least one valid parameter combination must be provided. See the DocBlock for possible calls.');
+        }
+
         if (is_int($srid)) {
             $srid = new Expression($srid.'::int');
         }

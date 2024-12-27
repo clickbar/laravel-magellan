@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Facades\Config;
+use Spatie\Invade\Invader;
 
 class BuilderUtils
 {
@@ -40,10 +41,15 @@ class BuilderUtils
         return new Expression($expressionString);
     }
 
-    protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
+    /**
+     * @param  Invader<Builder>  $invadedBuilder
+     */
+    protected static function prepareParams(array $params, Builder|EloquentBuilder $builder, Invader $invadedBuilder, $bindingType, string $geometryTypeCastAppend): array
     {
         foreach ($params as $i => $param) {
+            // @phpstan-ignore if.alwaysTrue
             if ($invadedBuilder->isQueryable($param)) {
+                // @phpstan-ignore offsetAccess.nonArray
                 [$sub, $bindings] = $invadedBuilder->createSub($param);
 
                 array_splice($params, $i, 1, [new Expression("($sub)")]);
@@ -58,7 +64,8 @@ class BuilderUtils
                 if ($value instanceof MagellanBaseExpression) {
                     $invoked = $builder->grammar->wrap($value->invoke($builder, $bindingType, null));
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("{$invoked}$geometryTypeCastAppend"))]);
-                } elseif ($invadedBuilder->isQueryable($value)) {
+                } elseif ($invadedBuilder->isQueryable($value)) { // @phpstan-ignore elseif.alwaysTrue
+                    // @phpstan-ignore offsetAccess.nonArray
                     [$sub, $bindings] = $invadedBuilder->createSub($value);
                     array_splice($params, $i, 1, [GeoParam::wrap(new Expression("($sub)$geometryTypeCastAppend"))]);
                     $invadedBuilder->addBinding($bindings, $bindingType);
@@ -67,7 +74,7 @@ class BuilderUtils
                     array_splice($params, $i, 1, [self::prepareParams($wrapped, $builder, $invadedBuilder, $bindingType, $geometryTypeCastAppend)]);
                 }
             }
-            // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wraped in GeoParam
+            // TODO: Check if this can be removed, cause all nested MagellanExpressions will be wrapped in GeoParam
             if ($param instanceof MagellanBaseExpression) {
                 $invoked = $builder->grammar->wrap($param->invoke($builder, $bindingType, null));
                 array_splice($params, $i, 1, [new Expression("{$invoked}$geometryTypeCastAppend")]);
@@ -147,7 +154,7 @@ class BuilderUtils
 
         if ($value instanceof Geometry) {
             $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-            $generator = new $generatorClass();
+            $generator = new $generatorClass;
 
             return $generator->generate($value);
         }

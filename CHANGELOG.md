@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Breaking
+
+- Removed the `HasPostgisColumns` trait & `$postgisColumns` property.
+- Removed `GeometryWKBCast`
+- Removed automatic SRID transformation
+
+### Added
+
+- Added `GeometryCast` to cast geometries instead of the `GeometryWKBCast`
+
+### Removed
+
+- Removed `magellan:update-postgis-columns` command
+- Removed `magellan.eloquent` & `magellan.model_directories` configs
+
 ## [1.7.0](https://github.com/clickbar/laravel-magellan/tree/1.7.0) - 2024-12-27
 
 ### Added

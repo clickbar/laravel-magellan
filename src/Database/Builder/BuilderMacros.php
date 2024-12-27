@@ -13,7 +13,7 @@
 namespace Clickbar\Magellan\Database\Builder;
 
 use Clickbar\Magellan\Cast\BBoxCast;
-use Clickbar\Magellan\Cast\GeometryWKBCast;
+use Clickbar\Magellan\Cast\GeometryCast;
 use Clickbar\Magellan\Data\Boxes\Box2D;
 use Clickbar\Magellan\Data\Boxes\Box3D;
 use Clickbar\Magellan\Data\Geometries\Geometry;
@@ -52,7 +52,7 @@ class BuilderMacros
                 }
 
                 if ($magellanExpression->returnsGeometry()) {
-                    $this->withCasts([$asOrDefault => GeometryWKBCast::class]);
+                    $this->withCasts([$asOrDefault => GeometryCast::class]);
                 }
             }
 

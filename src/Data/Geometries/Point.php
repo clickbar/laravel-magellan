@@ -13,7 +13,7 @@ class Point extends Geometry
 
     /**
      * Creates a point instance with the WGS84 projection (SRID=4326)
-     * Points using this projection can also use the geodectic getters and setters
+     * Points using this projection can also use the geodetic getters and setters
      */
     public static function makeGeodetic(float $latitude, float $longitude, ?float $altitude = null, ?float $m = null): self
     {
@@ -100,7 +100,7 @@ class Point extends Geometry
         $this->updateDimension();
     }
 
-    private function updateDimension()
+    private function updateDimension(): void
     {
         $this->dimension = Dimension::fromCoordinates($this->x, $this->y, $this->z, $this->m);
     }
@@ -156,7 +156,7 @@ class Point extends Geometry
         $this->setZ($altitude);
     }
 
-    private function assertPointIsGeodetic()
+    private function assertPointIsGeodetic(): void
     {
         if (! $this->isGeodetic()) {
             throw new MissingGeodeticSRIDException($this->getSrid());

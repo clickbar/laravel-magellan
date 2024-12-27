@@ -2,7 +2,6 @@
 
 namespace Clickbar\Magellan;
 
-use Clickbar\Magellan\Commands\UpdatePostgisColumns;
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
 use Clickbar\Magellan\IO\GeometryModelFactory;
@@ -31,8 +30,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-magellan')
             ->hasConfigFile()
-            ->hasMigration('enable_postgis_extension')
-            ->hasCommand(UpdatePostgisColumns::class);
+            ->hasMigration('enable_postgis_extension');
     }
 
     public function registeringPackage()
@@ -59,10 +57,10 @@ class MagellanServiceProvider extends PackageServiceProvider
         });
 
         // Register custom Doctrine types for PostGIS only if DBAL is available
-        if (class_exists('Doctrine\DBAL\Connection') &&
-            method_exists('Illuminate\Database\Connection', 'registerDoctrineType')
-        ) {
+        if (class_exists('Doctrine\DBAL\Connection') && method_exists('Illuminate\Database\Connection', 'registerDoctrineType')) {
+            // @phpstan-ignore staticMethod.notFound
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
+            // @phpstan-ignore staticMethod.notFound
             DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
         }
     }
