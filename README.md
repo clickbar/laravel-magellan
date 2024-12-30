@@ -40,7 +40,7 @@ the Grammar and Connection.
 
 Magellan supports Laravel projects, which meet the following requirements:
 
-- Laravel `^9.28` or `^10.0` or `^11.0`
+- Laravel `^10.0` or `^11.0`
 - PHP `^8.1`
 
 ## Installation
