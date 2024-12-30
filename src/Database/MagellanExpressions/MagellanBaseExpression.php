@@ -2,18 +2,27 @@
 
 namespace Clickbar\Magellan\Database\MagellanExpressions;
 
+use Clickbar\Magellan\Data\Boxes\Box2D;
+use Clickbar\Magellan\Data\Boxes\Box3D;
+use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\Builder\BindingExpression;
-use Clickbar\Magellan\Database\Builder\BuilderUtils;
 use Clickbar\Magellan\Enums\GeometryType;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Str;
+use Clickbar\Magellan\IO\Generator\BaseGenerator;
+use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
+use Closure;
+use Illuminate\Contracts\Database\Query\Expression;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Grammar;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
-abstract class MagellanBaseExpression
+abstract class MagellanBaseExpression implements Expression
 {
     public function __construct(
-        protected readonly string $postgisFunction,
-        protected readonly array $params,
-        protected readonly ?GeometryType $geometryType = GeometryType::Geometry,
+        public readonly string $postgisFunction,
+        public readonly array $params,
+        public readonly ?GeometryType $geometryType = GeometryType::Geometry,
     ) {
     }
 
@@ -52,23 +61,6 @@ abstract class MagellanBaseExpression
         return new MagellanBBoxExpression($postgisFunction, $params, $geometryType);
     }
 
-    public function invoke($builder, string $bindingType, ?string $as = null): Expression
-    {
-        // Remove null values from params and map to the BindingValue if it is no GeoParam or Expression
-        $params = collect($this->params)
-            ->filter(function ($param) {
-                return ! ($param === null || ($param instanceof GeoParam && $param->getValue() === null));
-            })->map(function ($param) {
-                if ($param instanceof GeoParam || $param instanceof Expression || $param instanceof \Closure) {
-                    return $param;
-                }
-
-                return new BindingExpression($param);
-            });
-
-        return BuilderUtils::buildPostgisFunction($builder, $bindingType, $this->geometryType?->value, $this->postgisFunction, $as, ...$params);
-    }
-
     public function returnsGeometry(): bool
     {
         return $this instanceof MagellanGeometryExpression;
@@ -79,28 +71,106 @@ abstract class MagellanBaseExpression
         return $this instanceof MagellanBBoxExpression;
     }
 
-    public function returnsSet(): bool
+    // ######################## Database Expression Building ########################
+
+    public function getValue(Grammar $grammar): float|int|string
     {
-        return $this instanceof MagellanSetExpression;
+        $params = collect($this->params)
+            ->filter(function ($param) {
+                return ! ($param === null || ($param instanceof GeoParam && $param->getValue() === null));
+            })->map(function ($param) {
+                if ($param instanceof GeoParam || $param instanceof Expression || $param instanceof \Closure) {
+                    return $param;
+                }
+
+                return new BindingExpression($param);
+            })->toArray();
+
+        $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
+        $generator = new $generatorClass();
+
+        $geometryTypeCastAppend = $this->geometryType ? "::{$this->geometryType->value}" : '';
+        $preparedParameters = self::prepareParams($grammar, $generator, $geometryTypeCastAppend, $params);
+        $paramString = implode(', ', $preparedParameters);
+
+        return Config::get('magellan.schema').'.'."$this->postgisFunction($paramString)";
     }
 
-    public function canBeOrdered(): bool
+    private function prepareParams(Grammar $grammar, BaseGenerator $generator, string $geometryTypeCastAppend, array $params): array
     {
-        return $this instanceof MagellanNumericExpression;
+        return collect($params)->map(function ($param) use ($geometryTypeCastAppend, $generator, $grammar) {
+
+            // 1. Check if param is queryable -> it's a subquery
+            if ($this->isQueryable($param)) {
+                // --> Create sub and replace with param array
+                return $this->createSub($param);
+            }
+
+            // 2. Basic Binding Value
+            if ($param instanceof BindingExpression) {
+                // --> escape and replace
+                return $grammar->escape($param->getValue());
+            }
+
+            // 3. Geo Param
+            if ($param instanceof GeoParam) {
+                $value = $param->getValue();
+
+                if ($value instanceof MagellanBaseExpression) {
+                    return $value->getValue($grammar);
+                } elseif ($this->isQueryable($value)) {
+                    return $this->createSub($value).$geometryTypeCastAppend;
+                } elseif (is_array($value)) {
+                    $wrapped = array_map(fn ($geometry) => GeoParam::wrap($geometry), $value);
+                    $prepared = $this->prepareParams($grammar, $generator, $geometryTypeCastAppend, $wrapped);
+                    $imploded = implode(', ', $prepared);
+
+                    return "ARRAY[$imploded]";
+
+                } elseif ($value instanceof Geometry) {
+                    return $generator->toPostgisGeometrySql($value, Config::get('magellan.schema'));
+                } elseif ($value instanceof Box2D) {
+                    return "'{$value->toString()}'::box2d";
+                } elseif ($value instanceof Box3D) {
+                    return "'{$value->toString()}'::box3d";
+                } elseif (is_string($value)) {
+                    return $grammar->wrap($value).$geometryTypeCastAppend;
+                }
+            }
+
+            // 4. array
+            if (is_array($param)) {
+                $prepared = $this->prepareParams($grammar, $generator, $geometryTypeCastAppend, $param);
+                $imploded = implode(', ', $prepared);
+
+                return "ARRAY[$imploded]";
+            }
+
+            // 5. expression
+            if ($param instanceof Expression) {
+                return $param->getValue($grammar);
+            }
+
+            // 6. string
+            return $grammar->wrap($param);
+        })->toArray();
     }
 
-    public function canBeGrouped(): bool
+    private function createSub($query): string
     {
-        return ! $this instanceof MagellanGeometryExpression;
+        if ($query instanceof Closure) {
+            $callback = $query;
+            $callback($query = DB::query());
+        }
+
+        return "({$query->toRawSql()})";
     }
 
-    public function getDefaultAs(): string
+    private function isQueryable($value): bool
     {
-        return Str::of($this->postgisFunction)->remove('ST_')->camel();
-    }
-
-    public function getPostgisFunction(): string
-    {
-        return $this->postgisFunction;
+        return $value instanceof self ||
+            $value instanceof EloquentBuilder ||
+            $value instanceof Relation ||
+            $value instanceof Closure;
     }
 }

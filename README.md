@@ -315,18 +315,10 @@ function first.
 ```php
 $point = Point::make(473054.9891044726, 5524365.310057224, srid: 25832);
 
-$wkbParser = App::make(WKBParser::class);
-
-$d = DB::query()
-  ->stSelect(ST::transform($point, 4326))
-  ->first()->transform;
-
-$point = $wkbParser->parse($d);
-
 Port::create([
     'name' => 'Magellan Home Port',
     'country' => 'Germany',
-    'location' => $point,
+    'location' => ST::transform($point, 4326),
 ]);
 
 // -- or --
@@ -371,30 +363,20 @@ Please use the `BBoxCast` instead.
 A big part of laravel-magellan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
 included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
-Whenever you want to use a PostGIS function on a query builder, you have to use one of our builder methods. All of them are
-prefixed with `st`.  
-We currently provide the following:
-
-- stSelect
-- stWhere
-- stOrWhere
-- stOrderBy
-- stGroupBy
-- stHaving
-- stFrom
+Whenever you want to use a PostGIS function on a query builder, you can use the default build-in select, where, groupBy, ... functions. 
 
 > **Note**  
-> Using the `stWhere` with a `MagellanExpression` that returns a boolean always requires a following true or false.
+> Using the `where` with a `MagellanExpression` that returns a boolean always requires a following true or false.
 >
 > That's Laravel default behaviour when using the `$query->where()`, but since PHP supports stuff like
 `if($boolean)` without the explicit
 `$boolean == true` condition, the true/false will easily be forgotten, resulting in a null check query instead a boolean query.
 
 ```php
-->stWhere(ST::contains('location', 'polygon'), true)
+->where(ST::contains('location', 'polygon'), true)
 ```
 
-Each of those builder methods expect to receive a _MagellanExpression_.  
+So you can just use the ST::functions. Each of these functions return a _MagellanExpression_.  
 A
 _MagellanExpression_ is a wrapper around a
 `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write
@@ -408,14 +390,15 @@ Most of the `ST`-prefixed functions can be accessed using the static functions o
 ```php
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
+use Clickbar\Magellan\Database\Expressions\Aliased;
 ```
 
 Assuming we have our ships current position and want to query all ports with their distance:
 
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
-$portsWithDistance = Port::select()
-    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
+$portsWithDistance = Port::select() // use select() because we want SELECT *, distance and not only the distance
+    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
     ->get();
 ```
 
@@ -424,8 +407,8 @@ Since we cannot sail over the whole world, let's limit the distance to max. 50.0
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship')
-    ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
+    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+    ->where(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
     ->get();
 ```
 
@@ -434,43 +417,76 @@ Now let us order them based on the distance:
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-    ->stSelect(ST::distanceSphere($currentShipPosition, 'location'), as: 'distance_to_ship')
-    ->stWhere(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
-    ->stOrderBy(ST::distanceSphere($currentShipPosition, 'location'))
+    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+    ->where(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
+    ->orderBy(ST::distanceSphere($currentShipPosition, 'location'))
     ->get();
 ```
 
-As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones.
 But what about more complex queries?
 What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
 
 ```php
-$hullsWithArea = Port::select('country')
-    ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
-    ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
+$hullsWithArea = Port::query()
+    ->select([
+        'country',
+        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
+        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+    ])
     ->groupBy('country')
     ->get();
 ```
+### Alias in select
+Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to add an Alias using the Aliased Expression Class:
+```php
+ ->select(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+//--> leads to SELECT ST_DistanceSphere(<<currentShipPosition, 'location') AS distance_to_ship
+```
+
+
 
 ### Autocast for BBox or geometries
 
 In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values.
 But in the more complex example we received a geometry as return value.
 
-Since "hull" is not present in our `$casts` array, we might intentionally add a cast to the query:
+Since "hull" will return a geometry we need a cast for it. Instead of adding each cast by hand, we can use the `withMagellanCasts()` method, which adds all the relevant casts by itself:
 
 ```php
-$hullWithArea = Port::select('country')
-    ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
-    ->stSelect(ST::area(ST::convexHull(ST::collect('location'))))
+$hullWithArea = Port::query()
+    ->select([
+        'country',
+        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
+        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+    ])
+    ->groupBy('country')
+    ->withMagellanCasts() /* <======= */
+    ->first();
+
+// ⬆️ instead of ⬇️
+
+$hullWithArea = Port::query()
+    ->select([
+        'country',
+        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
+        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+    ])
     ->groupBy('country')
     ->withCasts(['hull' => GeometryCast::class]) /* <======= */
     ->first();
-```
 
-But that's **not necessary!**  
-Magellan will automatically add the cast for all functions that return geometry, Box2D or Box3D.
+```
+The `withMagellanCasts()` method adds the cast for all selects that return **geometry**, **Box2D** or **Box3D**
+
+## Limitations
+
+### Database Name Prepending (Cross Database Connections)
+
+The Laravel Query Builder adds the name of database as prefix for columns, when there is a different connection between the base query and a subquery (see `prependDatabaseNameIfCrossDatabaseQuery()` function in `Builder` for more details).
+
+Since we use Laravel Database Expressions, we don't have any access to the builder when creating the SQL string query and therefore cannot check if the connection is different to the one in the subquery.
+
 
 ## Testing
 

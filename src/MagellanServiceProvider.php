@@ -4,6 +4,7 @@ namespace Clickbar\Magellan;
 
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
+use Clickbar\Magellan\Database\Builder\EloquentBuilderMacros;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -39,6 +40,7 @@ class MagellanServiceProvider extends PackageServiceProvider
         Blueprint::mixin(new MagellanBlueprint());
 
         $this->registerBuilderMixin(new BuilderMacros());
+        $this->registerEloquentBuilderMixin(new EloquentBuilderMacros());
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
             return new GeometryFactory();
@@ -65,10 +67,15 @@ class MagellanServiceProvider extends PackageServiceProvider
         }
     }
 
-    private function registerBuilderMixin($mixin)
+    private function registerBuilderMixin($mixin): void
     {
         // See https://github.com/laravel/framework/issues/21950#issuecomment-437887175
         Builder::mixin($mixin);
+        EloquentBuilder::mixin($mixin);
+    }
+
+    private function registerEloquentBuilderMixin($mixin): void
+    {
         EloquentBuilder::mixin($mixin);
     }
 }

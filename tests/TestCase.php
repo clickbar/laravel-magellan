@@ -5,6 +5,7 @@ namespace Clickbar\Magellan\Tests;
 use Clickbar\Magellan\MagellanServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -14,6 +15,8 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+
+        DB::statement('CREATE EXTENSION IF NOT EXISTS "postgis";');
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Clickbar\\Magellan\\Database\\Factories\\'.class_basename($modelName).'Factory'
