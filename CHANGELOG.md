@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking
 
+- Removed support for Laravel 9.x
 - Removed the `HasPostgisColumns` trait & `$postgisColumns` property.
 - Removed `GeometryWKBCast`
 - Removed automatic SRID transformation
