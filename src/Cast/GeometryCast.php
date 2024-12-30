@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
 /**
- * @internal
+ * @internal Use the specific Geometry (sub)class as caster in the model e.g. Point::class or Geometry::class
  *
  * @template T of Geometry
  *
