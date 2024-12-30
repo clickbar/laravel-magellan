@@ -9,7 +9,7 @@
     <env name="DB_CONNECTION" value="pgsql"/>
     <env name="DB_DATABASE" value="testing"/>
     <env name="DB_USERNAME" value="postgres"/>
-    <env name="DB_PASSWORD" value="postgres"/>
+    <env name="DB_PASSWORD" value="password"/>
   </php>
   <coverage/>
   <source>
