@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Cast\GeometryCast;
 use Countable;
 
 class MultiLineString extends Geometry implements Countable
@@ -61,5 +62,11 @@ class MultiLineString extends Geometry implements Countable
     public function count(): int
     {
         return count($this->lineStrings);
+    }
+
+    /** @return GeometryCast<MultiLineString> */
+    public static function castUsing(array $arguments): GeometryCast
+    {
+        return new GeometryCast(MultiLineString::class);
     }
 }

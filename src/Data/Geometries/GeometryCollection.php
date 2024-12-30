@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Cast\GeometryCast;
 use Countable;
 
 class GeometryCollection extends Geometry implements Countable
@@ -61,5 +62,11 @@ class GeometryCollection extends Geometry implements Countable
     public function count(): int
     {
         return count($this->geometries);
+    }
+
+    /** @return GeometryCast<GeometryCollection> */
+    public static function castUsing(array $arguments): GeometryCast
+    {
+        return new GeometryCast(GeometryCollection::class);
     }
 }

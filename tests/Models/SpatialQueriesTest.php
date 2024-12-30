@@ -1,6 +1,5 @@
 <?php
 
-use Clickbar\Magellan\Cast\GeometryCast;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -315,7 +314,7 @@ test('it can query expression with array of geometry object, column and closure'
             ST::setSrid('location', 4326),
             fn ($query) => $query->selectRaw('ST_SetSrid(ST_MakePoint(8.625468993349347, 49.87125600428305), 4326)'),
         ]))
-        ->withCasts(['st_collect' => GeometryCast::class])
+        ->withCasts(['st_collect' => MultiPoint::class])
         ->first()
         ->st_collect;
 

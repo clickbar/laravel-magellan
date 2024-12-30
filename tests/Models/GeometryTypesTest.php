@@ -76,3 +76,19 @@ test('it can handle empty geometries', function () {
     expect($geometry->line->isEmpty())->toBeTrue();
     expect($geometry->area->isEmpty())->toBeTrue();
 });
+
+test('it throws an exception when the wrong caster is used', function () {
+
+    $geometry = Geometry::create([
+        'name' => 'Empty Geometries',
+        'point' => Point::make(NAN, NAN, null, null, 4326),
+        'line' => LineString::make([], 4326),
+        'area' => Polygon::make([], 4326),
+    ]);
+
+    Geometry::withCasts([
+        'point' => Polygon::class,
+    ])
+        ->first()
+        ->point;
+})->throws(\InvalidArgumentException::class);

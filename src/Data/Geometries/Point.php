@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Cast\GeometryCast;
 use Clickbar\Magellan\Exception\MissingGeodeticSRIDException;
 
 class Point extends Geometry
@@ -161,5 +162,11 @@ class Point extends Geometry
         if (! $this->isGeodetic()) {
             throw new MissingGeodeticSRIDException($this->getSrid());
         }
+    }
+
+    /** @return GeometryCast<Point> */
+    public static function castUsing(array $arguments): GeometryCast
+    {
+        return new GeometryCast(Point::class);
     }
 }

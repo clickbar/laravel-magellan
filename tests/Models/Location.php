@@ -2,7 +2,7 @@
 
 namespace Clickbar\Magellan\Tests\Models;
 
-use Clickbar\Magellan\Cast\GeometryCast;
+use Clickbar\Magellan\Data\Geometries\Point;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
@@ -13,6 +13,6 @@ class Location extends Model
     ];
 
     protected $casts = [
-        'location' => GeometryCast::class,
+        'location' => Point::class,
     ];
 }

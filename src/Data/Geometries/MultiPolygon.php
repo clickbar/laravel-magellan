@@ -2,6 +2,8 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Cast\GeometryCast;
+
 class MultiPolygon extends Geometry implements \Countable
 {
     /**
@@ -62,5 +64,11 @@ class MultiPolygon extends Geometry implements \Countable
     public function count(): int
     {
         return count($this->polygons);
+    }
+
+    /** @return GeometryCast<MultiPolygon> */
+    public static function castUsing(array $arguments): GeometryCast
+    {
+        return new GeometryCast(MultiPolygon::class);
     }
 }
