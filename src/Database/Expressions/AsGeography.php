@@ -15,7 +15,7 @@ class AsGeography extends GeometryWrapperExpression
 
     public function getValue(Grammar $grammar): string
     {
-        $expression = $this->stringitize($grammar, $this->expression);
+        $expression = $this->stringifyQueryParameter($grammar, $this->expression);
 
         return "($expression)::geography";
     }

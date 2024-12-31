@@ -11,9 +11,9 @@ use Illuminate\Database\Grammar;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-trait PreparesValue
+trait StringifiesQueryParameters
 {
-    public function prepareParam(Grammar $grammar, mixed $param): string
+    public function stringifyQueryParameter(Grammar $grammar, mixed $param): string
     {
 
         // 1. Check if param is queryable -> it's a subquery

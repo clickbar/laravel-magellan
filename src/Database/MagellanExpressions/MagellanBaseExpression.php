@@ -2,7 +2,7 @@
 
 namespace Clickbar\Magellan\Database\MagellanExpressions;
 
-use Clickbar\Magellan\Database\Builder\PreparesValue;
+use Clickbar\Magellan\Database\Builder\StringifiesQueryParameters;
 use Clickbar\Magellan\Database\Builder\ValueParameter;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 
 abstract class MagellanBaseExpression implements Expression
 {
-    use PreparesValue;
+    use StringifiesQueryParameters;
 
     public function __construct(
         public readonly string $postgisFunction,
@@ -100,7 +100,7 @@ abstract class MagellanBaseExpression implements Expression
                 return "ARRAY[$imploded]";
             }
 
-            return $this->prepareParam($grammar, $param);
+            return $this->stringifyQueryParameter($grammar, $param);
         })->toArray();
     }
 }
