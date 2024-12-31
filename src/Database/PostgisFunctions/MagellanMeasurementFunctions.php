@@ -16,9 +16,9 @@ trait MagellanMeasurementFunctions
      *
      * @see https://postgis.net/docs/ST_DistanceSphere.html
      */
-    public static function distanceSphere($geometryOrGeographyA, $geometryOrGeographyB): MagellanNumericExpression
+    public static function distanceSphere($geometryA, $geometryB): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_DistanceSphere', [ColumnParameter::wrap($geometryOrGeographyA), ColumnParameter::wrap($geometryOrGeographyB)]);
+        return MagellanBaseExpression::numeric('ST_DistanceSphere', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
