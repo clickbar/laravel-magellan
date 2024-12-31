@@ -6,7 +6,7 @@ use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Support\Facades\DB;
 
 trait MagellanSpatialReferenceSystemFunctions
