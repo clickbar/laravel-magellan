@@ -2,11 +2,12 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\DB;
 
 trait MagellanSpatialReferenceSystemFunctions
 {
@@ -21,10 +22,10 @@ trait MagellanSpatialReferenceSystemFunctions
     public static function setSrid($geometry, int|Expression|\Closure $srid): MagellanGeometryExpression
     {
         if (is_int($srid)) {
-            $srid = new Expression($srid.'::int');
+            $srid = DB::raw($srid.'::int');
         }
 
-        return MagellanBaseExpression::geometry('ST_SetSRID', [GeoParam::wrap($geometry), $srid]);
+        return MagellanBaseExpression::geometry('ST_SetSRID', [ColumnParameter::wrap($geometry), $srid]);
     }
 
     /**
@@ -35,7 +36,7 @@ trait MagellanSpatialReferenceSystemFunctions
      */
     public static function srid($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_SRID', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_SRID', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -60,9 +61,9 @@ trait MagellanSpatialReferenceSystemFunctions
         }
 
         if (is_int($srid)) {
-            $srid = new Expression($srid.'::int');
+            $srid = DB::raw($srid.'::int');
         }
 
-        return MagellanBaseExpression::geometry('ST_Transform', [GeoParam::wrap($geometry), $srid, $fromProjection, $toProjection, $toSrid]);
+        return MagellanBaseExpression::geometry('ST_Transform', [ColumnParameter::wrap($geometry), $srid, $fromProjection, $toProjection, $toSrid]);
     }
 }

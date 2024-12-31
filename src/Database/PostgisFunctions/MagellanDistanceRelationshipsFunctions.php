@@ -2,11 +2,10 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
-use Clickbar\Magellan\Enums\GeometryType;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanDistanceRelationshipsFunctions
 {
@@ -17,7 +16,7 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dWithin3D($geometryA, $geometryB, float|Expression|\Closure $distanceOfSrid): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_3DDWithin', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $distanceOfSrid]);
+        return MagellanBaseExpression::boolean('ST_3DDWithin', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $distanceOfSrid]);
     }
 
     /**
@@ -27,7 +26,7 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dFullyWithin3D($geometryA, $geometryB, float|Expression|\Closure $distance): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_3DDFullyWithin', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $distance]);
+        return MagellanBaseExpression::boolean('ST_3DDFullyWithin', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $distance]);
     }
 
     /**
@@ -37,7 +36,7 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dFullyWithin($geometryA, $geometryB, float|Expression|\Closure $distance): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_DFullyWithin', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $distance]);
+        return MagellanBaseExpression::boolean('ST_DFullyWithin', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $distance]);
     }
 
     /**
@@ -49,7 +48,7 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dWithinGeometry($geometryA, $geometryB, float|Expression|\Closure $distanceOfSrid): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_DWithin', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $distanceOfSrid]);
+        return MagellanBaseExpression::boolean('ST_DWithin', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $distanceOfSrid]);
     }
 
     /**
@@ -61,9 +60,7 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dWithinGeography($geographyA, $geographyB, float|Expression|\Closure $distanceMeters, bool|Expression|\Closure|null $useSpheroid = null): MagellanBooleanExpression
     {
-        $useSpheroid = $useSpheroid ?? true;
-
-        return MagellanBaseExpression::boolean('ST_DWithin', [GeoParam::wrap($geographyA), GeoParam::wrap($geographyB), $distanceMeters, $useSpheroid], GeometryType::Geography);
+        return MagellanBaseExpression::boolean('ST_DWithin', [ColumnParameter::wrap($geographyA), ColumnParameter::wrap($geographyB), $distanceMeters, $useSpheroid]);
     }
 
     /**
@@ -75,6 +72,6 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function pointInsideCircle($point, float|Expression|\Closure $centerX, float|Expression|\Closure $centerY, float|Expression|\Closure $radius): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_PointInsideCircle', [GeoParam::wrap($point), $centerX, $centerY, $radius]);
+        return MagellanBaseExpression::boolean('ST_PointInsideCircle', [ColumnParameter::wrap($point), $centerX, $centerY, $radius]);
     }
 }

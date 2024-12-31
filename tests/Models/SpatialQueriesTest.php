@@ -5,15 +5,19 @@ use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
 use Clickbar\Magellan\Database\Expressions\Aliased;
+use Clickbar\Magellan\Database\Expressions\AsGeography;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
-use Clickbar\Magellan\Enums\GeometryType;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Clickbar\Magellan\Tests\Models\Location;
+use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
 beforeEach(function () {
+
+    Schema::dropIfExists('locations');
+    Schema::dropIfExists('locations_3d');
 
     Schema::create('locations', function (Blueprint $table) {
         $table->id();
@@ -29,11 +33,6 @@ beforeEach(function () {
         $table->magellanPointZ('location', 4326);
         $table->timestamps();
     });
-});
-
-afterEach(function () {
-    Schema::dropIfExists('locations');
-    Schema::dropIfExists('locations_3d');
 });
 
 test('it can find points within a polygon', function () {
@@ -91,7 +90,7 @@ test('it can calculate distances between points', function () {
     $distances = Location::query()
         ->select([
             'name',
-            new Aliased(ST::distance('location', $berlinPoint, geometryType: GeometryType::Geography), 'distance_in_meters'),
+            new Aliased(ST::distance(new AsGeography('location'), new AsGeography($berlinPoint)), 'distance_in_meters'),
         ])
         ->orderBy('distance_in_meters')
         ->get();
@@ -227,7 +226,7 @@ test('it can query expression with column and provided parameters', function () 
     ]);
 
     $bufferedGeometry = Location::query()
-        ->select(ST::buffer('location', 10, geometryType: GeometryType::Geography))
+        ->select(ST::buffer(new AsGeography('location'), 10))
         ->withMagellanCasts()
         ->first()
         ->st_buffer;
@@ -238,7 +237,7 @@ test('it can query expression with column and provided parameters', function () 
 test('it can query expression with geometry object and provided parameters', function () {
 
     $bufferedRawGeometry = DB::query()
-        ->select(ST::buffer(Point::makeGeodetic(52.52, 13.405), 10, geometryType: GeometryType::Geography))
+        ->select(ST::buffer(new AsGeography(Point::makeGeodetic(52.52, 13.405)), 10))
         ->first()
         ->st_buffer;
 
@@ -252,9 +251,9 @@ test('it can query expression with subquery using a closure and geometry object'
 
     $bufferedRawGeometry = DB::query()
         ->select(ST::buffer(
-            geometry: Point::makeGeodetic(52.52, 13.405),
+            geometryOrGeography: new AsGeography(Point::makeGeodetic(52.52, 13.405)),
             radius: fn ($query) => $query->selectRaw(10),
-            geometryType: GeometryType::Geography),
+        ),
         )
         ->first()
         ->st_buffer;
@@ -269,9 +268,9 @@ test('it can query expression with subquery using database query builder and geo
 
     $bufferedRawGeometry = DB::query()
         ->select(ST::buffer(
-            geometry: Point::makeGeodetic(52.52, 13.405),
+            geometryOrGeography: new AsGeography(Point::makeGeodetic(52.52, 13.405)),
             radius: DB::query()->selectRaw(10),
-            geometryType: GeometryType::Geography),
+        ),
         )
         ->first()
         ->st_buffer;
@@ -329,7 +328,7 @@ test('it can query expression with nested ST functions', function () {
     ]);
 
     $area = Location::query()
-        ->select(ST::area(ST::buffer('location', 10, geometryType: GeometryType::Geography)))
+        ->select(ST::area(ST::buffer(new AsGeography('location'), 10)))
         ->first()
         ->st_area;
 
@@ -346,13 +345,13 @@ test('it can query expression with nested ST functions and closures', function (
 
     $area = DB::query()
         ->select(ST::area(ST::buffer(
-            geometry: function ($query) {
+            geometryOrGeography: function ($query) {
                 $query
-                    ->select(ST::buffer('location', 10, geometryType: GeometryType::Geography))
+                    ->select(ST::buffer(new AsGeography('location'), 10))
                     ->from('locations');
             },
             radius: 10,
-            geometryType: GeometryType::Geography),
+        ),
         ))
         ->first()
         ->st_area;
@@ -369,4 +368,74 @@ test('it can use ST functions in model::create', function () {
     ]);
 
     expect(Location::query()->count())->toBe(1);
+});
+
+test('it can use geography type cast with geometry object', function () {
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::coordDim(new AsGeography(Point::make(1, 2))))
+            ->get();
+    } catch (QueryException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(QueryException::class);
+    expect($thrownException->getMessage())->toContain('st_coorddim(geography) does not exist');
+});
+
+test('it can use geography type cast with geometry column', function () {
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::coordDim(new AsGeography('location')))
+            ->get();
+    } catch (QueryException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(QueryException::class);
+    expect($thrownException->getMessage())->toContain('st_coorddim(geography) does not exist');
+});
+
+test('it can use geography type cast with ST expression', function () {
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::coordDim(new AsGeography(ST::simplify(Point::make(1, 2), 10))))
+            ->get();
+    } catch (QueryException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(QueryException::class);
+    expect($thrownException->getMessage())->toContain('st_coorddim(geography) does not exist');
+});
+
+test('it can use geography type cast with subquery', function () {
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::coordDim(
+                new AsGeography(
+                    function ($subquery) {
+                        $subquery
+                            ->select(Point::make(1, 2));
+                    }
+                )))
+            ->get();
+    } catch (QueryException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(QueryException::class);
+    expect($thrownException->getMessage())->toContain('st_coorddim(geography) does not exist');
 });

@@ -2,7 +2,7 @@
 
 namespace Clickbar\Magellan\Data\Boxes;
 
-use Illuminate\Database\Query\Expression;
+use Illuminate\Database\Grammar;
 
 class Box2D extends Box
 {
@@ -40,8 +40,8 @@ class Box2D extends Box
         return "BOX({$this->xMin} {$this->yMin},{$this->xMax} {$this->yMax})";
     }
 
-    public function toExpression(): Expression
+    public function getValue(Grammar $grammar): string
     {
-        return new Expression("'{$this->toString()}'::box2d");
+        return $grammar->quoteString($this->toString()).'::box2d';
     }
 }

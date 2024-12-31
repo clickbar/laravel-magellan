@@ -3,11 +3,14 @@
 namespace Clickbar\Magellan\Data\Geometries;
 
 use Clickbar\Magellan\Cast\GeometryCast;
+use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Contracts\Database\Eloquent\Castable;
+use Illuminate\Contracts\Database\Query\Expression;
+use Illuminate\Database\Grammar;
 use Illuminate\Support\Facades\Config;
 use JsonSerializable;
 
-abstract class Geometry implements \Stringable, Castable, GeometryInterface, JsonSerializable
+abstract class Geometry implements \Stringable, Castable, Expression, GeometryInterface, JsonSerializable
 {
     public function __construct(
         protected ?int $srid = null,
@@ -59,5 +62,13 @@ abstract class Geometry implements \Stringable, Castable, GeometryInterface, Jso
         $class = static::class;
 
         return new GeometryCast($class);
+    }
+
+    public function getValue(Grammar $grammar): string
+    {
+        $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
+        $generator = new $generatorClass();
+
+        return $generator->toPostgisGeometrySql($this, Config::get('magellan.schema'));
     }
 }

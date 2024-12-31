@@ -2,10 +2,10 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanGeometryConstructorFunctions
 {
@@ -17,7 +17,7 @@ trait MagellanGeometryConstructorFunctions
      */
     public static function collectFromGeometries($geometry1, $geometry2): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometry1),  GeoParam::wrap($geometry2)]);
+        return MagellanBaseExpression::geometry('ST_Collect', [ColumnParameter::wrap($geometry1),  ColumnParameter::wrap($geometry2)]);
     }
 
     /**
@@ -28,7 +28,7 @@ trait MagellanGeometryConstructorFunctions
      */
     public static function collect($geometryArrayOrSet): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Collect', [GeoParam::wrap($geometryArrayOrSet)]);
+        return MagellanBaseExpression::geometry('ST_Collect', [ColumnParameter::wrap($geometryArrayOrSet)]);
     }
 
     /**
