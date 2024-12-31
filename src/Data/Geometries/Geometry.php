@@ -66,7 +66,7 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
 
     public function getValue(Grammar $grammar): string
     {
-        $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
+        $generatorClass = Config::get('magellan.sql_generator', WKTGenerator::class);
         $generator = new $generatorClass();
 
         return $generator->toPostgisGeometrySql($this, Config::get('magellan.schema'));
