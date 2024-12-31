@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\App;
  *
  * @template T of Geometry
  *
- * @implements  CastsAttributes<T,T>
+ * @implements CastsAttributes<T,T>
  */
 class GeometryCast implements CastsAttributes
 {
@@ -38,7 +38,6 @@ class GeometryCast implements CastsAttributes
      * Cast the given value.
      *
      * @param  Model  $model
-     * @return T|null
      */
     public function get($model, string $key, mixed $value, array $attributes)
     {
