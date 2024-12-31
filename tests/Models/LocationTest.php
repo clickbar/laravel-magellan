@@ -57,7 +57,7 @@ test('it can query points within distance', function () {
 
     // Find locations within 300km of Berlin
     $nearbyLocations = Location::query()
-        ->stWhere(ST::dWithinGeography('location', $berlinPoint, 300000), true)
+        ->where(ST::dWithinGeography('location', $berlinPoint, 300000), true)
         ->get();
 
     expect($nearbyLocations)->toHaveCount(2);

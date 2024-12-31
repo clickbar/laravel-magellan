@@ -13,14 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the `HasPostgisColumns` trait & `$postgisColumns` property.
 - Removed `GeometryWKBCast`
 - Removed automatic SRID transformation
+- Removed st prefixed builder functions (e.g. `stSelect`, `stWhere`, ...)
 
 ### Added
 
 - Added `GeometryCast` to cast geometries instead of the `GeometryWKBCast`
+- Added `Aliased` Expression class as wrapper for `AS` in query selects
+- Added `withMagellanCasts()` as EloquentBuilder macro
 
 ### Improved
 
 - Validate the structure of Geometry coordinates to be an array in the `GeojsonParser` and fail if not
+- Use of ST functions directly in the Laravel default builder methods
+- Use of ST functions directly in Model::create array
 
 ### Removed
 

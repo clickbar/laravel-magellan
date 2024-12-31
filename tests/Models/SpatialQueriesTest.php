@@ -1,15 +1,21 @@
 <?php
 
+use Clickbar\Magellan\Cast\GeometryCast;
 use Clickbar\Magellan\Data\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
+use Clickbar\Magellan\Database\Expressions\Aliased;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
 use Clickbar\Magellan\Enums\GeometryType;
+use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Clickbar\Magellan\Tests\Models\Location;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
 beforeEach(function () {
+
     Schema::create('locations', function (Blueprint $table) {
         $table->id();
         $table->string('name');
@@ -61,7 +67,7 @@ test('it can find points within a polygon', function () {
 
     // Find locations within Germany
     $locationsInGermany = Location::query()
-        ->stWhere(ST::contains($germany, 'location'), true)
+        ->where(ST::contains($germany, 'location'), true)
         ->get();
 
     expect($locationsInGermany)->toHaveCount(2);
@@ -84,8 +90,10 @@ test('it can calculate distances between points', function () {
     $berlinPoint = Point::makeGeodetic(52.52, 13.405);
 
     $distances = Location::query()
-        ->select('name')
-        ->stSelect(ST::distance('location', $berlinPoint, geometryType: GeometryType::Geography), 'distance_in_meters')
+        ->select([
+            'name',
+            new Aliased(ST::distance('location', $berlinPoint, geometryType: GeometryType::Geography), 'distance_in_meters'),
+        ])
         ->orderBy('distance_in_meters')
         ->get();
 
@@ -114,7 +122,8 @@ test('it can find the closest point between geometries', function () {
 
     $closestPoint = Location::query()
         ->where('name', 'Berlin')
-        ->stSelect(ST::closestPoint('location', $hamburg), 'closest_point')
+        ->select(new Aliased(ST::closestPoint('location', $hamburg), 'closest_point'))
+        ->withMagellanCasts()
         ->first();
 
     expect($closestPoint->closest_point)->toBeInstanceOf(Point::class);
@@ -137,7 +146,8 @@ test('it can calculate the shortest line between points', function () {
 
     $shortestLine = Location::query()
         ->where('name', 'Berlin')
-        ->stSelect(ST::shortestLine('location', $hamburg), 'shortest_line')
+        ->select(new Aliased(ST::shortestLine('location', $hamburg), 'shortest_line'))
+        ->withMagellanCasts()
         ->first();
 
     expect($shortestLine->shortest_line)->toBeInstanceOf(LineString::class);
@@ -153,7 +163,7 @@ test('it can validate geometry', function () {
     // Check if the point is valid and simple
     $validation = Location::query()
         ->where('id', $berlin->id)
-        ->stSelect(ST::isSimple('location'), 'is_simple')
+        ->select(new Aliased(ST::isSimple('location'), 'is_simple'))
         ->first();
 
     expect($validation->is_simple)->toBeTrue();
@@ -169,8 +179,10 @@ test('it can check coordinate dimensions', function () {
     // Check dimensions
     $dimensions = Location::query()
         ->where('id', $berlin->id)
-        ->stSelect(ST::coordDim('location'), 'coord_dim')
-        ->stSelect(ST::nDims('location'), 'n_dims')
+        ->select([
+            new Aliased(ST::coordDim('location'), 'coord_dim'),
+            new Aliased(ST::nDims('location'), 'n_dims'),
+        ])
         ->first();
 
     expect($dimensions->coord_dim)->toBe(2);
@@ -201,9 +213,161 @@ test('it can calculate 3D distances when altitude is provided', function () {
     // Calculate 3D distance
     $distances = $location3d::query()
         ->where('name', 'Berlin')
-        ->stSelect(ST::distance3D('location', $hamburgWithAltitude), 'distance_3d')
+        ->select(new Aliased(ST::distance3D('location', $hamburgWithAltitude), 'distance_3d'))
         ->first();
 
     expect((float) $distances->distance_3d)->toBeFloat();
     expect((float) $distances->distance_3d)->toBeGreaterThan(0);
+});
+
+test('it can query expression with column and provided parameters', function () {
+
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $bufferedGeometry = Location::query()
+        ->select(ST::buffer('location', 10, geometryType: GeometryType::Geography))
+        ->withMagellanCasts()
+        ->first()
+        ->st_buffer;
+
+    expect($bufferedGeometry)->toBeInstanceOf(Polygon::class);
+});
+
+test('it can query expression with geometry object and provided parameters', function () {
+
+    $bufferedRawGeometry = DB::query()
+        ->select(ST::buffer(Point::makeGeodetic(52.52, 13.405), 10, geometryType: GeometryType::Geography))
+        ->first()
+        ->st_buffer;
+
+    $parser = App::make(WKBParser::class);
+    $bufferedGeometry = $parser->parse($bufferedRawGeometry);
+
+    expect($bufferedGeometry)->toBeInstanceOf(Polygon::class);
+});
+
+test('it can query expression with subquery using a closure and geometry object', function () {
+
+    $bufferedRawGeometry = DB::query()
+        ->select(ST::buffer(
+            geometry: Point::makeGeodetic(52.52, 13.405),
+            radius: fn ($query) => $query->selectRaw(10),
+            geometryType: GeometryType::Geography),
+        )
+        ->first()
+        ->st_buffer;
+
+    $parser = App::make(WKBParser::class);
+    $bufferedGeometry = $parser->parse($bufferedRawGeometry);
+
+    expect($bufferedGeometry)->toBeInstanceOf(Polygon::class);
+});
+
+test('it can query expression with subquery using database query builder and geometry object', function () {
+
+    $bufferedRawGeometry = DB::query()
+        ->select(ST::buffer(
+            geometry: Point::makeGeodetic(52.52, 13.405),
+            radius: DB::query()->selectRaw(10),
+            geometryType: GeometryType::Geography),
+        )
+        ->first()
+        ->st_buffer;
+
+    $parser = App::make(WKBParser::class);
+    $bufferedGeometry = $parser->parse($bufferedRawGeometry);
+
+    expect($bufferedGeometry)->toBeInstanceOf(Polygon::class);
+})->skip(message: 'Currently we only support closures and no Builder or Relations in parameters');
+
+// TODO: Add test case that uses relation and eloquent query builder instead of closure or query builder
+
+test('it can query expression with array of geometry objects', function () {
+
+    $collectedGeometriesRaw = DB::query()
+        ->select(ST::collect([
+            Point::makeGeodetic(52.52, 13.405),
+            Point::makeGeodetic(53.551, 9.993),
+        ]))
+        ->first()
+        ->st_collect;
+
+    $parser = App::make(WKBParser::class);
+    $collectedGeometries = $parser->parse($collectedGeometriesRaw);
+
+    expect($collectedGeometries)->toBeInstanceOf(MultiPoint::class);
+});
+
+test('it can query expression with array of geometry object, column and closure', function () {
+
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(53.551, 9.993),
+    ]);
+
+    $collectedGeometries = Location::query()
+        ->select(ST::collect([
+            Point::makeGeodetic(52.52, 13.405),
+            'location',
+            ST::setSrid('location', 4326),
+            fn ($query) => $query->selectRaw('ST_SetSrid(ST_MakePoint(8.625468993349347, 49.87125600428305), 4326)'),
+        ]))
+        ->withCasts(['st_collect' => GeometryCast::class])
+        ->first()
+        ->st_collect;
+
+    expect($collectedGeometries)->toBeInstanceOf(MultiPoint::class);
+});
+
+test('it can query expression with nested ST functions', function () {
+
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(53.551, 9.993),
+    ]);
+
+    $area = Location::query()
+        ->select(ST::area(ST::buffer('location', 10, geometryType: GeometryType::Geography)))
+        ->first()
+        ->st_area;
+
+    // buffer produces no perfect circle, so tolerance is a bit higher
+    expect(abs($area - 10 * 10 * M_PI))->toBeLessThanOrEqual(5);
+});
+
+test('it can query expression with nested ST functions and closures', function () {
+
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(53.551, 9.993),
+    ]);
+
+    $area = DB::query()
+        ->select(ST::area(ST::buffer(
+            geometry: function ($query) {
+                $query
+                    ->select(ST::buffer('location', 10, geometryType: GeometryType::Geography))
+                    ->from('locations');
+            },
+            radius: 10,
+            geometryType: GeometryType::Geography),
+        ))
+        ->first()
+        ->st_area;
+
+    // buffer produces no perfect circle, so tolerance is a bit higher
+    expect(abs($area - 20 * 20 * M_PI))->toBeLessThanOrEqual(8);
+});
+
+test('it can use ST functions in model::create', function () {
+
+    Location::create([
+        'name' => 'Berlin',
+        'location' => ST::transform(Point::make(473086.880, 5524383.773, srid: 25832), srid: 4326),
+    ]);
+
+    expect(Location::query()->count())->toBe(1);
 });
