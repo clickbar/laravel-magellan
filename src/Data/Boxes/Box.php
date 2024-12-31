@@ -2,11 +2,9 @@
 
 namespace Clickbar\Magellan\Data\Boxes;
 
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
 
-abstract class Box
+abstract class Box implements ExpressionContract
 {
     abstract public function toString(): string;
-
-    abstract public function toExpression(): Expression;
 }

@@ -2,13 +2,13 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanGeometryAccessorFunctions
 {
@@ -20,7 +20,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function boundary($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Boundary', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_Boundary', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -31,7 +31,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function boundingDiagonal($geometry, bool|Expression|\Closure|null $fits = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_BoundingDiagonal', [GeoParam::wrap($geometry), $fits]);
+        return MagellanBaseExpression::geometry('ST_BoundingDiagonal', [ColumnParameter::wrap($geometry), $fits]);
     }
 
     /**
@@ -42,7 +42,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function coordDim($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_CoordDim', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_CoordDim', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -53,7 +53,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function dimension($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_Dimension', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_Dimension', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -64,7 +64,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function endPoint($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_EndPoint', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_EndPoint', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -75,7 +75,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function envelope($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Envelope', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_Envelope', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -86,7 +86,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function exteriorRing($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ExteriorRing', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_ExteriorRing', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -97,7 +97,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function geometryN($geometry, int|Expression|\Closure $n): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_GeometryN', [GeoParam::wrap($geometry), $n]);
+        return MagellanBaseExpression::geometry('ST_GeometryN', [ColumnParameter::wrap($geometry), $n]);
     }
 
     /**
@@ -108,7 +108,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function hasArc($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_HasArc', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_HasArc', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -119,7 +119,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function interiorRingN($geometry, int|Expression|\Closure $n): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_InteriorRingN', [GeoParam::wrap($geometry), $n]);
+        return MagellanBaseExpression::geometry('ST_InteriorRingN', [ColumnParameter::wrap($geometry), $n]);
     }
 
     /**
@@ -130,7 +130,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isClosed($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsClosed', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsClosed', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -144,7 +144,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isCollection($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsCollection', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsCollection', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -155,7 +155,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isEmpty($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsEmpty', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsEmpty', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -167,7 +167,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isPolygonCCW($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsPolygonCCW', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsPolygonCCW', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -179,7 +179,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isPolygonCW($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsPolygonCW', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsPolygonCW', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -190,7 +190,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isRing($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsRing', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsRing', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -201,7 +201,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function isSimple($geometry): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsSimple', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::boolean('ST_IsSimple', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -212,7 +212,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function m($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_M', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_M', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -223,7 +223,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function memSize($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_MemSize', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_MemSize', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -234,7 +234,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function nDims($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NDims', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NDims', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -245,7 +245,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function nPoints($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NPoints', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NPoints', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -256,7 +256,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function nRings($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NRings', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NRings', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -267,7 +267,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function numGeometries($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NumGeometries', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NumGeometries', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -278,7 +278,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function numInteriorRings($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NumInteriorRings', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NumInteriorRings', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -289,7 +289,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function numPatches($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_NumPatches', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_NumPatches', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -300,7 +300,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function patchN($geometry, int|Expression|\Closure $n): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_PatchN', [GeoParam::wrap($geometry), $n]);
+        return MagellanBaseExpression::geometry('ST_PatchN', [ColumnParameter::wrap($geometry), $n]);
     }
 
     /**
@@ -311,7 +311,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function pointN($geometry, int|Expression|\Closure $n): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_PointN', [GeoParam::wrap($geometry), $n]);
+        return MagellanBaseExpression::geometry('ST_PointN', [ColumnParameter::wrap($geometry), $n]);
     }
 
     /**
@@ -322,7 +322,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function points($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Points', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_Points', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -333,7 +333,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function startPoint($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_StartPoint', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_StartPoint', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -344,7 +344,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function summary($geometry): MagellanStringExpression
     {
-        return MagellanBaseExpression::string('ST_Summary', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::string('ST_Summary', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -355,7 +355,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function x($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_X', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_X', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -366,7 +366,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function y($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_Y', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_Y', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -377,7 +377,7 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function z($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_Z', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_Z', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -389,6 +389,6 @@ trait MagellanGeometryAccessorFunctions
      */
     public static function zmflag($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_Zmflag', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_Zmflag', [ColumnParameter::wrap($geometry)]);
     }
 }

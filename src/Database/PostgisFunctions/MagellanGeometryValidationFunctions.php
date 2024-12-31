@@ -2,7 +2,7 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
@@ -23,7 +23,7 @@ trait MagellanGeometryValidationFunctions
      */
     public static function isValid($geometry, ?ValidFlag $validFlag = null): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_IsValid', [GeoParam::wrap($geometry), $validFlag?->value]);
+        return MagellanBaseExpression::boolean('ST_IsValid', [ColumnParameter::wrap($geometry), $validFlag?->value]);
     }
 
     /**
@@ -38,7 +38,7 @@ trait MagellanGeometryValidationFunctions
      */
     public static function isValidDetail($geometry, ?ValidFlag $validFlag = null): MagellanSetExpression
     {
-        return MagellanBaseExpression::set('ST_IsValidDetail', [GeoParam::wrap($geometry), $validFlag?->value]);
+        return MagellanBaseExpression::set('ST_IsValidDetail', [ColumnParameter::wrap($geometry), $validFlag?->value]);
     }
 
     /**
@@ -50,7 +50,7 @@ trait MagellanGeometryValidationFunctions
      */
     public static function isValidReason($geometry, ?ValidFlag $validFlag = null): MagellanStringExpression
     {
-        return MagellanBaseExpression::string('ST_IsValidReason', [GeoParam::wrap($geometry), $validFlag?->value]);
+        return MagellanBaseExpression::string('ST_IsValidReason', [ColumnParameter::wrap($geometry), $validFlag?->value]);
     }
 
     /**
@@ -79,6 +79,6 @@ trait MagellanGeometryValidationFunctions
             $styleParameter = null;
         }
 
-        return MagellanBaseExpression::geometry('ST_MakeValid', [GeoParam::wrap($geometry), $styleParameter]);
+        return MagellanBaseExpression::geometry('ST_MakeValid', [ColumnParameter::wrap($geometry), $styleParameter]);
     }
 }

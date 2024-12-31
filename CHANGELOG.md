@@ -14,18 +14,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `GeometryWKBCast`
 - Removed automatic SRID transformation
 - Removed st prefixed builder functions (e.g. `stSelect`, `stWhere`, ...)
+- Removed `GeometryType` Enum
 
 ### Added
 
 - Added `Castable` to all geometries to use them as casters, instead of the `GeometryWKBCast`
 - Added `Aliased` Expression class as wrapper for `AS` in query selects
 - Added `withMagellanCasts()` as EloquentBuilder macro
+- Added `AsGeometry` and `AsGeography` database expressions
 
 ### Improved
 
 - Validate the structure of Geometry coordinates to be an array in the `GeojsonParser` and fail if not
 - Use of ST functions directly in the Laravel default builder methods
 - Use of ST functions directly in Model::create array
+- Renamed parameters of ST functions that can receive geometry or geography from `$geometry` to `$geometryOrGeography`
+- Geometry & Box implements `Expression` and therefore can be used in `->select(...)` directly now 
 
 ### Removed
 

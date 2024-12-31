@@ -2,12 +2,12 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBBoxExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryOrBboxExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 use RuntimeException;
 
 trait MagellanBoundingBoxFunctions
@@ -20,7 +20,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function box2D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('Box2D', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::bbox('Box2D', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -31,7 +31,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function box3D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('Box3D', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::bbox('Box3D', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -44,7 +44,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function extent($geometry): MagellanBaseExpression
     {
-        return MagellanBaseExpression::bbox('ST_Extent', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::bbox('ST_Extent', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -56,7 +56,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function extent3D($geometry): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_3DExtent', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::bbox('ST_3DExtent', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -67,7 +67,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function makeBox2D($pointLowLeft, $pointUpRight): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_MakeBox2D', [GeoParam::wrap($pointLowLeft), GeoParam::wrap($pointUpRight)]);
+        return MagellanBaseExpression::bbox('ST_MakeBox2D', [ColumnParameter::wrap($pointLowLeft), ColumnParameter::wrap($pointUpRight)]);
     }
 
     /**
@@ -78,7 +78,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function makeBox3D($pointLowLeft, $pointUpRight): MagellanBBoxExpression
     {
-        return MagellanBaseExpression::bbox('ST_3DMakeBox', [GeoParam::wrap($pointLowLeft), GeoParam::wrap($pointUpRight)]);
+        return MagellanBaseExpression::bbox('ST_3DMakeBox', [ColumnParameter::wrap($pointLowLeft), ColumnParameter::wrap($pointUpRight)]);
     }
 
     /**
@@ -89,7 +89,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function xMax($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_XMax', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_XMax', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -100,7 +100,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function xMin($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_XMin', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_XMin', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -111,7 +111,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function yMax($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_YMax', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::numeric('ST_YMax', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -156,7 +156,7 @@ trait MagellanBoundingBoxFunctions
     public static function expand($geometry, float|Expression|\Closure|null $unitsToExpand = null, float|Expression|\Closure|null $dx = null, float|Expression|\Closure|null $dy = null, float|Expression|\Closure|null $dz = null, float|Expression|\Closure|null $dm = null): MagellanGeometryOrBboxExpression
     {
         if ($unitsToExpand !== null) {
-            return MagellanBaseExpression::geometryOrBox('ST_Expand', [GeoParam::wrap($geometry), $unitsToExpand]);
+            return MagellanBaseExpression::geometryOrBox('ST_Expand', [ColumnParameter::wrap($geometry), $unitsToExpand]);
         }
 
         if ($dy !== null) {
@@ -182,7 +182,7 @@ trait MagellanBoundingBoxFunctions
             $nonNullArguments[] = 0;
         }
 
-        return MagellanBaseExpression::geometryOrBox('ST_Expand', [GeoParam::wrap($geometry), ...$nonNullArguments]);
+        return MagellanBaseExpression::geometryOrBox('ST_Expand', [ColumnParameter::wrap($geometry), ...$nonNullArguments]);
     }
 
     /**

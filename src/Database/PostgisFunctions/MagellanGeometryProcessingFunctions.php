@@ -2,16 +2,15 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Enums\DelaunayTrianglesOutput;
 use Clickbar\Magellan\Enums\EndCap;
-use Clickbar\Magellan\Enums\GeometryType;
 use Clickbar\Magellan\Enums\Join;
 use Clickbar\Magellan\Enums\Side;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Support\Str;
 use RuntimeException;
 
@@ -25,10 +24,10 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_Buffer.html
      */
-    public static function buffer($geometry, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null, ?Side $styleSide = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function buffer($geometryOrGeography, float|Expression|\Closure $radius, ?int $numSegQuarterCircle = null, ?int $styleQuadSegs = null, ?EndCap $styleEndCap = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null, ?Side $styleSide = null): MagellanGeometryExpression
     {
         $arguments = [
-            GeoParam::wrap($geometry),
+            ColumnParameter::wrap($geometryOrGeography),
             $radius,
         ];
 
@@ -45,7 +44,6 @@ trait MagellanGeometryProcessingFunctions
             ->join(' ');
 
         if (! empty($styleParameter) && $numSegQuarterCircle !== null) {
-            // TODO: Add propper exception class
             throw new RuntimeException('Cannot use style and numSegQuarterCircle at the same time');
         }
 
@@ -57,7 +55,7 @@ trait MagellanGeometryProcessingFunctions
             $arguments[] = $numSegQuarterCircle;
         }
 
-        return MagellanBaseExpression::geometry('ST_Buffer', $arguments, $geometryType);
+        return MagellanBaseExpression::geometry('ST_Buffer', $arguments);
     }
 
     /**
@@ -68,7 +66,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function buildArea($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_BuildArea', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_BuildArea', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -77,16 +75,9 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_Centroid.html
      */
-    public static function centroid($geometry, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function centroid($geometryOrGeography, bool|Expression|\Closure|null $useSpheroid = null): MagellanGeometryExpression
     {
-        if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = GeometryType::Geography;
-        }
-
-        $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
-
-        return MagellanBaseExpression::geometry('ST_Centroid', [GeoParam::wrap($geometry), ...$optionalParamters], $geometryType);
+        return MagellanBaseExpression::geometry('ST_Centroid', [ColumnParameter::wrap($geometryOrGeography), $useSpheroid]);
     }
 
     /**
@@ -97,7 +88,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function chaikinSmoothing($geometry, int|Expression|\Closure|null $iterations = null, bool|Expression|\Closure|null $preserveEndPoints = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ChaikinSmoothing', [GeoParam::wrap($geometry), $iterations, $preserveEndPoints]);
+        return MagellanBaseExpression::geometry('ST_ChaikinSmoothing', [ColumnParameter::wrap($geometry), $iterations, $preserveEndPoints]);
     }
 
     /**
@@ -109,7 +100,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function concaveHull($geometry, float|Expression|\Closure $pctconvex, bool|Expression|\Closure|null $allowHoles = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ConcaveHull', [GeoParam::wrap($geometry), $pctconvex, $allowHoles]);
+        return MagellanBaseExpression::geometry('ST_ConcaveHull', [ColumnParameter::wrap($geometry), $pctconvex, $allowHoles]);
     }
 
     /**
@@ -121,7 +112,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function convexHull($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ConvexHull', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_ConvexHull', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -132,7 +123,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function delaunayTriangles($geometry, float|Expression|\Closure|null $tolerance = null, ?DelaunayTrianglesOutput $output = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_DelaunayTriangles', [GeoParam::wrap($geometry), $tolerance, $output?->value]);
+        return MagellanBaseExpression::geometry('ST_DelaunayTriangles', [ColumnParameter::wrap($geometry), $tolerance, $output?->value]);
     }
 
     /**
@@ -143,7 +134,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function filterByM($geometry, float|Expression|\Closure $min, float|Expression|\Closure|null $max = null, bool|Expression|\Closure|null $returnM = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_FilterByM', [GeoParam::wrap($geometry), $min, $max, $returnM]);
+        return MagellanBaseExpression::geometry('ST_FilterByM', [ColumnParameter::wrap($geometry), $min, $max, $returnM]);
     }
 
     /**
@@ -155,7 +146,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function generatePoints($geometry, int|Expression|\Closure $numberOfPoints, int|Expression|\Closure|null $seed = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_GeneratePoints', [GeoParam::wrap($geometry), $numberOfPoints, $seed]);
+        return MagellanBaseExpression::geometry('ST_GeneratePoints', [ColumnParameter::wrap($geometry), $numberOfPoints, $seed]);
     }
 
     /**
@@ -166,7 +157,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function geometricMedian($geometry, float|Expression|\Closure|null $tolerance = null, int|Expression|\Closure|null $maxIterations = null, bool|Expression|\Closure|null $failIfNotConverged = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_GeometricMedian', [GeoParam::wrap($geometry), $tolerance, $maxIterations, $failIfNotConverged]);
+        return MagellanBaseExpression::geometry('ST_GeometricMedian', [ColumnParameter::wrap($geometry), $tolerance, $maxIterations, $failIfNotConverged]);
     }
 
     /**
@@ -175,16 +166,9 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_LineLocatePoint.html
      */
-    public static function lineLocatePoint($geometryA, $geometryB, bool|Expression|\Closure|null $useSpheroid = null, ?GeometryType $geometryType = null): MagellanNumericExpression
+    public static function lineLocatePoint($geometryOrGeographyA, $geometryOrGeographyB, bool|Expression|\Closure|null $useSpheroid = null): MagellanNumericExpression
     {
-        if ($geometryType === null && $useSpheroid !== null) {
-            $geometryType = GeometryType::Geography;
-        }
-
-        $useSpheroid = $useSpheroid ?? true;
-        $optionalParamters = $geometryType === GeometryType::Geography ? [$useSpheroid] : [];
-
-        return MagellanBaseExpression::numeric('ST_LineLocatePoint', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), ...$optionalParamters], $geometryType);
+        return MagellanBaseExpression::numeric('ST_LineLocatePoint', [ColumnParameter::wrap($geometryOrGeographyA), ColumnParameter::wrap($geometryOrGeographyB), $useSpheroid]);
     }
 
     /**
@@ -195,7 +179,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function lineMerge($geometry, bool|Expression|\Closure|null $directed = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_LineMerge', [GeoParam::wrap($geometry), $directed]);
+        return MagellanBaseExpression::geometry('ST_LineMerge', [ColumnParameter::wrap($geometry), $directed]);
     }
 
     /**
@@ -204,9 +188,9 @@ trait MagellanGeometryProcessingFunctions
      *
      * @see https://postgis.net/docs/ST_LineSubstring.html
      */
-    public static function lineSubstring($geometry, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function lineSubstring($geometryOrGeography, float|Expression|\Closure $startFraction, float|Expression|\Closure $endFraction): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_LineSubstring', [GeoParam::wrap($geometry), $startFraction, $endFraction], $geometryType);
+        return MagellanBaseExpression::geometry('ST_LineSubstring', [ColumnParameter::wrap($geometryOrGeography), $startFraction, $endFraction]);
     }
 
     /**
@@ -218,7 +202,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function minimumBoundingCircle($geometry, int|Expression|\Closure|null $numberOfSegmentsPerQuarterCircle = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_MinimumBoundingCircle', [GeoParam::wrap($geometry), $numberOfSegmentsPerQuarterCircle]);
+        return MagellanBaseExpression::geometry('ST_MinimumBoundingCircle', [ColumnParameter::wrap($geometry), $numberOfSegmentsPerQuarterCircle]);
     }
 
     /**
@@ -231,7 +215,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function orientedEnvelope($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_OrientedEnvelope', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_OrientedEnvelope', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -245,7 +229,7 @@ trait MagellanGeometryProcessingFunctions
     public static function offsetCurve($geometry, float|Expression|\Closure $signedDistance, int|Expression|\Closure|null $numSegQuarterCircle = null, ?Join $styleJoin = null, float|Expression|\Closure|null $styleMitreLimit = null): MagellanGeometryExpression
     {
         $arguments = [
-            GeoParam::wrap($geometry),
+            ColumnParameter::wrap($geometry),
             $signedDistance,
         ];
 
@@ -274,7 +258,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function pointOnSurface($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_PointOnSurface', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_PointOnSurface', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -285,7 +269,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function reducePrecision($geometry, float|Expression|\Closure $gridSize): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ReducePrecision', [GeoParam::wrap($geometry), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_ReducePrecision', [ColumnParameter::wrap($geometry), $gridSize]);
     }
 
     /**
@@ -296,7 +280,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function sharedPaths($geometryA, $geometryB): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SharedPaths', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::geometry('ST_SharedPaths', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -307,7 +291,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function simplify($geometry, float|Expression|\Closure $tolerance, bool|Expression|\Closure|null $preserveCollapsed = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Simplify', [GeoParam::wrap($geometry), $tolerance, $preserveCollapsed]);
+        return MagellanBaseExpression::geometry('ST_Simplify', [ColumnParameter::wrap($geometry), $tolerance, $preserveCollapsed]);
     }
 
     /**
@@ -319,7 +303,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function simplifyPolygonHull($geometry, float|Expression|\Closure $vertexFraction, bool|Expression|\Closure|null $isOuter = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SimplifyPolygonHull', [GeoParam::wrap($geometry), $vertexFraction, $isOuter]);
+        return MagellanBaseExpression::geometry('ST_SimplifyPolygonHull', [ColumnParameter::wrap($geometry), $vertexFraction, $isOuter]);
     }
 
     /**
@@ -330,7 +314,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function simplifyPreserveTopology($geometry, float|Expression|\Closure $tolerance): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SimplifyPreserveTopology', [GeoParam::wrap($geometry), $tolerance]);
+        return MagellanBaseExpression::geometry('ST_SimplifyPreserveTopology', [ColumnParameter::wrap($geometry), $tolerance]);
     }
 
     /**
@@ -343,7 +327,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function simplifyVW($geometry, float|Expression|\Closure $tolerance): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SimplifyVW', [GeoParam::wrap($geometry), $tolerance]);
+        return MagellanBaseExpression::geometry('ST_SimplifyVW', [ColumnParameter::wrap($geometry), $tolerance]);
     }
 
     /**
@@ -357,7 +341,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function setEffectiveArea($geometry, float|Expression|\Closure|null $threshold = null, int|Expression|\Closure|null $setArea = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SetEffectiveArea', [GeoParam::wrap($geometry), $threshold, $setArea]);
+        return MagellanBaseExpression::geometry('ST_SetEffectiveArea', [ColumnParameter::wrap($geometry), $threshold, $setArea]);
     }
 
     /**
@@ -369,7 +353,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function triangulatePolygon($geometry): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_TriangulatePolygon', [GeoParam::wrap($geometry)]);
+        return MagellanBaseExpression::geometry('ST_TriangulatePolygon', [ColumnParameter::wrap($geometry)]);
     }
 
     /**
@@ -382,7 +366,7 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function voronoiLines($geometry, float|Expression|\Closure|null $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_VoronoiLines', [GeoParam::wrap($geometry), $tolerance, GeoParam::wrap($extendToGeometry)]);
+        return MagellanBaseExpression::geometry('ST_VoronoiLines', [ColumnParameter::wrap($geometry), $tolerance, ColumnParameter::wrap($extendToGeometry)]);
     }
 
     /**
@@ -395,6 +379,6 @@ trait MagellanGeometryProcessingFunctions
      */
     public static function voronoiPolygons($geometry, float|Expression|\Closure|null $tolerance = null, $extendToGeometry = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_VoronoiPolygons', [GeoParam::wrap($geometry), $tolerance, GeoParam::wrap($extendToGeometry)]);
+        return MagellanBaseExpression::geometry('ST_VoronoiPolygons', [ColumnParameter::wrap($geometry), $tolerance, ColumnParameter::wrap($extendToGeometry)]);
     }
 }

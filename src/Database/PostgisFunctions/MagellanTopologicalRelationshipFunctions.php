@@ -2,14 +2,12 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Data\Geometries\Geometry;
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanNumericExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
-use Clickbar\Magellan\Enums\GeometryType;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanTopologicalRelationshipFunctions
 {
@@ -21,7 +19,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function intersects3D($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_3DIntersects', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_3DIntersects', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -34,7 +32,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function contains($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Contains', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Contains', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -48,7 +46,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function containsProperly($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_ContainsProperly', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_ContainsProperly', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -57,9 +55,9 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @see https://postgis.net/docs/ST_CoveredBy.html
      */
-    public static function coveredBy($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
+    public static function coveredBy($geometryOrGeographyA, $geometryOrGeographyB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_CoveredBy', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
+        return MagellanBaseExpression::boolean('ST_CoveredBy', [ColumnParameter::wrap($geometryOrGeographyA), ColumnParameter::wrap($geometryOrGeographyB)]);
     }
 
     /**
@@ -68,9 +66,9 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @see https://postgis.net/docs/ST_Covers.html
      */
-    public static function covers($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
+    public static function covers($geomOrGeogPolyA, $geomOrGeogPointB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Covers', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
+        return MagellanBaseExpression::boolean('ST_Covers', [ColumnParameter::wrap($geomOrGeogPolyA), ColumnParameter::wrap($geomOrGeogPointB)]);
     }
 
     /**
@@ -88,7 +86,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function crosses($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Crosses', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Crosses', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -99,7 +97,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function disjoint($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Disjoint', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Disjoint', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -110,7 +108,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function equals($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Equals', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Equals', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -126,9 +124,9 @@ trait MagellanTopologicalRelationshipFunctions
      *
      * @see https://postgis.net/docs/ST_Intersects.html
      */
-    public static function intersects($geometryA, $geometryB, ?GeometryType $geometryType = GeometryType::Geometry): MagellanBooleanExpression
+    public static function intersects($geometryOrGeographyA, $geometryOrGeographyB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Intersects', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)], $geometryType);
+        return MagellanBaseExpression::boolean('ST_Intersects', [ColumnParameter::wrap($geometryOrGeographyA), ColumnParameter::wrap($geometryOrGeographyB)]);
     }
 
     /**
@@ -147,7 +145,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function lineCrossingDirection($lineStringA, $lineStringB): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_LineCrossingDirection', [GeoParam::wrap($lineStringA), GeoParam::wrap($lineStringB)]);
+        return MagellanBaseExpression::numeric('ST_LineCrossingDirection', [ColumnParameter::wrap($lineStringA), ColumnParameter::wrap($lineStringB)]);
     }
 
     /**
@@ -158,7 +156,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function orderingEquals($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_OrderingEquals', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_OrderingEquals', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -169,7 +167,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function overlaps($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Overlaps', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Overlaps', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -185,10 +183,10 @@ trait MagellanTopologicalRelationshipFunctions
     public static function relate($geometryA, $geometryB, string|Expression|\Closure|null $intersectionMatrixPattern = null, int|Expression|\Closure|null $boundaryNodeRule = null): MagellanBooleanExpression|MagellanStringExpression
     {
         if ($intersectionMatrixPattern != null) {
-            return MagellanBaseExpression::boolean('ST_Relate', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $intersectionMatrixPattern]);
+            return MagellanBaseExpression::boolean('ST_Relate', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $intersectionMatrixPattern]);
         }
 
-        return MagellanBaseExpression::string('ST_Relate', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $boundaryNodeRule]);
+        return MagellanBaseExpression::string('ST_Relate', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $boundaryNodeRule]);
     }
 
     /**
@@ -215,7 +213,7 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function touches($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Touches', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Touches', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 
     /**
@@ -228,6 +226,6 @@ trait MagellanTopologicalRelationshipFunctions
      */
     public static function within($geometryA, $geometryB): MagellanBooleanExpression
     {
-        return MagellanBaseExpression::boolean('ST_Within', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB)]);
+        return MagellanBaseExpression::boolean('ST_Within', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB)]);
     }
 }

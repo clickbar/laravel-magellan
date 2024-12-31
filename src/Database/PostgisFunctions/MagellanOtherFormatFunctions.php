@@ -2,12 +2,11 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanStringExpression;
 use Clickbar\Magellan\Enums\GeojsonOutputOption;
-use Clickbar\Magellan\Enums\GeometryType;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanOtherFormatFunctions
 {
@@ -19,13 +18,13 @@ trait MagellanOtherFormatFunctions
      *
      * @see https://postgis.net/docs/ST_AsGeoJSON.html
      */
-    public static function asGeoJson($geometry, int|Expression|\Closure $maximalDecimalDigits = 9, array $options = [], ?GeometryType $geometryType = null): MagellanStringExpression
+    public static function asGeoJson($geometryOrGeographyOrRecord, int|Expression|\Closure $maximalDecimalDigits = 9, array $options = []): MagellanStringExpression
     {
         $optionalParameters = [$maximalDecimalDigits];
         if (! empty($options)) {
             $optionalParameters[] = collect($options)->reduce(fn (int $flags, GeojsonOutputOption $option) => $flags | $option->value, 0);
         }
 
-        return MagellanBaseExpression::string('ST_AsGeoJSON', [GeoParam::wrap($geometry), ...$optionalParameters], $geometryType);
+        return MagellanBaseExpression::string('ST_AsGeoJSON', [ColumnParameter::wrap($geometryOrGeographyOrRecord), ...$optionalParameters]);
     }
 }

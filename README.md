@@ -444,6 +444,23 @@ Since we use Laravel Database Expressions for a seamless integration into the de
 //--> leads to SELECT ST_DistanceSphere(<<currentShipPosition, 'location') AS distance_to_ship
 ```
 
+### Geometry or Geography
+Using PostGIS, you will encounter those two types of geometries. Most of the functions in PostGIS are only defined with parameters of the type `Geometry`. But sometimes you explicitly want to add casts to your parameters. Therefore, we added two cast expressions:
+- `Geometry` => `\Clickbar\Magellan\Database\Expressions\AsGeometry` 
+- `Geography` => `\Clickbar\Magellan\Database\Expressions\AsGeography`
+
+Considering we want to buffer the location of our ports by 50 meters. Looking into the PostGIS documentation we can see the following: 
+> For geometry, the distance is specified in the units of the Spatial Reference System of the geometry. For geography, the distance is specified in meters.
+> [https://postgis.net/docs/ST_Buffer.html](https://postgis.net/docs/ST_Buffer.html)
+
+Therefore, we need to cast our points from the location colum to geography before handing them over to the buffer function:
+```php
+$bufferedPorts = Port::query()
+    ->select(new Aliased(ST::buffer(new AsGeography('location'), 50), alias: 'buffered_location'))
+    ->withCasts(['buffered_location' => Polygon::class])
+    ->get();
+```
+
 
 
 ### Autocast for BBox or geometries

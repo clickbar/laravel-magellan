@@ -3,12 +3,11 @@
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
 use Clickbar\Magellan\Data\Boxes\Box2D;
-use Clickbar\Magellan\Database\MagellanExpressions\GeoParam;
+use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanGeometryExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanSetExpression;
-use Clickbar\Magellan\Enums\GeometryType;
-use Illuminate\Database\Query\Expression;
+use Illuminate\Contracts\Database\Query\Expression;
 
 trait MagellanOverlayFunctions
 {
@@ -22,7 +21,7 @@ trait MagellanOverlayFunctions
      */
     public static function clipByBox2D($geometry, Box2D|Expression|\Closure $box): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_ClipByBox2D', [GeoParam::wrap($geometry), $box]);
+        return MagellanBaseExpression::geometry('ST_ClipByBox2D', [ColumnParameter::wrap($geometry), $box]);
     }
 
     /**
@@ -34,7 +33,7 @@ trait MagellanOverlayFunctions
      */
     public static function difference($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Difference', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_Difference', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $gridSize]);
     }
 
     /**
@@ -44,13 +43,12 @@ trait MagellanOverlayFunctions
      * Note: GridSize is only supported for geometry inputs, not geography.
      *
      * @param  float|Expression|\Closure|null  $gridSize  If the optional gridSize argument is provided, the inputs are snapped to a grid of the given size, and the result vertices are computed on that same grid. (Requires GEOS-3.9.0 or higher)
-     * @param  GeometryType|null  $geometryType  Defines the type of the input geometries. Which those values will be casted to.
      *
      * @see https://postgis.net/docs/ST_Intersection.html
      */
-    public static function intersection($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null, ?GeometryType $geometryType = null): MagellanGeometryExpression
+    public static function intersection($geometryOrGeographyA, $geometryOrGeographyB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Intersection', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize], $geometryType);
+        return MagellanBaseExpression::geometry('ST_Intersection', [ColumnParameter::wrap($geometryOrGeographyA), ColumnParameter::wrap($geometryOrGeographyB), $gridSize]);
     }
 
     /**
@@ -65,7 +63,7 @@ trait MagellanOverlayFunctions
      */
     public static function memUnion($geometryField): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_MemUnion', [GeoParam::wrap($geometryField)]);
+        return MagellanBaseExpression::geometry('ST_MemUnion', [ColumnParameter::wrap($geometryField)]);
     }
 
     /**
@@ -78,7 +76,7 @@ trait MagellanOverlayFunctions
      */
     public static function node($lineString): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Node', [GeoParam::wrap($lineString)]);
+        return MagellanBaseExpression::geometry('ST_Node', [ColumnParameter::wrap($lineString)]);
     }
 
     /**
@@ -92,7 +90,7 @@ trait MagellanOverlayFunctions
      */
     public static function split($geometryInput, $geometryBlade): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Split', [GeoParam::wrap($geometryInput), GeoParam::wrap($geometryBlade)]);
+        return MagellanBaseExpression::geometry('ST_Split', [ColumnParameter::wrap($geometryInput), ColumnParameter::wrap($geometryBlade)]);
     }
 
     /**
@@ -107,7 +105,7 @@ trait MagellanOverlayFunctions
      */
     public static function subdivide($geometry, int|Expression|\Closure|null $max_vertices = null, float|Expression|\Closure|null $gridSize = null): MagellanSetExpression
     {
-        return MagellanBaseExpression::set('ST_Subdivide', [GeoParam::wrap($geometry), $max_vertices, $gridSize]);
+        return MagellanBaseExpression::set('ST_Subdivide', [ColumnParameter::wrap($geometry), $max_vertices, $gridSize]);
     }
 
     /**
@@ -121,7 +119,7 @@ trait MagellanOverlayFunctions
      */
     public static function symDifference($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_SymDifference', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_SymDifference', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $gridSize]);
     }
 
     /**
@@ -137,7 +135,7 @@ trait MagellanOverlayFunctions
      */
     public static function unaryUnion($geometry, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_UnaryUnion', [GeoParam::wrap($geometry), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_UnaryUnion', [ColumnParameter::wrap($geometry), $gridSize]);
     }
 
     /**
@@ -154,7 +152,7 @@ trait MagellanOverlayFunctions
     public static function unionFromGeometries($geometryA, $geometryB, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
         // TODO: Think about standardizing the naming of the methods to be more consistent (where multiple methods are available for the same function)
-        return MagellanBaseExpression::geometry('ST_Union', [GeoParam::wrap($geometryA), GeoParam::wrap($geometryB), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_Union', [ColumnParameter::wrap($geometryA), ColumnParameter::wrap($geometryB), $gridSize]);
     }
 
     /**
@@ -170,6 +168,6 @@ trait MagellanOverlayFunctions
      */
     public static function union($geometryArrayOrSet, float|Expression|\Closure|null $gridSize = null): MagellanGeometryExpression
     {
-        return MagellanBaseExpression::geometry('ST_Union', [GeoParam::wrap($geometryArrayOrSet), $gridSize]);
+        return MagellanBaseExpression::geometry('ST_Union', [ColumnParameter::wrap($geometryArrayOrSet), $gridSize]);
     }
 }
