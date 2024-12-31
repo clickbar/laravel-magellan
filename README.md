@@ -363,7 +363,7 @@ Please use the `BBoxCast` instead.
 A big part of laravel-magellan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
 included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
-Whenever you want to use a PostGIS function on a query builder, you can use the default build-in select, where, groupBy, ... functions. 
+Whenever you want to use a PostGIS function on a query builder, you can use the default built-in select, where, groupBy, ... functions. 
 
 > **Note**  
 > Using the `where` with a `MagellanExpression` that returns a boolean always requires a following true or false.
@@ -376,7 +376,7 @@ Whenever you want to use a PostGIS function on a query builder, you can use the 
 ->where(ST::contains('location', 'polygon'), true)
 ```
 
-So you can just use the ST::functions. Each of these functions return a _MagellanExpression_.  
+So you can just use the `ST::` functions. Each of these functions returns a `MagellanExpression`.  
 A
 _MagellanExpression_ is a wrapper around a
 `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write
@@ -438,7 +438,7 @@ $hullsWithArea = Port::query()
     ->get();
 ```
 ### Alias in select
-Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to add an Alias using the Aliased Expression Class:
+Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to add an alias using the `Aliased` expression:
 ```php
  ->select(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
 //--> leads to SELECT ST_DistanceSphere(<<currentShipPosition, 'location') AS distance_to_ship
@@ -483,7 +483,7 @@ The `withMagellanCasts()` method adds the cast for all selects that return **geo
 
 ### Database Name Prepending (Cross Database Connections)
 
-The Laravel Query Builder adds the name of database as prefix for columns, when there is a different connection between the base query and a subquery (see `prependDatabaseNameIfCrossDatabaseQuery()` function in `Builder` for more details).
+The Laravel Query Builder adds the name of database as prefix for columns when there is a different connection between the base query and a subquery (see `prependDatabaseNameIfCrossDatabaseQuery()` function in `Builder` for more details).
 
 Since we use Laravel Database Expressions, we don't have any access to the builder when creating the SQL string query and therefore cannot check if the connection is different to the one in the subquery.
 
