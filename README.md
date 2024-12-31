@@ -107,12 +107,12 @@ $table->magellanPoint('location', 4326);
 
 ## Preparing the Model
 
-In order to properly integrate everything with the model you only need to add the appropriate cast:
+In order to properly integrate everything with the model you only need to add the appropriate cast (each Geometry can be used):
 
 ```php
 protected $casts = [
     /** ... */
-    'location' => GeometryCast::class,
+    'location' => Point::class,
 ];
 ```
 
@@ -274,7 +274,7 @@ class Port extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'location' => GeometryCast::class,
+        'location' => Point::class,
     ];
 }
 ```
@@ -473,7 +473,7 @@ $hullWithArea = Port::query()
         new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
     ])
     ->groupBy('country')
-    ->withCasts(['hull' => GeometryCast::class]) /* <======= */
+    ->withCasts(['hull' => Polygon::class]) /* <======= */
     ->first();
 
 ```

@@ -11,7 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
 /**
- * @implements CastsAttributes<Geometry,Geometry>
+ * @internal Use the specific Geometry (sub)class as caster in the model e.g. Point::class or Geometry::class
+ *
+ * @template T of Geometry
+ *
+ * @implements CastsAttributes<T,T>
  */
 class GeometryCast implements CastsAttributes
 {
@@ -19,12 +23,15 @@ class GeometryCast implements CastsAttributes
 
     protected BaseGenerator $sqlGenerator;
 
-    public function __construct()
-    {
+    /** @param class-string<T> $geometryClass */
+    public function __construct(
+        protected string $geometryClass,
+    ) {
         $this->wkbParser = App::make(WKBParser::class);
 
         $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
         $this->sqlGenerator = new $generatorClass;
+
     }
 
     /**
@@ -34,7 +41,14 @@ class GeometryCast implements CastsAttributes
      */
     public function get($model, string $key, mixed $value, array $attributes)
     {
-        return isset($value) ? $this->wkbParser->parse($value) : null;
+        if (! isset($value)) {
+            return null;
+        }
+
+        $geometry = $this->wkbParser->parse($value);
+        $this->assertGeometryType($geometry);
+
+        return $geometry;
     }
 
     /**
@@ -45,9 +59,19 @@ class GeometryCast implements CastsAttributes
     public function set($model, string $key, mixed $value, array $attributes)
     {
         if ($value instanceof Geometry) {
+            $this->assertGeometryType($value);
+
             return $this->sqlGenerator->generate($value);
         }
 
         return $value;
+    }
+
+    protected function assertGeometryType(Geometry $geometry): void
+    {
+        if (! $geometry instanceof $this->geometryClass) {
+            $actualClass = get_class($geometry);
+            throw new \InvalidArgumentException("Geometry type must be an instance of $this->geometryClass, $actualClass given");
+        }
     }
 }

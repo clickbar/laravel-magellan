@@ -2,7 +2,9 @@
 
 namespace Clickbar\Magellan\Tests\Models;
 
-use Clickbar\Magellan\Cast\GeometryCast;
+use Clickbar\Magellan\Data\Geometries\LineString;
+use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Data\Geometries\Polygon;
 use Illuminate\Database\Eloquent\Model;
 
 class Geometry extends Model
@@ -15,8 +17,8 @@ class Geometry extends Model
     ];
 
     protected $casts = [
-        'point' => GeometryCast::class,
-        'line' => GeometryCast::class,
-        'area' => GeometryCast::class,
+        'point' => Point::class,
+        'line' => LineString::class,
+        'area' => Polygon::class,
     ];
 }

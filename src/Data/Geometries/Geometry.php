@@ -2,10 +2,12 @@
 
 namespace Clickbar\Magellan\Data\Geometries;
 
+use Clickbar\Magellan\Cast\GeometryCast;
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Support\Facades\Config;
 use JsonSerializable;
 
-abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializable
+abstract class Geometry implements \Stringable, Castable, GeometryInterface, JsonSerializable
 {
     public function __construct(
         protected ?int $srid = null,
@@ -50,5 +52,12 @@ abstract class Geometry implements \Stringable, GeometryInterface, JsonSerializa
         }
 
         return $generated;
+    }
+
+    public static function castUsing(array $arguments): GeometryCast
+    {
+        $class = static::class;
+
+        return new GeometryCast($class);
     }
 }
