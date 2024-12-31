@@ -376,7 +376,7 @@ Whenever you want to use a PostGIS function on a query builder, you can use the 
 ->where(ST::contains('location', 'polygon'), true)
 ```
 
-So you can just use the ST::functions. Each of these functions return a _MagellanExpression_.  
+So you can just use the `ST::` functions. Each of these functions returns a `MagellanExpression`.  
 A
 _MagellanExpression_ is a wrapper around a
 `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write
