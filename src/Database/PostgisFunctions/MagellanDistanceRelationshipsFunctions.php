@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Database\PostgisFunctions;
 
+use Clickbar\Magellan\Database\Expressions\AsGeography;
 use Clickbar\Magellan\Database\MagellanExpressions\ColumnParameter;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBooleanExpression;
@@ -60,6 +61,14 @@ trait MagellanDistanceRelationshipsFunctions
      */
     public static function dWithinGeography($geographyA, $geographyB, float|Expression|\Closure $distanceMeters, bool|Expression|\Closure|null $useSpheroid = null): MagellanBooleanExpression
     {
+        if (! $geographyA instanceof AsGeography) {
+            $geographyA = new AsGeography($geographyA);
+        }
+
+        if (! $geographyB instanceof AsGeography) {
+            $geographyB = new AsGeography($geographyB);
+        }
+
         return MagellanBaseExpression::boolean('ST_DWithin', [ColumnParameter::wrap($geographyA), ColumnParameter::wrap($geographyB), $distanceMeters, $useSpheroid]);
     }
 
