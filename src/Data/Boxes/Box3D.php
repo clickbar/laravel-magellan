@@ -76,4 +76,12 @@ class Box3D extends Box
             floatval($coordinates[6])
         );
     }
+
+    /**
+     * @return array{float, float, float, float, float, float}
+     */
+    public function jsonSerialize(): array
+    {
+        return [$this->xMin, $this->yMin, $this->zMin, $this->xMax, $this->yMax, $this->zMax];
+    }
 }

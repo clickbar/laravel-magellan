@@ -5,8 +5,9 @@ namespace Clickbar\Magellan\Data\Boxes;
 use Clickbar\Magellan\Cast\BBoxCast;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
+use JsonSerializable;
 
-abstract class Box implements Castable, ExpressionContract
+abstract class Box implements Castable, ExpressionContract, JsonSerializable
 {
     abstract public static function fromString(string $box): self;
 
