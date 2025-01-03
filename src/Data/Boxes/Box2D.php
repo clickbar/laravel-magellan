@@ -44,4 +44,20 @@ class Box2D extends Box
     {
         return $grammar->quoteString($this->toString()).'::box2d';
     }
+
+    public static function fromString(string $box): self
+    {
+        preg_match('/^BOX\(([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?),([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\)$/i', $box, $coordinates);
+
+        if (count($coordinates) !== 5) {
+            throw new \InvalidArgumentException('Invalid format for Box2D. Expected BOX(x y,x y), got '.$box);
+        }
+
+        return new self(
+            floatval($coordinates[1]),
+            floatval($coordinates[2]),
+            floatval($coordinates[3]),
+            floatval($coordinates[4])
+        );
+    }
 }
