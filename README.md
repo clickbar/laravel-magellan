@@ -456,7 +456,7 @@ Considering we want to buffer the location of our ports by 50 meters. Looking in
 Therefore, we need to cast our points from the location colum to geography before handing them over to the buffer function:
 ```php
 $bufferedPorts = Port::query()
-    ->select(new Aliased(ST::buffer(new AsGeography('location'), 50), alias: 'buffered_location'))
+    ->select(new Aliased(ST::buffer(new AsGeography('location'), 50), as: 'buffered_location'))
     ->withCasts(['buffered_location' => Polygon::class])
     ->get();
 ```

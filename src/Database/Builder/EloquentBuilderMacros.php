@@ -33,25 +33,25 @@ class EloquentBuilderMacros
             $columns = $this->toBase()->columns ?? [];
             foreach ($columns as $column) {
 
-                /** @var string|null $alias */
-                $alias = null;
+                /** @var string|null $as */
+                $as = null;
                 /** @var MagellanBaseExpression|null $magellanExpression */
                 $magellanExpression = null;
 
                 if ($column instanceof Aliased && $column->expression instanceof MagellanBaseExpression) {
-                    $alias = $column->alias;
+                    $as = $column->as;
                     $magellanExpression = $column->expression;
                 } elseif ($column instanceof MagellanBaseExpression) {
-                    $alias = strtolower($column->postgisFunction);
+                    $as = strtolower($column->postgisFunction);
                     $magellanExpression = $column;
                 }
 
                 if ($magellanExpression?->returnsBbox()) {
-                    $this->withCasts([$alias => BBoxCast::class]);
+                    $this->withCasts([$as => BBoxCast::class]);
                 }
 
                 if ($magellanExpression?->returnsGeometry()) {
-                    $this->withCasts([$alias => Geometry::class]);
+                    $this->withCasts([$as => Geometry::class]);
                 }
             }
 
