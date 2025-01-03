@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed only using a precision of 6 decimal digits in WKT, now uses the maximum precision
+- Fixed only using default PHP string precision in Box `toString` methods, now uses the maximum precision
 
 ### Removed
 
