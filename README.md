@@ -390,7 +390,6 @@ Most of the `ST`-prefixed functions can be accessed using the static functions o
 ```php
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
-use Clickbar\Magellan\Database\Expressions\Aliased;
 ```
 
 Assuming we have our ships current position and want to query all ports with their distance:
@@ -398,7 +397,7 @@ Assuming we have our ships current position and want to query all ports with the
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select() // use select() because we want SELECT *, distance and not only the distance
-    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+    ->addSelect(ST::distanceSphere($currentShipPosition, 'location')->as('distance_to_ship'))
     ->get();
 ```
 
@@ -407,7 +406,7 @@ Since we cannot sail over the whole world, let's limit the distance to max. 50.0
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+    ->addSelect(ST::distanceSphere($currentShipPosition, 'location')->as('distance_to_ship'))
     ->where(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
     ->get();
 ```
@@ -417,7 +416,7 @@ Now let us order them based on the distance:
 ```php
 $currentShipPosition = Point::makeGeodetic(50.107471773560114, 8.679861151457937);
 $portsWithDistance = Port::select()
-    ->addSelect(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+    ->addSelect(ST::distanceSphere($currentShipPosition, 'location')->as('distance_to_ship'))
     ->where(ST::distanceSphere($currentShipPosition, 'location'), '<=', 50000)
     ->orderBy(ST::distanceSphere($currentShipPosition, 'location'))
     ->get();
@@ -431,16 +430,16 @@ No problem:
 $hullsWithArea = Port::query()
     ->select([
         'country',
-        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
-        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+        ST::convexHull(ST::collect('location'))->as('hull'),
+        ST::area(ST::convexHull(ST::collect('location')))->as('area')
     ])
     ->groupBy('country')
     ->get();
 ```
 ### Alias in select
-Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to add an alias using the `Aliased` expression:
+Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to use the `as(string)` method on our ST::function expressions:
 ```php
- ->select(new Aliased(ST::distanceSphere($currentShipPosition, 'location'), 'distance_to_ship'))
+ ->select(ST::distanceSphere($currentShipPosition, 'location')->as('distance_to_ship'))
 //--> leads to SELECT ST_DistanceSphere(<<currentShipPosition, 'location') AS distance_to_ship
 ```
 
@@ -456,7 +455,7 @@ Considering we want to buffer the location of our ports by 50 meters. Looking in
 Therefore, we need to cast our points from the location colum to geography before handing them over to the buffer function:
 ```php
 $bufferedPorts = Port::query()
-    ->select(new Aliased(ST::buffer(new AsGeography('location'), 50), as: 'buffered_location'))
+    ->select(ST::buffer(new AsGeography('location'), 50)->as('buffered_location'))
     ->withCasts(['buffered_location' => Polygon::class])
     ->get();
 ```
@@ -474,8 +473,8 @@ Since "hull" will return a geometry we need a cast for it. Instead of adding eac
 $hullWithArea = Port::query()
     ->select([
         'country',
-        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
-        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+        ST::convexHull(ST::collect('location'))->('hull'),
+        ST::area(ST::convexHull(ST::collect('location')))->('area')
     ])
     ->groupBy('country')
     ->withMagellanCasts() /* <======= */
@@ -486,8 +485,8 @@ $hullWithArea = Port::query()
 $hullWithArea = Port::query()
     ->select([
         'country',
-        new Aliased(ST::convexHull(ST::collect('location')), 'hull'),
-        new Aliased(ST::area(ST::convexHull(ST::collect('location'))), 'area')
+        ST::convexHull(ST::collect('location'))->('hull'),
+        ST::area(ST::convexHull(ST::collect('location')))->('area')
     ])
     ->groupBy('country')
     ->withCasts(['hull' => Polygon::class]) /* <======= */

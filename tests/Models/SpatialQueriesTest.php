@@ -4,7 +4,6 @@ use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Data\Geometries\Polygon;
-use Clickbar\Magellan\Database\Expressions\Aliased;
 use Clickbar\Magellan\Database\Expressions\AsGeography;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -90,7 +89,7 @@ test('it can calculate distances between points', function () {
     $distances = Location::query()
         ->select([
             'name',
-            new Aliased(ST::distance(new AsGeography('location'), new AsGeography($berlinPoint)), 'distance_in_meters'),
+            ST::distance(new AsGeography('location'), new AsGeography($berlinPoint))->as('distance_in_meters'),
         ])
         ->orderBy('distance_in_meters')
         ->get();
@@ -120,7 +119,7 @@ test('it can find the closest point between geometries', function () {
 
     $closestPoint = Location::query()
         ->where('name', 'Berlin')
-        ->select(new Aliased(ST::closestPoint('location', $hamburg), 'closest_point'))
+        ->select(ST::closestPoint('location', $hamburg)->as('closest_point'))
         ->withMagellanCasts()
         ->first();
 
@@ -144,7 +143,7 @@ test('it can calculate the shortest line between points', function () {
 
     $shortestLine = Location::query()
         ->where('name', 'Berlin')
-        ->select(new Aliased(ST::shortestLine('location', $hamburg), 'shortest_line'))
+        ->select(ST::shortestLine('location', $hamburg)->as('shortest_line'))
         ->withMagellanCasts()
         ->first();
 
@@ -161,7 +160,7 @@ test('it can validate geometry', function () {
     // Check if the point is valid and simple
     $validation = Location::query()
         ->where('id', $berlin->id)
-        ->select(new Aliased(ST::isSimple('location'), 'is_simple'))
+        ->select(ST::isSimple('location')->as('is_simple'))
         ->first();
 
     expect($validation->is_simple)->toBeTrue();
@@ -178,8 +177,8 @@ test('it can check coordinate dimensions', function () {
     $dimensions = Location::query()
         ->where('id', $berlin->id)
         ->select([
-            new Aliased(ST::coordDim('location'), 'coord_dim'),
-            new Aliased(ST::nDims('location'), 'n_dims'),
+            ST::coordDim('location')->as('coord_dim'),
+            ST::nDims('location')->as('n_dims'),
         ])
         ->first();
 
@@ -211,7 +210,7 @@ test('it can calculate 3D distances when altitude is provided', function () {
     // Calculate 3D distance
     $distances = $location3d::query()
         ->where('name', 'Berlin')
-        ->select(new Aliased(ST::distance3D('location', $hamburgWithAltitude), 'distance_3d'))
+        ->select(ST::distance3D('location', $hamburgWithAltitude)->as('distance_3d'))
         ->first();
 
     expect((float) $distances->distance_3d)->toBeFloat();
