@@ -11,15 +11,15 @@ class Aliased implements ExpressionContract
 
     public function __construct(
         public string|ExpressionContract $expression,
-        public string $alias,
+        public string $as,
     ) {
     }
 
     public function getValue(Grammar $grammar): string
     {
         $expression = $this->stringize($grammar, $this->expression);
-        $wrappedAlias = $grammar->wrap($this->alias);
+        $wrappedAs = $grammar->wrap($this->as);
 
-        return "$expression AS $wrappedAlias";
+        return "$expression AS $wrappedAs";
     }
 }
