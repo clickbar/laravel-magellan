@@ -473,8 +473,8 @@ Since "hull" will return a geometry we need a cast for it. Instead of adding eac
 $hullWithArea = Port::query()
     ->select([
         'country',
-        ST::convexHull(ST::collect('location'))->('hull'),
-        ST::area(ST::convexHull(ST::collect('location')))->('area')
+        ST::convexHull(ST::collect('location'))->as('hull'),
+        ST::area(ST::convexHull(ST::collect('location')))->as('area')
     ])
     ->groupBy('country')
     ->withMagellanCasts() /* <======= */
@@ -485,8 +485,8 @@ $hullWithArea = Port::query()
 $hullWithArea = Port::query()
     ->select([
         'country',
-        ST::convexHull(ST::collect('location'))->('hull'),
-        ST::area(ST::convexHull(ST::collect('location')))->('area')
+        ST::convexHull(ST::collect('location'))->as('hull'),
+        ST::area(ST::convexHull(ST::collect('location')))->as('area')
     ])
     ->groupBy('country')
     ->withCasts(['hull' => Polygon::class]) /* <======= */

@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `Castable` to all geometries to use them as casters, instead of the `GeometryWKBCast`
 - Added `Aliased` Expression class as wrapper for `AS` in query selects
-  - Add `->as()` helper method on MagellanBaseExpression
+  - Added `->as()` helper method on MagellanBaseExpression
 - Added `withMagellanCasts()` as EloquentBuilder macro
 - Added `AsGeometry` and `AsGeography` database expressions
 
