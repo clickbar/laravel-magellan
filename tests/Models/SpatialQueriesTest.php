@@ -1,5 +1,8 @@
 <?php
 
+use Clickbar\Magellan\Data\Boxes\Box;
+use Clickbar\Magellan\Data\Boxes\Box2D;
+use Clickbar\Magellan\Data\Boxes\Box3D;
 use Clickbar\Magellan\Data\Geometries\LineString;
 use Clickbar\Magellan\Data\Geometries\MultiPoint;
 use Clickbar\Magellan\Data\Geometries\Point;
@@ -437,4 +440,163 @@ test('it can use geography type cast with subquery', function () {
 
     expect($thrownException)->toBeInstanceOf(QueryException::class);
     expect($thrownException->getMessage())->toContain('st_coorddim(geography) does not exist');
+});
+
+test('it can automatically cast to Box2D', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box = Location::query()
+        ->select(ST::makeBox2D(Point::make(1, 2), Point::make(3, 4)))
+        ->withMagellanCasts()
+        ->first()
+        ->st_makebox2d;
+
+    expect($box)->toBeInstanceOf(Box2D::class);
+});
+
+test('it can automatically cast to Box3D', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box = Location::query()
+        ->select(ST::makeBox3D(Point::make(1, 2, 3), Point::make(3, 4, 5)))
+        ->withMagellanCasts()
+        ->first()
+        ->st_3dmakebox;
+
+    expect($box)->toBeInstanceOf(Box3D::class);
+});
+
+test('it can cast using Box', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box = Location::query()
+        ->select(ST::makeBox2D(Point::make(1, 2), Point::make(3, 4)))
+        ->withCasts(['st_makebox2d' => Box::class])
+        ->first()
+        ->st_makebox2d;
+
+    expect($box)->toBeInstanceOf(Box2D::class);
+
+    $box3d = Location::query()
+        ->select(ST::makeBox3D(Point::make(1, 2, 3), Point::make(3, 4, 5)))
+        ->withCasts(['st_3dmakebox' => Box::class])
+        ->first()
+        ->st_3dmakebox;
+
+    expect($box3d)->toBeInstanceOf(Box3D::class);
+});
+
+test('it can cast using Box2D', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box = Location::query()
+        ->select(ST::makeBox2D(Point::make(1, 2), Point::make(3, 4)))
+        ->withCasts(['st_makebox2d' => Box2D::class])
+        ->first()
+        ->st_makebox2d;
+
+    expect($box)->toBeInstanceOf(Box2D::class);
+});
+
+test('it can cast using Box3D', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box3d = Location::query()
+        ->select(ST::makeBox3D(Point::make(1, 2, 3), Point::make(3, 4, 5)))
+        ->withCasts(['st_3dmakebox' => Box3D::class])
+        ->first()
+        ->st_3dmakebox;
+
+    expect($box3d)->toBeInstanceOf(Box3D::class);
+});
+
+test('it throws when using Box3D instead of Box2D cast', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::makeBox2D(Point::make(1, 2), Point::make(3, 4)))
+            ->withCasts(['st_makebox2d' => Box3D::class])
+            ->first()
+        ->st_makebox2d;
+    } catch (InvalidArgumentException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(InvalidArgumentException::class);
+    expect($thrownException->getMessage())->toContain('Invalid format for Box3D. Expected BOX3D(');
+
+});
+
+test('it throws when using Box2D instead of Box3D cast', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $thrownException = null;
+
+    try {
+        Location::query()
+            ->select(ST::makeBox3D(Point::make(1, 2, 3), Point::make(3, 4, 5)))
+            ->withCasts(['st_3dmakebox' => Box2D::class])
+            ->first()
+            ->st_3dmakebox;
+    } catch (InvalidArgumentException $exception) {
+        $thrownException = $exception;
+    }
+
+    expect($thrownException)->toBeInstanceOf(InvalidArgumentException::class);
+    expect($thrownException->getMessage())->toContain('Invalid format for Box2D. Expected BOX(');
+
+});
+
+test('Box2D can handle null values', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box = Location::query()
+        ->selectRaw('null as st_makebox2d')
+        ->withCasts(['st_makebox2d' => Box2D::class])
+        ->first()
+        ->st_makebox2d;
+
+    expect($box)->toBeNull();
+});
+
+test('Box3D can handle null values', function () {
+    Location::create([
+        'name' => 'Berlin',
+        'location' => Point::makeGeodetic(52.52, 13.405),
+    ]);
+
+    $box3d = Location::query()
+        ->selectRaw('null as st_3dmakebox')
+        ->withCasts(['st_3dmakebox' => Box3D::class])
+        ->first()
+        ->st_3dmakebox;
+
+    expect($box3d)->toBeNull();
 });
