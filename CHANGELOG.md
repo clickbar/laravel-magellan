@@ -16,16 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed automatic SRID transformation
 - Removed st prefixed builder functions (e.g. `stSelect`, `stWhere`, ...)
 - Removed `GeometryType` Enum
+- Renamed `toString` to `toRawSql` on `Box` classes
 
 ### Added
 
 - Added `Castable` to all geometries to use them as casters, instead of the `GeometryWKBCast`
 - Added `Castable` to all boxes to use them as casters, instead of the `BBoxCast`
 - Added `Aliased` Expression class as wrapper for `AS` in query selects
-  - Added `->as()` helper method on MagellanBaseExpression
+    - Added `->as()` helper method on MagellanBaseExpression
 - Added `withMagellanCasts()` as EloquentBuilder macro
 - Added `AsGeometry` and `AsGeography` database expressions
 - Added `fromString()` to `Box` classes to create a box from a string
+- Added `Stringable` interface to all box classes
 - Added `JsonSerializable` to `Box2D` and `Box3D`
 
 ### Improved

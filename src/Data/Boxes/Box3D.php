@@ -46,7 +46,7 @@ class Box3D extends Box
         return $this->zMax;
     }
 
-    public function toString(): string
+    public function toRawSql(): string
     {
         $min = GeometryHelper::stringifyFloat($this->xMin).' '.GeometryHelper::stringifyFloat($this->yMin).' '.GeometryHelper::stringifyFloat($this->zMin);
         $max = GeometryHelper::stringifyFloat($this->xMax).' '.GeometryHelper::stringifyFloat($this->yMax).' '.GeometryHelper::stringifyFloat($this->zMax);
@@ -56,7 +56,7 @@ class Box3D extends Box
 
     public function getValue(Grammar $grammar): string
     {
-        return $grammar->quoteString($this->toString()).'::box3d';
+        return $grammar->quoteString($this->toRawSql()).'::box3d';
     }
 
     public static function fromString(string $box): self

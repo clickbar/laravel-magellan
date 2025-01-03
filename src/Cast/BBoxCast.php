@@ -56,6 +56,6 @@ class BBoxCast implements CastsAttributes
      */
     public function set($model, string $key, mixed $value, array $attributes)
     {
-        return $value->toString();
+        return $value->toRawSql();
     }
 }
