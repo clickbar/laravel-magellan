@@ -2,6 +2,7 @@
 
 namespace Clickbar\Magellan\Data\Boxes;
 
+use Clickbar\Magellan\Data\Geometries\GeometryHelper;
 use Illuminate\Database\Grammar;
 
 class Box2D extends Box
@@ -37,7 +38,10 @@ class Box2D extends Box
 
     public function toString(): string
     {
-        return "BOX({$this->xMin} {$this->yMin},{$this->xMax} {$this->yMax})";
+        $min = GeometryHelper::stringifyFloat($this->xMin).' '.GeometryHelper::stringifyFloat($this->yMin);
+        $max = GeometryHelper::stringifyFloat($this->xMax).' '.GeometryHelper::stringifyFloat($this->yMax);
+
+        return "BOX({$min},{$max})";
     }
 
     public function getValue(Grammar $grammar): string
