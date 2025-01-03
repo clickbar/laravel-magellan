@@ -12,7 +12,7 @@
 
 namespace Clickbar\Magellan\Database\Builder;
 
-use Clickbar\Magellan\Cast\BBoxCast;
+use Clickbar\Magellan\Data\Boxes\Box;
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\Expressions\Aliased;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
@@ -47,7 +47,7 @@ class EloquentBuilderMacros
                 }
 
                 if ($magellanExpression?->returnsBbox()) {
-                    $this->withCasts([$as => BBoxCast::class]);
+                    $this->withCasts([$as => Box::class]);
                 }
 
                 if ($magellanExpression?->returnsGeometry()) {

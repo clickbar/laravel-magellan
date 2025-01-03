@@ -58,4 +58,22 @@ class Box3D extends Box
     {
         return $grammar->quoteString($this->toString()).'::box3d';
     }
+
+    public static function fromString(string $box): self
+    {
+        preg_match('/^BOX3D\(([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?),([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\)$/i', $box, $coordinates);
+
+        if (count($coordinates) !== 7) {
+            throw new \InvalidArgumentException('Invalid format for Box3D. Expected BOX3D(x y z,x y z), got '.$box);
+        }
+
+        return new self(
+            floatval($coordinates[1]),
+            floatval($coordinates[2]),
+            floatval($coordinates[3]),
+            floatval($coordinates[4]),
+            floatval($coordinates[5]),
+            floatval($coordinates[6])
+        );
+    }
 }
