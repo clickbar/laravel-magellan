@@ -21,7 +21,9 @@ class GeometryHelper
 
     public static function stringifyFloat($float): string
     {
-        // normalized output among locales
-        return trim(trim(rtrim(sprintf('%15F', $float), '0'), '.'));
+        // Use json_encode to use serialization precision instead of
+        // PHP's default format precision.
+        // See https://wiki.php.net/rfc/precise_float_value
+        return json_encode($float);
     }
 }

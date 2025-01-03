@@ -127,3 +127,12 @@ test('can generate 4D WKT Point with SRID', function () {
 
     expect($pointWKT)->toBe('SRID=4326;POINT ZM(8.12345 50.12345 10 20)');
 })->group('WKT Point');
+
+// Test the float precision of the WKT generator
+test('can generate 2D WKT Point with high float precision', function () {
+    $point = Point::make(8.1234567890123456789, 50.123456789012344);
+
+    $pointWKT = $this->generator->generate($point);
+
+    expect($pointWKT)->toBe('POINT(8.123456789012346 50.123456789012344)');
+})->group('WKT Point');

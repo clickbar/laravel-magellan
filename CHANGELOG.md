@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Fixed only using a precision of 6 decimal digits in WKT, now uses the maximum precision
+
 ## [1.7.0](https://github.com/clickbar/laravel-magellan/tree/1.7.0) - 2024-12-27
 
 ### Added
