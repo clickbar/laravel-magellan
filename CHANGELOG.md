@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `withMagellanCasts()` as EloquentBuilder macro
 - Added `AsGeometry` and `AsGeography` database expressions
 - Added `fromString()` to `Box` classes to create a box from a string
+- Added `JsonSerializable` to `Box2D` and `Box3D`
 
 ### Improved
 
