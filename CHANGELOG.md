@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed automatic SRID transformation
 - Removed st prefixed builder functions (e.g. `stSelect`, `stWhere`, ...)
 - Removed `GeometryType` Enum
+- Renamed `toString` to `toSqlString` on `Box` classes
 
 ### Added
 
@@ -27,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `AsGeometry` and `AsGeography` database expressions
 - Added `fromString()` to `Box` classes to create a box from a string
 - Added `JsonSerializable` to `Box2D` and `Box3D`
+- Added `Stringable` interface to all box classes
 
 ### Improved
 
