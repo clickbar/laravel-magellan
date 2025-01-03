@@ -6,12 +6,13 @@ use Clickbar\Magellan\Cast\BBoxCast;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Query\Expression as ExpressionContract;
 use JsonSerializable;
+use Stringable;
 
-abstract class Box implements Castable, ExpressionContract, JsonSerializable
+abstract class Box implements Castable, ExpressionContract, Stringable, JsonSerializable
 {
     abstract public static function fromString(string $box): self;
 
-    abstract public function toString(): string;
+    abstract public function toSqlString(): string;
 
     /**
      * @return BBoxCast<Box>
