@@ -4,6 +4,7 @@ namespace Clickbar\Magellan\Database\MagellanExpressions;
 
 use Clickbar\Magellan\Database\Builder\StringifiesQueryParameters;
 use Clickbar\Magellan\Database\Builder\ValueParameter;
+use Clickbar\Magellan\Database\Expressions\Aliased;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Contracts\Database\Query\Expression;
@@ -63,6 +64,11 @@ abstract class MagellanBaseExpression implements Expression
     public function returnsBbox(): bool
     {
         return $this instanceof MagellanBBoxExpression;
+    }
+
+    public function as(string $name): Expression
+    {
+        return new Aliased($this, $name);
     }
 
     // ######################## Database Expression Building ########################
