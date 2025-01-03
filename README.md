@@ -107,12 +107,13 @@ $table->magellanPoint('location', 4326);
 
 ## Preparing the Model
 
-In order to properly integrate everything with the model you only need to add the appropriate cast (each Geometry can be used):
+In order to properly integrate everything with the model you only need to add the appropriate cast (each Geometry and Box can be used):
 
 ```php
 protected $casts = [
     /** ... */
     'location' => Point::class,
+    'bounds' => Box2D::class,
 ];
 ```
 
