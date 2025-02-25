@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Strict comparison using \!\=\= between float and null will always evaluate to true\.$#'
+			count: 1
+			path: src/Data/Geometries/Dimension.php
+
+		-
+			message: '#^PHPDoc tag @var with type Illuminate\\Database\\Eloquent\\Builder\|Illuminate\\Database\\Query\\Builder is not subtype of native type \$this\(Clickbar\\Magellan\\Database\\Builder\\BuilderMacros\)\.$#'
+			count: 1
+			path: src/Database/Builder/BuilderMacros.php
+
+		-
+			message: '#^PHPDoc tag @var with type Illuminate\\Database\\Query\\Builder is not subtype of native type \$this\(Clickbar\\Magellan\\Database\\Builder\\BuilderMacros\)\.$#'
+			count: 1
+			path: src/Database/Builder/BuilderMacros.php
+
+		-
+			message: '#^Trait Clickbar\\Magellan\\Database\\Eloquent\\HasPostgisColumns is used zero times and is not analysed\.$#'
+			count: 1
+			path: src/Database/Eloquent/HasPostgisColumns.php
+
+		-
+			message: '#^Trait Clickbar\\Magellan\\Http\\Requests\\TransformsGeojsonGeometry is used zero times and is not analysed\.$#'
+			count: 1
+			path: src/Http/Requests/TransformsGeojsonGeometry.php
+
+		-
+			message: '#^Property Clickbar\\Magellan\\IO\\Parser\\WKB\\Scanner\:\:\$byteOrder \(Clickbar\\Magellan\\IO\\Parser\\WKB\\ByteOrder\|null\) is never assigned null so it can be removed from the property type\.$#'
+			count: 1
+			path: src/IO/Parser/WKB/Scanner.php
