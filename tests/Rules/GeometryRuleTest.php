@@ -8,7 +8,7 @@ test('will validate any valid geometry', function () {
 
     $ruleMessage = null;
 
-    $rule('attribute', [
+    $rule->validate('attribute', [
         'type' => 'Point',
         'coordinates' => [8.12345, 50.12345, 10],
     ], function ($message) use (&$ruleMessage) {
@@ -23,7 +23,7 @@ test('will reject any valid geometry', function () {
 
     $ruleMessage = null;
 
-    $rule('attribute', [
+    $rule->validate('attribute', [
         'type' => 'Invalid',
         'coordinates' => [8.12345, 50.12345, 10],
     ], function ($message) use (&$ruleMessage) {
@@ -38,7 +38,7 @@ test('will accept only allowed geometries', function () {
 
     $ruleMessage = null;
 
-    $rule('attribute', [
+    $rule->validate('attribute', [
         'type' => 'Point',
         'coordinates' => [8.12345, 50.12345, 10],
     ], function ($message) use (&$ruleMessage) {
@@ -53,7 +53,7 @@ test('will reject disallowed geometries', function () {
 
     $ruleMessage = null;
 
-    $rule('attribute', [
+    $rule->validate('attribute', [
         'type' => 'LineString',
         'coordinates' => [[8.12345, 50.12345], [9.12345, 51.12345]],
     ], function ($message) use (&$ruleMessage) {

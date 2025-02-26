@@ -37,7 +37,7 @@ enum Dimension: string
             return Dimension::DIMENSION_2D;
         } elseif ($z !== null && $m === null) {
             return Dimension::DIMENSION_3DZ;
-        } elseif ($z === null && $m !== null) {
+        } elseif ($z === null) {
             return Dimension::DIMENSION_3DM;
         } else {
             return Dimension::DIMENSION_4D;

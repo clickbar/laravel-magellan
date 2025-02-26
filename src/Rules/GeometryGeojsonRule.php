@@ -3,11 +3,12 @@
 namespace Clickbar\Magellan\Rules;
 
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
-use Illuminate\Contracts\Validation\InvokableRule;
+use Closure;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\App;
 
-/** @phpstan-ignore-next-line We still need to support Laravel 9 */
-class GeometryGeojsonRule implements InvokableRule
+class GeometryGeojsonRule implements ValidationRule
 {
     private array $allowedGeometries;
 
@@ -19,7 +20,12 @@ class GeometryGeojsonRule implements InvokableRule
         $this->allowedGeometries = $allowedGeometries;
     }
 
-    public function __invoke($attribute, $value, $fail)
+    /**
+     * @param  Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     *
+     * @throws BindingResolutionException
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         /** @var GeojsonParser $parser */
         $parser = App::make(GeojsonParser::class);

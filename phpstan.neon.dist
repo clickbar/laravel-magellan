@@ -3,6 +3,7 @@ parameters:
     paths:
         - src
         - config
+        - tests/Extra
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
