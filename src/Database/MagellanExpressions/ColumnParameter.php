@@ -12,8 +12,7 @@ class ColumnParameter
 {
     protected function __construct(
         protected readonly string $column,
-    ) {
-    }
+    ) {}
 
     /**
      * Only wrap the given value into the ColumnParameter if it is string.

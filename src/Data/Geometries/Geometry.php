@@ -15,8 +15,7 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
     public function __construct(
         protected ?int $srid = null,
         protected Dimension $dimension = Dimension::DIMENSION_2D,
-    ) {
-    }
+    ) {}
 
     public function getDimension(): Dimension
     {
@@ -38,7 +37,7 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
     public function jsonSerialize(): mixed
     {
         $generatorClass = Config::get('magellan.json_generator');
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         return $generator->generate($this);
     }
@@ -46,7 +45,7 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
     public function __toString(): string
     {
         $generatorClass = Config::get('magellan.string_generator');
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         $generated = $generator->generate($this);
 
@@ -67,7 +66,7 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
     public function getValue(Grammar $grammar): string
     {
         $generatorClass = Config::get('magellan.sql_generator', WKTGenerator::class);
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         return $generator->toPostgisGeometrySql($this, Config::get('magellan.schema'));
     }

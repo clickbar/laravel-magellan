@@ -4,9 +4,7 @@ namespace Clickbar\Magellan\Database\Builder;
 
 class ValueParameter
 {
-    public function __construct(protected mixed $value)
-    {
-    }
+    public function __construct(protected mixed $value) {}
 
     /**
      * @return string

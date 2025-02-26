@@ -538,7 +538,7 @@ test('it throws when using Box3D instead of Box2D cast', function () {
             ->select(ST::makeBox2D(Point::make(1, 2), Point::make(3, 4)))
             ->withCasts(['st_makebox2d' => Box3D::class])
             ->first()
-        ->st_makebox2d;
+            ->st_makebox2d;
     } catch (InvalidArgumentException $exception) {
         $thrownException = $exception;
     }
