@@ -36,7 +36,7 @@ class Box2D extends Box
         return $this->yMax;
     }
 
-    public function toString(): string
+    public function toRawSql(): string
     {
         $min = GeometryHelper::stringifyFloat($this->xMin).' '.GeometryHelper::stringifyFloat($this->yMin);
         $max = GeometryHelper::stringifyFloat($this->xMax).' '.GeometryHelper::stringifyFloat($this->yMax);
@@ -46,7 +46,7 @@ class Box2D extends Box
 
     public function getValue(Grammar $grammar): string
     {
-        return $grammar->quoteString($this->toString()).'::box2d';
+        return $grammar->quoteString($this->toRawSql()).'::box2d';
     }
 
     public static function fromString(string $box): self
