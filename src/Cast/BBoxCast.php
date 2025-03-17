@@ -23,8 +23,7 @@ class BBoxCast implements CastsAttributes
      */
     public function __construct(
         protected string $boxClass,
-    ) {
-    }
+    ) {}
 
     /**
      * Cast the given value.

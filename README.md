@@ -40,8 +40,8 @@ the Grammar and Connection.
 
 Magellan supports Laravel projects, which meet the following requirements:
 
-- Laravel `^10.0` or `^11.0`
-- PHP `^8.1`
+- Laravel `^11.0` or `^12.0`
+- PHP `^8.2`
 
 ## Installation
 
@@ -364,7 +364,7 @@ Please use the `BBoxCast` instead.
 A big part of laravel-magellan is its extensive query building feature. To provide a seamless and easy use of PostGIS functions, we have
 included a wide scope of the typically ST-prefixed functions that can directly be used with Laravel's query builder.
 
-Whenever you want to use a PostGIS function on a query builder, you can use the default built-in select, where, groupBy, ... functions. 
+Whenever you want to use a PostGIS function on a query builder, you can use the default built-in select, where, groupBy, ... functions.
 
 > **Note**  
 > Using the `where` with a `MagellanExpression` that returns a boolean always requires a following true or false.
@@ -437,23 +437,31 @@ $hullsWithArea = Port::query()
     ->groupBy('country')
     ->get();
 ```
+
 ### Alias in select
-Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to use the `as(string)` method on our ST::function expressions:
+
+Since we use Laravel Database Expressions for a seamless integration into the default select(...), where(..) and so on, you need to use the
+`as(string)` method on our ST::function expressions:
+
 ```php
  ->select(ST::distanceSphere($currentShipPosition, 'location')->as('distance_to_ship'))
 //--> leads to SELECT ST_DistanceSphere(<<currentShipPosition, 'location') AS distance_to_ship
 ```
 
 ### Geometry or Geography
-Using PostGIS, you will encounter those two types of geometries. Most of the functions in PostGIS are only defined with parameters of the type `Geometry`. But sometimes you explicitly want to add casts to your parameters. Therefore, we added two cast expressions:
-- `Geometry` => `\Clickbar\Magellan\Database\Expressions\AsGeometry` 
+
+Using PostGIS, you will encounter those two types of geometries. Most of the functions in PostGIS are only defined with parameters of the type
+`Geometry`. But sometimes you explicitly want to add casts to your parameters. Therefore, we added two cast expressions:
+
+- `Geometry` => `\Clickbar\Magellan\Database\Expressions\AsGeometry`
 - `Geography` => `\Clickbar\Magellan\Database\Expressions\AsGeography`
 
-Considering we want to buffer the location of our ports by 50 meters. Looking into the PostGIS documentation we can see the following: 
+Considering we want to buffer the location of our ports by 50 meters. Looking into the PostGIS documentation we can see the following:
 > For geometry, the distance is specified in the units of the Spatial Reference System of the geometry. For geography, the distance is specified in meters.
 > [https://postgis.net/docs/ST_Buffer.html](https://postgis.net/docs/ST_Buffer.html)
 
 Therefore, we need to cast our points from the location colum to geography before handing them over to the buffer function:
+
 ```php
 $bufferedPorts = Port::query()
     ->select(ST::buffer(new AsGeography('location'), 50)->as('buffered_location'))
@@ -461,14 +469,13 @@ $bufferedPorts = Port::query()
     ->get();
 ```
 
-
-
 ### Autocast for BBox or geometries
 
 In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values.
 But in the more complex example we received a geometry as return value.
 
-Since "hull" will return a geometry we need a cast for it. Instead of adding each cast by hand, we can use the `withMagellanCasts()` method, which adds all the relevant casts by itself:
+Since "hull" will return a geometry we need a cast for it. Instead of adding each cast by hand, we can use the
+`withMagellanCasts()` method, which adds all the relevant casts by itself:
 
 ```php
 $hullWithArea = Port::query()
@@ -494,16 +501,17 @@ $hullWithArea = Port::query()
     ->first();
 
 ```
+
 The `withMagellanCasts()` method adds the cast for all selects that return **geometry**, **Box2D** or **Box3D**
 
 ## Limitations
 
 ### Database Name Prepending (Cross Database Connections)
 
-The Laravel Query Builder adds the name of database as prefix for columns when there is a different connection between the base query and a subquery (see `prependDatabaseNameIfCrossDatabaseQuery()` function in `Builder` for more details).
+The Laravel Query Builder adds the name of database as prefix for columns when there is a different connection between the base query and a subquery (see
+`prependDatabaseNameIfCrossDatabaseQuery()` function in `Builder` for more details).
 
 Since we use Laravel Database Expressions, we don't have any access to the builder when creating the SQL string query and therefore cannot check if the connection is different to the one in the subquery.
-
 
 ## Testing
 

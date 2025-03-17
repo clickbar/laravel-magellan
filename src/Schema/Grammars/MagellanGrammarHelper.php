@@ -58,7 +58,7 @@ class MagellanGrammarHelper
     public static function createBoxTypeDefinition(Fluent $column, $boxType): string
     {
         // Assert bounding box type
-        //self::assertValidPostgisType($column);
+        // self::assertValidPostgisType($column);
 
         $schema = Config::get('magellan.schema', 'public');
 

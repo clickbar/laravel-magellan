@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Breaking
 
-- Removed support for Laravel 9.x
+- Removed support for deprecated Laravel versions 9.x & 10.x
+- Require at least PHP 8.2
 - Removed the `HasPostgisColumns` trait & `$postgisColumns` property.
 - Removed `GeometryWKBCast`
 - Refactored `BBoxCast` to be generic & internal, please use Box subclasses directly
@@ -17,9 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed st prefixed builder functions (e.g. `stSelect`, `stWhere`, ...)
 - Removed `GeometryType` Enum
 - Renamed `toString` to `toRawSql` on `Box` classes
+- Removed Doctrine DBAL types & registration (was used for older Laravel versions)
+- `GeometryGeojsonRule` is not directly invokable anymore
 
 ### Added
 
+- Added Laravel 12 & PHP 8.4 support
 - Added `Castable` to all geometries to use them as casters, instead of the `GeometryWKBCast`
 - Added `Castable` to all boxes to use them as casters, instead of the `BBoxCast`
 - Added `Aliased` Expression class as wrapper for `AS` in query selects

@@ -10,7 +10,7 @@ class Scanner
 
     private $pos;
 
-    private ?ByteOrder $byteOrder;
+    private ByteOrder $byteOrder;
 
     public function __construct($data)
     {
@@ -21,14 +21,15 @@ class Scanner
         $this->data = $data;
         $this->len = strlen($data);
         $this->pos = 0;
+        $this->byteOrder = ByteOrder::littleEndian;
     }
 
-    public function setByteOrder(ByteOrder $byteOrder)
+    public function setByteOrder(ByteOrder $byteOrder): void
     {
         $this->byteOrder = $byteOrder;
     }
 
-    public function getByteOrder(): ?ByteOrder
+    public function getByteOrder(): ByteOrder
     {
         return $this->byteOrder;
     }
@@ -89,6 +90,6 @@ class Scanner
 
     private function assertByteOrder(?ByteOrder $byteOrder): ByteOrder
     {
-        return $byteOrder ?? $this->byteOrder ?? throw new \RuntimeException('No byte order specified');
+        return $byteOrder ?? $this->byteOrder;
     }
 }

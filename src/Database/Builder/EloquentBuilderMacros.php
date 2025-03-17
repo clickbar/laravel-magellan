@@ -25,8 +25,6 @@ class EloquentBuilderMacros
 {
     public function withMagellanCasts(): \Closure
     {
-        /** @var EloquentBuilder $this */
-
         return function (): EloquentBuilder {
 
             // Loop over all columns and add cast if the column is an aliased magellan expression
@@ -55,6 +53,11 @@ class EloquentBuilderMacros
                 }
             }
 
+            /**
+             * @var EloquentBuilder $this
+             *
+             * @phpstan-ignore varTag.nativeType
+             */
             return $this;
         };
     }

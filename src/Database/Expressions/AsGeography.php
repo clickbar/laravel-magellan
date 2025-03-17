@@ -10,8 +10,7 @@ class AsGeography extends GeometryWrapperExpression
 {
     public function __construct(
         public string|ExpressionContract|Closure $expression,
-    ) {
-    }
+    ) {}
 
     public function getValue(Grammar $grammar): string
     {

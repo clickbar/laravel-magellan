@@ -12,8 +12,7 @@ class Aliased implements ExpressionContract
     public function __construct(
         public string|ExpressionContract $expression,
         public string $as,
-    ) {
-    }
+    ) {}
 
     public function getValue(Grammar $grammar): string
     {

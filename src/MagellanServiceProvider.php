@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Grammars\PostgresGrammar;
-use Illuminate\Support\Facades\DB;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -36,14 +35,14 @@ class MagellanServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        PostgresGrammar::mixin(new MagellanGrammar());
-        Blueprint::mixin(new MagellanBlueprint());
+        PostgresGrammar::mixin(new MagellanGrammar);
+        Blueprint::mixin(new MagellanBlueprint);
 
-        $this->registerBuilderMixin(new BuilderMacros());
-        $this->registerEloquentBuilderMixin(new EloquentBuilderMacros());
+        $this->registerBuilderMixin(new BuilderMacros);
+        $this->registerEloquentBuilderMixin(new EloquentBuilderMacros);
 
         $this->app->singleton(GeometryModelFactory::class, function ($app) {
-            return new GeometryFactory();
+            return new GeometryFactory;
         });
 
         $this->app->singleton(GeojsonParser::class, function ($app) {
@@ -57,14 +56,6 @@ class MagellanServiceProvider extends PackageServiceProvider
         $this->app->singleton(WKBParser::class, function ($app) {
             return new WKBParser($app->make(GeometryModelFactory::class));
         });
-
-        // Register custom Doctrine types for PostGIS only if DBAL is available
-        if (class_exists('Doctrine\DBAL\Connection') && method_exists('Illuminate\Database\Connection', 'registerDoctrineType')) {
-            // @phpstan-ignore staticMethod.notFound
-            DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeometryType::class, 'geometry', 'geometry');
-            // @phpstan-ignore staticMethod.notFound
-            DB::registerDoctrineType(\Clickbar\Magellan\DBAL\Types\GeographyType::class, 'geography', 'geography');
-        }
     }
 
     private function registerBuilderMixin($mixin): void

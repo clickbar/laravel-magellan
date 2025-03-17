@@ -18,8 +18,7 @@ abstract class MagellanBaseExpression implements Expression
     public function __construct(
         public readonly string $postgisFunction,
         public readonly array $params,
-    ) {
-    }
+    ) {}
 
     public static function numeric(string $postgisFunction, array $params): MagellanNumericExpression
     {
@@ -87,7 +86,7 @@ abstract class MagellanBaseExpression implements Expression
             })->toArray();
 
         $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-        $generator = new $generatorClass();
+        $generator = new $generatorClass;
 
         $preparedParameters = self::prepareParams($grammar, $generator, $params);
         $paramString = implode(', ', $preparedParameters);
