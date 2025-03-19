@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.0.0](https://github.com/clickbar/laravel-magellan/tree/2.0.0) - 2025-03-19
+
+Please check out the [upgrade guide](UPGRADING.md) for more recommended steps.
+
 ### Breaking
 
 - Removed support for deprecated Laravel versions 9.x & 10.x
