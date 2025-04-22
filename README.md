@@ -19,6 +19,37 @@
 <br>
 </div>
 
+- [Introduction](#introduction)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Upgrading from 1.x to 2.x](#upgrading-from-1x-to-2x)
+- [What's included](#whats-included)
+- [Before you start](#before-you-start)
+- [Creating Tables with PostGIS Columns](#creating-tables-with-postgis-columns)
+- [Preparing the Model](#preparing-the-model)
+- [Using the geometry data classes](#using-the-geometry-data-classes)
+- [Generators \& Parsers](#generators--parsers)
+- [Request Validation and Transformation](#request-validation-and-transformation)
+- [Interaction with the database](#interaction-with-the-database)
+  - [Example Setup](#example-setup)
+  - [Insert/Update](#insertupdate)
+  - [Insert/Update with different SRID](#insertupdate-with-different-srid)
+  - [Select](#select)
+  - [Using PostGIS functions in queries](#using-postgis-functions-in-queries)
+  - [Alias in select](#alias-in-select)
+  - [Geometry or Geography](#geometry-or-geography)
+  - [Autocast for BBox or geometries](#autocast-for-bbox-or-geometries)
+- [Limitations](#limitations)
+  - [Database Name Prepending (Cross Database Connections)](#database-name-prepending-cross-database-connections)
+- [Testing](#testing)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Security Vulnerabilities](#security-vulnerabilities)
+- [Thanks](#thanks)
+- [Credits](#credits)
+- [License](#license)
+
+
 ## Introduction
 
 Every sailor needs a nice ship to travel the seven seas ⛵️
@@ -66,6 +97,10 @@ php artisan vendor:publish --tag="magellan-config"
 
 You may find the contents of the published config file here:
 [config/magellan.php](config/magellan.php)
+
+## Upgrading from 1.x to 2.x
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## What's included
 
@@ -270,7 +305,6 @@ and the model implementation:
 class Port extends Model
 {
     use HasFactory;
-    use HasPostgisColumns;
 
     protected $guarded = [];
 
