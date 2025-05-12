@@ -494,7 +494,7 @@ Considering we want to buffer the location of our ports by 50 meters. Looking in
 > For geometry, the distance is specified in the units of the Spatial Reference System of the geometry. For geography, the distance is specified in meters.
 > [https://postgis.net/docs/ST_Buffer.html](https://postgis.net/docs/ST_Buffer.html)
 
-Therefore, we need to cast our points from the location colum to geography before handing them over to the buffer function:
+Therefore, we need to cast our points from the location column to geography before handing them over to the buffer function:
 
 ```php
 $bufferedPorts = Port::query()
