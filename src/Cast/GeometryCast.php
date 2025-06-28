@@ -6,6 +6,7 @@ use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
+use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
@@ -21,6 +22,8 @@ class GeometryCast implements CastsAttributes
 {
     protected WKBParser $wkbParser;
 
+    protected WKTParser $wktParser;
+
     protected BaseGenerator $sqlGenerator;
 
     /** @param class-string<T> $geometryClass */
@@ -28,6 +31,7 @@ class GeometryCast implements CastsAttributes
         protected string $geometryClass,
     ) {
         $this->wkbParser = App::make(WKBParser::class);
+        $this->wktParser = App::make(WKTParser::class);
 
         $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
         $this->sqlGenerator = new $generatorClass;
@@ -45,7 +49,12 @@ class GeometryCast implements CastsAttributes
             return null;
         }
 
-        $geometry = $this->wkbParser->parse($value);
+        if (ctype_xdigit($value)) {
+            $geometry = $this->wkbParser->parse($value);
+        } else {
+            $geometry = $this->wktParser->parse($value);
+        }
+
         $this->assertGeometryType($geometry);
 
         return $geometry;
