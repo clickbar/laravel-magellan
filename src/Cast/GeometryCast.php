@@ -49,6 +49,7 @@ class GeometryCast implements CastsAttributes
             return null;
         }
 
+        // determine if value is a HEX string
         if (ctype_xdigit($value)) {
             $geometry = $this->wkbParser->parse($value);
         } else {
