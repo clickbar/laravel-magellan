@@ -49,7 +49,9 @@ class GeometryCast implements CastsAttributes
             return null;
         }
 
-        // determine if value is a HEX string
+        // Detect format: WKB data is hex-encoded, WKT is human-readable text
+        // After serialization, the model contains the WKB value, and we need to
+        // parse it back to a Geometry object using the WKBParser.
         if (ctype_xdigit($value)) {
             $geometry = $this->wkbParser->parse($value);
         } else {
