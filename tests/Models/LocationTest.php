@@ -64,3 +64,23 @@ test('it can query points within distance', function () {
     expect($nearbyLocations->pluck('name'))->toContain('Berlin', 'Hamburg');
     expect($nearbyLocations->pluck('name'))->not->toContain('Munich');
 });
+
+test('it can access a point after serializing the model', function () {
+    $location = Location::make([
+        'name' => 'Test Location',
+        'location' => Point::makeGeodetic(51.087, 8.76),
+    ]);
+    $location->save();
+
+    serialize($location);
+
+    expect($location->location)->toBeInstanceOf(Point::class);
+    expect($location->location->getLatitude())->toBe(51.087);
+    expect($location->location->getLongitude())->toBe(8.76);
+
+    // Test after fresh retrieval
+    $location = $location->fresh();
+    expect($location->location)->toBeInstanceOf(Point::class);
+    expect($location->location->getLatitude())->toBe(51.087);
+    expect($location->location->getLongitude())->toBe(8.76);
+});

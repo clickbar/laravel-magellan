@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Fixed using the casts after serialization, e.g. in queueable anonymous event listeners. (thanks @henridv #149)
+
 ## [2.0.0](https://github.com/clickbar/laravel-magellan/tree/2.0.0) - 2025-03-19
 
 Please check out the [upgrade guide](UPGRADING.md) for more recommended steps.
