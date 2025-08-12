@@ -48,8 +48,8 @@ class GeometryCast implements CastsAttributes
         if (! isset($value)) {
             return null;
         }
-        
         if ($value instanceof Geometry) {
+            $this->assertGeometryType($value);
             return $value;
         }
 
