@@ -48,6 +48,10 @@ class GeometryCast implements CastsAttributes
         if (! isset($value)) {
             return null;
         }
+        
+        if ($value instanceof Geometry) {
+            return $value;
+        }
 
         // Detect format: WKB data is hex-encoded, WKT is human-readable text
         // After serialization, the model contains the WKB value, and we need to
