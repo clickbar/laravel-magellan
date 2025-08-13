@@ -31,16 +31,16 @@
 - [Generators \& Parsers](#generators--parsers)
 - [Request Validation and Transformation](#request-validation-and-transformation)
 - [Interaction with the database](#interaction-with-the-database)
-  - [Example Setup](#example-setup)
-  - [Insert/Update](#insertupdate)
-  - [Insert/Update with different SRID](#insertupdate-with-different-srid)
-  - [Select](#select)
-  - [Using PostGIS functions in queries](#using-postgis-functions-in-queries)
-  - [Alias in select](#alias-in-select)
-  - [Geometry or Geography](#geometry-or-geography)
-  - [Autocast for BBox or geometries](#autocast-for-bbox-or-geometries)
+    - [Example Setup](#example-setup)
+    - [Insert/Update](#insertupdate)
+    - [Insert/Update with different SRID](#insertupdate-with-different-srid)
+    - [Select](#select)
+    - [Using PostGIS functions in queries](#using-postgis-functions-in-queries)
+    - [Alias in select](#alias-in-select)
+    - [Geometry or Geography](#geometry-or-geography)
+    - [Autocast for BBox or geometries](#autocast-for-bbox-or-geometries)
 - [Limitations](#limitations)
-  - [Database Name Prepending (Cross Database Connections)](#database-name-prepending-cross-database-connections)
+    - [Database Name Prepending (Cross Database Connections)](#database-name-prepending-cross-database-connections)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -48,7 +48,6 @@
 - [Thanks](#thanks)
 - [Credits](#credits)
 - [License](#license)
-
 
 ## Introduction
 
@@ -117,9 +116,7 @@ Please see [UPGRADING](UPGRADING.md) for details.
 - [x] Geometry and BBox Cast classes
 - [x] Auto Cast when using functions that return geometry or bbox
 - [x] Empty Geometry Support
-- [ ] Custom update Builder method for conversion safety
 - [ ] Automatic PostGIS Function Doc Generator
-- [ ] BBox support within $postgisColumns & trait (currently with cast only)
 - [ ] Custom Geometry Factories & Models
 - [ ] More tests
 - ...
@@ -131,14 +128,27 @@ able to see everything included in the IDEs auto-completion.
 
 ## Creating Tables with PostGIS Columns
 
-Laravel-magellan extends the default Schema Blueprint with all PostGIS functions. Since Laravel has introduced basic
-geometry support, all methods are prefixed with `magellan`. e.g.
+> [!NOTE]  
+> Please use the new built-in Laravel methods `geometry` and `geography` where possible.  
+> Only the `magellanBox2D`, `magellanBox3D`, `magellanGeometryCollection`-functions are not deprecated.  
+> All other methods are deprecated and will be removed in the next major version.
+
+Laravel-magellan extends the default Schema Blueprint with all PostGIS functions.
+Since Laravel has introduced basic geometry support, all methods are prefixed with `magellan`. e.g.
 
 ```php
+// Deprecated, use the new Laravel methods instead ->geometry('location', 'POINT', 4326)
 $table->magellanPoint('location', 4326);
-```
 
-![List of all schema methods](art/magellan_schema.png)
+// Special column types (not deprecated)
+$table->magellanBox2D('bounds2d');
+$table->magellanBox3D('bounds3d');
+$table->magellanGeometryCollection('collection');
+$table->magellanGeometryCollectionM('collection_m');
+$table->magellanGeometryCollectionZ('collection_z');
+$table->magellanGeometryCollectionZM('collection_zm');
+
+```
 
 ## Preparing the Model
 
