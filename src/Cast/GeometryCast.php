@@ -4,7 +4,7 @@ namespace Clickbar\Magellan\Cast;
 
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\IO\Generator\BaseGenerator;
-use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
+use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
 use Clickbar\Magellan\IO\Parser\WKT\WKTParser;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
@@ -33,9 +33,10 @@ class GeometryCast implements CastsAttributes
         $this->wkbParser = App::make(WKBParser::class);
         $this->wktParser = App::make(WKTParser::class);
 
-        $generatorClass = config('magellan.sql_generator', WKTGenerator::class);
-        $this->sqlGenerator = new $generatorClass;
-
+        // Always use WKB for casts, to be compatible with database storage
+        // and avoid dirty state due to equality checks on Laravel Models,
+        // when a geometry is filled on the model and compared to the database (WKB) value.
+        $this->sqlGenerator = new WKBGenerator;
     }
 
     /**

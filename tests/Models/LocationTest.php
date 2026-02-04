@@ -84,3 +84,39 @@ test('it can access a point after serializing the model', function () {
     expect($location->location->getLatitude())->toBe(51.087);
     expect($location->location->getLongitude())->toBe(8.76);
 });
+
+test('it is not dirty after retrieving a model', function () {
+    $location = Location::create([
+        'name' => 'Test Location',
+        'location' => Point::makeGeodetic(51.087, 8.76),
+    ]);
+
+    $location = $location->fresh();
+
+    expect($location->isDirty())->toBeFalse();
+});
+
+test('it is dirty after changing the point', function () {
+    $location = Location::create([
+        'name' => 'Test Location',
+        'location' => Point::makeGeodetic(51.087, 8.76),
+    ]);
+
+    $location = $location->fresh();
+    $location->location = Point::makeGeodetic(52.0, 9.0);
+
+    expect($location->isDirty())->toBeTrue();
+    expect($location->getDirty())->toHaveKey('location');
+});
+
+test('it is not dirty after setting the same point', function () {
+    $location = Location::create([
+        'name' => 'Test Location',
+        'location' => Point::makeGeodetic(51.087, 8.76),
+    ]);
+
+    $location = $location->fresh();
+    $location->location = Point::makeGeodetic(51.087, 8.76);
+
+    expect($location->isDirty())->toBeFalse();
+});
