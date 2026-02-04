@@ -70,7 +70,12 @@
                 "Clickbar\\Magellan\\MagellanServiceProvider"
             ],
             "aliases": {
-                "Magellan": "Clickbar\\Magellan\\Facades\\Magellan"
+                "WKBParser": "Clickbar\\Magellan\\Facades\\WKBParser",
+                "WKTParser": "Clickbar\\Magellan\\Facades\\WKTParser",
+                "GeojsonParser": "Clickbar\\Magellan\\Facades\\GeojsonParser",
+                "WKBGenerator": "Clickbar\\Magellan\\Facades\\WKBGenerator",
+                "WKTGenerator": "Clickbar\\Magellan\\Facades\\WKTGenerator",
+                "GeojsonGenerator": "Clickbar\\Magellan\\Facades\\GeojsonGenerator"
             }
         }
     },
