@@ -5,6 +5,9 @@ namespace Clickbar\Magellan;
 use Clickbar\Magellan\Data\Geometries\GeometryFactory;
 use Clickbar\Magellan\Database\Builder\BuilderMacros;
 use Clickbar\Magellan\Database\Builder\EloquentBuilderMacros;
+use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
+use Clickbar\Magellan\IO\Generator\WKB\WKBGenerator;
+use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Clickbar\Magellan\IO\GeometryModelFactory;
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
 use Clickbar\Magellan\IO\Parser\WKB\WKBParser;
@@ -55,6 +58,18 @@ class MagellanServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(WKBParser::class, function ($app) {
             return new WKBParser($app->make(GeometryModelFactory::class));
+        });
+
+        $this->app->singleton(GeojsonGenerator::class, function ($app) {
+            return new GeojsonGenerator;
+        });
+
+        $this->app->singleton(WKTGenerator::class, function ($app) {
+            return new WKTGenerator;
+        });
+
+        $this->app->singleton(WKBGenerator::class, function ($app) {
+            return new WKBGenerator;
         });
     }
 

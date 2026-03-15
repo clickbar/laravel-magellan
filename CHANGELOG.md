@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Added facades for parsers (`WKBParser`, `WKTParser`, `GeojsonParser`) and generators (`WKBGenerator`, `WKTGenerator`, `GeojsonGenerator`)
+
 ### Fixed
 
 - Fixed dirty comparison of Model attributes using the Geometry casts
