@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Geometry parseMultiPoint(array $coordinates)
  * @method static Geometry parseMultiPolygon(array $coordinates)
  *
- * @see \Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser
+ * @see BaseGeojsonParser
  */
 class GeojsonParser extends Facade
 {

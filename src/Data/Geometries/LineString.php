@@ -7,7 +7,7 @@ use Clickbar\Magellan\Cast\GeometryCast;
 class LineString extends PointCollection
 {
     /**
-     * @param  \Clickbar\Magellan\Data\Geometries\Point[]  $points
+     * @param  Point[]  $points
      */
     public static function make(array $points, ?int $srid = null, Dimension $dimension = Dimension::DIMENSION_2D): self
     {

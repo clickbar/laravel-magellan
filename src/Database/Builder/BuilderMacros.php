@@ -14,9 +14,10 @@ namespace Clickbar\Magellan\Database\Builder;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 
 /**
- * @mixin \Illuminate\Database\Query\Builder
+ * @mixin Builder
  */
 class BuilderMacros
 {

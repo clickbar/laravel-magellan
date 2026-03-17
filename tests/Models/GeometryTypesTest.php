@@ -91,4 +91,4 @@ test('it throws an exception when the wrong caster is used', function () {
     ])
         ->first()
         ->point;
-})->throws(\InvalidArgumentException::class);
+})->throws(InvalidArgumentException::class);

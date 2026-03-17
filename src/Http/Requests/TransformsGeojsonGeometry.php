@@ -3,12 +3,13 @@
 namespace Clickbar\Magellan\Http\Requests;
 
 use Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ValidatedInput;
 
 /**
- * @mixin \Illuminate\Foundation\Http\FormRequest
+ * @mixin FormRequest
  */
 trait TransformsGeojsonGeometry
 {
@@ -42,7 +43,7 @@ trait TransformsGeojsonGeometry
     /**
      * Get a validated input container for the validated input.
      *
-     * @return \Illuminate\Support\ValidatedInput|array
+     * @return ValidatedInput|array
      */
     public function safe(?array $keys = null)
     {

@@ -2,8 +2,10 @@
 
 namespace Clickbar\Magellan\Schema;
 
+use Illuminate\Database\Schema\Blueprint;
+
 /**
- * @mixin \Illuminate\Database\Schema\Blueprint
+ * @mixin Blueprint
  */
 class MagellanBlueprint
 {

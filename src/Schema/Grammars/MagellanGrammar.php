@@ -2,10 +2,11 @@
 
 namespace Clickbar\Magellan\Schema\Grammars;
 
+use Illuminate\Database\Schema\Grammars\PostgresGrammar;
 use Illuminate\Support\Fluent;
 
 /**
- * @mixin \Illuminate\Database\Schema\Grammars\PostgresGrammar
+ * @mixin PostgresGrammar
  */
 class MagellanGrammar
 {

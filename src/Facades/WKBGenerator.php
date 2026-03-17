@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string toPostgisGeometrySql(Geometry $geometry, string $schema)
  * @method static string toPostgisGeographySql(Geometry $geometry, string $schema)
  *
- * @see \Clickbar\Magellan\IO\Generator\WKB\WKBGenerator
+ * @see BaseWKBGenerator
  */
 class WKBGenerator extends Facade
 {
