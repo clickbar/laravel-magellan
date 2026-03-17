@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static Geometry parse(mixed $input)
  *
- * @see \Clickbar\Magellan\IO\Parser\WKB\WKBParser
+ * @see BaseWKBParser
  */
 class WKBParser extends Facade
 {

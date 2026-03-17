@@ -7,6 +7,7 @@ use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\App;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 class GeometryGeojsonRule implements ValidationRule
 {
@@ -21,7 +22,7 @@ class GeometryGeojsonRule implements ValidationRule
     }
 
     /**
-     * @param  Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail
      *
      * @throws BindingResolutionException
      */

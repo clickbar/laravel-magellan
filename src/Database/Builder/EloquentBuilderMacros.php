@@ -16,10 +16,11 @@ use Clickbar\Magellan\Data\Boxes\Box;
 use Clickbar\Magellan\Data\Geometries\Geometry;
 use Clickbar\Magellan\Database\Expressions\Aliased;
 use Clickbar\Magellan\Database\MagellanExpressions\MagellanBaseExpression;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  */
 class EloquentBuilderMacros
 {

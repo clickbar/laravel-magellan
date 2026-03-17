@@ -1,6 +1,7 @@
 <?php
 
 use Clickbar\Magellan\Data\Geometries\Point;
+use Clickbar\Magellan\Http\Requests\TransformsGeojsonGeometry;
 use Clickbar\Magellan\Rules\GeometryGeojsonRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
@@ -71,7 +72,7 @@ test('it transforms geojson to geometry object in request', function () {
 // Test Form Request class
 class TestGeoJsonRequest extends FormRequest
 {
-    use \Clickbar\Magellan\Http\Requests\TransformsGeojsonGeometry;
+    use TransformsGeojsonGeometry;
 
     public function rules(): array
     {

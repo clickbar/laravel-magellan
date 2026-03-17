@@ -4,6 +4,7 @@ use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Tests\Extra\GeometryFormRequest;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 
 function createRequest(
@@ -13,7 +14,7 @@ function createRequest(
 ): GeometryFormRequest {
     $request = GeometryFormRequest::createFromBase(HttpFoundationRequest::create('', $method, $parameters));
 
-    $request->setRedirector($container->make(\Illuminate\Routing\Redirector::class));
+    $request->setRedirector($container->make(Redirector::class));
     $request->setContainer($container);
 
     return $request;

@@ -1,5 +1,8 @@
 <?php
 
+use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
+use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
+
 return [
 
     /**
@@ -17,7 +20,7 @@ return [
      * the GeoJSON standard is only defined for SRID 4326 and will fail otherwise. You
      * may use another generator if you need to support other SRIDs e.g. the WKT generator.
      */
-    'json_generator' => \Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator::class,
+    'json_generator' => GeojsonGenerator::class,
 
     /**
      * The generator that should be used when converting a geometry for the database.
@@ -27,7 +30,7 @@ return [
      *
      * NOTE: GeoJSON cannot be used as a generator for geography columns, since it does not support SRIDs.
      */
-    'sql_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
+    'sql_generator' => WKTGenerator::class,
 
     /**
      * The generator that should be used when converting a geometry to a string.
@@ -37,7 +40,7 @@ return [
      * It may also be implicitly used, when passing Geometry objects to the DB as bindings in queries.
      * NOTE: The GeoJson generator will not work for geography columns, since they do not support SRIDs.
      */
-    'string_generator' => \Clickbar\Magellan\IO\Generator\WKT\WKTGenerator::class,
+    'string_generator' => WKTGenerator::class,
 
     /**
      * The SRIDs, that are used to determine whether a geometry class uses a geodetic projection when trying

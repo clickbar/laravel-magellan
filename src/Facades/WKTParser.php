@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static Polygon parsePolygon(?string $argument)
  * @method static MultiPoint parseMultiPoint(?string $argument)
  *
- * @see \Clickbar\Magellan\IO\Parser\WKT\WKTParser
+ * @see BaseWKTParser
  */
 class WKTParser extends Facade
 {
