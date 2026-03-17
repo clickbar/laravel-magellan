@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.1.0](https://github.com/clickbar/laravel-magellan/tree/2.1.0) - 2026-03-17
+
 ### Added
 
 - Added Laravel 13.x support
-- Added facades for parsers (`WKBParser`, `WKTParser`, `GeojsonParser`) and generators (`WKBGenerator`, `WKTGenerator`, `GeojsonGenerator`)
+- Added facades for parsers (`WKBParser`, `WKTParser`, `GeojsonParser`) and generators (`WKBGenerator`, `WKTGenerator`,
+  `GeojsonGenerator`)
 
 ### Fixed
 
