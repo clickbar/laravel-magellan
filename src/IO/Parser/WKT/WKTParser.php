@@ -22,7 +22,7 @@ class WKTParser extends BaseParser
 
     protected ?int $srid = null;
 
-    public function parse($input): Geometry
+    public function parse($input, ?int $srid = 4326): Geometry
     {
         $input = $this->parseAndRemoveSrid($input);
 

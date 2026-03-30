@@ -433,3 +433,79 @@ test('can parse 2D Geojson GeometryCollection', function () {
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getLongitude())->toBe(8.12345);
     expect($polygon->getLineStrings()[0]->getPoints()[3]->getLatitude())->toBe(50.12345);
 })->group('Geojson GeometryCollection');
+
+// ------------------------------------------------ SRID tests ------------------------------------------------
+
+test('parse Geojson Point uses default SRID 4326', function () {
+    $point = $this->parser->parse('{"type":"Point","coordinates":[8.12345,50.12345]}');
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point)->geometryHasSrid(4326);
+})->group('Geojson SRID');
+
+test('parse Geojson Point with explicit custom SRID', function () {
+    $point = $this->parser->parse('{"type":"Point","coordinates":[8.12345,50.12345]}', 25832);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson Point with null SRID', function () {
+    $point = $this->parser->parse('{"type":"Point","coordinates":[8.12345,50.12345]}', null);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point)->geometryHasSrid(null);
+})->group('Geojson SRID');
+
+test('parse Geojson LineString with explicit SRID propagates to all points', function () {
+    $lineString = $this->parser->parse('{"type":"LineString","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]}', 25832);
+
+    expect($lineString)->toBeInstanceOf(LineString::class);
+    expect($lineString)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson MultiLineString with explicit SRID propagates to all children', function () {
+    $multiLineString = $this->parser->parse('{"type":"MultiLineString","coordinates":[[[8.12345,50.12345],[9.12345,51.12345]],[[7.12345,49.12345],[6.12345,48.12345]]]}', 25832);
+
+    expect($multiLineString)->toBeInstanceOf(MultiLineString::class);
+    expect($multiLineString)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson Polygon with explicit SRID propagates to all children', function () {
+    $polygon = $this->parser->parse('{"type":"Polygon","coordinates":[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]]}', 25832);
+
+    expect($polygon)->toBeInstanceOf(Polygon::class);
+    expect($polygon)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson MultiPoint with explicit SRID propagates to all points', function () {
+    $multiPoint = $this->parser->parse('{"type":"MultiPoint","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]}', 25832);
+
+    expect($multiPoint)->toBeInstanceOf(MultiPoint::class);
+    expect($multiPoint)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson MultiPolygon with explicit SRID propagates to all children', function () {
+    $multiPolygon = $this->parser->parse('{"type":"MultiPolygon","coordinates":[[[[8.12345,50.12345],[9.12345,51.12345],[7.12345,48.12345],[8.12345,50.12345]]],[[[10.12345,50.12345],[11.12345,51.12345],[9.12345,48.12345],[10.12345,50.12345]]]]}', 25832);
+
+    expect($multiPolygon)->toBeInstanceOf(MultiPolygon::class);
+    expect($multiPolygon)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson GeometryCollection with explicit SRID propagates to all geometries', function () {
+    $geojson = '{"type":"GeometryCollection","geometries":[{"type":"Point","coordinates":[8.12345,50.12345]},{"type":"LineString","coordinates":[[8.12345,50.12345],[9.12345,51.12345]]}]}';
+
+    $geometryCollection = $this->parser->parse($geojson, 25832);
+
+    expect($geometryCollection)->toBeInstanceOf(GeometryCollection::class);
+    expect($geometryCollection)->geometryHasSrid(25832);
+})->group('Geojson SRID');
+
+test('parse Geojson Feature with explicit SRID propagates to wrapped geometry', function () {
+    $feature = '{"type":"Feature","geometry":{"type":"Point","coordinates":[8.12345,50.12345]},"properties":{}}';
+
+    $point = $this->parser->parse($feature, 25832);
+
+    expect($point)->toBeInstanceOf(Point::class);
+    expect($point)->geometryHasSrid(25832);
+})->group('Geojson SRID');

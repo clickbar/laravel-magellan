@@ -9,7 +9,7 @@ use Clickbar\Magellan\IO\Parser\BaseParser;
 
 class GeojsonParser extends BaseParser
 {
-    public function parse($input, ?int $srid = null): Geometry
+    public function parse($input, ?int $srid = 4326): Geometry
     {
         if (is_string($input)) {
             $input = json_decode($input, true);
@@ -43,15 +43,15 @@ class GeojsonParser extends BaseParser
         };
     }
 
-    protected function parseGeometryCollection(array $geometryCollectionData, int $srid = 4326): Geometry
+    protected function parseGeometryCollection(array $geometryCollectionData, ?int $srid = 4326): Geometry
     {
         $geometries = $geometryCollectionData['geometries'];
-        $geometries = array_map(fn (array $geometry) => $this->parse($geometry), $geometries);
+        $geometries = array_map(fn (array $geometry) => $this->parse($geometry, $srid), $geometries);
 
         return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, $srid, $geometries);
     }
 
-    protected function parsePoint(array $coordinates, int $srid = 4326): Geometry
+    protected function parsePoint(array $coordinates, ?int $srid = 4326): Geometry
     {
         $dimension = Dimension::DIMENSION_2D;
         $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[0], $coordinates[1]) : null;
@@ -63,37 +63,37 @@ class GeojsonParser extends BaseParser
         return $this->factory->createPoint($dimension, $srid, $coordinate);
     }
 
-    protected function parseLineString(array $coordinates, int $srid = 4326): Geometry
+    protected function parseLineString(array $coordinates, ?int $srid = 4326): Geometry
     {
-        $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
+        $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
         return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiLineString(array $coordinates, int $srid = 4326): Geometry
+    public function parseMultiLineString(array $coordinates, ?int $srid = 4326): Geometry
     {
-        $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
+        $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
         return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parsePolygon(array $coordinates, int $srid = 4326): Geometry
+    public function parsePolygon(array $coordinates, ?int $srid = 4326): Geometry
     {
-        $lines = array_map(fn (array $coords) => $this->parseLineString($coords), $coordinates);
+        $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
         return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parseMultiPoint(array $coordinates, int $srid = 4326): Geometry
+    public function parseMultiPoint(array $coordinates, ?int $srid = 4326): Geometry
     {
-        $points = array_map(fn (array $coords) => $this->parsePoint($coords), $coordinates);
+        $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
         return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiPolygon(array $coordinates, int $srid = 4326): Geometry
+    public function parseMultiPolygon(array $coordinates, ?int $srid = 4326): Geometry
     {
-        $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords), $coordinates);
+        $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords, $srid), $coordinates);
 
         return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, $srid, $polygons);
     }
