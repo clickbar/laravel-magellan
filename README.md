@@ -30,17 +30,18 @@
 - [Using the geometry data classes](#using-the-geometry-data-classes)
 - [Generators \& Parsers](#generators--parsers)
 - [Request Validation and Transformation](#request-validation-and-transformation)
+  - [Custom SRID](#custom-srid)
 - [Interaction with the database](#interaction-with-the-database)
-    - [Example Setup](#example-setup)
-    - [Insert/Update](#insertupdate)
-    - [Insert/Update with different SRID](#insertupdate-with-different-srid)
-    - [Select](#select)
-    - [Using PostGIS functions in queries](#using-postgis-functions-in-queries)
-    - [Alias in select](#alias-in-select)
-    - [Geometry or Geography](#geometry-or-geography)
-    - [Autocast for BBox or geometries](#autocast-for-bbox-or-geometries)
+  - [Example Setup](#example-setup)
+  - [Insert/Update](#insertupdate)
+  - [Insert/Update with different SRID](#insertupdate-with-different-srid)
+  - [Select](#select)
+  - [Using PostGIS functions in queries](#using-postgis-functions-in-queries)
+  - [Alias in select](#alias-in-select)
+  - [Geometry or Geography](#geometry-or-geography)
+  - [Autocast for BBox or geometries](#autocast-for-bbox-or-geometries)
 - [Limitations](#limitations)
-    - [Database Name Prepending (Cross Database Connections)](#database-name-prepending-cross-database-connections)
+  - [Database Name Prepending (Cross Database Connections)](#database-name-prepending-cross-database-connections)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -287,6 +288,53 @@ class StorePortRequest extends FormRequest
         return ['location'];
     }
 }
+```
+
+### Custom SRID
+
+By default, GeoJSON geometries are parsed with SRID `4326`. If your application uses a different spatial reference
+system, you can specify a custom SRID in both the validation rule and the transformation trait.
+
+Pass the `srid` argument to `GeometryGeojsonRule` to validate against a specific SRID:
+
+```php
+'location' => ['required', new GeometryGeojsonRule([Point::class], srid: 25832)],
+```
+
+To ensure the transformed geometry objects on the request also carry the correct SRID, override `geometrySrids()` in
+your form request and return a map of field name to SRID:
+
+```php
+class StorePortRequest extends FormRequest
+{
+    use TransformsGeojsonGeometry;
+
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'string'],
+            'location' => ['required', new GeometryGeojsonRule([Point::class], srid: 25832)],
+        ];
+    }
+
+    public function geometries(): array
+    {
+        return ['location'];
+    }
+
+    public function geometrySrids(): array
+    {
+        return ['location' => 25832];
+    }
+}
+```
+
+Fields not listed in `geometrySrids()` default to SRID `4326`.
+
+You can also pass a custom SRID directly to the parser when parsing GeoJSON geometries outside of form requests:
+
+```php
+$point = app(GeojsonParser::class)->parse($geojson, srid: 25832);
 ```
 
 ## Interaction with the database
