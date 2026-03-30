@@ -7,11 +7,11 @@ use Illuminate\Database\Grammar;
 
 class Box3D extends Box
 {
-    private function __construct(protected float $xMin, protected float $yMin, protected float $zMin, protected float $xMax, protected float $yMax, protected float $zMax) {}
+    private function __construct(protected float $xMin, protected float $yMin, protected float $zMin, protected float $xMax, protected float $yMax, protected float $zMax, protected ?int $srid = null) {}
 
-    public static function make(float $xMin, float $yMin, float $zMin, float $xMax, float $yMax, float $zMax): self
+    public static function make(float $xMin, float $yMin, float $zMin, float $xMax, float $yMax, float $zMax, ?int $srid = null): self
     {
-        return new self($xMin, $yMin, $zMin, $xMax, $yMax, $zMax);
+        return new self($xMin, $yMin, $zMin, $xMax, $yMax, $zMax, $srid);
     }
 
     public function getXMin(): float
@@ -57,7 +57,7 @@ class Box3D extends Box
         return $grammar->quoteString($this->toRawSql()).'::box3d';
     }
 
-    public static function fromString(string $box): self
+    public static function fromString(string $box, ?int $srid = null): self
     {
         preg_match('/^BOX3D\(([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?),([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\)$/i', $box, $coordinates);
 
@@ -71,7 +71,8 @@ class Box3D extends Box
             floatval($coordinates[3]),
             floatval($coordinates[4]),
             floatval($coordinates[5]),
-            floatval($coordinates[6])
+            floatval($coordinates[6]),
+            $srid
         );
     }
 

@@ -7,11 +7,11 @@ use Illuminate\Database\Grammar;
 
 class Box2D extends Box
 {
-    private function __construct(protected float $xMin, protected float $yMin, protected float $xMax, protected float $yMax) {}
+    private function __construct(protected float $xMin, protected float $yMin, protected float $xMax, protected float $yMax, protected ?int $srid = null) {}
 
-    public static function make(float $xMin, float $yMin, float $xMax, float $yMax): self
+    public static function make(float $xMin, float $yMin, float $xMax, float $yMax, ?int $srid = null): self
     {
-        return new self($xMin, $yMin, $xMax, $yMax);
+        return new self($xMin, $yMin, $xMax, $yMax, $srid);
     }
 
     public function getXMin(): float
@@ -47,7 +47,7 @@ class Box2D extends Box
         return $grammar->quoteString($this->toRawSql()).'::box2d';
     }
 
-    public static function fromString(string $box): self
+    public static function fromString(string $box, ?int $srid = null): self
     {
         preg_match('/^BOX\(([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?),([-+]?\d+(?:.\d+)?)\s([-+]?\d+(?:.\d+)?)\)$/i', $box, $coordinates);
 
@@ -59,7 +59,8 @@ class Box2D extends Box
             floatval($coordinates[1]),
             floatval($coordinates[2]),
             floatval($coordinates[3]),
-            floatval($coordinates[4])
+            floatval($coordinates[4]),
+            $srid
         );
     }
 

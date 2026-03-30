@@ -23,6 +23,7 @@ class BBoxCast implements CastsAttributes
      */
     public function __construct(
         protected string $boxClass,
+        protected ?int $srid = null
     ) {}
 
     /**
@@ -38,13 +39,13 @@ class BBoxCast implements CastsAttributes
 
         if ($this->boxClass === Box::class) {
             if (Str::contains($value, 'BOX3D', true)) {
-                return Box3D::fromString($value);
+                return Box3D::fromString($value, $this->srid);
             }
 
-            return Box2D::fromString($value);
+            return Box2D::fromString($value, $this->srid);
         }
 
-        return $this->boxClass::fromString($value);
+        return $this->boxClass::fromString($value, $this->srid);
     }
 
     /**

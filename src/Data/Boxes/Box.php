@@ -10,17 +10,25 @@ use Stringable;
 
 abstract class Box implements Castable, ExpressionContract, JsonSerializable, Stringable
 {
-    abstract public static function fromString(string $box): self;
+    protected ?int $srid = null;
+
+    abstract public static function fromString(string $box, ?int $srid = null): self;
 
     /**
      * @return BBoxCast<Box>
      */
     public static function castUsing(array $arguments): BBoxCast
     {
-        return new BBoxCast(static::class);
+        $srid = $arguments[0] ?? null;
+        return new BBoxCast(static::class, $srid);
     }
 
     abstract public function toRawSql(): string;
+
+    public function getSrid(): ?int
+    {
+        return $this->srid;
+    }
 
     public function __toString(): string
     {
