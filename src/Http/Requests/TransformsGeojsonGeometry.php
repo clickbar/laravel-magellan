@@ -31,7 +31,7 @@ trait TransformsGeojsonGeometry
             }
 
             $srid = $srids[$key] ?? 4326;
-            Arr::set($input, $key, $parser->parse($this[$key], $srid));
+            Arr::set($input, $key, $parser->parseWithSrid($this[$key], $srid));
         }
 
         // Note: This only replaces the values on the request itself, not

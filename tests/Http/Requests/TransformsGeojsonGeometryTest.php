@@ -13,9 +13,9 @@ function createRequest(
     ?Container $container = null,
     array $parameters = [],
     string $method = Request::METHOD_POST,
-    ?bool $srid = false
+    ?bool $useCustomSrid = false
 ): FormRequest {
-    $request = $srid
+    $request = $useCustomSrid
         ? GeometryFormRequestWithCustomSrid::createFromBase(HttpFoundationRequest::create('', $method, $parameters))
         : GeometryFormRequest::createFromBase(HttpFoundationRequest::create('', $method, $parameters));
 
@@ -70,7 +70,7 @@ test('transforms geojson geometry with custom SRID from geometrySrids()', functi
         'point' => '{"type":"Point","coordinates":[8.12345,50.12345]}',
         'nullable_point' => '{"type":"Point","coordinates":[9.12345,51.12345]}',
     ],
-        srid: true
+        useCustomSrid: true
     );
 
     $request->validateResolved();
@@ -90,7 +90,7 @@ test('transforms nullable geojson geometry with custom SRID from geometrySrids()
         'point' => '{"type":"Point","coordinates":[8.12345,50.12345]}',
         'nullable_point' => null,
     ],
-        srid: true
+        useCustomSrid: true
     );
 
     $request->validateResolved();

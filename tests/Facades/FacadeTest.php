@@ -52,12 +52,12 @@ describe('Parser Facades', function () {
         expect($point->getY())->toBe(2.0);
     });
 
-    it('can parse GeoJSON with custom SRID using GeojsonParser facade', function () {
+    it('can parse GeoJSON with default SRID using GeojsonParser facade', function () {
         $geojson = '{"type":"Point","coordinates":[1,2]}';
-        $point = GeojsonParser::parse($geojson, 25832);
+        $point = GeojsonParser::parse($geojson);
 
         expect($point)->toBeInstanceOf(Point::class);
-        expect($point->getSrid())->toBe(25832);
+        expect($point->getSrid())->toBe(4326);
     });
 });
 

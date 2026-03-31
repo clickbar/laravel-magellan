@@ -65,28 +65,28 @@ class GeojsonParser extends BaseParser
         return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiLineString(array $coordinates, int $srid): Geometry
+    public function parseMultiLineString(array $coordinates, int $srid = 4326): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
         return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parsePolygon(array $coordinates, int $srid): Geometry
+    public function parsePolygon(array $coordinates, int $srid = 4326): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
         return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parseMultiPoint(array $coordinates, int $srid): Geometry
+    public function parseMultiPoint(array $coordinates, int $srid = 4326): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
         return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiPolygon(array $coordinates, int $srid): Geometry
+    public function parseMultiPolygon(array $coordinates, int $srid = 4326): Geometry
     {
         $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords, $srid), $coordinates);
 

@@ -35,7 +35,7 @@ class GeometryGeojsonRule implements ValidationRule
         $parser = App::make(GeojsonParser::class);
 
         try {
-            $geometry = $parser->parse($value, $this->srid);
+            $geometry = $parser->parseWithSrid($value, $this->srid);
             if (! empty($this->allowedGeometries) && ! in_array($geometry::class, $this->allowedGeometries)) {
                 $class = $geometry::class;
                 $fail("The geometry $class is not allowed");
