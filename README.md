@@ -302,7 +302,7 @@ Pass the `srid` argument to `GeometryGeojsonRule` to validate against a specific
 ```
 
 To ensure the transformed geometry objects on the request also carry the correct SRID, override `geometrySrids()` in
-your form request and return a map of field name to SRID:
+your form request and return an array that maps the field name to the correct SRID:
 
 ```php
 class StorePortRequest extends FormRequest
@@ -334,7 +334,7 @@ Fields not listed in `geometrySrids()` default to SRID `4326`.
 You can also pass a custom SRID directly to the parser when parsing GeoJSON geometries outside of form requests:
 
 ```php
-$point = app(GeojsonParser::class)->parse($geojson, srid: 25832);
+$point = app(GeojsonParser::class)->parseWithSrid($geojson, srid: 25832);
 ```
 
 ## Interaction with the database

@@ -9,8 +9,6 @@ use Clickbar\Magellan\IO\Parser\BaseParser;
 
 class GeojsonParser extends BaseParser
 {
-    protected int $srid = 4326;
-
     public function parse($input): Geometry
     {
         return $this->parseWithSrid($input, 4326);
@@ -40,22 +38,15 @@ class GeojsonParser extends BaseParser
         };
     }
 
-    protected function parseGeometryCollection(array $geometryCollectionData, ?int $srid = null): Geometry
+    protected function parseGeometryCollection(array $geometryCollectionData, int $srid): Geometry
     {
         $geometries = $geometryCollectionData['geometries'];
-        $geometries = array_map(fn (array $geometry) => $this->parse($geometry), $geometries);
+        $geometries = array_map(fn (array $geometry) => $this->parseWithSrid($geometry, $srid), $geometries);
 
-        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, $srid ?? $this->srid, $geometries);
+        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, $srid, $geometries);
     }
 
-    public function setSrid(int $srid): self
-    {
-        $this->srid = $srid;
-
-        return $this;
-    }
-
-    protected function parsePoint(array $coordinates, ?int $srid = null): Geometry
+    protected function parsePoint(array $coordinates, int $srid): Geometry
     {
         $dimension = Dimension::DIMENSION_2D;
         $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[0], $coordinates[1]) : null;
@@ -64,42 +55,42 @@ class GeojsonParser extends BaseParser
             $dimension = Dimension::DIMENSION_3DZ;
         }
 
-        return $this->factory->createPoint($dimension, $srid ?? $this->srid, $coordinate);
+        return $this->factory->createPoint($dimension, $srid, $coordinate);
     }
 
-    protected function parseLineString(array $coordinates, ?int $srid = null): Geometry
+    protected function parseLineString(array $coordinates, int $srid): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
-        return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid ?? $this->srid, $points);
+        return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiLineString(array $coordinates, ?int $srid = null): Geometry
+    public function parseMultiLineString(array $coordinates, int $srid): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid ?? $this->srid, $lines);
+        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parsePolygon(array $coordinates, ?int $srid = null): Geometry
+    public function parsePolygon(array $coordinates, int $srid): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
-        return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid ?? $this->srid, $lines);
+        return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid, $lines);
     }
 
-    public function parseMultiPoint(array $coordinates, ?int $srid = null): Geometry
+    public function parseMultiPoint(array $coordinates, int $srid): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid ?? $this->srid, $points);
+        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid, $points);
     }
 
-    public function parseMultiPolygon(array $coordinates, ?int $srid = null): Geometry
+    public function parseMultiPolygon(array $coordinates, int $srid): Geometry
     {
         $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, $srid ?? $this->srid, $polygons);
+        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, $srid, $polygons);
     }
 
     // ************************************************ Assertions ***************************************************
