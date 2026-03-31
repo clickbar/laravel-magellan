@@ -9,28 +9,25 @@ use Clickbar\Magellan\IO\Parser\BaseParser;
 
 class GeojsonParser extends BaseParser
 {
-    public function parse($input, ?int $srid = 4326): Geometry
+    protected int $srid = 4326;
+
+    public function parse($input): Geometry
+    {
+        return $this->parseWithSrid($input, 4326);
+    }
+
+    public function parseWithSrid($input, int $srid): Geometry
     {
         if (is_string($input)) {
             $input = json_decode($input, true);
         }
 
-        if (! is_array($input)) {
-            throw new \RuntimeException('Invalid GeoJSON: The GeoJSON parser expects either a string or array as input');
-        }
-
-        if (! isset($input['type'])) {
-            throw new \RuntimeException('Invalid GeoJSON: Missing type');
-        }
-
-        if (isset($input['coordinates']) && ! is_array($input['coordinates'])) {
-            throw new \RuntimeException('Invalid GeoJSON: The coordinates must be an array');
-        }
+        $this->assertValidGeojson($input);
 
         $type = $input['type'];
 
         return match ($type) {
-            'Feature' => $this->parse($input['geometry'], $srid),
+            'Feature' => $this->parseWithSrid($input['geometry'], $srid),
             'LineString' => $this->parseLineString($input['coordinates'], $srid),
             'MultiLineString' => $this->parseMultiLineString($input['coordinates'], $srid),
             'MultiPoint' => $this->parseMultiPoint($input['coordinates'], $srid),
@@ -43,15 +40,22 @@ class GeojsonParser extends BaseParser
         };
     }
 
-    protected function parseGeometryCollection(array $geometryCollectionData, ?int $srid = 4326): Geometry
+    protected function parseGeometryCollection(array $geometryCollectionData, ?int $srid = null): Geometry
     {
         $geometries = $geometryCollectionData['geometries'];
-        $geometries = array_map(fn (array $geometry) => $this->parse($geometry, $srid), $geometries);
+        $geometries = array_map(fn (array $geometry) => $this->parse($geometry), $geometries);
 
-        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, $srid, $geometries);
+        return $this->factory->createGeometryCollection(Dimension::DIMENSION_2D, $srid ?? $this->srid, $geometries);
     }
 
-    protected function parsePoint(array $coordinates, ?int $srid = 4326): Geometry
+    public function setSrid(int $srid): self
+    {
+        $this->srid = $srid;
+
+        return $this;
+    }
+
+    protected function parsePoint(array $coordinates, ?int $srid = null): Geometry
     {
         $dimension = Dimension::DIMENSION_2D;
         $coordinate = ! empty($coordinates) ? new Coordinate($coordinates[0], $coordinates[1]) : null;
@@ -60,41 +64,58 @@ class GeojsonParser extends BaseParser
             $dimension = Dimension::DIMENSION_3DZ;
         }
 
-        return $this->factory->createPoint($dimension, $srid, $coordinate);
+        return $this->factory->createPoint($dimension, $srid ?? $this->srid, $coordinate);
     }
 
-    protected function parseLineString(array $coordinates, ?int $srid = 4326): Geometry
+    protected function parseLineString(array $coordinates, ?int $srid = null): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
-        return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid, $points);
+        return $this->factory->createLineString(Dimension::DIMENSION_2D, $srid ?? $this->srid, $points);
     }
 
-    public function parseMultiLineString(array $coordinates, ?int $srid = 4326): Geometry
+    public function parseMultiLineString(array $coordinates, ?int $srid = null): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid, $lines);
+        return $this->factory->createMultiLineString(Dimension::DIMENSION_2D, $srid ?? $this->srid, $lines);
     }
 
-    public function parsePolygon(array $coordinates, ?int $srid = 4326): Geometry
+    public function parsePolygon(array $coordinates, ?int $srid = null): Geometry
     {
         $lines = array_map(fn (array $coords) => $this->parseLineString($coords, $srid), $coordinates);
 
-        return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid, $lines);
+        return $this->factory->createPolygon(Dimension::DIMENSION_2D, $srid ?? $this->srid, $lines);
     }
 
-    public function parseMultiPoint(array $coordinates, ?int $srid = 4326): Geometry
+    public function parseMultiPoint(array $coordinates, ?int $srid = null): Geometry
     {
         $points = array_map(fn (array $coords) => $this->parsePoint($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid, $points);
+        return $this->factory->createMultiPoint(Dimension::DIMENSION_2D, $srid ?? $this->srid, $points);
     }
 
-    public function parseMultiPolygon(array $coordinates, ?int $srid = 4326): Geometry
+    public function parseMultiPolygon(array $coordinates, ?int $srid = null): Geometry
     {
         $polygons = array_map(fn (array $coords) => $this->parsePolygon($coords, $srid), $coordinates);
 
-        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, $srid, $polygons);
+        return $this->factory->createMultiPolygon(Dimension::DIMENSION_2D, $srid ?? $this->srid, $polygons);
+    }
+
+    // ************************************************ Assertions ***************************************************
+
+    protected function assertValidGeojson($input)
+    {
+        if (! is_array($input)) {
+            throw new \RuntimeException('Invalid GeoJSON: The GeoJSON parser expects either a string or array as input');
+        }
+
+        if (! isset($input['type'])) {
+            throw new \RuntimeException('Invalid GeoJSON: Missing type');
+        }
+
+        if (isset($input['coordinates']) && ! is_array($input['coordinates'])) {
+            throw new \RuntimeException('Invalid GeoJSON: The coordinates must be an array');
+        }
     }
 }

@@ -23,7 +23,7 @@ class WKBParser extends BaseParser
 
     private ?int $srid = null;
 
-    public function parse($input, ?int $srid = 4326): Geometry
+    public function parse($input): Geometry
     {
         $this->scanner = new Scanner($input);
 

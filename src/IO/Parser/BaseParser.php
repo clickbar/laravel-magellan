@@ -11,5 +11,5 @@ abstract class BaseParser
         protected GeometryModelFactory $factory
     ) {}
 
-    abstract public function parse($input, ?int $srid = 4326): Geometry;
+    abstract public function parse($input): Geometry;
 }
