@@ -95,7 +95,7 @@ class GeojsonParser extends BaseParser
 
     // ************************************************ Assertions ***************************************************
 
-    protected function assertValidGeojson($input)
+    protected function assertValidGeojson($input): void
     {
         if (! is_array($input)) {
             throw new \RuntimeException('Invalid GeoJSON: The GeoJSON parser expects either a string or array as input');

@@ -13,12 +13,12 @@ class GeometryGeojsonRule implements ValidationRule
 {
     private array $allowedGeometries;
 
-    private ?int $srid;
+    private int $srid = 4326;
 
     /**
      * @param  string[]  $allowedGeometries
      */
-    public function __construct(array $allowedGeometries = [], ?int $srid = 4326)
+    public function __construct(array $allowedGeometries = [], int $srid = 4326)
     {
         $this->allowedGeometries = $allowedGeometries;
         $this->srid = $srid;
