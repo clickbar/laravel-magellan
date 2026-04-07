@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Added custom SRID support for Geojson parser and validation (`GeojsonParser`, `TransformsGeojsonGeometry`, `GeometryGeojsonRule`)
+
 ## [2.1.0](https://github.com/clickbar/laravel-magellan/tree/2.1.0) - 2026-03-17
 
 ### Added

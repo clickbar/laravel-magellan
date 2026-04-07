@@ -62,3 +62,33 @@ test('will reject disallowed geometries', function () {
 
     expect($ruleMessage)->toBeString();
 });
+
+test('will accept valid geometry with custom SRID', function () {
+    $rule = new GeometryGeojsonRule(srid: 25832);
+
+    $ruleMessage = null;
+
+    $rule->validate('attribute', [
+        'type' => 'Point',
+        'coordinates' => [8.12345, 50.12345],
+    ], function ($message) use (&$ruleMessage) {
+        $ruleMessage = $message;
+    });
+
+    expect($ruleMessage)->toBeNull();
+});
+
+test('will accept only allowed geometries with custom SRID', function () {
+    $rule = new GeometryGeojsonRule([Point::class], srid: 25832);
+
+    $ruleMessage = null;
+
+    $rule->validate('attribute', [
+        'type' => 'Point',
+        'coordinates' => [8.12345, 50.12345],
+    ], function ($message) use (&$ruleMessage) {
+        $ruleMessage = $message;
+    });
+
+    expect($ruleMessage)->toBeNull();
+});
