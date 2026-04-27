@@ -69,4 +69,10 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/pest
+        shell: bash
+        run: |
+          if [[ "${{ matrix.laravel }}" == "13.*" ]]; then
+            vendor/bin/pest --configuration phpunit-12.xml.dist --no-coverage
+          else
+            vendor/bin/pest --no-coverage
+          fi
