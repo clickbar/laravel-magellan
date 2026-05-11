@@ -42,8 +42,8 @@ the Grammar and Connection.
 
 Magellan supports Laravel projects, which meet the following requirements:
 
-- Laravel `^9.28`, `^10.0`, `^11.0` or `^12.0`
-- PHP `^8.1`
+- Laravel `^9.28`, `^10.0`, `^11.0`, `^12.0` or `^13.0`
+- PHP `^8.1`, `^8.2` or `^8.3`
 
 ## Installation
 
@@ -185,7 +185,6 @@ properly named getters and setters:
 
 An exception will be thrown if you try to use this functions on a Point without a srid listed in the geodetic_srids config. Use the default x, y, z, m getters and setters instead.
 
-
 ## Generators & Parsers
 
 We currently provide parsers & generators for the following formats:
@@ -222,7 +221,9 @@ $generator->generate($point);
 // "0101000020E610000000000000000000400000000000000040"
 ```
 
-In this example we obtain an instance of the `WKTParser` and convert the string to one of our data classes. `$point` is then a valid `Point` instance and we can use any other generator eg. the `WKBGenerator` to output the `$point` in hexadecimal WKB format.
+In this example we obtain an instance of the `WKTParser` and convert the string to one of our data classes.
+`$point` is then a valid `Point` instance and we can use any other generator eg. the `WKBGenerator` to output the
+`$point` in hexadecimal WKB format.
 
 ## Request Validation and Transformation
 
@@ -258,7 +259,6 @@ class StorePortRequest extends FormRequest
 ```
 
 ## Interaction with the database
-
 
 ### Example Setup
 
@@ -299,7 +299,8 @@ class Port extends Model
 
 ### Insert/Update
 
-Magellan geometry objects can be inserted directly as long as they are specified in the `$postgisColumns` of the affected model.
+Magellan geometry objects can be inserted directly as long as they are specified in the
+`$postgisColumns` of the affected model.
 In our case, we can insert a new Port like this:
 
 ```php
@@ -310,7 +311,8 @@ Port::create([
 ]);
 ```
 
-When you want to update a geometry you can either assign the new location to the model and call `save()` or use the `update()` method on the query builder:
+When you want to update a geometry you can either assign the new location to the model and call `save()` or use the
+`update()` method on the query builder:
 
 ```php
 $port->location = Point::makeGeodetic(55, 11);
@@ -341,9 +343,10 @@ $port->location = Point::make(473054.9891044726, 5524365.310057224, srid: 25832)
 $port->save();
 ```
 
-Since our port table uses a point with SRID=4326, Magellan will raise an error:  
+Since our port table uses a point with SRID=4326, Magellan will raise an error:
 
-> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
+> _SRID mismatch: database has SRID 4326, geometry has SRID 25832. Consider
+enabling `magellan.eloquent.transform_to_database_projection` in order to apply automatic transformation_
 
 We included an auto transform option that directly applies `ST_Transform(geometry, databaseSRID)` for you.
 
@@ -353,12 +356,14 @@ We included an auto transform option that directly applies `ST_Transform(geometr
 
 ### Select
 
-When selecting data from a model that uses the `HasPostgisColumns` trait, all attributes will directly be parsed to the internal data classes:
+When selecting data from a model that uses the
+`HasPostgisColumns` trait, all attributes will directly be parsed to the internal data classes:
 
 ```php
 $port = Port::first();
 dd($port->location);
 ```
+
 ```bash
 Clickbar\Magellan\Data\Geometries\Point {#1732
   #srid: 4326
@@ -373,7 +378,8 @@ Clickbar\Magellan\Data\Geometries\Point {#1732
 }
 ```
 
-There might be cases where you also want to use box2d or box3d as column types. Currently, we don't support boxes within the `$postgisColumns`.
+There might be cases where you also want to use box2d or box3d as column types. Currently, we don't support boxes within the
+`$postgisColumns`.
 Please use the `BBoxCast` instead.
 
 ### Using PostGIS functions in queries
@@ -395,19 +401,23 @@ We currently provide the following:
 
 > **Note**  
 > Using the stWhere with a MagellanExpression that returns a boolean always requires a following true or false.
-> 
-> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.  
+>
+> That's Laravel default behaviour when using the ->where(), but since php supports stuff like if($boolean) without the explicit $boolean == true condition, the true/false will easily be forgotten resulting in a null check query instead a boolean query.
 
 ```php
 ->stWhere(ST::contains('location', 'polygon'), true)
 ```
 
 Each of those builder methods expect to receive a _MagellanExpression_.  
-A _MagellanExpression_ is a wrapper around a `ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write `ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
+A _MagellanExpression_ is a wrapper around a
+`ST`-prefixed function from PostGIS. When sailing with Magellan, you should never have to write
+`ST_xxx` in raw SQL for yourself. Therefore, we have included some paddles.
 
-Most of the `ST`-prefixed functions can be accessed using the static functions on the `ST` class. But enough talk, let's start sailing (with some examples):
+Most of the `ST`-prefixed functions can be accessed using the static functions on the
+`ST` class. But enough talk, let's start sailing (with some examples):
 
-**Note:** The necessary classes can be imported as follows:  
+**Note:** The necessary classes can be imported as follows:
+
 ```php
 use Clickbar\Magellan\Data\Geometries\Point;
 use Clickbar\Magellan\Database\PostgisFunctions\ST;
@@ -443,7 +453,7 @@ $portsWithDistance = Port::select()
     ->get();
 ```
 
-As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones. 
+As you can see, using the `st`-Builder functions is as easy as using the default Laravel ones.
 But what about more complex queries?
 What about the convex hull of all ports grouped by the country including the area of the hull?
 No problem:
@@ -458,10 +468,11 @@ $hullsWithArea = Port::select('country')
 
 ### Autocast for bbox or geometries
 
-In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values. 
-But in the more complex example we received a geometry as return value. 
+In the previous section we used some PostGIS functions. In the first examples, the return types only consist out of scalar values.
+But in the more complex example we received a geometry as return value.
 
 Since "hull" is not present in our `$postgisColumns` array, we might intentionally add a cast to the query:
+
 ```php
 $hullWithArea = Port::select('country')
     ->stSelect(ST::convexHull(ST::collect('location')), 'hull')
@@ -470,6 +481,7 @@ $hullWithArea = Port::select('country')
     ->withCasts(['hull' => GeometryWKBCast::class]) /* <======= */
     ->first();
 ```
+
 But that's **not necessary!**  
 Magellan will automatically add the cast for all functions that return geometry, box2d or box3d.
 
