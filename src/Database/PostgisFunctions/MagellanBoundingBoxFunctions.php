@@ -122,7 +122,7 @@ trait MagellanBoundingBoxFunctions
      */
     public static function yMin($geometry): MagellanNumericExpression
     {
-        return MagellanBaseExpression::numeric('ST_YMin', [$geometry]);
+        return MagellanBaseExpression::numeric('ST_YMin', [ColumnParameter::wrap($geometry)]);
     }
 
     /**

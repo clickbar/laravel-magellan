@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Fixed `ST::yMin()` treating a column name as a string literal instead of a column
+
 ## [2.2.0](https://github.com/clickbar/laravel-magellan/tree/2.2.0) - 2026-05-11
 
 ### Added
