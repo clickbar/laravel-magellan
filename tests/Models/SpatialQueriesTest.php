@@ -616,8 +616,8 @@ test('it can select the bounding box coordinates of a column', function () {
         ])
         ->first();
 
-    expect($bounds->x_min)->toBe(13.405);
-    expect($bounds->y_min)->toBe(52.52);
-    expect($bounds->x_max)->toBe(13.405);
-    expect($bounds->y_max)->toBe(52.52);
+    expect((float) $bounds->x_min)->toBe(13.405);
+    expect((float) $bounds->y_min)->toBe(52.52);
+    expect((float) $bounds->x_max)->toBe(13.405);
+    expect((float) $bounds->y_max)->toBe(52.52);
 });
