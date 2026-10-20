@@ -3,6 +3,7 @@
 namespace Clickbar\Magellan\Data\Geometries;
 
 use Clickbar\Magellan\Cast\GeometryCast;
+use Clickbar\Magellan\IO\Generator\Geojson\GeojsonGenerator;
 use Clickbar\Magellan\IO\Generator\WKT\WKTGenerator;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Illuminate\Contracts\Database\Query\Expression;
@@ -32,6 +33,11 @@ abstract class Geometry implements \Stringable, Castable, Expression, GeometryIn
     public function hasSrid(): bool
     {
         return $this->getSrid() !== null && $this->getSrid() !== 0;
+    }
+
+    public function toGeoJsonArray(): array
+    {
+        return (new GeojsonGenerator)->generate($this);
     }
 
     public function jsonSerialize(): mixed

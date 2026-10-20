@@ -239,6 +239,18 @@ json_encode($point); // returns GeoJson
 // "{"type":"Point","coordinates":[8.76,51.087]}"
 ```
 
+Use `toGeoJsonArray()` on any geometry to get a PHP array directly, for example in an API resource:
+
+```php
+$point->toGeoJsonArray();
+// ['type' => 'Point', 'coordinates' => [8.76, 51.087]]
+```
+
+This method always uses the GeoJSON generator, independently of `magellan.json_generator` and
+`magellan.string_generator`. Existing JSON and string serialization remain configurable (GeoJSON and WKT by default,
+respectively). The same GeoJSON coordinate restrictions apply: non-empty points must have a geodetic SRID listed in
+`magellan.geodetic_srids` or SRID 0; this method does not transform coordinates.
+
 You can always use instances of each parser / generator and parse / generate on your own behalf.  
 While Generators have to be created on demand, Parsers are already instanciated in the app container as singletons and you can use them as follows:
 
