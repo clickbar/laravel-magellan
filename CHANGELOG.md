@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Added `Geometry::toGeoJsonArray()` for direct GeoJSON array conversion, independent of configured serialization generators
+
 ### Fixed
 
 - Fixed `ST::yMin()` treating a column name as a string literal instead of a column
