@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.3.0](https://github.com/clickbar/laravel-magellan/tree/2.3.0) - 2026-10-23
+
 ### Added
 
 - Added `Geometry::toGeoJsonArray()` for direct GeoJSON array conversion, independent of configured serialization generators
