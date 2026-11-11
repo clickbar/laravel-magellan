@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Fixed `GeometryGeojsonRule` throwing a `TypeError` instead of failing validation for GeoJSON with `null` coordinates or geometries
+
 ## [2.3.0](https://github.com/clickbar/laravel-magellan/tree/2.3.0) - 2026-10-23
 
 ### Added

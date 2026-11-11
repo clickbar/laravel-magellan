@@ -40,7 +40,7 @@ class GeometryGeojsonRule implements ValidationRule
                 $class = $geometry::class;
                 $fail("The geometry $class is not allowed");
             }
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $fail($exception->getMessage());
         }
     }

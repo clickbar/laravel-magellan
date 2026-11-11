@@ -92,3 +92,20 @@ test('will accept only allowed geometries with custom SRID', function () {
 
     expect($ruleMessage)->toBeNull();
 });
+
+test('will reject geojson with null coordinates instead of throwing', function (array $geojson) {
+    $rule = new GeometryGeojsonRule;
+
+    $ruleMessage = null;
+
+    $rule->validate('attribute', $geojson, function ($message) use (&$ruleMessage) {
+        $ruleMessage = $message;
+    });
+
+    expect($ruleMessage)->toBeString();
+})->with([
+    'point' => [['type' => 'Point', 'coordinates' => null]],
+    'linestring' => [['type' => 'LineString', 'coordinates' => null]],
+    'polygon' => [['type' => 'Polygon', 'coordinates' => null]],
+    'geometry collection' => [['type' => 'GeometryCollection', 'geometries' => null]],
+]);
